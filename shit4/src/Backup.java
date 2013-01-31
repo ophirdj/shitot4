@@ -5,18 +5,24 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 
-public class Backup {
+public class Backup implements IBackup {
 	
-	//VotersList 
+	IVotersList voters;
+	IPartiesList parties;
+	
+	public Backup(IVotersList voters, IPartiesList parties){
+		this.voters = voters;
+		this.parties = parties;
+	}
 
 	
-	public void backup(VotersList votersList){
+	private void backup(){
 		
 		try{
 			 
 			FileOutputStream fout = new FileOutputStream("vList.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);   
-			oos.writeObject(votersList);
+			oos.writeObject(voters);
 			oos.close();
 			System.out.println("Done");
 	 
@@ -45,6 +51,31 @@ public class Backup {
 	      }
 		
 		return res;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public IVotersList restoreVoters() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IPartiesList restoreParties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void retire() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

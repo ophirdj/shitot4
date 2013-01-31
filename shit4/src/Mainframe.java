@@ -13,7 +13,8 @@ public class Mainframe implements IMainframe {
 	private IPartiesList parties;
 	private IVotersList unregisteredVoters;
 	private List<IVotingStation> votingStations;
-	private Backup backup;
+	private IBackup backup;
+	private Thread backupThread;
 	
 	public Mainframe(){
 		
@@ -25,78 +26,64 @@ public class Mainframe implements IMainframe {
 		voters = loadVotersList();
 		parties = loadPartiesList();
 		unregisteredVoters = new VotersList();
-		// TODO is it going to be like that? aren't we supposed to get the stations list as a parameter?
 		votingStations = new ArrayList<IVotingStation>();
-		backup = new Backup();
+		backup = new Backup(voters, parties);
+		backupThread = (new Thread(backup));
+		backupThread.start();
 	}
 	
-	//
+	
 	private IVotersList loadVotersList(){
 		ArrayList<Integer> votersIdList = ReadXMLFile.readXMLVotersList();
 		IVotersList voterList = new VotersList();
-		for (Integer id : votersIdList) {
+		for(Integer id : votersIdList) {
 			voterList.addVoter(new VoterData(id));			
 		}
-		
 		return voterList;
-		
 	}
 	
 	private IPartiesList loadPartiesList(){
-		ArrayList<Party> res = ReadXMLFile.readXMLvotingRecords();
-		//TODO convert to PartiesList after implementation
-		return null;
-	}
-
-	
-	private void check() {
-		// TODO WTF???
-		
-	}
-
-	
-	private void hotbackup() {
-		// TODO Auto-generated method stub
-
+		ArrayList<Party> parties = ReadXMLFile.readXMLvotingRecords();
+		IPartiesList partieslist = new PartiesList();
+		for(Party party: parties){
+			partieslist.addParty(party);
+		}
+		return partieslist;
 	}
 
 	@Override
 	public void restore() {
-		backup = new Backup();
-		voters = backup.restore();
-		parties = loadPartiesList();
+		voters = new VotersList();
+		parties = new PartiesList();
 		unregisteredVoters = new VotersList();
-		// TODO is it going to be like that? aren't we supposed to get the stations list as a parameter?
 		votingStations = new ArrayList<IVotingStation>();
-	}
-
-	@Override
-	public void compareLists() {
-		for(IVotingStation station : votingStations){
-			IVotersList stationsVotersList = station.getVotersList();
-			if(!stationsVotersList.compareWith(voters)){
-				System.out.println("mainframe's voters list: " + voters);
-				System.out.println("mainframe's unregistered voters : " + unregisteredVoters);
-				System.out.println("voting station's voters list" + stationsVotersList);
-				throw new Error("voting station's voters list doesn't match the one on mainframe");
-			}
+		backup = new Backup(voters, parties);
+		backupThread = (new Thread(backup));
+		backupThread.start();
+		for(IVoterData voter: backup.restoreVoters()){
+			voters.addVoter(voter);
 		}
-		//if reached here voters lists are the same in mainframe and all other voting stations
+		for(IParty party: backup.restoreParties()){
+			parties.addParty(party);
+		}
 	}
 
 	@Override
 	public void countVotes() {
-		for(VoterData voter: voters){
-			if(voter.getLastChosenParty() != null){
-				parties.getPartyBySymbol(voter.getLastChosenParty().getSymbol()).increaseVoteNumber();
-			}
-		}
+		// TODO
 	}
 
 	@Override
 	public void shutDown() {
 		// TODO Auto-generated method stub
-
+		backup.retire();
+		try {
+			backupThread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 
@@ -129,12 +116,18 @@ public class Mainframe implements IMainframe {
 		}
 	}
 
-	/**
-	 * From XML File
-	 */
+
 	@Override
-	public List<Integer> getAuthorizedIdList() {
-		return ReadXMLFile.readXMLVotersList();
+	public void markVoted(int id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public VoterStatus getVoterStatus(int id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

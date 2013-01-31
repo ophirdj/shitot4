@@ -1,9 +1,8 @@
-public interface IPartiesList extends Iterable<IParty>, Cloneable{
+public interface IPartiesList extends Iterable<IParty>{
 	/*
 	 * !!!!!!!!!!!!!!!!!IMPORTANT!!!!!!!!!!!!!!!!!!!
 	 * Should contain also the white vote party.
-	 * Iterator should iterate over the white vote party as well.
-	 * Clone method should perform a deep copy.
+	 * Iterator should NOT iterate over the white vote party.
 	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 */
 	
@@ -47,16 +46,27 @@ public interface IPartiesList extends Iterable<IParty>, Cloneable{
 	
 	/**
 	 * 
+	 * @return A reference the white vote party.
+	 */
+	IParty getWhiteVoteParty();
+	
+	/**
+	 * 
 	 * @param start
 	 * @param end
 	 * @return A new sublist that includes all parties from this list from location start(inclusive)
 	 * to end(exclusive). Note: indexes can be out of range - in that case return the sublist composed
 	 * of the parties in legal (in range) indexes and ignore illegal (out of range) indexes.
 	 * I.e. for the list (0 1 2) and indexes start = 1, end = 4, should return the list (1 2).
-	 * Update: This method shouldn't in any case return the white vote party (i.e. return a sublist
-	 * that doesn't contain white vote part).
+	 * Note: The white vote party in the result should be a copy of the white vote part in this list.
 	 */
 	IPartiesList sublist(int start, int end);
+	
+	/**
+	 * Perform a deep copy of the parties list.
+	 * @return A copy of the list.
+	 */
+	IPartiesList copy();
 
 
 

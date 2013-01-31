@@ -6,22 +6,30 @@ public interface IVotingStation {
 	
 	IPartiesList getPartiesList(); // also remove old voting data from last voters list
 	
+	/**
+	 * Start the voting sequence in the station's window
+	 */
+	void voting();
 	
-	void voting(int id);
 	
-	
-	void testVoting(int id,String password);
+	void testVoting();
 	
 	
 	/*
 	 * additions by Ophir De Jager - needs to be implemented
 	 */
 	
+	class CannotVoteHere extends Exception{
+		private static final long serialVersionUID = 1L;
+		}
+	
 	/**
-	 * 
-	 * @return a copy of local voters list
+	 * Check if voter can vote in this station
+	 * @param id
+	 * @return True if voter can vote in station. false otherwise.
 	 */
-	IVotersList getVotersList();
+	boolean canVote(int id);
+
 	
 	/**
 	 * our loved peephole method

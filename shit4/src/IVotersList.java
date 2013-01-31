@@ -1,14 +1,14 @@
 import java.util.Map;
 
 
-public interface IVotersList extends Iterable<VoterData>{
+public interface IVotersList extends Iterable<IVoterData>{
 	
 	
 	
 	/**
 	 * adds a voter to the list.
 	 */
-	void addVoter(VoterData toAdd);
+	void addVoter(IVoterData toAdd);
 	
 	
 	/**
@@ -24,12 +24,12 @@ public interface IVotersList extends Iterable<VoterData>{
 	 * @return the requested voter
 	 * @throws Exception - if the voter id isn't in the list
 	 */
-	VoterData findVoter(int id) throws Exception;
+	IVoterData findVoter(int id) throws Exception;
 	
 	/**
 	 * replace current list with given one.
 	 */
-	void replaceWith (VotersList toReplace);
+	void replaceWith (IVotersList toReplace);
 	
 	/**
 	 * our standard peep. shows information about the contents of this object.
@@ -59,13 +59,13 @@ public interface IVotersList extends Iterable<VoterData>{
 	 * @return a map representing the VotersList, when each VoterData is mapped to
 	 * 			the number of its appearances in the list
 	 */
-	Map<VoterData,Integer> getVotersMap();
+	Map<IVoterData,Integer> getVotersMap();
 	
 	/**
 	 * 
 	 * @param id - the id of the voter we want to get
 	 * @return - the VoterData which represents the voter id
 	 */
-	VoterData getVoter( int id );
+	IVoterData getVoter( int id );
 	
 }

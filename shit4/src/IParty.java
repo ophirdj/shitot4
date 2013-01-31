@@ -1,4 +1,4 @@
-public interface IParty extends Cloneable{
+public interface IParty{
 	
 	static final String WHITE_NOTE_SYMBOL = null;
 	static final IParty WHITE_NOTE_PARTY = null;
@@ -30,4 +30,10 @@ public interface IParty extends Cloneable{
 	 * @return The number of votes to this party
 	 */
 	int getVoteNumber();
+	
+	/**
+	 * Perform a deep copy.
+	 * @return A copy of this party.
+	 */
+	IParty copy();
 }

@@ -1,5 +1,3 @@
-import java.util.List;
-
 public interface IMainframe {
 	
 	enum VoterStatus{identified, unidentified, voted;}
@@ -14,12 +12,6 @@ public interface IMainframe {
 	 * Boot system from backup.
 	 */
 	void restore();
-	
-	
-	/**
-	 * check if list of voters in the mainframe is the same as the ones in the voting stations
-	 */
-	void compareLists();
 	
 	
 	/**

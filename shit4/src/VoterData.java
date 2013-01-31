@@ -1,6 +1,6 @@
 
 import java.util.*;
-public class VoterData{
+public class VoterData implements IVoterData{
 
 	private int id;
 	private Date date;

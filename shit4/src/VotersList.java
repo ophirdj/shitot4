@@ -1,25 +1,22 @@
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
-
-import javax.print.attribute.IntegerSyntax;
 
 
 public class VotersList implements IVotersList {
 
-	private List<VoterData> votersList;
+	private List<IVoterData> votersList;
 	
 	//= new ArrayList<>();
 	
 	public VotersList(){
-		this.votersList = new ArrayList<VoterData>();
+		this.votersList = new ArrayList<IVoterData>();
 	}
 	
-	public void addVoter(VoterData toAdd){
+	@Override
+	public void addVoter(IVoterData toAdd){
 		this.votersList.add(toAdd.copy());
 	}
 	
@@ -28,9 +25,9 @@ public class VotersList implements IVotersList {
 	 * @param toMerge - the list to merge
 	 */
 	public void merge(VotersList toMerge){
-		for (VoterData toMergeIter : toMerge.votersList) {
+		for (IVoterData toMergeIter : toMerge.votersList) {
 			boolean notAddToList = false;
-			for (VoterData myIter : this.votersList) {
+			for (IVoterData myIter : this.votersList) {
 				if(myIter.getId() == toMergeIter.getId()){
 					notAddToList = true;
 				}
@@ -48,8 +45,7 @@ public class VotersList implements IVotersList {
 		System.out.println("=========================");
 		System.out.println("Peep of VoterList");
 		System.out.println("=========================");
-		int i = 1;
-		for (VoterData iter : this.votersList) {
+		for (IVoterData iter : this.votersList) {
 			System.out.println("~~~~~~~~~~~~~~~~");
 			System.out.println(iter);
 			System.out.println("~~~~~~~~~~~~~~~~");
@@ -62,8 +58,8 @@ public class VotersList implements IVotersList {
 	 * @return the requested voter
 	 * @throws Exception - if the voter id isn't in the list
 	 */
-	public VoterData findVoter(int id) throws Exception{
-		for (VoterData iter : this.votersList) {
+	public IVoterData findVoter(int id) throws Exception{
+		for (IVoterData iter : this.votersList) {
 			if(iter.getId() == id){
 				return iter;
 			}
@@ -72,30 +68,27 @@ public class VotersList implements IVotersList {
 	}
 	
 	public void replaceWith (VotersList toReplace){
-		ArrayList<VoterData> newList = new ArrayList<VoterData>();
-		for (VoterData voter : toReplace.votersList) {
+		ArrayList<IVoterData> newList = new ArrayList<IVoterData>();
+		for (IVoterData voter : toReplace.votersList) {
 			newList.add(voter.copy());
 		}
 		this.votersList = newList;
 			
 	}
 	
-	public VotersList copy(){
-		VotersList res = new VotersList();
-		for (VoterData voter : this.votersList) {
-			res.votersList.add(voter);
-		}
-		return res;
+	public IVotersList copy(){
+		// TODO
+		return null;
 	}
 
 	@Override
-	public Iterator<VoterData> iterator() {
+	public Iterator<IVoterData> iterator() {
 		return this.votersList.iterator();
 	}
 	
-	public Map<VoterData,Integer> getVotersMap(){
-		Map<VoterData,Integer> votersCounter = new HashMap<VoterData,Integer>();
-		for (VoterData voter : this.votersList) {
+	public Map<IVoterData,Integer> getVotersMap(){
+		Map<IVoterData,Integer> votersCounter = new HashMap<IVoterData,Integer>();
+		for (IVoterData voter : this.votersList) {
 			if(votersCounter.containsKey(voter)){
 				int voterInstances = votersCounter.get(voter);
 				votersCounter.remove(voter);
@@ -110,8 +103,8 @@ public class VotersList implements IVotersList {
 
 	@Override
 	public boolean compareWith(IVotersList votersLst) {
-		Map<VoterData, Integer> votersCounterOfMe = this.getVotersMap();
-		Map<VoterData, Integer> votersCounterOfArg = votersLst.getVotersMap();
+		Map<IVoterData, Integer> votersCounterOfMe = this.getVotersMap();
+		Map<IVoterData, Integer> votersCounterOfArg = votersLst.getVotersMap();
 		
 		if(votersCounterOfMe.equals(votersCounterOfArg)){
 			return true;
@@ -124,7 +117,7 @@ public class VotersList implements IVotersList {
 
 	@Override
 	public boolean inList(int id) {
-		for (VoterData voter : this.votersList) {
+		for (IVoterData voter : this.votersList) {
 			if(voter.getId()==id){
 				return true;
 			}
@@ -136,16 +129,22 @@ public class VotersList implements IVotersList {
 	/**
 	 * 
 	 * @param id - the id of the voter we want to get
-	 * @return - the VoterData which represents the voter id
+	 * @return - the IVoterData which represents the voter id
 	 */
-	public VoterData getVoter( int id ){
-		for (VoterData voter : this.votersList) {
+	public IVoterData getVoter( int id ){
+		for (IVoterData voter : this.votersList) {
 			if(voter.getId()==id){
 				return voter;
 			}
 		}
 		
 		return null;
+	}
+
+	@Override
+	public void replaceWith(IVotersList toReplace) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

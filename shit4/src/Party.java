@@ -1,7 +1,4 @@
-import java.io.Serializable;
-
-
-public class Party implements IParty, Serializable{
+public class Party implements IParty{
 	private String name;
 	private String symbol;
 	private int voteNumber = 0;
