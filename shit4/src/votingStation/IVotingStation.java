@@ -19,7 +19,7 @@ public interface IVotingStation{
 	
 	/**
 	 * 
-	 * @return The lacal parties list.
+	 * @return The local parties list.
 	 */
 	IPartiesList getPartiesList();
 	

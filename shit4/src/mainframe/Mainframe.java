@@ -102,6 +102,18 @@ public class Mainframe implements IMainframe {
 		
 	}
 	
+	
+	/**
+	 * This method should perform the hot backup routine.
+	 * I.e. it should go over all voting stations and receive their parties lists.
+	 * Then it should create a parties list that is the merge of all these lists
+	 * and save that to the local parties list (not just change the reference)
+	 * by using the joinLists method of IPartyList.
+	 */
+	private void hotBackup(){
+		
+	}
+	
 
 	@Override
 	public void identification(int id) throws IdentificationError{
