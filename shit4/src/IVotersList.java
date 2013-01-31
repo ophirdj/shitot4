@@ -1,19 +1,21 @@
+import java.util.Map;
 
-public interface IVotersList {
+
+public interface IVotersList extends Iterable<VoterData>{
 	
 	
 	
 	/**
 	 * adds a voter to the list.
 	 */
-	public void addVoter(VoterData toAdd);
+	void addVoter(VoterData toAdd);
 	
 	
 	/**
 	 * merging the list of the object with the list of toMerge
 	 * @param toMerge - the list to merge
 	 */
-	public void merge(VotersList toMerge);
+	void merge(VotersList toMerge);
 	
 	
 	/**
@@ -22,17 +24,17 @@ public interface IVotersList {
 	 * @return the requested voter
 	 * @throws Exception - if the voter id isn't in the list
 	 */
-	public VoterData findVoter(int id) throws Exception;
+	VoterData findVoter(int id) throws Exception;
 	
 	/**
 	 * replace current list with given one.
 	 */
-	public void replaceWith (VotersList toReplace);
+	void replaceWith (VotersList toReplace);
 	
 	/**
 	 * our standard peep. shows information about the contents of this object.
 	 */
-	public void peep();
+	void peep();
 
 	/*
 	 * more methods that need to be implemented - by Ophir De Jager
@@ -43,13 +45,27 @@ public interface IVotersList {
 	 * @param voters
 	 * @return true if list has same elements as this one. false otherwise.
 	 */
-	public boolean compareWith(IVotersList voters);
+	boolean compareWith(IVotersList voters);
 	
 	/**
 	 * 
 	 * @param id
 	 * @return true if the voter is in the list
 	 */
-	public boolean inList(int id);
+	boolean inList(int id);
+	
+	/**
+	 * 
+	 * @return a map representing the VotersList, when each VoterData is mapped to
+	 * 			the number of its appearances in the list
+	 */
+	Map<VoterData,Integer> getVotersMap();
+	
+	/**
+	 * 
+	 * @param id - the id of the voter we want to get
+	 * @return - the VoterData which represents the voter id
+	 */
+	VoterData getVoter( int id );
 	
 }

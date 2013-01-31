@@ -1,10 +1,16 @@
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Vector;
+
+import javax.print.attribute.IntegerSyntax;
 
 
 public class VotersList implements IVotersList {
-	
+
 	private List<VoterData> votersList;
 	
 	//= new ArrayList<>();
@@ -71,21 +77,75 @@ public class VotersList implements IVotersList {
 			newList.add(voter.copy());
 		}
 		this.votersList = newList;
-		
-		
+			
+	}
+	
+	public VotersList copy(){
+		VotersList res = new VotersList();
+		for (VoterData voter : this.votersList) {
+			res.votersList.add(voter);
+		}
+		return res;
 	}
 
 	@Override
-	public boolean compareWith(IVotersList voters) {
-		// TODO Auto-generated method stub
-		return false;
+	public Iterator<VoterData> iterator() {
+		return this.votersList.iterator();
+	}
+	
+	public Map<VoterData,Integer> getVotersMap(){
+		Map<VoterData,Integer> votersCounter = new HashMap<VoterData,Integer>();
+		for (VoterData voter : this.votersList) {
+			if(votersCounter.containsKey(voter)){
+				int voterInstances = votersCounter.get(voter);
+				votersCounter.remove(voter);
+				votersCounter.put(voter, voterInstances + 1);
+			}else{
+				votersCounter.put(voter, 1);
+			}
+		}
+		
+		return votersCounter;
 	}
 
+	@Override
+	public boolean compareWith(IVotersList votersLst) {
+		Map<VoterData, Integer> votersCounterOfMe = this.getVotersMap();
+		Map<VoterData, Integer> votersCounterOfArg = votersLst.getVotersMap();
+		
+		if(votersCounterOfMe.equals(votersCounterOfArg)){
+			return true;
+		}
+		
+		return false;
+		
+		
+	}
 
 	@Override
 	public boolean inList(int id) {
-		// TODO Auto-generated method stub
+		for (VoterData voter : this.votersList) {
+			if(voter.getId()==id){
+				return true;
+			}
+		}
+		
 		return false;
+	}
+	
+	/**
+	 * 
+	 * @param id - the id of the voter we want to get
+	 * @return - the VoterData which represents the voter id
+	 */
+	public VoterData getVoter( int id ){
+		for (VoterData voter : this.votersList) {
+			if(voter.getId()==id){
+				return voter;
+			}
+		}
+		
+		return null;
 	}
 
 }

@@ -80,6 +80,30 @@ public class ReadXMLFile {
 	     }
 	 
    }
+   
+   
+   
+   public static ArrayList<Integer> readXMLUnregisteredVotersFile() {
+	   
+	    try {
+	 
+	    	SAXParserFactory factory = SAXParserFactory.newInstance();
+	    	SAXParser saxParser = factory.newSAXParser();
+	 
+	    	DefaultHandler handler = new UnregisteredVotersHandler();
+	 
+	    	saxParser.parse("file.xml", handler);
+	    	
+	    	ArrayList<Integer> res = ((UnregisteredVotersHandler)handler).getUnregisteredVotersIdList();
+	    	
+	    	return res;
+	 
+	     } catch (Exception e) {
+	       e.printStackTrace();
+	       return new ArrayList<Integer>();
+	     }
+	 
+  }
  
 }
 

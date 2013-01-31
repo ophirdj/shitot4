@@ -9,12 +9,15 @@ import java.util.List;
 
 
 public class Mainframe implements IMainframe {
-	IVotersList voters;
-	IPartiesList parties;
-	IVotersList unregisteredVoters;
-	List<IVotingStation> votingStations;
+	private IVotersList voters;
+	private IPartiesList parties;
+	private IVotersList unregisteredVoters;
+	private List<IVotingStation> votingStations;
+	private Backup backup;
 	
-
+	public Mainframe(){
+		
+	}
 	
 
 	@Override
@@ -24,34 +27,47 @@ public class Mainframe implements IMainframe {
 		unregisteredVoters = new VotersList();
 		// TODO is it going to be like that? aren't we supposed to get the stations list as a parameter?
 		votingStations = new ArrayList<IVotingStation>();
+		backup = new Backup();
 	}
 	
+	//
 	private IVotersList loadVotersList(){
-		// TODO load list from file
-		return null;
+		ArrayList<Integer> votersIdList = ReadXMLFile.readXMLVotersList();
+		IVotersList voterList = new VotersList();
+		for (Integer id : votersIdList) {
+			voterList.addVoter(new VoterData(id));			
+		}
+		
+		return voterList;
+		
 	}
 	
 	private IPartiesList loadPartiesList(){
-		// TODO load list from file
+		ArrayList<Party> res = ReadXMLFile.readXMLvotingRecords();
+		//TODO convert to PartiesList after implementation
 		return null;
 	}
 
-	@Override
-	public void check() {
+	
+	private void check() {
 		// TODO WTF???
 		
 	}
 
-	@Override
-	public void hotbackup() {
+	
+	private void hotbackup() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void restore() {
-		// TODO Auto-generated method stub
-
+		backup = new Backup();
+		voters = backup.restore();
+		parties = loadPartiesList();
+		unregisteredVoters = new VotersList();
+		// TODO is it going to be like that? aren't we supposed to get the stations list as a parameter?
+		votingStations = new ArrayList<IVotingStation>();
 	}
 
 	@Override
@@ -70,8 +86,11 @@ public class Mainframe implements IMainframe {
 
 	@Override
 	public void countVotes() {
-		// TODO Auto-generated method stub
-
+		for(VoterData voter: voters){
+			if(voter.getLastChosenParty() != null){
+				parties.getPartyBySymbol(voter.getLastChosenParty().getSymbol()).increaseVoteNumber();
+			}
+		}
 	}
 
 	@Override
@@ -84,23 +103,38 @@ public class Mainframe implements IMainframe {
 	@Override
 	public void identification(int id) {
 		if(voters.inList(id)){
-			//ok
+			voters.getVoter(id).setIdentified();
 		}
 		else{
 			unregisteredVoters.addVoter(new VoterData(id, null));
+			voters.getVoter(id).setIdentified();
+			unregisteredVoters.getVoter(id).setIdentified();//not necessary...
 		}
 	}
 
 	@Override
 	public void peep() {
-		// TODO Auto-generated method stub
-
+		System.out.println("=========================");
+		System.out.println("Peep of Mainframe");
+		System.out.println("=========================");
+		System.out.println("parties:");
+		parties.peep();
+		System.out.println("voters:");
+		voters.peep();
+		System.out.println("unregistered voters:");
+		unregisteredVoters.peep();
+		System.out.println("voting stations:");
+		for(IVotingStation station: votingStations){
+			station.peep();
+		}
 	}
 
+	/**
+	 * From XML File
+	 */
 	@Override
 	public List<Integer> getAuthorizedIdList() {
-		// TODO Auto-generated method stub
-		return null;
+		return ReadXMLFile.readXMLVotersList();
 	}
 
 }

@@ -79,5 +79,11 @@ public class VotingStation implements IVotingStation {
 		return null;
 	}
 
+	@Override
+	public void peep() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 

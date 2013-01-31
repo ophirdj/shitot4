@@ -33,16 +33,10 @@ public class PartiesList extends ArrayList<Party> implements IPartiesList {
 		}
 	return joinedList;
 	}
-	
-	
-	public void peep(){
-		System.out.println("=========================");
-		System.out.println("Peep of PartiesList");
-		System.out.println("=========================");
-		for (Party party : this) {
-			System.out.println("~~~~~~~~~~~~~~~~");
-			System.out.println(party);
-			System.out.println("~~~~~~~~~~~~~~~~");
-		}
+
+	@Override
+	public void peep() {
+		// TODO Auto-generated method stub
+		
 	}
 }	

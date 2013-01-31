@@ -1,5 +1,7 @@
+import java.io.Serializable;
 
-public class Party implements IParty{
+
+public class Party implements IParty, Serializable{
 	private String name;
 	private String symbol;
 	private int voteNumber = 0;
@@ -43,6 +45,22 @@ public class Party implements IParty{
 	@Override
 	public String toString() {
 		return "name = " + name + "; symbol = " + symbol + "; voteNumber = " + voteNumber;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Party arg = (Party) obj;
+		if(this.getClass()!=obj.getClass() || obj==null){
+			return false;
+		}
+		
+		if(this.name==arg.name 
+				&& this.symbol==arg.symbol 
+				&& this.voteNumber==arg.voteNumber){
+			return true;
+		}
+		
+		return false;
 	}
 
 
