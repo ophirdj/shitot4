@@ -1,7 +1,7 @@
+package partiesList;
 public interface IParty{
 	
-	static final String WHITE_NOTE_SYMBOL = null;
-	static final IParty WHITE_NOTE_PARTY = null;
+	static final String WHITE_VOTE_SYMBOL = null;
 	
 	/**
 	 * 

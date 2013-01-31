@@ -1,17 +1,23 @@
+package partiesList;
+
 public interface IPartiesList extends Iterable<IParty>{
 	/*
 	 * !!!!!!!!!!!!!!!!!IMPORTANT!!!!!!!!!!!!!!!!!!!
 	 * Should contain also the white vote party.
-	 * Iterator should NOT iterate over the white vote party.
+	 * Iterator should NOT iterate over the white note party.
 	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 */
+	
+	static class PartyDoesNotExist extends Exception{
+		private static final long serialVersionUID = 1L;
+	}
 	
 	/**
 	 * 
 	 * @param symbol
 	 * @return The party that matches the given symbol
 	 */
-	IParty getPartyBySymbol(String symbol);
+	IParty getPartyBySymbol(String symbol) throws PartyDoesNotExist;
 	
 	/**
 	 * 
@@ -40,15 +46,15 @@ public interface IPartiesList extends Iterable<IParty>{
 	
 	/**
 	 * 
-	 * @return The total sum of the number of votes to ALL parties in list.
+	 * @return The total sum of the number of votes to ALL parties in list including white note party.
 	 */
 	int getTotalVotes();
 	
 	/**
 	 * 
-	 * @return A reference the white vote party.
+	 * @return A reference the white note party.
 	 */
-	IParty getWhiteVoteParty();
+	IParty getWhiteNoteParty();
 	
 	/**
 	 * 
@@ -67,6 +73,13 @@ public interface IPartiesList extends Iterable<IParty>{
 	 * @return A copy of the list.
 	 */
 	IPartiesList copy();
+	
+	
+	/**
+	 * 
+	 * @return the number of parties (excluding the white party)
+	 */
+	int size();
 
 
 

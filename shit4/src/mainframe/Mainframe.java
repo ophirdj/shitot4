@@ -1,11 +1,32 @@
+package mainframe;
 /*
  * creator: Ophir De Jager
  * date: 30.1.13
  * editors:
  */
 
+
 import java.util.ArrayList;
 import java.util.List;
+
+import partiesList.IPartiesList;
+import partiesList.IParty;
+import partiesList.PartiesList;
+import partiesList.Party;
+import votersList.IVoterData;
+import votersList.IVotersList;
+import votersList.VoterData;
+import votersList.VotersList;
+import votersList.IVoterData.AlreadyIdentified;
+import votersList.IVoterData.AlreadyVoted;
+import votersList.IVoterData.Unidentified;
+import votersList.IVotersList.VoterDoesntExist;
+import votingStation.IVotingStation;
+
+import backup.Backup;
+import backup.IBackup;
+import backup.ReadXMLFile;
+
 
 
 public class Mainframe implements IMainframe {
@@ -15,10 +36,6 @@ public class Mainframe implements IMainframe {
 	private List<IVotingStation> votingStations;
 	private IBackup backup;
 	private Thread backupThread;
-	
-	public Mainframe(){
-		
-	}
 	
 
 	@Override
@@ -88,14 +105,26 @@ public class Mainframe implements IMainframe {
 	
 
 	@Override
-	public void identification(int id) {
+	public void identification(int id) throws IdentificationError{
 		if(voters.inList(id)){
-			voters.getVoter(id).setIdentified();
+			try {
+				voters.findVoter(id).markIdentified();
+			} catch (AlreadyIdentified e) {
+				throw new IdentificationError();
+			} catch (VoterDoesntExist e) {
+				// won't happen
+				e.printStackTrace();
+			}
 		}
 		else{
-			unregisteredVoters.addVoter(new VoterData(id, null));
-			voters.getVoter(id).setIdentified();
-			unregisteredVoters.getVoter(id).setIdentified();//not necessary...
+			IVoterData voter = new VoterData(id);
+			try {
+				voter.markIdentified();
+			} catch (AlreadyIdentified e) {
+				//won't happen
+				return;
+			}
+			unregisteredVoters.addVoter(voter);
 		}
 	}
 
@@ -104,10 +133,10 @@ public class Mainframe implements IMainframe {
 		System.out.println("=========================");
 		System.out.println("Peep of Mainframe");
 		System.out.println("=========================");
-		System.out.println("parties:");
-		parties.peep();
 		System.out.println("voters:");
 		voters.peep();
+		System.out.println("parties:");
+		parties.peep();
 		System.out.println("unregistered voters:");
 		unregisteredVoters.peep();
 		System.out.println("voting stations:");
@@ -115,19 +144,61 @@ public class Mainframe implements IMainframe {
 			station.peep();
 		}
 	}
-
-
-	@Override
-	public void markVoted(int id) {
-		// TODO Auto-generated method stub
-		
+	
+	
+	private IVoterData getVoter(int id) throws VoterDoesNotExist{
+		synchronized (voters) {
+			boolean inVoters = voters.inList(id), inUnregisteredVoters = unregisteredVoters.inList(id);
+			if(!inVoters && !inUnregisteredVoters){
+				throw new VoterDoesNotExist();
+			}
+			IVoterData voter = null;
+			if(inVoters){
+				try {
+					voter = voters.findVoter(id);
+				} catch (VoterDoesntExist e) {
+					// won't happen
+					e.printStackTrace();
+				}
+			}
+			else{
+				try {
+					voter = unregisteredVoters.findVoter(id);
+				} catch (VoterDoesntExist e) {
+					// won't happen
+					e.printStackTrace();
+				}
+			}
+			return voter;
+		}
 	}
 
 
 	@Override
-	public VoterStatus getVoterStatus(int id) {
-		// TODO Auto-generated method stub
-		return null;
+	public void markVoted(int id) throws VoterDoesNotExist, VoterAlreadyVoted {
+		IVoterData voter = getVoter(id);
+		try {
+			voter.markVoted();
+		} catch (Unidentified e) {
+			// won't happen
+			e.printStackTrace();
+		} catch (AlreadyVoted e) {
+			throw new VoterAlreadyVoted();
+		}
+	}
+
+
+	@Override
+	public VoterStatus getVoterStatus(int id){
+		IVoterData voter;
+		try {
+			voter = getVoter(id);
+		} catch (VoterDoesNotExist e) {
+			return VoterStatus.unidentified;
+		}
+		if(voter.hasVoted()) return VoterStatus.voted;
+		if(voter.isIdentified()) return VoterStatus.identified;
+		return VoterStatus.unidentified;
 	}
 
 }

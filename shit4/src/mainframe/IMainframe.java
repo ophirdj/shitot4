@@ -1,4 +1,17 @@
-public interface IMainframe {
+package mainframe;
+public interface IMainframe{
+	
+	static class IdentificationError extends Exception{
+		private static final long serialVersionUID = 1L;
+		}
+	
+	static class VoterDoesNotExist extends Exception{
+		private static final long serialVersionUID = 1L;
+		}
+	
+	static class VoterAlreadyVoted extends Exception{
+		private static final long serialVersionUID = 1L;
+		}
 	
 	enum VoterStatus{identified, unidentified, voted;}
 	
@@ -29,7 +42,7 @@ public interface IMainframe {
 	 * check if voter is in the voters list and if he isn't there - add him to the unregistered voters list
 	 * @param id
 	 */
-	void identification(int id);
+	void identification(int id) throws IdentificationError;
 	
 	
 	
@@ -49,7 +62,7 @@ public interface IMainframe {
 	 * Mark that voter has voted in a voting station.
 	 * @param id - Voter's ID.
 	 */
-	void markVoted(int id);
+	void markVoted(int id) throws VoterDoesNotExist, VoterAlreadyVoted;
 	
 	/**
 	 * Return the status of the voter with the given ID.

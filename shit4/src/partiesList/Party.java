@@ -1,3 +1,5 @@
+package partiesList;
+
 public class Party implements IParty{
 	private String name;
 	private String symbol;
@@ -17,30 +19,38 @@ public class Party implements IParty{
 	public String getSymbol() {
 		return symbol;
 	}
+	
 	@Override
 	public String getName() {
 		return name;
 	}
+	
 	@Override
-	public void increaseVoteNumber() {
+	public synchronized void increaseVoteNumber() {
 		voteNumber++;
 	}
+	
 	@Override
-	public void decreaseVoteNumber() {
+	public synchronized void decreaseVoteNumber() {
 		voteNumber--;	
 	}
+	
 	@Override
-	public int getVoteNumber() {
+	public synchronized int getVoteNumber() {
 		return voteNumber;
 	}
 	
-	public Party copy(){
+	synchronized void setVoteNumber(int v) {
+		voteNumber = v;
+	}
+	
+	public synchronized Party copy(){
 		Party res = new Party(name, symbol, voteNumber);
 		return res;
 	}
 	
 	@Override
-	public String toString() {
+	public synchronized String toString() {
 		return "name = " + name + "; symbol = " + symbol + "; voteNumber = " + voteNumber;
 	}
 	
@@ -50,14 +60,7 @@ public class Party implements IParty{
 		if(this.getClass()!=obj.getClass() || obj==null){
 			return false;
 		}
-		
-		if(this.name==arg.name 
-				&& this.symbol==arg.symbol 
-				&& this.voteNumber==arg.voteNumber){
-			return true;
-		}
-		
-		return false;
+		return this.name==arg.name && this.symbol==arg.symbol;
 	}
 
 
