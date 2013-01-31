@@ -90,8 +90,24 @@ public class Mini_Test {
 		parties.addParty(new Party("Party11","k",0));
 		parties.addParty(new Party("Party12","l",0));
 		parties.addParty(new Party("Party13","m",0));
+		PartiesList other_parties = new PartiesList();
+		other_parties.addParty(new Party("Party14","a1",0));
+		other_parties.addParty(new Party("Party15","b1",0));
+		other_parties.addParty(new Party("Party16","c1",0));
+		other_parties.addParty(new Party("Party17","d1",0));
+		other_parties.addParty(new Party("Party18","e1",0));
+		other_parties.addParty(new Party("Party19","f1",0));
+		other_parties.addParty(new Party("Party20","g1",0));
+		other_parties.addParty(new Party("Party21","h1",0));
+		other_parties.addParty(new Party("Party22","i1",0));
+		other_parties.addParty(new Party("Party23","j1",0));
+		other_parties.addParty(new Party("Party24","k1",0));
+		other_parties.addParty(new Party("Party25","l1",0));
+		other_parties.addParty(new Party("Party26","m1",0));
 		VotingStation vote1 = new VotingStation(new ArrayList<String>(),"voting station 1");
 		vote1.initialize(parties, new Driver_Mainframe());
+		VotingStation vote2 = new VotingStation(new ArrayList<String>(),"voting station 2");
+		vote2.initialize(other_parties, new Driver_Mainframe());
 		Global_Window.main_window.show_window();
 	}
 	

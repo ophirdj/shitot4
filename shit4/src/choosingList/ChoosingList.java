@@ -17,7 +17,7 @@ public class ChoosingList implements IChoosingList{
 	private ChoosingList_window window;
 	private JPanel caller_panel;
 	private int place;
-	final static private int MAX_PARTIES = 5;
+	final static private int MAX_PARTIES = 9;
 	
 	public ChoosingList(IPartiesList parties, JPanel stationPanel){
 		this.parties = (PartiesList) parties;

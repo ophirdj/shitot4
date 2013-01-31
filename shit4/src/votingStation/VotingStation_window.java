@@ -1,5 +1,6 @@
 package votingStation;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
@@ -17,7 +18,8 @@ public class VotingStation_window extends StationPanel implements IWindow{
 	private static final long serialVersionUID = 1L;
 	private Main_Window window;  
 	private VotingStationAction chosen_action;
-	private boolean was_pushed = false; 
+	private boolean was_pushed = false;
+	private final Color VotingBackGround = new Color(255,255,255); 
 	
 	public void setAction(VotingStationAction action){
 		if(!was_pushed){
@@ -47,6 +49,8 @@ public class VotingStation_window extends StationPanel implements IWindow{
 			JPanel voting_panel = new JPanel(new FlowLayout());
 			make_voting_panel(voting_panel,lock);
 			this.removeAll();
+			voting_panel.setBackground(VotingBackGround);
+			this.setBackground(VotingBackGround);
 			this.add(voting_panel);
 			window.show_if_current(this);
 			try{

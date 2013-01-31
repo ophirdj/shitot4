@@ -35,15 +35,15 @@ class VotingRecord {
 		return party;
 	}
 	
-	private long miliseconds2minutes(long milisecs){
-		return milisecs / (1000 * 60);
+	private long miliseconds2seconds(long milisecs){
+		return milisecs / (1000);
 	}
 	
 	public boolean canVote(){
 		if(firstVote == null) return true;
 		Date now = new Date();
-		long timeInMinutes = miliseconds2minutes(now.getTime() - firstVote.getTime());
-		return (timeInMinutes <= 2) && numVotes < maxVotes;
+		long timeInSeconds = miliseconds2seconds(now.getTime() - firstVote.getTime());
+		return (timeInSeconds < 20) && numVotes < maxVotes;
 	}
 	
 	public void vote(IParty party){

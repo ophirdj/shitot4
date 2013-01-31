@@ -9,10 +9,6 @@ public interface IVoterData {
 	public static class Unidentified extends Exception{
 		private static final long serialVersionUID = 1L;
 		}
-	
-	public static class AlreadyVoted extends Exception{
-		private static final long serialVersionUID = 1L;
-		}
 
 	
 	/**
@@ -47,7 +43,7 @@ public interface IVoterData {
 	 * @throws Unidentified if voter hasn't identified himself.
 	 * @throws AlreadyVoted if voter has already voted.
 	 */
-	void markVoted() throws Unidentified, AlreadyVoted;
+	void markVoted() throws Unidentified;
 
 	
 	/**

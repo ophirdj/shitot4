@@ -9,10 +9,6 @@ public interface IMainframe{
 		private static final long serialVersionUID = 1L;
 		}
 	
-	static class VoterAlreadyVoted extends Exception{
-		private static final long serialVersionUID = 1L;
-		}
-	
 	enum VoterStatus{identified, unidentified, voted;}
 	
 	/**
@@ -62,7 +58,7 @@ public interface IMainframe{
 	 * Mark that voter has voted in a voting station.
 	 * @param id - Voter's ID.
 	 */
-	void markVoted(int id) throws VoterDoesNotExist, VoterAlreadyVoted;
+	void markVoted(int id) throws VoterDoesNotExist;
 	
 	/**
 	 * Return the status of the voter with the given ID.

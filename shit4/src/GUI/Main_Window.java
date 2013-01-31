@@ -2,15 +2,20 @@ package GUI;
 
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Hashtable;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 public class Main_Window extends JFrame {
 	private static final long serialVersionUID = 56L;
+	public static final Color BackGroundColor = new Color(58,95,205);
+	
 	private static final JPanel defualt_panel = new JPanel(new FlowLayout());
 	private JPanel main_panel;
 	private JPanel buttons_panel;
@@ -21,7 +26,7 @@ public class Main_Window extends JFrame {
 	public Main_Window() {
 		super("Main_Window");
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	    this.setMinimumSize(new Dimension(500,300));
 		main_panel = new JPanel(new BorderLayout());
 		buttons_panel = new JPanel(new FlowLayout());
 		current_panel = defualt_panel;
@@ -40,8 +45,19 @@ public class Main_Window extends JFrame {
 	public void show_window(){
 		main_panel.setVisible(false);
 		main_panel.removeAll();
+		if(current_panel == defualt_panel){
+			current_panel.setBackground(BackGroundColor);
+		}
+		else{
+			current_panel.setBackground(Color.WHITE);
+		}
+		
+		buttons_panel.setBackground(BackGroundColor);
 		main_panel.add(buttons_panel,BorderLayout.SOUTH);
 		main_panel.add(current_panel,BorderLayout.CENTER);
+		JButton current_Button = panel_button_map.get(current_panel);
+		if(current_Button != null) current_panel.setBorder(new TitledBorder(current_Button.getText()));
+		
 		main_panel.setVisible(true);
 	}
 	

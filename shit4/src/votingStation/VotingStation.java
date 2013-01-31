@@ -8,6 +8,7 @@ import partiesList.IParty;
 import votingStation.VotingRecord;
 import choosingList.ChoosingList;
 import mainframe.IMainframe;
+import mainframe.IMainframe.VoterDoesNotExist;
 
 public class VotingStation implements IVotingStation, Runnable {
 	private IMainframe mainframe;
@@ -31,7 +32,6 @@ public class VotingStation implements IVotingStation, Runnable {
 	public void run(){
 		while(true){
 			VotingStationAction choose = votingStationWindow.chooseAction();
-			 
 			switch (choose) {
 			case VOTING:
 				voting();
@@ -60,12 +60,12 @@ public class VotingStation implements IVotingStation, Runnable {
 		case voted:
 			for(VotingRecord voter: localVotersList){
 				if(voter.getID() == id && voter.canVote()) return voter;
-				if(voter.getID() == id && !voter.canVote()){
-					votingStationWindow.printError("You can't revote anymore");
+				if(voter.getID() == id){
+					votingStationWindow.printError("You can't change your vote anymore");
 					return null;
 				}
 			}
-			votingStationWindow.printError("You can't revote here");
+			votingStationWindow.printError("You can't vote here");
 		}
 		return null;
 	}
@@ -82,6 +82,14 @@ public class VotingStation implements IVotingStation, Runnable {
 		VotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
 		IParty lastParty = new ChoosingList(parties,votingStationWindow).chooseList();
+		try {
+			mainframe.markVoted(id);
+			if(!localVotersList.contains(voter)) localVotersList.add(voter);
+		} catch (VoterDoesNotExist e) {
+			// shouldn't happen
+			e.printStackTrace();
+			votingStationWindow.printError("Error: Chuck Norris removed you from existance.");
+		}
 		voter.vote(lastParty);
 		votingStationWindow.printMessage("You successfully voted for the party" + lastParty.getName());
 		

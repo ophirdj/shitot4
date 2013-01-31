@@ -66,9 +66,8 @@ public class VoterData implements IVoterData{
 	}
 
 	@Override
-	public void markVoted() throws Unidentified, AlreadyVoted {
+	public void markVoted() throws Unidentified {
 		if(!identified) throw new Unidentified();
-		if(voted) throw new AlreadyVoted();
 		voted = true;
 	}
 	

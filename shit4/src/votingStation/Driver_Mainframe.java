@@ -37,8 +37,8 @@ public class Driver_Mainframe implements IMainframe{
 	}
 
 	@Override
-	public void markVoted(int id) throws VoterDoesNotExist, VoterAlreadyVoted {
-		assert(false);
+	public void markVoted(int id) throws VoterDoesNotExist {
+		
 	}
 	
 	@Override

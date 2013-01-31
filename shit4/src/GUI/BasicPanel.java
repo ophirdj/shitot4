@@ -1,15 +1,21 @@
 package GUI;
 
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public abstract class BasicPanel extends JPanel {
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public BasicPanel() {
-		setMinimumSize(new Dimension(500,300));
+		setLayout(new GridBagLayout());
+		setBackground(Color.WHITE);
 	}
 	
 	public Boolean getConfirmation(String confirmationMessage){

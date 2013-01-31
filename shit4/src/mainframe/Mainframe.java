@@ -14,12 +14,11 @@ import partiesList.IParty;
 import partiesList.PartiesList;
 import partiesList.Party;
 import votersList.IVoterData;
+import votersList.IVoterData.Unidentified;
 import votersList.IVotersList;
 import votersList.VoterData;
 import votersList.VotersList;
 import votersList.IVoterData.AlreadyIdentified;
-import votersList.IVoterData.AlreadyVoted;
-import votersList.IVoterData.Unidentified;
 import votersList.IVotersList.VoterDoesntExist;
 import votingStation.IVotingStation;
 
@@ -175,15 +174,14 @@ public class Mainframe implements IMainframe {
 
 
 	@Override
-	public void markVoted(int id) throws VoterDoesNotExist, VoterAlreadyVoted {
-		IVoterData voter = getVoter(id);
-		try {
-			voter.markVoted();
-		} catch (Unidentified e) {
-			// won't happen
-			e.printStackTrace();
-		} catch (AlreadyVoted e) {
-			throw new VoterAlreadyVoted();
+	public void markVoted(int id) throws VoterDoesNotExist {
+		synchronized (voters) {
+			IVoterData voter = getVoter(id);
+			try {
+				voter.markVoted();
+			} catch (Unidentified e) {
+				throw new VoterDoesNotExist();
+			}
 		}
 	}
 
