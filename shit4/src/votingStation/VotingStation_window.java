@@ -8,18 +8,20 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
-import GUI.IWindow;
 import GUI.StationPanel;
 import GUI.WaitForClick;
 import GUI.Global_Window;
 import GUI.Main_Window;
 
-public class VotingStation_window extends StationPanel implements IWindow{
+public class VotingStation_window extends StationPanel implements IVotingStationWindow{
 	private static final long serialVersionUID = 1L;
 	private Main_Window window;  
 	private VotingStationAction chosen_action;
 	private boolean was_pushed = false;
 	private final Color VotingBackGround = new Color(255,255,255); 
+	private IVotingStation callerStation;
+	private Object lock;
+	private boolean keepRunning;
 	
 	public void setAction(VotingStationAction action){
 		if(!was_pushed){
@@ -29,9 +31,11 @@ public class VotingStation_window extends StationPanel implements IWindow{
 	}
 	
 	
-	  public VotingStation_window(String name, VotingStation caller){
+	  public VotingStation_window(String name, IVotingStation caller){
 		  super(name);
 		  window = Global_Window.main_window;
+		  callerStation = caller;
+		  lock = new Object();
 	  }
 	  
 	  private void make_voting_panel(JPanel voting_panel, Object lock){
@@ -45,7 +49,6 @@ public class VotingStation_window extends StationPanel implements IWindow{
 	  
 	  public VotingStationAction chooseAction(){
 			was_pushed = false;
-			Object lock = new Object();
 			JPanel voting_panel = new JPanel(new FlowLayout());
 			make_voting_panel(voting_panel,lock);
 			this.removeAll();
@@ -70,7 +73,6 @@ public class VotingStation_window extends StationPanel implements IWindow{
 	  }
 	  
 	  public String getPassword(){
-		  	Object lock = new Object();
 		  	JPanel password_panel = new JPanel(new GridLayout(2,1));
 		  	JPasswordField textField = new JPasswordField();
 		  	make_input_panel(password_panel,textField,lock,"enter password");
@@ -87,7 +89,6 @@ public class VotingStation_window extends StationPanel implements IWindow{
 	  }
 	  
 	  public int getID(){
-		  	Object lock = new Object();
 		  	JPanel id_panel = new JPanel(new GridLayout(2,1));
 		  	JPasswordField textField = new JPasswordField();
 		  	make_input_panel(id_panel,textField,lock,"enter ID");
@@ -103,4 +104,40 @@ public class VotingStation_window extends StationPanel implements IWindow{
 			String id = new String(textField.getPassword());
 			return Integer.parseInt(id);
 	  }
+	  
+		public void run(){
+			while(keepRunning){
+				VotingStationAction choose = chooseAction();
+				if(!keepRunning){
+					break;
+				}
+				switch (choose) {
+				case VOTING:
+					callerStation.voting();
+					break;
+				case TEST_VOTE:
+					callerStation.testVoting();
+					break;
+				default:
+					break;
+				}
+			}
+			window.remove_panel(this);
+		}
+
+
+		@Override
+		public void startLoop() {
+			keepRunning = true;
+			new Thread(this).start();
+		}
+
+
+		@Override
+		public void endLoop() {
+			keepRunning = false;
+			synchronized (lock) {
+				lock.notifyAll();
+			}
+		}
 }

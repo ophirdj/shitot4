@@ -3,46 +3,37 @@ package votingStation;
 import java.util.List;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
 import partiesList.IPartiesList;
 import partiesList.IParty;
 import votingStation.VotingRecord;
-import choosingList.ChoosingList;
+import choosingList.IChoosingListFactory;
+import choosingList.IChoosingWindowFactory;
 import mainframe.IMainframe;
 import mainframe.IMainframe.VoterDoesNotExist;
 
-public class VotingStation implements IVotingStation, Runnable {
+public class VotingStation implements IVotingStation {
 	private IMainframe mainframe;
 	private IPartiesList parties;
 	private List<VotingRecord> localVotersList; 
 	private List<String> passwords;
-	private VotingStation_window votingStationWindow;
+	private IVotingStationWindow votingStationWindow;
+	private IChoosingListFactory choosingListFactory;
+	private IChoosingWindowFactory choosingWindowFactory;
 
-	public VotingStation(List<String> passwords,String name){
+	public VotingStation(List<String> passwords,String name, IChoosingListFactory choseFactory, IChoosingWindowFactory choseWindowFactory, IVotingStationWindowFactory stationWindowFactory){
 		this.passwords = passwords;
-		votingStationWindow = new VotingStation_window(name,this);
+		votingStationWindow = stationWindowFactory.createInstance(name, this);
+		choosingListFactory = choseFactory;
+		choosingWindowFactory = choseWindowFactory;
 	};
 
 	public void initialize(IPartiesList parties,IMainframe mainframe){
 		this.mainframe = mainframe;
 		this.parties = parties;
 		localVotersList = new ArrayList<VotingRecord>();
-		new Thread(this).start();
-	}
-	
-	public void run(){
-		while(true){
-			VotingStationAction choose = votingStationWindow.chooseAction();
-			switch (choose) {
-			case VOTING:
-				voting();
-				break;
-			case TEST_VOTE:
-				testVoting();
-				break;
-			default:
-				break;
-			}
-		}
+		votingStationWindow.startLoop();
 	}
 
 	public IPartiesList getPartiesList(){
@@ -81,7 +72,7 @@ public class VotingStation implements IVotingStation, Runnable {
 		
 		VotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
-		IParty lastParty = new ChoosingList(parties,votingStationWindow).chooseList();
+		IParty lastParty = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow, choosingWindowFactory).chooseList();
 		try {
 			mainframe.markVoted(id);
 			if(!localVotersList.contains(voter)) localVotersList.add(voter);
@@ -113,7 +104,7 @@ public class VotingStation implements IVotingStation, Runnable {
 		
 		VotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
-		IParty lastParty = new ChoosingList(parties,votingStationWindow).chooseList();
+		IParty lastParty = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow, choosingWindowFactory).chooseList();
 		votingStationWindow.printMessage("You successfully test vote for the party" + lastParty.getName());
 	}
 
@@ -128,6 +119,11 @@ public class VotingStation implements IVotingStation, Runnable {
 		parties.peep();
 		System.out.println("Passwords for test voting are: ");
 		System.out.println(passwords);
+	}
+
+	@Override
+	public void retire() {
+		votingStationWindow.endLoop();
 	}
 
 }

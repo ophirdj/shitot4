@@ -1,18 +1,36 @@
 package choosingList;
 
+import javax.swing.JPanel;
+
 import GUI.IWindow;
 import partiesList.IPartiesList;
 import partiesList.IParty;
-import partiesList.Party;
 
 public interface IChoosingWindow extends IWindow{
 		
-	//Called when a parties list appears on the screen, waits for the user to click 
-	//on one of the parties or on next/previous button
-	//return the type of action requested
+	/**
+	 * show the parties and wait for user action
+	 * @param partiesToShow give 9 parties to show
+	 * @return the action chosen by user
+	 */
 	public ChooseType receiveChoiceSymbol(IPartiesList partiesToShow);
 	
-	//If receiveChoiceSymbol return ChooseType.Party, we can get it using this function
+	/**
+	 * if the user chose a party, this return the party he chose
+	 * @return the chosen party
+	 */
 	public IParty getParty();
+	
+	/**
+	 * change the view in main window to this panel
+	 * @param switchFrom the panel to switch from
+	 */
+	public void switchOn(JPanel switchFrom);
+	
+	/**
+	 * return the view to the given panel
+	 * @param switchTo the panel to switch to
+	 */
+	public void switchOff(JPanel switchTo);
 
 }

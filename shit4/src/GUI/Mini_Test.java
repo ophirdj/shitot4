@@ -9,7 +9,11 @@ import partiesList.IPartiesList;
 import votingStation.Driver_Mainframe;
 import votingStation.IVotingStation;
 import votingStation.VotingStation;
+import votingStation.VotingStationFactory;
+import votingStation.VotingStationWindowFactory;
 import choosingList.ChoosingList;
+import choosingList.ChoosingListFactory;
+import choosingList.ChoosingWindowFactory;
 
 public class Mini_Test {
 	public static class Mini extends Thread{
@@ -40,7 +44,7 @@ public class Mini_Test {
 		parties.addParty(new Party("Party12","l",0));
 		parties.addParty(new Party("Party13","m",0));
 		
-		ChoosingList choose1 = new ChoosingList(parties,null);
+		ChoosingList choose1 = new ChoosingList(parties,null,new ChoosingWindowFactory());
 		
 		PartiesList other_parties = new PartiesList();
 		other_parties.addParty(new Party("Party14","a1",0));
@@ -57,9 +61,9 @@ public class Mini_Test {
 		other_parties.addParty(new Party("Party25","l1",0));
 		other_parties.addParty(new Party("Party26","m1",0));
 		
-		ChoosingList choose2 = new ChoosingList(other_parties,null);
-		ChoosingList choose3 = new ChoosingList(other_parties,null);
-		ChoosingList choose4 = new ChoosingList(parties,null);
+		ChoosingList choose2 = new ChoosingList(other_parties,null,new ChoosingWindowFactory());
+		ChoosingList choose3 = new ChoosingList(other_parties,null,new ChoosingWindowFactory());
+		ChoosingList choose4 = new ChoosingList(parties,null,new ChoosingWindowFactory());
 		Global_Window.main_window.show_window();
 		
 		
@@ -76,7 +80,7 @@ public class Mini_Test {
 	}
 	
 	public static void test2(){
-		PartiesList parties = new PartiesList();
+		IPartiesList parties = new PartiesList();
 		parties.addParty(new Party("Party1","a",0));
 		parties.addParty(new Party("Party2","b",0));
 		parties.addParty(new Party("Party3","c",0));
@@ -90,7 +94,7 @@ public class Mini_Test {
 		parties.addParty(new Party("Party11","k",0));
 		parties.addParty(new Party("Party12","l",0));
 		parties.addParty(new Party("Party13","m",0));
-		PartiesList other_parties = new PartiesList();
+		IPartiesList other_parties = new PartiesList();
 		other_parties.addParty(new Party("Party14","a1",0));
 		other_parties.addParty(new Party("Party15","b1",0));
 		other_parties.addParty(new Party("Party16","c1",0));
@@ -104,11 +108,20 @@ public class Mini_Test {
 		other_parties.addParty(new Party("Party24","k1",0));
 		other_parties.addParty(new Party("Party25","l1",0));
 		other_parties.addParty(new Party("Party26","m1",0));
-		VotingStation vote1 = new VotingStation(new ArrayList<String>(),"voting station 1");
+		VotingStationFactory fac = new VotingStationFactory();
+		IVotingStation vote1 = fac.createInstance(new ArrayList<String>(),"voting station 1",new ChoosingListFactory(), new ChoosingWindowFactory(), new VotingStationWindowFactory());
 		vote1.initialize(parties, new Driver_Mainframe());
-		VotingStation vote2 = new VotingStation(new ArrayList<String>(),"voting station 2");
+		IVotingStation vote2 = new VotingStation(new ArrayList<String>(),"voting station 2",new ChoosingListFactory(), new ChoosingWindowFactory(), new VotingStationWindowFactory());
 		vote2.initialize(other_parties, new Driver_Mainframe());
 		Global_Window.main_window.show_window();
+		/*try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		vote1.retire();*/
+		
 	}
 	
 	public static void main(String[] args) {

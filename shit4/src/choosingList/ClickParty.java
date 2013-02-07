@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import partiesList.IParty;
-import partiesList.Party;
 
 
 

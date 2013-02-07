@@ -16,6 +16,11 @@ public interface IVotingStation{
 	 */
 	void initialize(IPartiesList parties,IMainframe mainframe);
 	
+	/**
+	 * stop the station from running.
+	 */
+	void retire();
+	
 	
 	/**
 	 * 

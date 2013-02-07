@@ -1,27 +1,21 @@
 package choosingList;
 
-
-
-import GUI.Global_Window;
-
 import javax.swing.JPanel;
-
 import partiesList.IPartiesList;
 import partiesList.IParty;
-import partiesList.PartiesList;
-import partiesList.Party;
 
 
 public class ChoosingList implements IChoosingList{
-	private PartiesList parties;
-	private ChoosingList_window window;
+	private IPartiesList parties;
+	private IChoosingWindow window;
 	private JPanel caller_panel;
 	private int place;
 	final static private int MAX_PARTIES = 9;
 	
-	public ChoosingList(IPartiesList parties, JPanel stationPanel){
-		this.parties = (PartiesList) parties;
-		this.window = new ChoosingList_window();
+	//for test without graphic: stationPanel = null
+	public ChoosingList(IPartiesList parties, JPanel stationPanel, IChoosingWindowFactory windowFactory){
+		this.parties = parties;
+		this.window = windowFactory.createInstance();
 		caller_panel = stationPanel;
 		this.place = 0;
 	};
@@ -29,7 +23,7 @@ public class ChoosingList implements IChoosingList{
 	public IParty chooseList(){
 		IParty chosenParty = null;
 		Boolean hasConfirmed = false;
-		Global_Window.main_window.switch_panels(caller_panel, window);
+		window.switchOn(caller_panel);
 		while (!hasConfirmed){
 			int end_for_print = place+MAX_PARTIES;
 			if(end_for_print > parties.size())  end_for_print = parties.size();
@@ -57,7 +51,7 @@ public class ChoosingList implements IChoosingList{
 				}
 			}
 		}
-		Global_Window.main_window.switch_panels(window, caller_panel);
+		window.switchOff(caller_panel);
 		return chosenParty;
 	}
 }

@@ -9,26 +9,37 @@ package mainframe;
 import java.util.ArrayList;
 import java.util.List;
 
+import choosingList.IChoosingListFactory;
+import choosingList.IChoosingWindowFactory;
+
 import partiesList.IPartiesList;
+import partiesList.IPartiesListFactory;
 import partiesList.IParty;
+import partiesList.IPartyFactory;
 import partiesList.PartiesList;
 import partiesList.Party;
 import votersList.IVoterData;
 import votersList.IVoterData.Unidentified;
+import votersList.IVoterDataFactory;
 import votersList.IVotersList;
+import votersList.IVotersListFactory;
 import votersList.VoterData;
+import votersList.VoterDataFactory;
 import votersList.VotersList;
 import votersList.IVoterData.AlreadyIdentified;
 import votersList.IVotersList.VoterDoesntExist;
 import votingStation.IVotingStation;
+import votingStation.IVotingStationFactory;
+import votingStation.IVotingStationWindowFactory;
 
 import backup.Backup;
 import backup.IBackup;
+import backup.IBackupFactory;
 import backup.ReadXMLFile;
 
 
 
-public class Mainframe implements IMainframe {
+public class Mainframe implements IMainframe, Runnable {
 	private IVotersList voters;
 	private IPartiesList parties;
 	private IVotersList unregisteredVoters;
@@ -36,32 +47,67 @@ public class Mainframe implements IMainframe {
 	private IBackup backup;
 	private Thread backupThread;
 	
+	private final int NUM_OF_STATIONS = 2;
+	
+	//factories
+	private IBackupFactory backupFactory;
+	private IPartiesListFactory partiesListFactory;
+	private IPartyFactory partyFactory;
+	private IVoterDataFactory voterDataFactory;
+	private IVotersListFactory votersListFactory;
+	private IChoosingListFactory choosingListFactory;
+	private IChoosingWindowFactory choosingWindowFactory;
+	private IVotingStationFactory votingStationFactory;
+	private IVotingStationWindowFactory votingStationWindowFactory;
+	private IMainframeWindowFactory mainframeWindowFactory;
+	
+	public Mainframe(IBackupFactory backupFactory, IPartiesListFactory partiesListFactory, IPartyFactory partyFactory,
+			IVotersListFactory votersListFactory, IVoterDataFactory voterDataFactory, IChoosingListFactory choosingListFactory,
+			IChoosingWindowFactory choosingWindowFactory, IVotingStationFactory votingStationFactory,
+			IVotingStationWindowFactory votingStationWindowFactory, IMainframeWindowFactory mainframeWindowFactory) {
+		this.backupFactory = backupFactory;
+		this.partiesListFactory=partiesListFactory;
+		this.partyFactory=partyFactory;
+		this.voterDataFactory=voterDataFactory;
+		this.votersListFactory=votersListFactory;
+		this.choosingListFactory=choosingListFactory;
+		this.choosingWindowFactory=choosingWindowFactory;
+		this.votingStationFactory=votingStationFactory;
+		this.votingStationWindowFactory=votingStationWindowFactory;
+		this.mainframeWindowFactory=mainframeWindowFactory;
+	}
 
 	@Override
 	public void initialize() {
 		voters = loadVotersList();
 		parties = loadPartiesList();
-		unregisteredVoters = new VotersList();
+		unregisteredVoters = votersListFactory.createInstance();
 		votingStations = new ArrayList<IVotingStation>();
-		backup = new Backup(voters, parties);
-		backupThread = (new Thread(backup));
+		for (int i = 0; i < NUM_OF_STATIONS; i++) {
+			IVotingStation station = votingStationFactory.createInstance(null, "voting station" + i,
+					choosingListFactory, choosingWindowFactory, votingStationWindowFactory);
+			votingStations.add(station);
+		}
+		backup = backupFactory.createInstance(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
+		backupThread = (new Thread(this));
 		backupThread.start();
 	}
 	
 	
 	private IVotersList loadVotersList(){
 		ArrayList<Integer> votersIdList = ReadXMLFile.readXMLVotersList();
-		IVotersList voterList = new VotersList();
+		IVotersList voterList = votersListFactory.createInstance();
 		for(Integer id : votersIdList) {
-			voterList.addVoter(new VoterData(id));			
+			voterList.addVoter(voterDataFactory.createInstance(id));			
 		}
 		return voterList;
 	}
 	
 	private IPartiesList loadPartiesList(){
-		ArrayList<Party> parties = ReadXMLFile.readXMLvotingRecords();
-		IPartiesList partieslist = new PartiesList();
-		for(Party party: parties){
+		//TODO: Emil: unerror it!!
+		List<IParty> parties = ReadXMLFile.readXMLvotingRecords();
+		IPartiesList partieslist = partiesListFactory.createInstance();
+		for(IParty party: parties){
 			partieslist.addParty(party);
 		}
 		return partieslist;
@@ -69,12 +115,12 @@ public class Mainframe implements IMainframe {
 
 	@Override
 	public void restore() {
-		voters = new VotersList();
-		parties = new PartiesList();
-		unregisteredVoters = new VotersList();
+		voters = votersListFactory.createInstance();
+		parties = partiesListFactory.createInstance();
+		unregisteredVoters = votersListFactory.createInstance();
 		votingStations = new ArrayList<IVotingStation>();
-		backup = new Backup(voters, parties);
-		backupThread = (new Thread(backup));
+		backup = backupFactory.createInstance(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
+		backupThread = (new Thread(this));
 		backupThread.start();
 		for(IVoterData voter: backup.restoreVoters()){
 			voters.addVoter(voter);
@@ -128,7 +174,7 @@ public class Mainframe implements IMainframe {
 			}
 		}
 		else{
-			IVoterData voter = new VoterData(id);
+			IVoterData voter = voterDataFactory.createInstance(id);
 			try {
 				voter.markIdentified();
 			} catch (AlreadyIdentified e) {
@@ -209,6 +255,12 @@ public class Mainframe implements IMainframe {
 		if(voter.hasVoted()) return VoterStatus.voted;
 		if(voter.isIdentified()) return VoterStatus.identified;
 		return VoterStatus.unidentified;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

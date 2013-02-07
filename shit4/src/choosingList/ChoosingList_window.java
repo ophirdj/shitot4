@@ -13,7 +13,6 @@ import javax.swing.*;
 
 import partiesList.IPartiesList;
 import partiesList.IParty;
-import partiesList.Party;
 
 
 public class ChoosingList_window extends BasicPanel implements IChoosingWindow {
@@ -98,4 +97,16 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 	remove(choose_panel);
 	return return_type;
   }
+
+@Override
+public void switchOn(JPanel switchFrom) {
+	//if(switchFrom != null)
+		window.switch_panels(switchFrom, this);
+}
+
+@Override
+public void switchOff(JPanel switchTo) {
+	//if(switchTo != null)
+		window.switch_panels(this, switchTo);
+}
 }
