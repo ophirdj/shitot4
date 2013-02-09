@@ -1,11 +1,11 @@
 package tests;
 import java.util.ArrayList;
 
-import backup.Backup;
-import backup.BackupPartiesListToXMLFile;
-import backup.BackupVotersListToXMLFile;
-import backup.ReadXMLFile;
-import backup.WriteXMLFileUnregisteredVoters;
+import backupToXML.Backup;
+import backupToXML.BackupPartiesListToXMLFile;
+import backupToXML.BackupVotersListToXMLFile;
+import backupToXML.ReadXMLFile;
+import backupToXML.WriteXMLFileUnregisteredVoters;
 
 import partiesList.Party;
 import votersList.IVoterData.AlreadyIdentified;

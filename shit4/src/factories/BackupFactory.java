@@ -1,7 +1,7 @@
 package factories;
 
-import backup.Backup;
-import backup.IBackup;
+import backupToXML.Backup;
+import backupToXML.IBackup;
 
 public class BackupFactory implements IBackupFactory {
 

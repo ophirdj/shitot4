@@ -1,6 +1,6 @@
 package factories;
 
-import backup.IReadSuppliedXML;
+import backupToXML.IReadSuppliedXML;
 
 public interface IReadSuppliedXMLFactory {
 

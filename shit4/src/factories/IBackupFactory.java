@@ -1,6 +1,6 @@
 package factories;
 
-import backup.IBackup;
+import backupToXML.IBackup;
 
 public interface IBackupFactory {
 	/**

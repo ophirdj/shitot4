@@ -39,10 +39,10 @@ import votersList.IVoterData.AlreadyIdentified;
 import votersList.IVotersList.VoterDoesntExist;
 import votingStation.IVotingStation;
 
-import backup.Backup;
-import backup.IBackup;
-import backup.IReadSuppliedXML;
-import backup.ReadXMLFile;
+import backupToXML.Backup;
+import backupToXML.IBackup;
+import backupToXML.IReadSuppliedXML;
+import backupToXML.ReadXMLFile;
 
 
 
