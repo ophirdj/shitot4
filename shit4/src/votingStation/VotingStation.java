@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import choosingList.IChoosingList;
+import choosingList.IChoosingList.ChoosingInterruptedException;
+
 import partiesList.IPartiesList;
 import partiesList.IParty;
 import votingStation.VotingRecord;
@@ -19,21 +22,25 @@ public class VotingStation implements IVotingStation {
 	private IPartiesList parties;
 	private List<VotingRecord> localVotersList; 
 	private List<String> passwords;
+	
+	private IChoosingList choosingList;
+	
 	private IVotingStationWindow votingStationWindow;
-	private IChoosingListFactory choosingListFactory;
 	private IChoosingWindowFactory choosingWindowFactory;
+	private IChoosingListFactory choosingListFactory;
 
 	public VotingStation(List<String> passwords,String name, IChoosingListFactory choseFactory, IChoosingWindowFactory choseWindowFactory, IVotingStationWindowFactory stationWindowFactory){
 		this.passwords = passwords;
 		votingStationWindow = stationWindowFactory.createInstance(name, this);
-		choosingListFactory = choseFactory;
 		choosingWindowFactory = choseWindowFactory;
+		choosingListFactory = choseFactory;
 	};
 
 	public void initialize(IPartiesList parties,IMainframe mainframe){
 		this.mainframe = mainframe;
 		this.parties = parties;
 		localVotersList = new ArrayList<VotingRecord>();
+		choosingList = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow, choosingWindowFactory);
 		votingStationWindow.startLoop();
 	}
 
@@ -62,18 +69,19 @@ public class VotingStation implements IVotingStation {
 		return null;
 	}
 
-	public void voting(){
+	public void voting() throws ChoosingInterruptedException{
 		int id;
 		try{
 			id = votingStationWindow.getID();
 		}catch (NumberFormatException e) {
+			System.out.println(e.getMessage());
 			votingStationWindow.printError("Error: id must be a number!");
 			return;
 		}
 		
 		VotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
-		IParty lastParty = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow, choosingWindowFactory).chooseList();
+		IParty lastParty = choosingList.chooseList();
 		try {
 			mainframe.markVoted(id);
 			if(!localVotersList.contains(voter)) localVotersList.add(voter);
@@ -83,12 +91,12 @@ public class VotingStation implements IVotingStation {
 			votingStationWindow.printError("Error: Chuck Norris removed you from existance.");
 		}
 		voter.vote(lastParty);
-		votingStationWindow.printMessage("You successfully voted for the party" + lastParty.getName());
+		votingStationWindow.printMessage("You successfully voted for the party " + lastParty.getName());
 		
 	}
 
 
-	public void testVoting(){
+	public void testVoting() throws ChoosingInterruptedException{
 		String password = votingStationWindow.getPassword();
 //		if (!passwords.contains(password)){
 //			votingStationWindow.printError("Error: wrong password");
@@ -105,8 +113,8 @@ public class VotingStation implements IVotingStation {
 		
 		VotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
-		IParty lastParty = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow, choosingWindowFactory).chooseList();
-		votingStationWindow.printMessage("You successfully test vote for the party" + lastParty.getName());
+		IParty lastParty = choosingList.chooseList();
+		votingStationWindow.printMessage("You successfully test vote for the party " + lastParty.getName());
 	}
 
 	@Override
@@ -124,8 +132,8 @@ public class VotingStation implements IVotingStation {
 
 	@Override
 	public void retire() {
+		choosingList.retire();
 		votingStationWindow.endLoop();
 	}
-
 }
 

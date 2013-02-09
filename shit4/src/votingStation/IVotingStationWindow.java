@@ -1,5 +1,6 @@
 package votingStation;
 
+import choosingList.IChoosingList.ChoosingInterruptedException;
 import GUI.IWindow;
 
 public interface IVotingStationWindow extends  IWindow, Runnable{
@@ -12,13 +13,13 @@ public interface IVotingStationWindow extends  IWindow, Runnable{
 	 * 
 	 * @return the id the user entered
 	 */
-	int getID();
+	int getID() throws ChoosingInterruptedException;
 	
 	/**
 	 * 
 	 * @return the password the user entered
 	 */
-	String getPassword();
+	String getPassword() throws ChoosingInterruptedException;
 	
 	/**
 	 * finish the loop. 

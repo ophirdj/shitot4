@@ -62,19 +62,16 @@ public class Main_Window extends JFrame {
 	}
 	
 	public void show_panel(JPanel new_panel){
-		main_panel.remove(current_panel);
-		main_panel.add(new_panel,BorderLayout.CENTER);
 		current_panel = new_panel;
 		show_window();
 	}
 	
 	public void show_if_current(JPanel new_panel){
-		if(new_panel == current_panel){
-			show_panel(new_panel);
-		}
+		if(new_panel == current_panel) show_window();
 	}
 	
 	public void switch_panels(JPanel old_panel,JPanel new_panel){
+		if(old_panel != current_panel) return;
 		hide_panel(old_panel);
 		if(old_panel == null){
 			synchronized (counter) {
@@ -90,7 +87,7 @@ public class Main_Window extends JFrame {
 			return;
 		}
 		JButton button_to_change = panel_button_map.get(old_panel);
-		panel_button_map.remove(button_to_change);
+		panel_button_map.remove(old_panel);
 		panel_button_map.put(new_panel,button_to_change);
 		button_to_change.removeActionListener(button_to_change.getActionListeners()[0]);
 		button_to_change.addActionListener(new ClickView(new_panel,this));
@@ -99,9 +96,7 @@ public class Main_Window extends JFrame {
 	
 	public void hide_panel(JPanel panel){
 		if(panel != current_panel || panel == null) return;
-		main_panel.remove(current_panel);
-		main_panel.add(defualt_panel);
-		current_panel = panel;
+		current_panel = defualt_panel;
 		show_window();
 	}
 	

@@ -24,7 +24,12 @@ public class Mini_Test {
 		
 		@Override
 		public void run() {
-			choose_list.chooseList();
+			try{
+				choose_list.chooseList();
+			}catch (Exception e) {
+				System.out.println("Mistake");
+			}
+			
 		}
 	}
 	
@@ -114,14 +119,19 @@ public class Mini_Test {
 		IVotingStation vote2 = new VotingStation(new ArrayList<String>(),"voting station 2",new ChoosingListFactory(), new ChoosingWindowFactory(), new VotingStationWindowFactory());
 		vote2.initialize(other_parties, new Driver_Mainframe());
 		Global_Window.main_window.show_window();
-		/*try {
-			Thread.sleep(3000);
+		try {
+			Thread.sleep(1000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		vote1.retire();*/
-		
+		vote1.retire();
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		vote2.retire();
 	}
 	
 	public static void main(String[] args) {

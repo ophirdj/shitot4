@@ -10,22 +10,22 @@ import partiesList.IParty;
 public class ChoosingList implements IChoosingList{
 	private IPartiesList parties;
 	private IChoosingWindow window;
-	private JPanel caller_panel;
 	private int place;
+	
 	final static private int MAX_PARTIES = 9;
 	
 	//for test without graphic: stationPanel = null
 	public ChoosingList(IPartiesList parties, JPanel stationPanel, IChoosingWindowFactory windowFactory){
 		this.parties = parties;
-		this.window = windowFactory.createInstance();
-		caller_panel = stationPanel;
+		this.window = windowFactory.createInstance(stationPanel);
 		this.place = 0;
 	};
 	
-	public IParty chooseList(){
+	@Override
+	public IParty chooseList() throws ChoosingInterruptedException{
 		IParty chosenParty = null;
 		Boolean hasConfirmed = false;
-		window.switchOn(caller_panel);
+		window.switchOn();
 		while (!hasConfirmed){
 			int end_for_print = place+MAX_PARTIES;
 			if(end_for_print > parties.size())  end_for_print = parties.size();
@@ -53,7 +53,12 @@ public class ChoosingList implements IChoosingList{
 				}
 			}
 		}
-		window.switchOff(caller_panel);
+		window.switchOff();
 		return chosenParty;
+	}
+	
+	@Override
+	public void retire(){
+		window.closeWindow();
 	}
 }

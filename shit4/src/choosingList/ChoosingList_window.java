@@ -11,6 +11,8 @@ import java.awt.GridLayout;
 
 import javax.swing.*;
 
+import choosingList.IChoosingList.ChoosingInterruptedException;
+
 import partiesList.IPartiesList;
 import partiesList.IParty;
 
@@ -18,17 +20,19 @@ import partiesList.IParty;
 public class ChoosingList_window extends BasicPanel implements IChoosingWindow {
 
 private static final long serialVersionUID = 23L;
-private final Object lock = new Object();
 private Main_Window window;  
 private IParty current_party;
 private ChooseType return_type;
-private boolean was_pushed = false;  
+private boolean was_pushed = false;
+private boolean keep_running = true;
+private JPanel stationPanel;
+
 public static final Color ChoosingBackGroundColor = new Color(255,255,255);
 
 
 private void add_party_button(JPanel panel,String name,ChooseType type,IParty party,Color color){
 	  JButton button = new JButton(name);
-	  button.addActionListener(new ClickParty(type,party,lock,this));
+	  button.addActionListener(new ClickParty(type,party,stationPanel,this));
 	  if(color != null)
 		  button.setBackground(color);
 	  panel.add(button);
@@ -53,8 +57,9 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 }
 
 
-  public ChoosingList_window(){
+  public ChoosingList_window(JPanel stationPanel){
     window = Global_Window.main_window;
+    this.stationPanel = stationPanel;
   }
   
   public void setResult(IParty choosen_party, ChooseType type){
@@ -69,7 +74,7 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 	  return current_party;
   }
   
-  public ChooseType receiveChoiceSymbol(IPartiesList partiesToShow){
+  public ChooseType receiveChoiceSymbol(IPartiesList partiesToShow) throws ChoosingInterruptedException{
 	was_pushed = false;
 	current_party = null;
 	return_type = null;
@@ -89,8 +94,10 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 	window.show_if_current(this);
 	
 	try{
-		synchronized (lock) {
-			lock.wait();
+		synchronized (stationPanel) {
+			if(keep_running == false) throw new ChoosingInterruptedException(); 
+			stationPanel.wait();
+			if(keep_running == false) throw new ChoosingInterruptedException(); 
 		}
 	}
 	catch(InterruptedException e){}
@@ -99,14 +106,24 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
   }
 
 @Override
-public void switchOn(JPanel switchFrom) {
+public void switchOn() {
 	//if(switchFrom != null)
-		window.switch_panels(switchFrom, this);
+		window.switch_panels(stationPanel, this);
 }
 
 @Override
-public void switchOff(JPanel switchTo) {
+public void switchOff() {
 	//if(switchTo != null)
-		window.switch_panels(this, switchTo);
+		window.switch_panels(this, stationPanel);
 }
+
+@Override
+public void closeWindow() {
+	synchronized (stationPanel) {
+		keep_running = false;
+		stationPanel.notify();
+		switchOff();
+	}
+}
+
 }

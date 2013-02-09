@@ -1,4 +1,5 @@
 package votingStation;
+import choosingList.IChoosingList.ChoosingInterruptedException;
 import partiesList.IPartiesList;
 import mainframe.IMainframe;
 
@@ -32,13 +33,13 @@ public interface IVotingStation{
 	/**
 	 * Start the voting sequence in the station's window.
 	 */
-	void voting();
+	void voting() throws ChoosingInterruptedException;
 	
 	
 	/**
 	 * Start the test voting sequence in the station's window.
 	 */
-	void testVoting();
+	void testVoting() throws ChoosingInterruptedException;
 
 	
 	/**

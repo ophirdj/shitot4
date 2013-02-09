@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 
+import choosingList.IChoosingList.ChoosingInterruptedException;
+
 import GUI.StationPanel;
 import GUI.WaitForClick;
 import GUI.Global_Window;
@@ -20,7 +22,6 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 	private boolean was_pushed = false;
 	private final Color VotingBackGround = new Color(255,255,255); 
 	private IVotingStation callerStation;
-	private Object lock;
 	private boolean keepRunning;
 	
 	public void setAction(VotingStationAction action){
@@ -35,7 +36,6 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 		  super(name);
 		  window = Global_Window.main_window;
 		  callerStation = caller;
-		  lock = new Object();
 	  }
 	  
 	  private void make_voting_panel(JPanel voting_panel, Object lock){
@@ -50,15 +50,15 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 	  public VotingStationAction chooseAction(){
 			was_pushed = false;
 			JPanel voting_panel = new JPanel(new FlowLayout());
-			make_voting_panel(voting_panel,lock);
+			make_voting_panel(voting_panel,this);
 			this.removeAll();
 			voting_panel.setBackground(VotingBackGround);
 			this.setBackground(VotingBackGround);
 			this.add(voting_panel);
 			window.show_if_current(this);
 			try{
-				synchronized (lock) {
-					lock.wait();
+				synchronized (this) {
+					this.wait();
 				}
 			}
 			catch(InterruptedException e){}
@@ -72,57 +72,66 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 			password_panel.add(button);
 	  }
 	  
-	  public String getPassword(){
+	  public String getPassword() throws ChoosingInterruptedException{
 		  	JPanel password_panel = new JPanel(new GridLayout(2,1));
 		  	JPasswordField textField = new JPasswordField();
-		  	make_input_panel(password_panel,textField,lock,"enter password");
+		  	make_input_panel(password_panel,textField,this,"enter password");
 			this.removeAll();
 			this.add(password_panel);
 			window.show_if_current(this);
 			try{
-				synchronized (lock) {
-					lock.wait();
+				synchronized (this) {
+					if(keepRunning == false) throw new ChoosingInterruptedException(); 
+					this.wait();
+					if(keepRunning == false) throw new ChoosingInterruptedException(); 
 				}
 			}
 			catch(InterruptedException e){}
 			return new String(textField.getPassword());
 	  }
 	  
-	  public int getID(){
+	  public int getID() throws ChoosingInterruptedException{
 		  	JPanel id_panel = new JPanel(new GridLayout(2,1));
 		  	JPasswordField textField = new JPasswordField();
-		  	make_input_panel(id_panel,textField,lock,"enter ID");
+		  	make_input_panel(id_panel,textField,this,"enter ID");
 			this.removeAll();
 			this.add(id_panel);
 			window.show_if_current(this);
 			try{
-				synchronized (lock) {
-					lock.wait();
+				synchronized (this) {
+					if(!keepRunning) throw new ChoosingInterruptedException();
+					this.wait();
+					if(keepRunning == false) throw new ChoosingInterruptedException();
 				}
 			}
 			catch(InterruptedException e){}
+			
 			String id = new String(textField.getPassword());
 			return Integer.parseInt(id);
 	  }
 	  
 		public void run(){
-			while(keepRunning){
-				VotingStationAction choose = chooseAction();
-				if(!keepRunning){
-					break;
+			try {
+				while(keepRunning){
+					VotingStationAction choose = chooseAction();
+					if(!keepRunning){
+						break;
+					}
+					switch (choose) {
+					case VOTING:
+						callerStation.voting();
+						break;
+					case TEST_VOTE:
+						callerStation.testVoting();
+						break;
+					default:
+						break;
+					}
 				}
-				switch (choose) {
-				case VOTING:
-					callerStation.voting();
-					break;
-				case TEST_VOTE:
-					callerStation.testVoting();
-					break;
-				default:
-					break;
-				}
+			} catch (ChoosingInterruptedException e) {
+				printMessage("You quit in the process of voting");
 			}
-			window.remove_panel(this);
+			closeWindow();
 		}
 
 
@@ -134,10 +143,8 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 
 
 		@Override
-		public void endLoop() {
+		public synchronized void endLoop() {
 			keepRunning = false;
-			synchronized (lock) {
-				lock.notifyAll();
-			}
+			this.notifyAll();
 		}
 }
