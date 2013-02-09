@@ -1,4 +1,6 @@
-package votersList;
+package factories;
+
+import votersList.IVotersList;
 
 public interface IVotersListFactory {
 	/**

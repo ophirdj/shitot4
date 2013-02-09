@@ -1,4 +1,6 @@
-package choosingList;
+package factories;
+
+import choosingList.IChoosingWindow;
 
 public interface IChoosingWindowFactory {
 	/**

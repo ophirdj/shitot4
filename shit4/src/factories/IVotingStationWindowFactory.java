@@ -1,4 +1,7 @@
-package votingStation;
+package factories;
+
+import votingStation.IVotingStation;
+import votingStation.IVotingStationWindow;
 
 public interface IVotingStationWindowFactory {
 	/**

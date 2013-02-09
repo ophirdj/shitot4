@@ -1,4 +1,8 @@
-package votingStation;
+package factories;
+
+import votingStation.IVotingStation;
+import votingStation.IVotingStationWindow;
+import votingStation.VotingStation_window;
 
 public class VotingStationWindowFactory implements IVotingStationWindowFactory {
 

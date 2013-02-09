@@ -8,8 +8,9 @@ import javax.swing.JPanel;
 import partiesList.IPartiesList;
 import partiesList.IParty;
 import votingStation.VotingRecord;
-import choosingList.IChoosingListFactory;
-import choosingList.IChoosingWindowFactory;
+import factories.IChoosingListFactory;
+import factories.IChoosingWindowFactory;
+import factories.IVotingStationWindowFactory;
 import mainframe.IMainframe;
 import mainframe.IMainframe.VoterDoesNotExist;
 

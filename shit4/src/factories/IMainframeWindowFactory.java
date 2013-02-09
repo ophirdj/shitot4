@@ -1,4 +1,4 @@
-package mainframe;
+package factories;
 
 public interface IMainframeWindowFactory {
 

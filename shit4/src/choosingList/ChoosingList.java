@@ -1,6 +1,8 @@
 package choosingList;
 
 import javax.swing.JPanel;
+
+import factories.IChoosingWindowFactory;
 import partiesList.IPartiesList;
 import partiesList.IParty;
 

@@ -1,4 +1,7 @@
-package partiesList;
+package factories;
+
+import partiesList.IPartiesList;
+import partiesList.PartiesList;
 
 public class PartiesListFactory implements IPartiesListFactory {
 

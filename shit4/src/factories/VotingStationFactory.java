@@ -1,9 +1,10 @@
-package votingStation;
+package factories;
 
 import java.util.List;
 
-import choosingList.IChoosingListFactory;
-import choosingList.IChoosingWindowFactory;
+import votingStation.IVotingStation;
+import votingStation.VotingStation;
+
 
 public class VotingStationFactory implements IVotingStationFactory {
 

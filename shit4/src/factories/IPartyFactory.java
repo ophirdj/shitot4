@@ -1,4 +1,6 @@
-package partiesList;
+package factories;
+
+import partiesList.IParty;
 
 public interface IPartyFactory {
 	/**

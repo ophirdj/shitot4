@@ -9,11 +9,11 @@ import partiesList.IPartiesList;
 import votingStation.Driver_Mainframe;
 import votingStation.IVotingStation;
 import votingStation.VotingStation;
-import votingStation.VotingStationFactory;
-import votingStation.VotingStationWindowFactory;
 import choosingList.ChoosingList;
-import choosingList.ChoosingListFactory;
-import choosingList.ChoosingWindowFactory;
+import factories.ChoosingListFactory;
+import factories.ChoosingWindowFactory;
+import factories.VotingStationFactory;
+import factories.VotingStationWindowFactory;
 
 public class Mini_Test {
 	public static class Mini extends Thread{

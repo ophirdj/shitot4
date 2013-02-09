@@ -7,34 +7,39 @@ package mainframe;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import choosingList.IChoosingListFactory;
-import choosingList.IChoosingWindowFactory;
+import javax.swing.plaf.SliderUI;
+
+import factories.IBackupFactory;
+import factories.IChoosingListFactory;
+import factories.IChoosingWindowFactory;
+import factories.IMainframeWindowFactory;
+import factories.IPartiesListFactory;
+import factories.IPartyFactory;
+import factories.IVoterDataFactory;
+import factories.IVotersListFactory;
+import factories.IVotingStationFactory;
+import factories.IVotingStationWindowFactory;
+import factories.VoterDataFactory;
 
 import partiesList.IPartiesList;
-import partiesList.IPartiesListFactory;
 import partiesList.IParty;
-import partiesList.IPartyFactory;
 import partiesList.PartiesList;
 import partiesList.Party;
 import votersList.IVoterData;
 import votersList.IVoterData.Unidentified;
-import votersList.IVoterDataFactory;
 import votersList.IVotersList;
-import votersList.IVotersListFactory;
 import votersList.VoterData;
-import votersList.VoterDataFactory;
 import votersList.VotersList;
 import votersList.IVoterData.AlreadyIdentified;
 import votersList.IVotersList.VoterDoesntExist;
 import votingStation.IVotingStation;
-import votingStation.IVotingStationFactory;
-import votingStation.IVotingStationWindowFactory;
 
 import backup.Backup;
 import backup.IBackup;
-import backup.IBackupFactory;
 import backup.ReadXMLFile;
 
 
@@ -45,8 +50,10 @@ public class Mainframe implements IMainframe, Runnable {
 	private IVotersList unregisteredVoters;
 	private List<IVotingStation> votingStations;
 	private IBackup backup;
-	private Thread backupThread;
 	
+	private boolean continueRun;
+	
+	private final int MILISECONDS_BETWEEN_BACKUPS = 180*1000;
 	private final int NUM_OF_STATIONS = 2;
 	
 	//factories
@@ -82,20 +89,23 @@ public class Mainframe implements IMainframe, Runnable {
 		voters = loadVotersList();
 		parties = loadPartiesList();
 		unregisteredVoters = votersListFactory.createInstance();
+		initStations();
+		backup = backupFactory.createInstance(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
+		continueRun = true;
+	}
+	
+	private void initStations(){
 		votingStations = new ArrayList<IVotingStation>();
 		for (int i = 0; i < NUM_OF_STATIONS; i++) {
 			IVotingStation station = votingStationFactory.createInstance(null, "voting station" + i,
 					choosingListFactory, choosingWindowFactory, votingStationWindowFactory);
 			votingStations.add(station);
 		}
-		backup = backupFactory.createInstance(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
-		backupThread = (new Thread(this));
-		backupThread.start();
 	}
 	
 	
 	private IVotersList loadVotersList(){
-		ArrayList<Integer> votersIdList = ReadXMLFile.readXMLVotersList();
+		ArrayList<Integer> votersIdList = ReadXMLFile.readSuppliedVotersListXML("voters.xml");
 		IVotersList voterList = votersListFactory.createInstance();
 		for(Integer id : votersIdList) {
 			voterList.addVoter(voterDataFactory.createInstance(id));			
@@ -105,7 +115,16 @@ public class Mainframe implements IMainframe, Runnable {
 	
 	private IPartiesList loadPartiesList(){
 		//TODO: Emil: unerror it!!
-		List<IParty> parties = ReadXMLFile.readXMLvotingRecords();
+		//List<IParty> parties = ReadXMLFile.readXMLvotingRecords();
+		
+		/*
+		 * TODO: To whoever wrote this code (Emil):
+		 * This code is a complete and utter bullshit!
+		 * 'parties' is not yet initialized here. The purpose of this method
+		 * is to initialize 'parties' (e.g. to read the list from the file votingRecords.xml).
+		 * Call me
+		 * Ophir
+		 */
 		IPartiesList partieslist = partiesListFactory.createInstance();
 		for(IParty party: parties){
 			partieslist.addParty(party);
@@ -115,37 +134,35 @@ public class Mainframe implements IMainframe, Runnable {
 
 	@Override
 	public void restore() {
-		voters = votersListFactory.createInstance();
-		parties = partiesListFactory.createInstance();
-		unregisteredVoters = votersListFactory.createInstance();
-		votingStations = new ArrayList<IVotingStation>();
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
-		backupThread = (new Thread(this));
-		backupThread.start();
-		for(IVoterData voter: backup.restoreVoters()){
-			voters.addVoter(voter);
-		}
-		for(IParty party: backup.restoreParties()){
-			parties.addParty(party);
-		}
+		voters = backup.restoreVoters();
+		parties = backup.restoreParties();
+		unregisteredVoters = votersListFactory.createInstance();
+		initStations();
 	}
 
 	@Override
 	public void countVotes() {
-		// TODO
+		//We want all the votes from all the stations.
+		hotBackup();
+		//We don't want to be interrupted so we'll work on a local copy.
+		IPartiesList parties;
+		synchronized (this) {
+			parties = this.parties.copy();
+		}
+
+		// TODO: Now we  should send 'parties' to the mainframe's window for display.
 	}
 
 	@Override
 	public void shutDown() {
-		// TODO Auto-generated method stub
-		backup.retire();
-		try {
-			backupThread.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		continueRun = false;
+		hotBackup();
+		backupState();
+		for(IVotingStation s: votingStations){
+			s.retire();
 		}
-		
+		//TODO: Retire mainframe window.
 	}
 	
 	
@@ -157,12 +174,19 @@ public class Mainframe implements IMainframe, Runnable {
 	 * by using the joinLists method of IPartyList.
 	 */
 	private void hotBackup(){
+		/*
+		 * TODO: Please implement this carefully. The actual replacement of 'voters'
+		 * and 'parties' should be inside a synchronized block. Do the following:
+		 * First, perform the hot backup to some local lists. This can be done without
+		 * synchronization on the mainframe's side. Second, inside a synchronized block,
+		 * update the mainframe's lists.
+		 */
 		
 	}
 	
 
 	@Override
-	public void identification(int id) throws IdentificationError{
+	public synchronized void identification(int id) throws IdentificationError{
 		if(voters.inList(id)){
 			try {
 				voters.findVoter(id).markIdentified();
@@ -203,49 +227,45 @@ public class Mainframe implements IMainframe, Runnable {
 	}
 	
 	
-	private IVoterData getVoter(int id) throws VoterDoesNotExist{
-		synchronized (voters) {
-			boolean inVoters = voters.inList(id), inUnregisteredVoters = unregisteredVoters.inList(id);
-			if(!inVoters && !inUnregisteredVoters){
-				throw new VoterDoesNotExist();
-			}
-			IVoterData voter = null;
-			if(inVoters){
-				try {
-					voter = voters.findVoter(id);
-				} catch (VoterDoesntExist e) {
-					// won't happen
-					e.printStackTrace();
-				}
-			}
-			else{
-				try {
-					voter = unregisteredVoters.findVoter(id);
-				} catch (VoterDoesntExist e) {
-					// won't happen
-					e.printStackTrace();
-				}
-			}
-			return voter;
+	private synchronized IVoterData getVoter(int id) throws VoterDoesNotExist{
+		boolean inVoters = voters.inList(id), inUnregisteredVoters = unregisteredVoters.inList(id);
+		if(!inVoters && !inUnregisteredVoters){
+			throw new VoterDoesNotExist();
 		}
-	}
-
-
-	@Override
-	public void markVoted(int id) throws VoterDoesNotExist {
-		synchronized (voters) {
-			IVoterData voter = getVoter(id);
+		IVoterData voter = null;
+		if(inVoters){
 			try {
-				voter.markVoted();
-			} catch (Unidentified e) {
-				throw new VoterDoesNotExist();
+				voter = voters.findVoter(id);
+			} catch (VoterDoesntExist e) {
+				// won't happen
+				e.printStackTrace();
 			}
+		}
+		else{
+			try {
+				voter = unregisteredVoters.findVoter(id);
+			} catch (VoterDoesntExist e) {
+				// won't happen
+				e.printStackTrace();
+			}
+		}
+		return voter;
+	}
+
+
+	@Override
+	public synchronized void markVoted(int id) throws VoterDoesNotExist {
+		IVoterData voter = getVoter(id);
+		try {
+			voter.markVoted();
+		} catch (Unidentified e) {
+			throw new VoterDoesNotExist();
 		}
 	}
 
 
 	@Override
-	public VoterStatus getVoterStatus(int id){
+	public synchronized VoterStatus getVoterStatus(int id){
 		IVoterData voter;
 		try {
 			voter = getVoter(id);
@@ -256,11 +276,25 @@ public class Mainframe implements IMainframe, Runnable {
 		if(voter.isIdentified()) return VoterStatus.identified;
 		return VoterStatus.unidentified;
 	}
+	
+	
+	private void backupState(){
+		IVotersList voters;
+		IPartiesList parties;
+		synchronized (this) {
+			voters = this.voters.copy();
+			parties = this.parties.copy();
+		}
+		backup.storeState(parties, voters);
+	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
+		while(continueRun){
+			try {Thread.sleep(MILISECONDS_BETWEEN_BACKUPS);} catch (InterruptedException e) {}
+			hotBackup();
+			backupState();
+		}
 	}
 
 }

@@ -1,6 +1,8 @@
-package choosingList;
+package factories;
 
 import javax.swing.JPanel;
+
+import choosingList.IChoosingList;
 import partiesList.IPartiesList;
 
 public interface IChoosingListFactory {

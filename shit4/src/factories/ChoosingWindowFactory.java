@@ -1,4 +1,7 @@
-package choosingList;
+package factories;
+
+import choosingList.ChoosingList_window;
+import choosingList.IChoosingWindow;
 
 public class ChoosingWindowFactory implements IChoosingWindowFactory {
 
