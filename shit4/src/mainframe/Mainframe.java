@@ -19,6 +19,7 @@ import factories.IChoosingWindowFactory;
 import factories.IMainframeWindowFactory;
 import factories.IPartiesListFactory;
 import factories.IPartyFactory;
+import factories.IReadSuppliedXMLFactory;
 import factories.IVoterDataFactory;
 import factories.IVotersListFactory;
 import factories.IVotingStationFactory;
@@ -40,6 +41,7 @@ import votingStation.IVotingStation;
 
 import backup.Backup;
 import backup.IBackup;
+import backup.IReadSuppliedXML;
 import backup.ReadXMLFile;
 
 
@@ -53,8 +55,8 @@ public class Mainframe implements IMainframe, Runnable {
 	
 	private boolean continueRun;
 	
-	private final int MILISECONDS_BETWEEN_BACKUPS = 180*1000;
-	private final int NUM_OF_STATIONS = 2;
+	private static final int MILISECONDS_BETWEEN_BACKUPS = 180*1000;
+	private static final int NUM_OF_STATIONS = 2;
 	
 	//factories
 	private IBackupFactory backupFactory;
@@ -67,11 +69,13 @@ public class Mainframe implements IMainframe, Runnable {
 	private IVotingStationFactory votingStationFactory;
 	private IVotingStationWindowFactory votingStationWindowFactory;
 	private IMainframeWindowFactory mainframeWindowFactory;
+	private IReadSuppliedXMLFactory readSuppliedXMLFactory;
 	
 	public Mainframe(IBackupFactory backupFactory, IPartiesListFactory partiesListFactory, IPartyFactory partyFactory,
 			IVotersListFactory votersListFactory, IVoterDataFactory voterDataFactory, IChoosingListFactory choosingListFactory,
 			IChoosingWindowFactory choosingWindowFactory, IVotingStationFactory votingStationFactory,
-			IVotingStationWindowFactory votingStationWindowFactory, IMainframeWindowFactory mainframeWindowFactory) {
+			IVotingStationWindowFactory votingStationWindowFactory, IMainframeWindowFactory mainframeWindowFactory,
+			IReadSuppliedXMLFactory readSuppliedXMLFactory) {
 		this.backupFactory = backupFactory;
 		this.partiesListFactory=partiesListFactory;
 		this.partyFactory=partyFactory;
@@ -82,12 +86,14 @@ public class Mainframe implements IMainframe, Runnable {
 		this.votingStationFactory=votingStationFactory;
 		this.votingStationWindowFactory=votingStationWindowFactory;
 		this.mainframeWindowFactory=mainframeWindowFactory;
+		this.readSuppliedXMLFactory=readSuppliedXMLFactory;
 	}
 
 	@Override
 	public void initialize() {
-		voters = loadVotersList();
-		parties = loadPartiesList();
+		IReadSuppliedXML init = readSuppliedXMLFactory.createInstance(voterDataFactory, votersListFactory, partyFactory, partiesListFactory);
+		voters = init.readVotersList();
+		parties = init.readPartiesList();
 		unregisteredVoters = votersListFactory.createInstance();
 		initStations();
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
@@ -103,34 +109,6 @@ public class Mainframe implements IMainframe, Runnable {
 		}
 	}
 	
-	
-	private IVotersList loadVotersList(){
-		ArrayList<Integer> votersIdList = ReadXMLFile.readSuppliedVotersListXML("voters.xml");
-		IVotersList voterList = votersListFactory.createInstance();
-		for(Integer id : votersIdList) {
-			voterList.addVoter(voterDataFactory.createInstance(id));			
-		}
-		return voterList;
-	}
-	
-	private IPartiesList loadPartiesList(){
-		//TODO: Emil: unerror it!!
-		//List<IParty> parties = ReadXMLFile.readXMLvotingRecords();
-		
-		/*
-		 * TODO: To whoever wrote this code (Emil):
-		 * This code is a complete and utter bullshit!
-		 * 'parties' is not yet initialized here. The purpose of this method
-		 * is to initialize 'parties' (e.g. to read the list from the file votingRecords.xml).
-		 * Call me
-		 * Ophir
-		 */
-		IPartiesList partieslist = partiesListFactory.createInstance();
-		for(IParty party: parties){
-			partieslist.addParty(party);
-		}
-		return partieslist;
-	}
 
 	@Override
 	public void restore() {
@@ -163,6 +141,17 @@ public class Mainframe implements IMainframe, Runnable {
 			s.retire();
 		}
 		//TODO: Retire mainframe window.
+	}
+	
+	
+	private void backupState(){
+		IVotersList voters;
+		IPartiesList parties;
+		synchronized (this) {
+			voters = this.voters.copy();
+			parties = this.parties.copy();
+		}
+		backup.storeState(parties, voters);
 	}
 	
 	
@@ -277,16 +266,6 @@ public class Mainframe implements IMainframe, Runnable {
 		return VoterStatus.unidentified;
 	}
 	
-	
-	private void backupState(){
-		IVotersList voters;
-		IPartiesList parties;
-		synchronized (this) {
-			voters = this.voters.copy();
-			parties = this.parties.copy();
-		}
-		backup.storeState(parties, voters);
-	}
 
 	@Override
 	public void run() {
