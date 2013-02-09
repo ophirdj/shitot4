@@ -70,9 +70,9 @@ public class Main_Window extends JFrame {
 		if(new_panel == current_panel) show_window();
 	}
 	
-	public void switch_panels(JPanel old_panel,JPanel new_panel){
-		if(old_panel != current_panel) return;
-		hide_panel(old_panel);
+	private void logical_switch_panels(JPanel old_panel,JPanel new_panel){
+		
+		//TODO: null check: for graphic testing. remove
 		if(old_panel == null){
 			synchronized (counter) {
 				add_button(new View("defualt "+counter),new_panel);
@@ -86,16 +86,24 @@ public class Main_Window extends JFrame {
 			show_window();
 			return;
 		}
+		
 		JButton button_to_change = panel_button_map.get(old_panel);
 		panel_button_map.remove(old_panel);
 		panel_button_map.put(new_panel,button_to_change);
 		button_to_change.removeActionListener(button_to_change.getActionListeners()[0]);
 		button_to_change.addActionListener(new ClickView(new_panel,this));
-		show_panel(new_panel);
+	}
+	
+	public void switch_panels(JPanel old_panel,JPanel new_panel){
+		logical_switch_panels(old_panel,new_panel);
+		
+		//visual switch (if done from current view)
+		if(old_panel == current_panel)
+			show_panel(new_panel);
 	}
 	
 	public void hide_panel(JPanel panel){
-		if(panel != current_panel || panel == null) return;
+		if(panel != current_panel) return;
 		current_panel = defualt_panel;
 		show_window();
 	}

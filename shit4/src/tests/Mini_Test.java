@@ -1,6 +1,8 @@
-package GUI;
+package tests;
 
 import java.util.ArrayList;
+
+import GUI.Global_Window;
 
 import partiesList.IParty;
 import partiesList.PartiesList;
@@ -120,17 +122,12 @@ public class Mini_Test {
 		vote2.initialize(other_parties, new Driver_Mainframe());
 		Global_Window.main_window.show_window();
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(10000);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		vote1.retire();
-		try {
-			Thread.sleep(3000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		vote2.retire();
 	}
 	
