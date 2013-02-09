@@ -8,12 +8,12 @@ import votingStation.VotingStation_window;
 
 import mainframe.IMainframeWindow.MainframeAction;
 
-public class MainFrameClick implements ActionListener{
+public class MainframeClick implements ActionListener{
 	private MainframeWindow button_window;
 	private MainframeAction mainframe_action;
 	private Object lock;
 	
-	public MainFrameClick(MainframeWindow callerWindow, MainframeAction action, Object lock) {
+	public MainframeClick(MainframeWindow callerWindow, MainframeAction action, Object lock) {
 		button_window = callerWindow;
 		mainframe_action = action;
 		this.lock = lock;

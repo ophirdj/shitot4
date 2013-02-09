@@ -69,7 +69,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	
 	private void make_mainframe_button(JPanel mainframe_panel, MainframeAction action, Object lock){
 		JButton button = new JButton(action.toString());
-		button.addActionListener(new MainFrameClick(this,action,lock));
+		button.addActionListener(new MainframeClick(this,action,lock));
 		mainframe_panel.add(button);
 	}
 	
