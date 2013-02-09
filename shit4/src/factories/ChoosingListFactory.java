@@ -15,6 +15,4 @@ public class ChoosingListFactory implements IChoosingListFactory {
 		return new ChoosingList(parties, stationPanel, windowFactory);
 	}
 
-	
-
 }

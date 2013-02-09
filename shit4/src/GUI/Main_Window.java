@@ -71,7 +71,6 @@ public class Main_Window extends JFrame {
 	}
 	
 	private void logical_switch_panels(JPanel old_panel,JPanel new_panel){
-		
 		//TODO: null check: for graphic testing. remove
 		if(old_panel == null){
 			synchronized (counter) {
@@ -87,6 +86,7 @@ public class Main_Window extends JFrame {
 			return;
 		}
 		
+		//real part from here
 		JButton button_to_change = panel_button_map.get(old_panel);
 		panel_button_map.remove(old_panel);
 		panel_button_map.put(new_panel,button_to_change);
@@ -95,6 +95,11 @@ public class Main_Window extends JFrame {
 	}
 	
 	public void switch_panels(JPanel old_panel,JPanel new_panel){
+		/*
+		switching should only be done if the
+		main window contain the old Panel.
+		*/  
+		if(old_panel == null || !panel_button_map.containsKey(old_panel)) return;
 		logical_switch_panels(old_panel,new_panel);
 		
 		//visual switch (if done from current view)

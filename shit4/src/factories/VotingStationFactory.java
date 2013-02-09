@@ -5,7 +5,6 @@ import java.util.List;
 import votingStation.IVotingStation;
 import votingStation.VotingStation;
 
-
 public class VotingStationFactory implements IVotingStationFactory {
 
 	@Override
@@ -13,7 +12,8 @@ public class VotingStationFactory implements IVotingStationFactory {
 			IChoosingListFactory choseFactory,
 			IChoosingWindowFactory choseWindowFactory,
 			IVotingStationWindowFactory stationWindowFactory) {
-		return new VotingStation(passwords, name, choseFactory, choseWindowFactory, stationWindowFactory);
+		return new VotingStation(passwords, name, choseFactory,
+				choseWindowFactory, stationWindowFactory);
 	}
 
 }

@@ -1,8 +1,6 @@
 package votingStation;
 
 import java.util.Date;
-
-import partiesList.IPartiesList;
 import partiesList.IParty;
 import partiesList.Party;
 
