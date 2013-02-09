@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import GUI.Global_Window;
 
+import mainframe.Mainframe;
+import mainframe.MainframeWindow;
+import mainframe.Mainframe_stub;
+
 import partiesList.IParty;
 import partiesList.PartiesList;
 import partiesList.Party;
@@ -131,8 +135,56 @@ public class Mini_Test {
 		vote2.retire();
 	}
 	
+	public static void test3(){
+		IPartiesList parties = new PartiesList();
+		parties.addParty(new Party("Party1","a",0));
+		parties.addParty(new Party("Party2","b",0));
+		parties.addParty(new Party("Party3","c",0));
+		parties.addParty(new Party("Party4","d",0));
+		parties.addParty(new Party("Party5","e",0));
+		parties.addParty(new Party("Party6","f",0));
+		parties.addParty(new Party("Party7","g",25));
+		parties.addParty(new Party("Party8","h",0));
+		parties.addParty(new Party("Party9","i",0));
+		parties.addParty(new Party("Party10","j",13));
+		parties.addParty(new Party("Party11","k",0));
+		parties.addParty(new Party("Party12","l",0));
+		parties.addParty(new Party("Party13","m",0));
+		
+		IPartiesList other_parties = new PartiesList();
+		other_parties.addParty(new Party("Party14","a1",0));
+		other_parties.addParty(new Party("Party15","b1",0));
+		other_parties.addParty(new Party("Party16","c1",0));
+		other_parties.addParty(new Party("Party17","d1",0));
+		other_parties.addParty(new Party("Party18","e1",0));
+		other_parties.addParty(new Party("Party19","f1",0));
+		other_parties.addParty(new Party("Party20","g1",0));
+		other_parties.addParty(new Party("Party21","h1",0));
+		other_parties.addParty(new Party("Party22","i1",0));
+		other_parties.addParty(new Party("Party23","j1",0));
+		other_parties.addParty(new Party("Party24","k1",0));
+		other_parties.addParty(new Party("Party25","l1",0));
+		other_parties.addParty(new Party("Party26","m1",0));
+		
+		
+		MainframeWindow testedWindow = new MainframeWindow(new Mainframe_stub());
+		testedWindow.init();
+		Global_Window.main_window.show_window();
+		testedWindow.showHistogram(parties);
+		testedWindow.showTable(parties);
+		
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		testedWindow.showHistogram(other_parties);
+		testedWindow.showTable(other_parties);
+	}
+	
 	public static void main(String[] args) {
-		test2();
+		test3();
 	}
 
 }
