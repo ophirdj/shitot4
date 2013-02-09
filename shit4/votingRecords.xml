@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<votingRecords xsi:noNamespaceSchemaLocation="votingRecords.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <votingRecord>
+     <recordName> העבודה</recordName>
+     <ballotLetters> אמת </ballotLetters>
+  </votingRecord>
+  <votingRecord>
+     <recordName> הליכוד - ישראל ביתנו</recordName>
+     <ballotLetters> מחל </ballotLetters>
+  </votingRecord>
+  <votingRecord>
+     <recordName> יש עתיד</recordName>
+     <ballotLetters> פה </ballotLetters>
+  </votingRecord>
+  <votingRecord>
+     <recordName> יהדות התורהד</recordName>
+     <ballotLetters> ג </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> דור בוני הארץ </recordName>
+     <ballotLetters> זך </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> חזית  דמוקרטית  לשלום </recordName>
+     <ballotLetters> חד"ש </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> הבית היהודי </recordName>
+     <ballotLetters> טב </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> קדימה </recordName>
+     <ballotLetters> כן </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> עם שלם</recordName>
+     <ballotLetters> ץ </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> התנועה</recordName>
+     <ballotLetters> צפ </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> בל"ד </recordName>
+     <ballotLetters> ד </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> מרצ </recordName>
+     <ballotLetters> מרצ </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> צדק חברתי </recordName>
+     <ballotLetters> צק </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> צדק חברתי </recordName>
+     <ballotLetters> צק </ballotLetters>
+  </votingRecord>
+ <votingRecord>
+     <recordName> ש"ס </recordName>
+     <ballotLetters> שס </ballotLetters>
+  </votingRecord>
+
+</votingRecords>
