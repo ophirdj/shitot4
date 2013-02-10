@@ -47,7 +47,7 @@ public class StationsController implements IStationsController {
 	@Override
 	public void initialize(IPartiesList parties) {
 		for(IVotingStation s: stations){
-			s.initialize(parties, this);
+			s.initialize(parties.copy(), this);
 		}
 	}
 

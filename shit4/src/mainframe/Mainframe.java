@@ -6,7 +6,6 @@ package mainframe;
  * editors:
  */
 
-
 import communication.IStationsController;
 import factories.IBackupFactory;
 import factories.IChoosingListFactory;
@@ -132,48 +131,47 @@ public class Mainframe implements IMainframe, Runnable {
 		// TODO: Retire mainframe window.
 	}
 
-	//Save voters and parties lists to backup file. Lists must match.
+	// Save voters and parties lists to backup file. Lists must match.
 	private void backupState() {
 		IVotersList voters;
 		IPartiesList parties;
-		do{
+		do {
 			hotBackup();
 			synchronized (this) {
 				voters = this.voters.copy();
 				parties = this.parties.copy();
 			}
-		}while(!matchingLists(voters, parties));
+		} while (!matchingLists(voters, parties));
 		backup.storeState(parties, voters);
 	}
-	
-	
-	//Synchronize mainframe's parties list with the ones in the voting stations. 
-	private void hotBackup(){
+
+	// Synchronize mainframe's parties list with the ones in the voting
+	// stations.
+	private void hotBackup() {
 		IPartiesList stationsParties = votingStations.hotBackup();
-		if(stationsParties.size() == 0){
-			//error?
+		if (stationsParties.size() == 0) {
+			// error?
 			return;
 		}
 		synchronized (this) {
 			parties = stationsParties;
 		}
 	}
-	
-	
-	//Check that sum of votes in voters list matches sum of votes in parties list
-	private boolean matchingLists(IVotersList voters, IPartiesList parties){
+
+	// Check that sum of votes in voters list matches sum of votes in parties
+	// list
+	private boolean matchingLists(IVotersList voters, IPartiesList parties) {
 		int sumVotesVoters = 0, sumVotesParties = 0;
-		for(IVoterData v: voters){
-			if(v.hasVoted()){
+		for (IVoterData v : voters) {
+			if (v.hasVoted()) {
 				sumVotesVoters++;
 			}
 		}
-		for(IParty p: parties){
+		for (IParty p : parties) {
 			sumVotesParties += p.getVoteNumber();
 		}
 		return sumVotesVoters == sumVotesParties;
 	}
-
 
 	@Override
 	public synchronized void identification(int id) throws IdentificationError {
@@ -192,6 +190,7 @@ public class Mainframe implements IMainframe, Runnable {
 				voter.markIdentified();
 			} catch (AlreadyIdentified e) {
 				// won't happen
+				e.printStackTrace();
 				return;
 			}
 			unregisteredVoters.addVoter(voter);
@@ -216,8 +215,8 @@ public class Mainframe implements IMainframe, Runnable {
 	}
 
 	private synchronized IVoterData getVoter(int id) throws VoterDoesNotExist {
-		boolean inVoters = voters.inList(id), inUnregisteredVoters = unregisteredVoters
-				.inList(id);
+		boolean inVoters = voters.inList(id);
+		boolean inUnregisteredVoters = unregisteredVoters.inList(id);
 		if (!inVoters && !inUnregisteredVoters) {
 			throw new VoterDoesNotExist();
 		}
@@ -264,7 +263,6 @@ public class Mainframe implements IMainframe, Runnable {
 			return VoterStatus.identified;
 		return VoterStatus.unidentified;
 	}
-	
 
 	@Override
 	public void run() {
