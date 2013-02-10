@@ -1,4 +1,6 @@
 package votingStation;
+import communication.IStationsController;
+
 import choosingList.IChoosingList.ChoosingInterruptedException;
 import partiesList.IPartiesList;
 import mainframe.IMainframe;
@@ -13,9 +15,9 @@ public interface IVotingStation{
 	/**
 	 * Initialize the voting station - the first method to be called.
 	 * @param parties - The parties list
-	 * @param mainframe - The mainframe
+	 * @param controller - The stations controller (for communication with the mainframe)
 	 */
-	void initialize(IPartiesList parties,IMainframe mainframe);
+	void initialize(IPartiesList parties,IStationsController controller);
 	
 	/**
 	 * stop the station from running.

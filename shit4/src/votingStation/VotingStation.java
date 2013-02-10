@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
+import communication.IStationsController;
+
 import choosingList.IChoosingList;
 import choosingList.IChoosingList.ChoosingInterruptedException;
 
@@ -18,7 +20,8 @@ import mainframe.IMainframe;
 import mainframe.IMainframe.VoterDoesNotExist;
 
 public class VotingStation implements IVotingStation {
-	private IMainframe mainframe;
+	//private IMainframe mainframe;
+	private IStationsController controller;
 	private IPartiesList parties;
 	private List<VotingRecord> localVotersList; 
 	private List<String> passwords;
@@ -36,8 +39,8 @@ public class VotingStation implements IVotingStation {
 		choosingListFactory = choseFactory;
 	};
 
-	public void initialize(IPartiesList parties,IMainframe mainframe){
-		this.mainframe = mainframe;
+	public void initialize(IPartiesList parties,IStationsController controller){
+		this.controller = controller;
 		this.parties = parties;
 		localVotersList = new ArrayList<VotingRecord>();
 		choosingList = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow, choosingWindowFactory);
@@ -49,7 +52,7 @@ public class VotingStation implements IVotingStation {
 	}
 	
 	private VotingRecord getVotingRecord(int id){
-		IMainframe.VoterStatus status = mainframe.getVoterStatus(id);
+		IMainframe.VoterStatus status = controller.getVoterStatus(id);
 		switch (status) {
 		case unidentified:
 			votingStationWindow.printError("You need to identify yourself in the mainframe");
@@ -83,7 +86,7 @@ public class VotingStation implements IVotingStation {
 		if(voter == null) return;
 		IParty lastParty = choosingList.chooseList();
 		try {
-			mainframe.markVoted(id);
+			controller.markVoted(id);
 			if(!localVotersList.contains(voter)) localVotersList.add(voter);
 		} catch (VoterDoesNotExist e) {
 			// shouldn't happen

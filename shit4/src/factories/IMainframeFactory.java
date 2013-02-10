@@ -13,5 +13,6 @@ public interface IMainframeFactory {
 			IVotingStationFactory votingStationFactory,
 			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
-			IReadSuppliedXMLFactory readSuppliedXMLFactory);
+			IReadSuppliedXMLFactory readSuppliedXMLFactory,
+			IStationsControllerFactory stationsControllerFactory);
 }

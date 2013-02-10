@@ -15,11 +15,12 @@ public class MainframeFactory implements IMainframeFactory {
 			IVotingStationFactory votingStationFactory,
 			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
-			IReadSuppliedXMLFactory readSuppliedXMLFactory) {
+			IReadSuppliedXMLFactory readSuppliedXMLFactory,
+			IStationsControllerFactory stationsControllerFactory) {
 		return new Mainframe(backupFactory, partiesListFactory, partyFactory,
 				votersListFactory, voterDataFactory, choosingListFactory,
 				choosingWindowFactory, votingStationFactory,
 				votingStationWindowFactory, mainframeWindowFactory,
-				readSuppliedXMLFactory);
+				readSuppliedXMLFactory, stationsControllerFactory);
 	}
 }

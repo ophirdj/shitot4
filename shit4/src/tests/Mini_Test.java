@@ -1,18 +1,13 @@
 package tests;
 
 import java.util.ArrayList;
-
 import GUI.Global_Window;
-
-import mainframe.Mainframe;
 import mainframe.MainframeWindow;
 import mainframe.Mainframe_stub;
-
-import partiesList.IParty;
 import partiesList.PartiesList;
 import partiesList.Party;
 import partiesList.IPartiesList;
-import votingStation.Driver_Mainframe;
+import votingStation.Driver_StationsContoller;
 import votingStation.IVotingStation;
 import votingStation.VotingStation;
 import choosingList.ChoosingList;
@@ -121,9 +116,9 @@ public class Mini_Test {
 		other_parties.addParty(new Party("Party26","m1",0));
 		VotingStationFactory fac = new VotingStationFactory();
 		IVotingStation vote1 = fac.createInstance(new ArrayList<String>(),"voting station 1",new ChoosingListFactory(), new ChoosingWindowFactory(), new VotingStationWindowFactory());
-		vote1.initialize(parties, new Driver_Mainframe());
+		vote1.initialize(parties, new Driver_StationsContoller());
 		IVotingStation vote2 = new VotingStation(new ArrayList<String>(),"voting station 2",new ChoosingListFactory(), new ChoosingWindowFactory(), new VotingStationWindowFactory());
-		vote2.initialize(other_parties, new Driver_Mainframe());
+		vote2.initialize(other_parties, new Driver_StationsContoller());
 		Global_Window.main_window.show_window();
 		try {
 			Thread.sleep(10000);
@@ -184,7 +179,7 @@ public class Mini_Test {
 	}
 	
 	public static void main(String[] args) {
-		test3();
+		test2();
 	}
 
 }
