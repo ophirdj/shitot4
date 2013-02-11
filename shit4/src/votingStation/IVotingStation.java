@@ -3,7 +3,6 @@ import communication.IStationsController;
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
 import partiesList.IPartiesList;
-import mainframe.IMainframe;
 
 public interface IVotingStation{
 	

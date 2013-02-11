@@ -1,9 +1,7 @@
 package GUI;
 
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagLayout;
 
 import javax.swing.JOptionPane;

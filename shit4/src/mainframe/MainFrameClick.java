@@ -3,9 +3,6 @@ package mainframe;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import votingStation.VotingStationAction;
-import votingStation.VotingStation_window;
-
 import mainframe.IMainframeWindow.MainframeAction;
 
 public class MainframeClick implements ActionListener{

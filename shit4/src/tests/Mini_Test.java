@@ -2,11 +2,14 @@ package tests;
 
 import java.util.ArrayList;
 import GUI.Global_Window;
+import GUI.ImagePanel;
+import GUI.View;
 import mainframe.MainframeWindow;
 import mainframe.Mainframe_stub;
 import partiesList.PartiesList;
 import partiesList.Party;
 import partiesList.IPartiesList;
+import practiceStation.PracticeStationImages;
 import votingStation.Driver_StationsContoller;
 import votingStation.IVotingStation;
 import votingStation.VotingStation;
@@ -176,6 +179,14 @@ public class Mini_Test {
 		}
 		testedWindow.showHistogram(other_parties);
 		testedWindow.showTable(other_parties);
+	}
+	
+	public static void test4(){
+		ImagePanel image = new ImagePanel(new PracticeStationImages());
+		image.showNextImage();
+		Global_Window.main_window.add_button(new View("sasha"), image);
+		Global_Window.main_window.show_window();
+		System.out.println(image.hasPrev());
 	}
 	
 	public static void main(String[] args) {

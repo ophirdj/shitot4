@@ -6,16 +6,13 @@ import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import mainframe.IMainframe.IdentificationError;
-import GUI.BasicPanel;
 import GUI.StationPanel;
 import GUI.View;
 import GUI.WaitForClick;
 import partiesList.IPartiesList;
-import partiesList.IParty;
 
 public class MainframeWindow extends StationPanel implements IMainframeWindow {
 

@@ -1,13 +1,10 @@
 package mainframe;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.table.JTableHeader;
 
 import partiesList.IPartiesList;
 import partiesList.IParty;

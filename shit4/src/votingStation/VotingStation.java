@@ -20,7 +20,6 @@ import mainframe.IMainframe;
 import mainframe.IMainframe.VoterDoesNotExist;
 
 public class VotingStation implements IVotingStation {
-	//private IMainframe mainframe;
 	private IStationsController controller;
 	private IPartiesList parties;
 	private List<VotingRecord> localVotersList; 
