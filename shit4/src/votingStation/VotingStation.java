@@ -101,10 +101,10 @@ public class VotingStation implements IVotingStation {
 
 	public void testVoting() throws ChoosingInterruptedException{
 		String password = votingStationWindow.getPassword();
-//		if (!passwords.contains(password)){
-//			votingStationWindow.printError("Error: wrong password");
-//			return;
-//		}
+		if (!passwords.contains(password)){
+			votingStationWindow.printError("Error: wrong password");
+			return;
+		}
 		
 		int id;
 		try{
