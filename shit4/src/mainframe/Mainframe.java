@@ -38,6 +38,7 @@ public class Mainframe implements IMainframe, Runnable {
 	private IBackup backup;
 	private String votersListBackupFilePath;
 	private String partiesListBackupFilePath;
+	private IMainframeWindow window;
 
 	private boolean continueRun;
 
@@ -87,24 +88,13 @@ public class Mainframe implements IMainframe, Runnable {
 
 	@Override
 	public void initialize() {
-		IReadSuppliedXML init = readSuppliedXMLFactory.createInstance(
+		IReadSuppliedXML initRead = readSuppliedXMLFactory.createInstance(
 				voterDataFactory, votersListFactory, partyFactory,
 				partiesListFactory);
-		voters = init.readVotersList();
-		parties = init.readPartiesList();
-		unregisteredVoters = votersListFactory.createInstance();
-		initStations();
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
 				votersListFactory, voterDataFactory, votersListBackupFilePath,
 				partiesListBackupFilePath);
-		continueRun = true;
-	}
-
-	private void initStations() {
-		votingStations = stationsControllerFactory.createInstance(this,
-				votingStationFactory, choosingListFactory,
-				choosingWindowFactory, votingStationWindowFactory);
-		votingStations.initialize(parties);
+		init(initRead.readVotersList(), initRead.readPartiesList());
 	}
 
 	@Override
@@ -112,10 +102,21 @@ public class Mainframe implements IMainframe, Runnable {
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
 				votersListFactory, voterDataFactory, votersListBackupFilePath,
 				partiesListBackupFilePath);
-		voters = backup.restoreVoters();
-		parties = backup.restoreParties();
+		init(backup.restoreVoters(), backup.restoreParties());
+	}
+	
+	
+	private void init(IVotersList voters, IPartiesList parties){
+		this.voters = voters;
+		this.parties = parties;
 		unregisteredVoters = votersListFactory.createInstance();
-		initStations();
+		votingStations = stationsControllerFactory.createInstance(this,
+				votingStationFactory, choosingListFactory,
+				choosingWindowFactory, votingStationWindowFactory);
+		votingStations.initialize(parties);
+		window = mainframeWindowFactory.createInstance(this);
+		window.init();
+		continueRun = true;
 	}
 
 	@Override
@@ -124,8 +125,9 @@ public class Mainframe implements IMainframe, Runnable {
 		hotBackup();
 		// We don't want to be interrupted so we'll work on a local copy.
 		IPartiesList parties = this.parties.copy();
-		// TODO: Now we should send 'parties' to the mainframe's window for
-		// display.
+		// Now we should send 'parties' to the mainframe's window for display.
+		window.showHistogram(parties);
+		window.showTable(parties);
 	}
 
 	@Override
