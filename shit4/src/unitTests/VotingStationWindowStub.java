@@ -1,10 +1,11 @@
 package unitTests;
 
-import GUI.StationPanel;
+import javax.swing.JPanel;
+
 import choosingList.IChoosingList.ChoosingInterruptedException;
 import votingStation.IVotingStationWindow;
 
-public class VotingStationWindowStub extends StationPanel implements IVotingStationWindow{
+public class VotingStationWindowStub extends JPanel implements IVotingStationWindow{
 
 	/**
 	 * 
@@ -12,8 +13,6 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 	private static final long serialVersionUID = 1L;
 
 	public VotingStationWindowStub(String name) {
-		super(name);
-		this.setVisible(false);
 		// TODO Auto-generated constructor stub
 	}
 
