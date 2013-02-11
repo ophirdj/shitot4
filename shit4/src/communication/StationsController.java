@@ -47,7 +47,7 @@ public class StationsController implements IStationsController {
 	@Override
 	public void initialize(IPartiesList parties) {
 		for(IVotingStation s: stations){
-			s.initialize(parties.copy(), this);
+			s.initialize(parties, this);
 		}
 	}
 
@@ -75,9 +75,18 @@ public class StationsController implements IStationsController {
 
 	@Override
 	public IPartiesList hotBackup() {
-		// TODO Auto-generated method stub
-		// Daniel, that's your part
-		return null;
+		IPartiesList all = null;
+		boolean first=true;
+		for(IVotingStation s: stations){
+			if(first){ 
+				all = s.getPartiesList().copy();
+				first = false;
+			}
+			else{
+				all = all.joinLists(s.getPartiesList());
+			}
+		}
+		return all;
 	}
 
 }
