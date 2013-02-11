@@ -1,5 +1,5 @@
 package XML;
- 
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,20 +15,35 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
- 
-import org.w3c.dom.Attr;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
- 
+
+import votersList.IVoterData;
+
+/**
+ * this class is implementing saving of the unregistered voters in a separate file
+ * @author Emil
+ *
+ */
 public class WriteXMLFileUnregisteredVoters {
- 
+	
+	private String unregisteredVotersFile;
+	
+	
+	public WriteXMLFileUnregisteredVoters(String unregisteredVotersFile){
+		this.unregisteredVotersFile = unregisteredVotersFile;
+	}
+	
+	 
 	/**
 	 * creates an empty file for the unregistered voters
 	 * @param fileName: the wanted file name
 	 */
-	public static void createEmptyUnregisteredVotersXMLFile(String fileName) {
+	public void createEmptyUnregisteredVotersXMLFile() {
  
+		String fileName = unregisteredVotersFile;
 	  try {
  
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -38,22 +53,6 @@ public class WriteXMLFileUnregisteredVoters {
 		Document doc = docBuilder.newDocument();
 		Element rootElement = doc.createElement("voters");
 		doc.appendChild(rootElement);
- 
-		
-		/*// voter elements
-		Element staff = doc.createElement("voter");
-		rootElement.appendChild(staff);
- 
-		// name elements
-		Element name = doc.createElement("name");
-		name.appendChild(doc.createTextNode(""));
-		staff.appendChild(name);
- 
-		// id elements
-		Element id = doc.createElement("id");
-		id.appendChild(doc.createTextNode(""));
-		staff.appendChild(id);*/
-
  
 		// write the content into xml file
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -80,8 +79,14 @@ public class WriteXMLFileUnregisteredVoters {
 	 * adds the voter id to the file of the unregistered voters
 	 * @param id - the id of the unregistered voter
 	 */
-	public static void addVoterToXMLFile(Integer id, String fileName){
+	public void addVoterToXMLFile(IVoterData givenVoter){
+		
+		String fileName = unregisteredVotersFile;
+		
 		try {
+			
+			Integer id = givenVoter.getId();
+			
 			File file = new File(fileName);
 		 
 			//Create instance of DocumentBuilderFactory
@@ -110,30 +115,20 @@ public class WriteXMLFileUnregisteredVoters {
 			Element idElement = doc.createElement("id");
 			idElement.appendChild(doc.createTextNode(id.toString()));
 			voter.appendChild(idElement);
-			
-			
-			
-			
-			
-			/*//create child element
-			Element childElement = doc.createElement("number");
-		 
-		        //Add the attribute to the child
-			childElement.setAttribute("id","3");
-			root.appendChild(childElement);*/
+
 		 
 			//set up a transformer
 			TransformerFactory transfac = TransformerFactory.newInstance();
 			Transformer trans = transfac.newTransformer();
 		 
-		        //create string from xml tree
-		        StringWriter sw = new StringWriter();
-		        StreamResult result = new StreamResult(sw);
-		        DOMSource source = new DOMSource(doc);
-		        trans.transform(source, result);
-		        String xmlString = sw.toString();
-		 
-		        OutputStream f0;
+	        //create string from xml tree
+	        StringWriter sw = new StringWriter();
+	        StreamResult result = new StreamResult(sw);
+	        DOMSource source = new DOMSource(doc);
+	        trans.transform(source, result);
+	        String xmlString = sw.toString();
+	 
+	        OutputStream f0;
 			byte buf[] = xmlString.getBytes();
 			f0 = new FileOutputStream(fileName);
 			for(int i=0;i<buf .length;i++) {
@@ -141,21 +136,21 @@ public class WriteXMLFileUnregisteredVoters {
 			}
 			f0.close();
 			buf = null;
-		     }
-		     catch(SAXException e) {
-			e.printStackTrace();
-		     }
-		     catch(IOException e) {
-		        e.printStackTrace();
-		     }
-		     catch(ParserConfigurationException e) {
-		       e.printStackTrace();
-		     }
-		     catch(TransformerConfigurationException e) {
-		       e.printStackTrace();
-		     }
-		     catch(TransformerException e) {
-		       e.printStackTrace();
-		     }
+	     }
+	     catch(SAXException e) {
+	    	 e.printStackTrace();
+	     }
+	     catch(IOException e) {
+	    	 e.printStackTrace();
+	     }
+	     catch(ParserConfigurationException e) {
+	    	 e.printStackTrace();
+	     }
+	     catch(TransformerConfigurationException e) {
+	    	 e.printStackTrace();
+	     }
+	     catch(TransformerException e) {
+	    	 e.printStackTrace();
+	     }
 	}
 }

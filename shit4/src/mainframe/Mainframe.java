@@ -36,6 +36,8 @@ public class Mainframe implements IMainframe, Runnable {
 	private IVotersList unregisteredVoters;
 	private IStationsController votingStations;
 	private IBackup backup;
+	private String votersListBackupFilePath;
+	private String partiesListBackupFilePath;
 
 	private boolean continueRun;
 
@@ -65,7 +67,8 @@ public class Mainframe implements IMainframe, Runnable {
 			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
-			IStationsControllerFactory stationsControllerFactory) {
+			IStationsControllerFactory stationsControllerFactory,
+			String votersListBackupFilePath, String partiesListBackupFilePath) {
 		this.backupFactory = backupFactory;
 		this.partiesListFactory = partiesListFactory;
 		this.partyFactory = partyFactory;
@@ -78,6 +81,8 @@ public class Mainframe implements IMainframe, Runnable {
 		this.mainframeWindowFactory = mainframeWindowFactory;
 		this.readSuppliedXMLFactory = readSuppliedXMLFactory;
 		this.stationsControllerFactory = stationsControllerFactory;
+		this.votersListBackupFilePath = votersListBackupFilePath;
+		this.partiesListBackupFilePath = partiesListBackupFilePath;
 	}
 
 	@Override
@@ -90,7 +95,8 @@ public class Mainframe implements IMainframe, Runnable {
 		unregisteredVoters = votersListFactory.createInstance();
 		initStations();
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
-				votersListFactory, voterDataFactory);
+				votersListFactory, voterDataFactory, votersListBackupFilePath,
+				partiesListBackupFilePath);
 		continueRun = true;
 	}
 
@@ -104,7 +110,8 @@ public class Mainframe implements IMainframe, Runnable {
 	@Override
 	public void restore() {
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
-				votersListFactory, voterDataFactory);
+				votersListFactory, voterDataFactory, votersListBackupFilePath,
+				partiesListBackupFilePath);
 		voters = backup.restoreVoters();
 		parties = backup.restoreParties();
 		unregisteredVoters = votersListFactory.createInstance();

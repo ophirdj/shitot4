@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><voters><voter><id>123</id><identified>true</identified><voted>false</voted></voter><voter><id>456</id><identified>true</identified><voted>true</voted></voter><voter><id>789</id><identified>false</identified><voted>false</voted></voter></voters>

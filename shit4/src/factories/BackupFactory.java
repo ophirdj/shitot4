@@ -8,9 +8,11 @@ public class BackupFactory implements IBackupFactory {
 	@Override
 	public IBackup createInstance(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory voterListFactory,
-			IVoterDataFactory voterDataFactory) {
+			IVoterDataFactory voterDataFactory,
+			String backupedVotersListFile, String backupedPartiesListFile) {
 		return new Backup(partiesListFactory, partyFactory, voterListFactory,
-				voterDataFactory);
+				voterDataFactory,
+				backupedVotersListFile, backupedPartiesListFile);
 	}
 
 }
