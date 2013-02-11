@@ -102,5 +102,15 @@ public class PartiesList implements IPartiesList {
 		return parties.size();
 	}
 
+	@Override
+	public IPartiesList zeroCopy() {
+		PartiesList pList = new PartiesList();
+		for(IParty p: this){
+			Party pClone = new Party(p.getName(), p.getSymbol(), 0);
+			pList.addParty(pClone);
+		}
+		return pList;
+	}
+
 
 }	

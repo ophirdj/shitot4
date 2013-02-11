@@ -77,9 +77,16 @@ public interface IPartiesList extends Iterable<IParty>{
 	
 	/**
 	 * 
-	 * @return the number of parties (excluding the white party)
+	 * @return the number of parties (excluding the white party).
 	 */
 	int size();
+	
+	
+	/**
+	 * 
+	 * @return a copy of the parties list in witch the vote count for every party is 0. 
+	 */
+	IPartiesList zeroCopy();
 
 
 
