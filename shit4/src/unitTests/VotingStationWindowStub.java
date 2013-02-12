@@ -1,19 +1,20 @@
 package unitTests;
 
-import javax.swing.JPanel;
-
-import choosingList.IChoosingList.ChoosingInterruptedException;
+import GUI.StationPanel;
 import votingStation.IVotingStationWindow;
 
-public class VotingStationWindowStub extends JPanel implements IVotingStationWindow{
+public class VotingStationWindowStub extends StationPanel implements IVotingStationWindow{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private static int i;
+	private static String message;
 
 	public VotingStationWindowStub(String name) {
-		// TODO Auto-generated constructor stub
+		super(name);
+		closeWindow();
 	}
 
 	@Override
@@ -23,15 +24,20 @@ public class VotingStationWindowStub extends JPanel implements IVotingStationWin
 	}
 
 	@Override
-	public void printError(String errorMessage) {
-		// TODO Auto-generated method stub
-		
+	public void printError(String errorMessage){
+		if (errorMessage.equals("You can't change your vote anymore"))
+				throw new UnchangeableVoteError();
+		if (errorMessage.equals("You need to identify yourself in the mainframe"))
+				throw new UnidentifiedError();
+		if (errorMessage.equals("Error: wrong password"))
+				throw new WrongPasswordError();
+		if (errorMessage.equals("You can't vote here"))
+				throw new WrongStationError();
 	}
 
 	@Override
 	public void printMessage(String message) {
-		// TODO Auto-generated method stub
-		
+		setMessage(message);
 	}
 
 	@Override
@@ -52,15 +58,13 @@ public class VotingStationWindowStub extends JPanel implements IVotingStationWin
 	}
 
 	@Override
-	public int getID() throws ChoosingInterruptedException {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getID(){
+		return 1;
 	}
 
 	@Override
-	public String getPassword() throws ChoosingInterruptedException {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPassword(){
+		return "password"+i;
 	}
 
 	@Override
@@ -68,5 +72,16 @@ public class VotingStationWindowStub extends JPanel implements IVotingStationWin
 		// TODO Auto-generated method stub
 		
 	}
-
+	public static int get_i(){
+		return i;
+	}
+	public static void set_i(int i){
+		VotingStationWindowStub.i=i;
+	}
+	private void setMessage(String message){
+		VotingStationWindowStub.message = message;
+	}
+	public static String getMessage(){
+		return message;
+	}
 }

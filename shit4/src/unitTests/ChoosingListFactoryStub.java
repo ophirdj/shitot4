@@ -12,7 +12,7 @@ public class ChoosingListFactoryStub implements IChoosingListFactory {
 	@Override
 	public IChoosingList createInstance(IPartiesList parties,
 			JPanel stationPanel, IChoosingWindowFactory windowFactory) {
-		return null;
+		return new ChoosingListStub();
 	}
 
 }
