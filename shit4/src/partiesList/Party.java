@@ -51,7 +51,7 @@ public class Party implements IParty{
 	
 	@Override
 	public synchronized String toString() {
-		return "name = " + name + "; symbol = " + symbol + "; voteNumber = " + voteNumber;
+		return "name = " + name + "; symbol = " + symbol + "; voteNumber = " + voteNumber + "\n";
 	}
 	
 	@Override

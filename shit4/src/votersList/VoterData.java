@@ -39,6 +39,7 @@ public class VoterData implements IVoterData{
 		else{
 			ret += "voter hasn't voted yet";
 		}
+		ret += "\n";
 		return ret;
 	}
 	
