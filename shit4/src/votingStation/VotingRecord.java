@@ -41,7 +41,7 @@ class VotingRecord {
 		if(firstVote == null) return true;
 		Date now = new Date();
 		long timeInSeconds = miliseconds2seconds(now.getTime() - firstVote.getTime());
-		return (timeInSeconds < 20) && numVotes < maxVotes;
+		return (timeInSeconds < 120) && numVotes < maxVotes;
 	}
 	
 	public void vote(IParty party){

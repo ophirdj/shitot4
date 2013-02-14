@@ -19,7 +19,6 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 
 	@Override
 	public Boolean getConfirmation(String confirmationMessage) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -42,19 +41,14 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 
 	@Override
 	public void closeWindow() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void run() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void startLoop() {
-		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -68,9 +62,7 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 	}
 
 	@Override
-	public void endLoop() {
-		// TODO Auto-generated method stub
-		
+	public void endLoop() {		
 	}
 	public static int get_i(){
 		return i;

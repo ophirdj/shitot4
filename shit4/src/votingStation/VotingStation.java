@@ -116,7 +116,7 @@ public class VotingStation implements IVotingStation {
 		VotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
 		IParty lastParty = choosingList.chooseList();
-		votingStationWindow.printMessage("You successfully test vote for the party " + lastParty.getName());
+		votingStationWindow.printMessage("You successfully test voted for the party " + lastParty.getName());
 	}
 
 	@Override

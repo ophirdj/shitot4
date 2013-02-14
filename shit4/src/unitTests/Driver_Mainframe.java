@@ -1,10 +1,10 @@
-package votingStation;
+package unitTests;
 
 import mainframe.IMainframe;
 
 public class Driver_Mainframe implements IMainframe{
 
-	private int place = 0;
+	private static int place;
 	
 	@Override
 	public void initialize() {
@@ -43,12 +43,11 @@ public class Driver_Mainframe implements IMainframe{
 	
 	@Override
 	public VoterStatus getVoterStatus(int id) {
-		final IMainframe.VoterStatus statuses[] = {IMainframe.VoterStatus.identified,IMainframe.VoterStatus.identified,
-				IMainframe.VoterStatus.unidentified,IMainframe.VoterStatus.voted};
-		if(place >= statuses.length){
-			place = 0;
-		}
-		return statuses[place++];
+		final IMainframe.VoterStatus statuses[] = {IMainframe.VoterStatus.identified,IMainframe.VoterStatus.unidentified,IMainframe.VoterStatus.voted};
+		return statuses[place];
 	}
 	
+	public static void setPlace(int place){
+		Driver_Mainframe.place = place;
+	}
 }

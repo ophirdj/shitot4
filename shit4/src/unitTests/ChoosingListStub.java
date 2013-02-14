@@ -6,15 +6,26 @@ import choosingList.IChoosingList;
 
 public class ChoosingListStub implements IChoosingList{
 
+	private static int partyNumber;
 	@Override
 	public IParty chooseList() throws ChoosingInterruptedException {
-		return new Party("likoud","l");
+		switch (partyNumber){
+		case 0:
+			return new Party("likoud","l");
+		case 1:
+			return new Party("kadima","k");
+		case 2:
+			return new Party("avoda","a");
+		}
+		return null;
 	}
 
 	@Override
 	public void retire() {
-		// TODO Auto-generated method stub
-		
+	}
+
+	public static void setPartyNumber(int partyNumber){
+		ChoosingListStub.partyNumber = partyNumber;
 	}
 
 }
