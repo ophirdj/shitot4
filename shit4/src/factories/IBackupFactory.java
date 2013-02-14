@@ -21,6 +21,6 @@ public interface IBackupFactory {
 	 */
 	IBackup createInstance(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory votersListFactory,
-			IVoterDataFactory voterDataFactory,
-			String backupedVotersListFile, String backupedPartiesListFile);
+			IVoterDataFactory voterDataFactory/*,
+			String backupedVotersListFile, String backupedPartiesListFile, String unregisteredVotersFile*/);
 }

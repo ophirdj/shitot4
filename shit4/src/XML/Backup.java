@@ -58,15 +58,18 @@ public class Backup implements IBackup {
 	 * these strings will hold the path to all the XML files
 	 */
 	/*private String suppliedVotersListFile;
-	private String suppliedPartiesListFile;
-	private String unregisteredVotersFile;*/
+	private String suppliedPartiesListFile;*/
+	private String unregisteredVotersFile;
 	private String backupedVotersListFile;
 	private String backupedPartiesListFile;
+	
+	private WriteXMLFileUnregisteredVoters unregisteredVotersService;
 	
 	public Backup(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory votersListFactory,
 			IVoterDataFactory voterDataFactory,
-			String backupedVotersListFile, String backupedPartiesListFile){
+			String backupedVotersListFile, String backupedPartiesListFile, 
+			String unregisteredVotersFile){
 		this.partiesListFactory = partiesListFactory;
 		this.partyFactory = partyFactory;
 		this.voterDataFactory = voterDataFactory;
@@ -78,12 +81,15 @@ public class Backup implements IBackup {
 		
 		this.backupedPartiesListFile = backupedPartiesListFile;
 		this.backupedVotersListFile = backupedVotersListFile;
+		this.unregisteredVotersFile = unregisteredVotersFile;
+		
+		this.unregisteredVotersService = new WriteXMLFileUnregisteredVoters(unregisteredVotersFile);
 	}
 	
 	@Override
 	public IVotersList restoreVoters() {
 		/*
-		 * "votersBackup.xml" - this is the recommended file name
+		 * "VotersListBackup.xml" - this is the recommended file name
 		 */		
 		return this.readXMLFilesService.readXMLVotersListBackup(this.backupedVotersListFile);
 	}
@@ -91,7 +97,7 @@ public class Backup implements IBackup {
 	@Override
 	public IPartiesList restoreParties() {
 		/*
-		 * "partiesBackup.xml" - this is the recommended file name
+		 * "PartiesListBackup.xml" - this is the recommended file name
 		 */
 		return this.readXMLFilesService.readXMLPartiesListBackup(this.backupedPartiesListFile);
 	}
@@ -101,19 +107,29 @@ public class Backup implements IBackup {
 	public void storeState(IPartiesList parties, IVotersList voters, IVotersList unregistered) {
 		//TODO save unregistered to the unregistered voters file
 		/*
-		 * "partiesBackup.xml"
-		 * "votersBackup.xml"
+		 * "PartiesListBackup.xml"
+		 * "VotersListBackup.xml"
 		 */
 
+		//Voters
 		this.new BackupPartiesListToXMLFile().createEmptyPartiesListXMLFile();
 		for (IParty party : parties) {
 			this.new BackupPartiesListToXMLFile().addPartyToXMLFile(party);
 		}
 		
+		//Parties
 		this.new BackupVotersListToXMLFile().createEmptyVotersListXMLFile();
 		for (IVoterData voter : voters) {
 			this.new BackupVotersListToXMLFile().addVoterToXMLFile(voter);
 		}
+		
+		//Unregistered Voters
+		this.unregisteredVotersService.createEmptyUnregisteredVotersXMLFile();
+		for (IVoterData voter : unregistered) {
+			this.unregisteredVotersService.addVoterToXMLFile(voter);
+		}
+		
+		
 		
 	}
 	
@@ -419,8 +435,7 @@ public class Backup implements IBackup {
 
 	@Override
 	public IVotersList restoreUnregisteredVoters() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.readXMLFilesService.readUnregisteredVotersXMLFile(this.unregisteredVotersFile);
 	}
 	
 	
