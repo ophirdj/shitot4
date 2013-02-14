@@ -36,8 +36,6 @@ public class Mainframe implements IMainframe, Runnable {
 	private IVotersList unregisteredVoters;
 	private IStationsController votingStations;
 	private IBackup backup;
-	private String votersListBackupFilePath;
-	private String partiesListBackupFilePath;
 	private IMainframeWindow window;
 
 	private boolean continueRun;
@@ -68,8 +66,7 @@ public class Mainframe implements IMainframe, Runnable {
 			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
-			IStationsControllerFactory stationsControllerFactory,
-			String votersListBackupFilePath, String partiesListBackupFilePath) {
+			IStationsControllerFactory stationsControllerFactory) {
 		this.backupFactory = backupFactory;
 		this.partiesListFactory = partiesListFactory;
 		this.partyFactory = partyFactory;
@@ -82,8 +79,6 @@ public class Mainframe implements IMainframe, Runnable {
 		this.mainframeWindowFactory = mainframeWindowFactory;
 		this.readSuppliedXMLFactory = readSuppliedXMLFactory;
 		this.stationsControllerFactory = stationsControllerFactory;
-		this.votersListBackupFilePath = votersListBackupFilePath;
-		this.partiesListBackupFilePath = partiesListBackupFilePath;
 	}
 
 	@Override
@@ -92,16 +87,14 @@ public class Mainframe implements IMainframe, Runnable {
 				voterDataFactory, votersListFactory, partyFactory,
 				partiesListFactory);
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
-				votersListFactory, voterDataFactory, votersListBackupFilePath,
-				partiesListBackupFilePath);
+				votersListFactory, voterDataFactory);
 		init(initRead.readVotersList(), votersListFactory.createInstance(), initRead.readPartiesList());
 	}
 
 	@Override
 	public void restore() {
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
-				votersListFactory, voterDataFactory, votersListBackupFilePath,
-				partiesListBackupFilePath);
+				votersListFactory, voterDataFactory);
 		init(backup.restoreVoters(), backup.restoreUnregisteredVoters(), backup.restoreParties());
 	}
 	

@@ -14,6 +14,5 @@ public interface IMainframeFactory {
 			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
-			IStationsControllerFactory stationsControllerFactory,
-			String votersListBackupFilePath, String partiesListBackupFilePath);
+			IStationsControllerFactory stationsControllerFactory);
 }
