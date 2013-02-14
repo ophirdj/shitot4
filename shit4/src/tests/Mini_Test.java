@@ -133,8 +133,8 @@ public class Mini_Test {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		vote1.retire();
-		vote2.retire();
+		//vote1.retire();
+		//vote2.retire();
 	}
 
 	public static void test3() {
@@ -167,7 +167,7 @@ public class Mini_Test {
 	}
 
 	public static void main(String[] args) {
-		test3();
+		test4();
 	}
 
 }
