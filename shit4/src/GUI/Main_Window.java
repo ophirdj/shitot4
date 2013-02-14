@@ -20,7 +20,7 @@ public class Main_Window extends JFrame {
 	
 	private static final JPanel defualt_panel = new JPanel(new FlowLayout());
 	
-	private Container main_panel;
+	private JPanel main_panel;
 	private JPanel buttons_panel;
 	private JPanel current_panel;
 	private JPanel current_station_panel;
@@ -35,7 +35,7 @@ public class Main_Window extends JFrame {
 	    this.setMinimumSize(new Dimension(500,300));
 		
 	    
-	    main_panel = getContentPane();
+	    main_panel = new JPanel();
 	    main_panel.setLayout(new BorderLayout());
 		buttons_panel = new JPanel(new FlowLayout());
 		buttons_panel.setBackground(BackGroundColor);
