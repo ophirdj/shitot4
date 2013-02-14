@@ -190,7 +190,7 @@ public class TestClass {
 		
 		
 		
-		Backup b = new Backup(new PartiesListFactory(), new PartyFactory(), new VotersListFactory(), new VoterDataFactory(), "votersBackup.xml", null);
+		Backup b = new Backup(new PartiesListFactory(), new PartyFactory(), new VotersListFactory(), new VoterDataFactory(), "votersBackup.xml", null, null);
 		
 		
 		
@@ -280,7 +280,7 @@ public class TestClass {
 		System.out.println("\n\n\n  now we will backup \n...");
 		
 		//BackupPartiesListToXMLFile.createEmptyPartiesListXMLFile("partiesBackup.xml");
-		Backup b = new Backup(new PartiesListFactory(), new PartyFactory(), new VotersListFactory(), new VoterDataFactory(), null, "partiesBackup.xml");
+		Backup b = new Backup(new PartiesListFactory(), new PartyFactory(), new VotersListFactory(), new VoterDataFactory(), null, "partiesBackup.xml", null);
 		
 		/*for (IParty party : lst) {
 			BackupPartiesListToXMLFile.addPartyToXMLFile(party, "partiesBackup.xml");
@@ -306,7 +306,7 @@ public class TestClass {
 	
 	public static void testCombinedPartiesListAndVotersListBackup(){
 		
-		Backup b = new Backup(new PartiesListFactory(), new PartyFactory(), new VotersListFactory(), new VoterDataFactory(), "votersBackup.xml", "partiesBackup.xml");
+		Backup b = new Backup(new PartiesListFactory(), new PartyFactory(), new VotersListFactory(), new VoterDataFactory(), "votersBackup.xml", "partiesBackup.xml", null);
 		
 		
 		//VotersList
