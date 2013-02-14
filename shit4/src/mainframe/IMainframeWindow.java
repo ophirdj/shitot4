@@ -5,10 +5,6 @@ import partiesList.IPartiesList;
 
 public interface IMainframeWindow extends IWindow, Runnable {
 
-	public enum MainframeAction {
-		initialize, restore, countVotes, shutDown, identification
-	}
-
 	/**
 	 * Show a histogram of votes to the parties.
 	 * 
@@ -22,7 +18,13 @@ public interface IMainframeWindow extends IWindow, Runnable {
 	 * @param parties
 	 */
 	void showTable(IPartiesList parties);
-
+	
+	/**
+	 * 
+	 * @return the entered id
+	 */
+	int getID();
+	
 	/**
 	 * Start the main loop.
 	 */

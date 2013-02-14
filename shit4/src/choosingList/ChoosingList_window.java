@@ -9,7 +9,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
 
@@ -91,7 +92,7 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 	choose_panel.add(parties_panel,BorderLayout.CENTER);
 	choose_panel.add(special_panel,BorderLayout.SOUTH);
 	this.add(choose_panel);
-	window.show_if_current(this);
+	window.show_if_current(stationPanel, this);
 	
 	try{
 		synchronized (stationPanel) {
@@ -107,14 +108,17 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 
 @Override
 public void switchOn() {
+	synchronized(stationPanel){
+		keep_running = true;
+	}
 	//if(switchFrom != null)
-		window.switch_panels(stationPanel, this);
+	window.show_if_current(stationPanel, this);
 }
 
 @Override
 public void switchOff() {
 	//if(switchTo != null)
-		window.switch_panels(this, stationPanel);
+	window.show_if_current(stationPanel, stationPanel);
 }
 
 @Override
@@ -122,7 +126,6 @@ public void closeWindow() {
 	synchronized (stationPanel) {
 		keep_running = false;
 		stationPanel.notify();
-		switchOff();
 	}
 }
 

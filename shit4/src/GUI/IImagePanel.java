@@ -24,4 +24,14 @@ public interface IImagePanel {
 	 */
 	public void showPrevImage();
 	
+	/**
+	 * show first image (if exist)
+	 */
+	public void showFirstImage();
+	
+	/**
+	 * return to caller station
+	 */
+	public void retire();
+	
 }

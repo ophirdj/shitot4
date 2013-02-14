@@ -3,7 +3,7 @@ package mainframe;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import mainframe.IMainframeWindow.MainframeAction;
+import mainframe.MainframeAction;
 
 public class MainframeClick implements ActionListener{
 	private MainframeWindow button_window;

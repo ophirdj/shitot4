@@ -2,29 +2,79 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 
-public class ImagePanel  extends JPanel{
+public class ImagePanel  extends JPanel implements IImagePanel{
 	static final long serialVersionUID = 1L;
+	final private Color INACTIVE_COLOR = Color.GRAY;
+	final private Color ACTIVE_COLOR = UIManager.getColor("Button.background");
 	
 	File fileToShow;
 	int fileShownIndex;
 	IListImages images_list;
 	
+	JButton nextButton = new JButton(">");
+	JButton prevButton = new JButton("<");
+	JButton exitButton = new JButton("exit");
 	
-	public ImagePanel(IListImages images_list) {
+	JPanel callerStation;
+	Canvas canvas;
+	Main_Window window;
+	
+	boolean timeout = false;
+	
+	private void showImage(File from){
+		try{
+			Image imageToShow = ImageIO.read(fileToShow);
+			canvas.showImage(imageToShow);
+			if(hasNext()){
+				nextButton.setBackground(ACTIVE_COLOR);
+			}
+			else{
+				nextButton.setBackground(INACTIVE_COLOR);
+			}
+			
+			if(hasPrev()){
+				prevButton.setBackground(ACTIVE_COLOR);
+			}
+			else{
+				prevButton.setBackground(INACTIVE_COLOR);
+			}
+			synchronized (this) {
+				if(!timeout) window.show_if_current(callerStation, this);
+			}
+			
+		}catch(IOException e){}
+		
+	}
+	
+	public ImagePanel(IListImages images_list, JPanel callerStation) {
 		super(new BorderLayout());
+		
+		this.callerStation = callerStation;
 		this.images_list = images_list;
+		nextButton.addActionListener(new DirectionClick(image_action.next));
+		prevButton.addActionListener(new DirectionClick(image_action.prev));
+		exitButton.addActionListener(new DirectionClick(image_action.exit));
+		this.add(nextButton, BorderLayout.EAST);
+		this.add(prevButton, BorderLayout.WEST);
+		this.add(exitButton, BorderLayout.SOUTH);
+		this.canvas = new Canvas();
+		this.add(canvas, BorderLayout.CENTER);
+		
 		fileToShow = images_list.getFile(0);
 		fileShownIndex = 0;
-		repaint();
+		window = Global_Window.main_window;
 	}
 	
 	public boolean hasNext(){
@@ -46,23 +96,67 @@ public class ImagePanel  extends JPanel{
 			return;
 		}
 		fileToShow = images_list.getFile(++fileShownIndex);
-		repaint();
+		showImage(fileToShow);
 	}
 	
 	public void showPrevImage() {
-		if(0 <= fileShownIndex) return;
+		if(fileShownIndex <= 0) return;
 		fileToShow = images_list.getFile(--fileShownIndex);
-		repaint();
+		showImage(fileToShow);
+	}
+	
+	public void showFirstImage() {
+		fileShownIndex = 0;
+		fileToShow = images_list.getFile(fileShownIndex);
+		showImage(fileToShow);
+		window.show_if_current(callerStation, this);
+		synchronized (this) {
+			try{
+				if(!timeout) this.wait();
+			}catch(InterruptedException e){
+				
+			}
+		}
+	}
+	
+	public void retire(){
+		synchronized (this) {
+			timeout = true;
+			this.notify();
+		}
+		window.show_if_current(callerStation, callerStation);
 	}
 	 
-	/** Paint the histogram */
-	  protected void paintComponent(Graphics g) {
-	    super.paintComponent(g);
-	    try {
-	    	BufferedImage img = ImageIO.read(fileToShow);
-	    	 g.drawImage(img, 0, 0, getWidth(), getHeight(), new Color(0,0,0), null);
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
+	
+	
+	
+	public enum image_action{
+		next,prev,exit
+	}
+	
+	class DirectionClick implements ActionListener{
+		
+		image_action toWhere;
+		
+		public DirectionClick(image_action d) {
+			toWhere = d;
 		}
-	  }
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			switch (toWhere) {
+			case next:
+				showNextImage();
+				break;
+			case prev:
+				showPrevImage();
+				break;
+			case exit:
+				retire();
+				break;
+			default:
+				break;
+			}
+		}
+	}
 }

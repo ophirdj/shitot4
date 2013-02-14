@@ -5,23 +5,18 @@ import java.awt.event.ActionListener;
 
 public class VoteClick implements ActionListener {
 	private VotingStation_window button_window;
-	private boolean test_vote;
+	private VotingStationAction voting_action;
 	private Object lock;
 	
-	public VoteClick(VotingStation_window station, boolean is_test_vote, Object window_lock) {
+	public VoteClick(VotingStation_window station, VotingStationAction action, Object window_lock) {
 		button_window = station;
-		test_vote = is_test_vote;
+		voting_action = action;
 		lock = window_lock;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(test_vote){
-			button_window.setAction(VotingStationAction.TEST_VOTE);
-		}
-		else{
-			button_window.setAction(VotingStationAction.VOTING);
-		}
+		button_window.setAction(voting_action);
 		synchronized (lock) {
 			lock.notify();
 		}

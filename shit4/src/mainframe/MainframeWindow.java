@@ -8,7 +8,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import mainframe.IMainframe.IdentificationError;
 import GUI.StationPanel;
 import GUI.View;
 import GUI.WaitForClick;
@@ -23,6 +22,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private HistogramPanel histogramPanel;
 	private TablePanel tablePanel;
 	
+	private final int NUM_OF_LAYER = MainframeAction.maxRow();
 	private final Color MainframeBackGround = new Color(255,255,255); 
 	
 	public MainframeWindow(IMainframe callerStation) {
@@ -43,7 +43,8 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 			window.add_button(new View("histogram"), histogramPanel);
 		}
 		histogramPanel.showHistogram(parties);
-		window.show_if_current(histogramPanel);
+		
+		window.show_if_current(histogramPanel,histogramPanel);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 			window.add_button(new View("table"), tablePanel);
 		}
 		tablePanel.showTable(parties);
-		window.show_if_current(tablePanel);
+		window.show_if_current(tablePanel,tablePanel);
 	}
 	
 	void setAction(MainframeAction action){
@@ -70,32 +71,36 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		mainframe_panel.add(button);
 	}
 	
-	 private void make_mainframe_panel(JPanel mainframe_panel, Object lock){
-		 make_mainframe_button(mainframe_panel,MainframeAction.initialize,lock);
-		 make_mainframe_button(mainframe_panel,MainframeAction.countVotes,lock);
-		 make_mainframe_button(mainframe_panel,MainframeAction.restore,lock);
-		 make_mainframe_button(mainframe_panel,MainframeAction.identification,lock);
-		 make_mainframe_button(mainframe_panel,MainframeAction.shutDown,lock);
+	 private void make_mainframe_panel(JPanel mainframe_panel[], Object lock){
+		for(MainframeAction action : MainframeAction.values()){
+			make_mainframe_button(mainframe_panel[action.getRow()],action,lock);
+		}
 	  }
 	
-	private MainframeAction chooseAction(){
+	private void chooseAction(){
 		was_pushed = false;
 		chosen_action = null;
-		
-		JPanel mainframe_panel = new JPanel(new FlowLayout());
-		make_mainframe_panel(mainframe_panel,this);
+		JPanel mainframe_panel = new JPanel(new GridLayout(NUM_OF_LAYER,1));
+		JPanel layers[] = new JPanel[NUM_OF_LAYER];
+		for (int i = 0; i < layers.length; i++) {
+			layers[i] = new JPanel(new FlowLayout());
+			layers[i].setBackground(MainframeBackGround);
+		}
+		make_mainframe_panel(layers,this);
 		this.removeAll();
 		mainframe_panel.setBackground(MainframeBackGround);
 		this.setBackground(MainframeBackGround);
+		for (int i = 0; i < layers.length; i++) {
+			mainframe_panel.add(layers[i]);
+		}
 		this.add(mainframe_panel);
-		window.show_if_current(this);
+		window.show_if_current(this,this);
 		try{
 			synchronized (this) {
 				this.wait();
 			}
 		}
 		catch(InterruptedException e){}
-		return chosen_action;
 	}
 	
 	private void make_id_panel(JPanel id_panel,JTextField textField, Object lock,String name){
@@ -105,14 +110,14 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		id_panel.add(button);
 	}
 
-	private int getID(){
+	public int getID(){
 		
 		JPanel id_panel = new JPanel(new GridLayout(2,1));
 	  	JTextField textField = new JTextField();
 	  	make_id_panel(id_panel,textField,this,"enter ID");
 		this.removeAll();
 		this.add(id_panel);
-		window.show_if_current(this);
+		window.show_if_current(this,this);
 		try{
 			synchronized (this) {
 				this.wait();
@@ -126,33 +131,9 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 
 	@Override
 	public void run() {
-		while(true){
-			MainframeAction action = chooseAction();
-			switch (action) {
-				case initialize:
-					callerStation.initialize();
-					break;
-				case countVotes:
-					callerStation.countVotes();
-					break;
-				case identification:
-					int id = getID();
-					try {
-						callerStation.identification(id);
-					} catch (IdentificationError e) {
-						printError("voter already registered");
-					}
-					break;
-				case restore:
-					callerStation.restore();
-					break;
-				case shutDown:
-					callerStation.shutDown();
-					closeWindow();
-					break;
-			default:
-				break;
-			}
+		while(chosen_action != MainframeAction.shutDown){
+			chooseAction();
+			chosen_action.activate(callerStation, this);
 		}
 	}
 

@@ -3,6 +3,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Hashtable;
@@ -10,6 +11,7 @@ import java.util.Hashtable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
 import javax.swing.border.TitledBorder;
 
 public class Main_Window extends JFrame {
@@ -17,113 +19,101 @@ public class Main_Window extends JFrame {
 	public static final Color BackGroundColor = new Color(58,95,205);
 	
 	private static final JPanel defualt_panel = new JPanel(new FlowLayout());
-	private JPanel main_panel;
+	
+	private Container main_panel;
 	private JPanel buttons_panel;
 	private JPanel current_panel;
-	private static Integer counter = 1;
-	private Hashtable<JPanel, JButton> panel_button_map;
+	private JPanel current_station_panel;
+	
+	private Hashtable<JPanel, JButton> station_button_map;
+	private Hashtable<JPanel, JPanel> station_show_map;
+	private Hashtable<JPanel, String> station_name_map;
 	
 	public Main_Window() {
 		super("Main_Window");
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setMinimumSize(new Dimension(500,300));
-		main_panel = new JPanel(new BorderLayout());
+		
+	    
+	    main_panel = getContentPane();
+	    main_panel.setLayout(new BorderLayout());
 		buttons_panel = new JPanel(new FlowLayout());
+		buttons_panel.setBackground(BackGroundColor);
+		
+		current_station_panel = defualt_panel;
 		current_panel = defualt_panel;
-		panel_button_map = new Hashtable<JPanel, JButton>();
+		
+		main_panel.add(buttons_panel,BorderLayout.SOUTH);
+		
+		station_button_map = new Hashtable<JPanel, JButton>();
+		station_show_map =  new Hashtable<JPanel, JPanel>();
+		station_name_map =  new Hashtable<JPanel, String>();
+		station_show_map.put(defualt_panel, defualt_panel);
+		
 		this.add(main_panel);
 		this.setVisible(true);
 	}
 	
-	public void add_button(View view, JPanel new_panel){
+	public void add_button(View view, JPanel station_panel){
 		JButton viewButton = new JButton(view.getName());
-		viewButton.addActionListener(new ClickView(new_panel,this));
+		viewButton.addActionListener(new ClickView(station_panel,this));
 		buttons_panel.add(viewButton);
-		panel_button_map.put(new_panel, viewButton);
+		
+		station_button_map.put(station_panel, viewButton);
+		station_show_map.put(station_panel, station_panel);
+		station_name_map.put(station_panel, view.getName());
 	}
 	
 	public void show_window(){
 		main_panel.setVisible(false);
-		main_panel.removeAll();
-		if(current_panel == defualt_panel){
+		main_panel.remove(current_panel);
+		current_panel = station_show_map.get(current_station_panel);
+		if(current_station_panel == defualt_panel){
 			current_panel.setBackground(BackGroundColor);
 		}
 		else{
 			current_panel.setBackground(Color.WHITE);
 		}
-		
-		buttons_panel.setBackground(BackGroundColor);
-		main_panel.add(buttons_panel,BorderLayout.SOUTH);
+		String name = station_name_map.get(current_station_panel);
+		if(name != null) current_panel.setBorder(new TitledBorder(name));
 		main_panel.add(current_panel,BorderLayout.CENTER);
-		JButton current_Button = panel_button_map.get(current_panel);
-		if(current_Button != null) current_panel.setBorder(new TitledBorder(current_Button.getText()));
-		
 		main_panel.setVisible(true);
 	}
 	
-	public void show_panel(JPanel new_panel){
-		current_panel = new_panel;
+	public void show_station(JPanel station_panel){
+		current_station_panel = station_panel;
 		show_window();
 	}
 	
-	public void show_if_current(JPanel new_panel){
-		if(new_panel == current_panel) show_window();
-	}
-	
-	private void logical_switch_panels(JPanel old_panel,JPanel new_panel){
-		//TODO: null check: for graphic testing. remove
-		if(old_panel == null){
-			synchronized (counter) {
-				add_button(new View("defualt "+counter),new_panel);
-				counter++;
-			}
+	public void show_if_current(JPanel station_panel, JPanel new_panel){
+		station_show_map.remove(station_panel);
+		station_show_map.put(station_panel, new_panel);
+		if(station_panel == current_station_panel){
 			show_window();
-			return;
 		}
-		if(new_panel == null){
-			remove_panel(old_panel);
-			show_window();
-			return;
-		}
-		
-		//real part from here
-		JButton button_to_change = panel_button_map.get(old_panel);
-		panel_button_map.remove(old_panel);
-		panel_button_map.put(new_panel,button_to_change);
-		button_to_change.removeActionListener(button_to_change.getActionListeners()[0]);
-		button_to_change.addActionListener(new ClickView(new_panel,this));
 	}
 	
-	public void switch_panels(JPanel old_panel,JPanel new_panel){
-		/*
-		switching should only be done if the
-		main window contain the old Panel.
-		*/  
-		if(old_panel == null || !panel_button_map.containsKey(old_panel)) return;
-		logical_switch_panels(old_panel,new_panel);
-		
-		//visual switch (if done from current view)
-		if(old_panel == current_panel)
-			show_panel(new_panel);
-	}
-	
-	public void hide_panel(JPanel panel){
-		if(panel != current_panel) return;
-		current_panel = defualt_panel;
+	public void hide_panel(JPanel station_panel){
+		if(station_panel != current_station_panel) return;
+		current_station_panel = defualt_panel;
 		show_window();
 	}
 	
-	public void remove_panel(JPanel new_panel){
-		hide_panel(new_panel);
-		if(!panel_button_map.containsKey(new_panel)){
+	public void remove_panel(JPanel station_panel){
+		hide_panel(station_panel);
+		if(!station_button_map.containsKey(station_panel)){
 			return;
 		}
-		JButton button_to_remove = panel_button_map.get(new_panel);
+		JButton button_to_remove = station_button_map.get(station_panel);
 		buttons_panel.remove(button_to_remove);
-		panel_button_map.remove(new_panel);
-		show_window();
-		if(panel_button_map.size() == 0){
+		station_button_map.remove(station_panel);
+		station_show_map.remove(station_panel);
+		station_name_map.remove(station_panel);
+		if(station_button_map.size() == 0){
 			this.dispose();
+		}
+		else{
+			show_window();
 		}
 	}
 }

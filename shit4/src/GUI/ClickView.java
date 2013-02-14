@@ -16,6 +16,6 @@ public class ClickView implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		window.show_panel(button_panel);
+		window.show_station(button_panel);
 	}
 }
