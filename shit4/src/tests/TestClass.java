@@ -234,7 +234,7 @@ public class TestClass {
 		lst.peep();
 		
 		System.out.println("\n\n\n now we will put it to the xml file \n... ");
-		b.storeState(null, lst);
+		b.storeState(null, lst, null);
 		
 		/*for (IVoterData voter : lst) {
 			BackupVotersListToXMLFile.addVoterToXMLFile(voter, "votersBackup.xml");
@@ -286,7 +286,7 @@ public class TestClass {
 			BackupPartiesListToXMLFile.addPartyToXMLFile(party, "partiesBackup.xml");
 		}*/
 		
-		b.storeState(lst, null);
+		b.storeState(lst, null, null);
 		
 		
 		IPartiesList backupList = b.restoreParties();
@@ -390,7 +390,7 @@ public class TestClass {
 		System.out.println("\n\n\n now we will put it to the xml file \n... ");
 		System.out.println("  now we will backup \n...");
 
-		b.storeState(plst, vlst);
+		b.storeState(plst, vlst, null);
 		
 		
 		IPartiesList backupList = b.restoreParties();

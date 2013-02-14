@@ -98,7 +98,8 @@ public class Backup implements IBackup {
 
 
 	@Override
-	public void storeState(IPartiesList parties, IVotersList voters) {
+	public void storeState(IPartiesList parties, IVotersList voters, IVotersList unregistered) {
+		//TODO save unregistered to the unregistered voters file
 		/*
 		 * "partiesBackup.xml"
 		 * "votersBackup.xml"
@@ -411,6 +412,15 @@ public class Backup implements IBackup {
 			       e.printStackTrace();
 			     }
 		}
+	}
+
+
+
+
+	@Override
+	public IVotersList restoreUnregisteredVoters() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

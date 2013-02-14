@@ -94,7 +94,7 @@ public class Mainframe implements IMainframe, Runnable {
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
 				votersListFactory, voterDataFactory, votersListBackupFilePath,
 				partiesListBackupFilePath);
-		init(initRead.readVotersList(), initRead.readPartiesList());
+		init(initRead.readVotersList(), votersListFactory.createInstance(), initRead.readPartiesList());
 	}
 
 	@Override
@@ -102,14 +102,13 @@ public class Mainframe implements IMainframe, Runnable {
 		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
 				votersListFactory, voterDataFactory, votersListBackupFilePath,
 				partiesListBackupFilePath);
-		init(backup.restoreVoters(), backup.restoreParties());
+		init(backup.restoreVoters(), backup.restoreUnregisteredVoters(), backup.restoreParties());
 	}
 	
 	
-	private void init(IVotersList voters, IPartiesList parties){
+	private void init(IVotersList voters, IVotersList unregistered, IPartiesList parties){
 		this.voters = voters;
 		this.parties = parties;
-		unregisteredVoters = votersListFactory.createInstance();
 		votingStations = stationsControllerFactory.createInstance(this,
 				votingStationFactory, choosingListFactory,
 				choosingWindowFactory, votingStationWindowFactory);
@@ -137,7 +136,6 @@ public class Mainframe implements IMainframe, Runnable {
 		for (IVotingStation s : votingStations) {
 			s.retire();
 		}
-		// TODO: Retire mainframe window.
 	}
 
 	// Save voters and parties lists to backup file. Lists must match.
@@ -151,17 +149,13 @@ public class Mainframe implements IMainframe, Runnable {
 				parties = this.parties.copy();
 			}
 		} while (!matchingLists(voters, parties));
-		backup.storeState(parties, voters);
+		backup.storeState(parties, voters, unregisteredVoters);
 	}
 
 	// Synchronize mainframe's parties list with the ones in the voting
 	// stations.
 	private void hotBackup() {
 		IPartiesList stationsParties = votingStations.hotBackup();
-		if (stationsParties.size() == 0) {
-			// error?
-			return;
-		}
 		synchronized (this) {
 			parties = stationsParties;
 		}

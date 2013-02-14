@@ -10,6 +10,13 @@ public interface IBackup{
 	 */
 	IVotersList restoreVoters();
 	
+	
+	/**
+	 * 
+	 * @return The voters list saved in backup file or an empty IVotersList otherwise.
+	 */
+	IVotersList restoreUnregisteredVoters();
+	
 	/**
 	 * 
 	 * @return The parties list saved in backup file or an empty IPartiesList otherwise.
@@ -21,5 +28,5 @@ public interface IBackup{
 	 * @param parties: a list of parties
 	 * @param voters: a list of voters
 	 */
-	void storeState(IPartiesList parties, IVotersList voters);
+	void storeState(IPartiesList parties, IVotersList voters, IVotersList unregistered);
 }
