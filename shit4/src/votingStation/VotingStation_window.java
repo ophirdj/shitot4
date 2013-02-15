@@ -10,6 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.IDictionary.Messages;
 
 import GUI.Main_Window;
 import GUI.StationPanel;
@@ -22,6 +23,7 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 	private final Color VotingBackGround = new Color(255,255,255); 
 	private IVotingStation callerStation;
 	private boolean keepRunning;
+	private Main_Window mainWindow;
 	
 	public void setAction(VotingStationAction action){
 		if(!was_pushed){
@@ -34,10 +36,11 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 	  public VotingStation_window(String name, IVotingStation caller, Main_Window mainWindow){
 		  super(name, mainWindow);
 		  callerStation = caller;
+		  this.mainWindow = mainWindow;
 	  }
 	  
 	  void make_voting_button(JPanel voting_panel, VotingStationAction action ,Object lock){
-		  JButton action_button = new JButton(action.toString());
+		  JButton action_button = new JButton(action.getString(mainWindow));
 		  action_button.addActionListener(new VoteClick(this,action,lock));
 		  voting_panel.add(action_button);
 	  }
@@ -77,7 +80,7 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 	  public String getPassword() throws ChoosingInterruptedException{
 		  	JPanel password_panel = new JPanel(new GridLayout(2,1));
 		  	JPasswordField textField = new JPasswordField();
-		  	make_input_panel(password_panel,textField,this,"enter password");
+		  	make_input_panel(password_panel,textField,this,mainWindow.translate(Messages.enter_password));
 			this.removeAll();
 			this.add(password_panel);
 			window.show_if_current(this,this);
@@ -95,7 +98,7 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 	  public int getID() throws ChoosingInterruptedException{
 		  	JPanel id_panel = new JPanel(new GridLayout(2,1));
 		  	JTextField textField = new JTextField();
-		  	make_input_panel(id_panel,textField,this,"enter ID");
+		  	make_input_panel(id_panel,textField,this,mainWindow.translate(Messages.enter_ID));
 			this.removeAll();
 			this.add(id_panel);
 			window.show_if_current(this,this);
@@ -122,7 +125,7 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 					chosen_action.activate(callerStation);
 				}
 			} catch (ChoosingInterruptedException e) {
-				printMessage("You quit in the process of voting");
+				printMessage(mainWindow.translate(Messages.You_quit_in_the_process_of_voting));
 			}
 			closeWindow();
 		}

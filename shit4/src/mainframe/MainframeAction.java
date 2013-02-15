@@ -1,16 +1,18 @@
 package mainframe;
 
+import dictionaries.IDictionary.Messages;
+import GUI.Main_Window;
 import mainframe.IMainframe.IdentificationError;
 
 public enum MainframeAction {
 	countVotes{
 		@Override
-		public String toString() {
-			return "count votes";
+		public String getString(Main_Window mainWindow) {
+			return mainWindow.translate(Messages.count_votes);
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		void activate(IMainframe callerStation, IMainframeWindow window, Main_Window mainWindow){
 			callerStation.countVotes();
 		}
 		
@@ -21,18 +23,18 @@ public enum MainframeAction {
 	}, 
 	identification{
 		@Override
-		public String toString() {
-			return "identification";
+		public String getString(Main_Window mainWindow) {
+			return mainWindow.translate(Messages.identification);
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		void activate(IMainframe callerStation, IMainframeWindow window, Main_Window mainWindow){
 			try{
 				callerStation.identification(window.getID());
 			}catch(NumberFormatException e){
-				window.printError("id should be a number");
+				window.printError(mainWindow.translate(Messages.ID_must_be_a_number));
 			}catch (IdentificationError e) {
-				window.printError("voter already registered");
+				window.printError(mainWindow.translate(Messages.ID_is_already_registered));
 			}
 		}
 		
@@ -43,12 +45,12 @@ public enum MainframeAction {
 	},
 	initialize{
 		@Override
-		public String toString() {
-			return "boot";
+		public String getString(Main_Window mainWindow) {
+			return mainWindow.translate(Messages.boot);
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		void activate(IMainframe callerStation, IMainframeWindow window, Main_Window mainWindow){
 			callerStation.initialize();
 		}
 		
@@ -59,12 +61,12 @@ public enum MainframeAction {
 	},
 	restore{
 		@Override
-		public String toString() {
-			return "boot from backup";
+		public String getString(Main_Window mainWindow) {
+			return mainWindow.translate(Messages.boot_from_backup);
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		void activate(IMainframe callerStation, IMainframeWindow window, Main_Window mainWindow){
 			callerStation.restore();
 		}
 		
@@ -75,12 +77,12 @@ public enum MainframeAction {
 	},
 	shutDown{
 		@Override
-		public String toString() {
-			return "shut down";
+		public String getString(Main_Window mainWindow) {
+			return mainWindow.translate(Messages.shut_down);
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		void activate(IMainframe callerStation, IMainframeWindow window, Main_Window mainWindow){
 			callerStation.shutDown();
 			window.closeWindow();
 		}
@@ -92,7 +94,10 @@ public enum MainframeAction {
 	}
 	;
 
-	abstract void activate(IMainframe callerStation, IMainframeWindow window);
+	abstract void activate(IMainframe callerStation, IMainframeWindow window, Main_Window mainWindow);
+	
+	abstract String getString(Main_Window mainWindow);
+	
 	abstract int getRow();
 	
 	public static int maxRow(){

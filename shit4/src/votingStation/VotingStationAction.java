@@ -1,6 +1,8 @@
 package votingStation;
 
+import GUI.Main_Window;
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.IDictionary.Messages;
 
 public enum VotingStationAction {
 	VOTING{
@@ -10,8 +12,8 @@ public enum VotingStationAction {
 		}
 		
 		@Override
-		public String toString() {
-			return "make vote";
+		public String getString(Main_Window mainWindow) {
+			return mainWindow.translate(Messages.make_vote);
 		}
 	},
 	TEST_VOTE{
@@ -21,10 +23,12 @@ public enum VotingStationAction {
 		}
 		
 		@Override
-		public String toString() {
-			return "test vote";
+		public String getString(Main_Window mainWindow) {
+			return mainWindow.translate(Messages.test_vote);
 		}
 	};
 	
 	abstract void activate(IVotingStation callerStation) throws ChoosingInterruptedException;
+
+	abstract String getString(Main_Window mainWindow);
 }

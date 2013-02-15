@@ -11,6 +11,7 @@ import communication.IStationsController;
 
 import choosingList.IChoosingList;
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.IDictionary.Messages;
 
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -67,7 +68,8 @@ public class VotingStation implements IVotingStation {
 		switch (status) {
 		case unidentified:
 			votingStationWindow
-					.printError("You need to identify yourself in the mainframe");
+					.printError(mainWindow
+							.translate(Messages.You_need_to_identify_yourself_in_the_mainframe));
 			return null;
 		case identified:
 			return new VotingRecord(id);
@@ -77,11 +79,13 @@ public class VotingStation implements IVotingStation {
 					return voter;
 				if (voter.getID() == id) {
 					votingStationWindow
-							.printError("You can't change your vote anymore");
+							.printError(mainWindow
+									.translate(Messages.You_cannot_change_your_vote_anymore));
 					return null;
 				}
 			}
-			votingStationWindow.printError("You can't vote here");
+			votingStationWindow.printError(mainWindow
+					.translate(Messages.You_cannot_vote_here));
 		}
 		return null;
 	}
@@ -92,7 +96,11 @@ public class VotingStation implements IVotingStation {
 			id = votingStationWindow.getID();
 		} catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
-			votingStationWindow.printError("Error: id must be a number!");
+			votingStationWindow
+					.printError(mainWindow.translate(Messages.ERROR)
+							+ ": "
+							+ mainWindow
+									.translate(Messages.ID_must_be_a_number));
 			return;
 		}
 
@@ -108,19 +116,24 @@ public class VotingStation implements IVotingStation {
 			// shouldn't happen
 			e.printStackTrace();
 			votingStationWindow
-					.printError("Error: Chuck Norris removed you from existance.");
+					.printError(mainWindow.translate(Messages.ERROR)
+							+ ": "
+							+ mainWindow
+									.translate(Messages.Chuck_Norris_removed_you_from_existance));
 		}
 		voter.vote(lastParty);
-		votingStationWindow
-				.printMessage("You successfully voted for the party "
-						+ lastParty.getName());
+		votingStationWindow.printMessage(mainWindow
+				.translate(Messages.You_successfully_voted_for_the_party)
+				+ " "
+				+ lastParty.getName());
 
 	}
 
 	public void testVoting() throws ChoosingInterruptedException {
 		String password = votingStationWindow.getPassword();
 		if (!passwords.contains(password)) {
-			votingStationWindow.printError("Error: wrong password");
+			votingStationWindow.printError(mainWindow.translate(Messages.ERROR)
+					+ ": " + mainWindow.translate(Messages.wrong_password));
 			return;
 		}
 
@@ -128,7 +141,11 @@ public class VotingStation implements IVotingStation {
 		try {
 			id = votingStationWindow.getID();
 		} catch (NumberFormatException e) {
-			votingStationWindow.printError("Error: id must be a number!");
+			votingStationWindow
+					.printError(mainWindow.translate(Messages.ERROR)
+							+ ": "
+							+ mainWindow
+									.translate(Messages.ID_must_be_a_number));
 			return;
 		}
 
@@ -136,9 +153,10 @@ public class VotingStation implements IVotingStation {
 		if (voter == null)
 			return;
 		IParty lastParty = choosingList.chooseList();
-		votingStationWindow
-				.printMessage("You successfully test voted for the party "
-						+ lastParty.getName());
+		votingStationWindow.printMessage(mainWindow
+				.translate(Messages.You_successfully_voted_for_the_party)
+				+ " "
+				+ lastParty.getName());
 	}
 
 	@Override

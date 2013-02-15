@@ -5,6 +5,7 @@ import partiesList.IParty;
 import choosingList.ChooseType;
 import choosingList.IChoosingWindow;
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.IDictionary.Messages;
 
 public class ChoosingWindowStub implements IChoosingWindow {
 
@@ -41,6 +42,11 @@ public class ChoosingWindowStub implements IChoosingWindow {
 
 	@Override
 	public void switchOff() {
+	}
+
+	@Override
+	public String translate(Messages message) {
+		return message.toString();
 	}
 
 }

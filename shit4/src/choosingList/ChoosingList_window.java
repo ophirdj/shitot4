@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.IDictionary.Messages;
 
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -38,9 +39,9 @@ private void add_party_button(JPanel panel,String name,ChooseType type,IParty pa
 }
 
 private void make_special_panel(JPanel special_panel, IParty whiteNote){
-	  add_party_button(special_panel,"previous parties",ChooseType.Prev,IChoosingList.NO_PARTY,null);
-	  add_party_button(special_panel,"white note",ChooseType.Party,whiteNote,Color.WHITE);
-	  add_party_button(special_panel,"next parties",ChooseType.Next,IChoosingList.NO_PARTY,null);
+	  add_party_button(special_panel,window.translate(Messages.previous),ChooseType.Prev,IChoosingList.NO_PARTY,null);
+	  add_party_button(special_panel,window.translate(Messages.white_note),ChooseType.Party,whiteNote,Color.WHITE);
+	  add_party_button(special_panel,window.translate(Messages.next),ChooseType.Next,IChoosingList.NO_PARTY,null);
 }
 
 private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow){
@@ -125,6 +126,11 @@ public void closeWindow() {
 		keep_running = false;
 		stationPanel.notify();
 	}
+}
+
+@Override
+public String translate(Messages message){
+	return window.translate(message);
 }
 
 }

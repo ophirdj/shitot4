@@ -9,6 +9,8 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
+import dictionaries.IDictionary.Messages;
+
 import GUI.Main_Window;
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -28,9 +30,9 @@ public class TablePanel extends JPanel {
 	
 	private void displayTable() {
 		table = new ReadOnlyTable(all_parties.size(), 3);
-		table.getColumnModel().getColumn(0).setHeaderValue("parties symbol");
-		table.getColumnModel().getColumn(1).setHeaderValue("parties name");
-		table.getColumnModel().getColumn(2).setHeaderValue("vote count");
+		table.getColumnModel().getColumn(0).setHeaderValue(mainWindow.translate(Messages.symbol));
+		table.getColumnModel().getColumn(1).setHeaderValue(mainWindow.translate(Messages.name));
+		table.getColumnModel().getColumn(2).setHeaderValue(mainWindow.translate(Messages.votes));
 		int i = 0;
 		for (IParty party : all_parties) {
 			table.setValueAt(party.getSymbol(), i, 0);

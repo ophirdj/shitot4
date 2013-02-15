@@ -2,21 +2,19 @@ package mainframe;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
-
 import GUI.Main_Window;
 import GUI.StationPanel;
 import GUI.View;
 import GUI.WaitForClick;
 import partiesList.IPartiesList;
+import dictionaries.IDictionary.Messages;
 
 public class MainframeWindow extends StationPanel implements IMainframeWindow {
 
@@ -33,7 +31,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private final Color MainframeBackGround = new Color(255,255,255); 
 	
 	public MainframeWindow(IMainframe callerStation, Main_Window window) {
-		super("Main Frame", window);
+		super(window.translate(Messages.Main_frame), window);
 		this.callerStation = callerStation;
 		
 	}
@@ -52,7 +50,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 			histogramScroll.setLayout(new ScrollPaneLayout());
 			histogramWraper.setLayout(new BorderLayout());
 			histogramWraper.add(histogramScroll, BorderLayout.CENTER);
-			window.add_button(new View("histogram"), histogramWraper);
+			window.add_button(new View(window.translate(Messages.histogram)), histogramWraper);
 		}
 		histogramScroll.setPreferredSize(histogramScroll.getParent().getSize());
 		histogramPanel.showHistogram(parties);
@@ -64,7 +62,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		
 		if(tablePanel == null){
 			tablePanel = new TablePanel(window);
-			window.add_button(new View("table"), tablePanel);
+			window.add_button(new View(window.translate(Messages.table)), tablePanel);
 		}
 		tablePanel.showTable(parties);
 		window.show_if_current(tablePanel,tablePanel);
@@ -78,7 +76,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	}
 	
 	private void make_mainframe_button(JPanel mainframe_panel, MainframeAction action, Object lock){
-		JButton button = new JButton(action.toString());
+		JButton button = new JButton(action.getString(window));
 		button.addActionListener(new MainframeClick(this,action,lock));
 		mainframe_panel.add(button);
 	}
@@ -126,7 +124,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		
 		JPanel id_panel = new JPanel(new GridLayout(2,1));
 	  	JTextField textField = new JTextField();
-	  	make_id_panel(id_panel,textField,this,"enter ID");
+	  	make_id_panel(id_panel,textField,this,window.translate(Messages.enter_ID));
 		this.removeAll();
 		this.add(id_panel);
 		window.show_if_current(this,this);
@@ -145,7 +143,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	public void run() {
 		while(chosen_action != MainframeAction.shutDown){
 			chooseAction();
-			chosen_action.activate(callerStation, this);
+			chosen_action.activate(callerStation, this, window);
 		}
 	}
 
