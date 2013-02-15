@@ -77,6 +77,7 @@ public class Main_Window extends JFrame {
 		String name = station_name_map.get(current_station_panel);
 		if(name != null) current_panel.setBorder(new TitledBorder(name));
 		main_panel.add(current_panel,BorderLayout.CENTER);
+		main_panel.setPreferredSize(getPreferredSize());
 		main_panel.setVisible(true);
 	}
 	

@@ -167,7 +167,7 @@ public class Mini_Test {
 	}
 
 	public static void main(String[] args) {
-		test4();
+		test3();
 	}
 
 }

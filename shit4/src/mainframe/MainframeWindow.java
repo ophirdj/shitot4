@@ -1,12 +1,16 @@
 package mainframe;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneLayout;
 
 import GUI.StationPanel;
 import GUI.View;
@@ -20,6 +24,8 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private boolean was_pushed=true;
 	private MainframeAction chosen_action;
 	private HistogramPanel histogramPanel;
+	private JScrollPane histogramScroll;
+	private JPanel histogramWraper;
 	private TablePanel tablePanel;
 	
 	private final int NUM_OF_LAYER = MainframeAction.maxRow();
@@ -40,11 +46,16 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	public void showHistogram(IPartiesList parties) {
 		if(histogramPanel == null){
 			histogramPanel = new HistogramPanel();
-			window.add_button(new View("histogram"), histogramPanel);
+			histogramScroll = new JScrollPane(histogramPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			histogramWraper = new JPanel();
+			histogramScroll.setLayout(new ScrollPaneLayout());
+			histogramWraper.setLayout(new BorderLayout());
+			histogramWraper.add(histogramScroll, BorderLayout.CENTER);
+			window.add_button(new View("histogram"), histogramWraper);
 		}
+		histogramScroll.setPreferredSize(histogramScroll.getParent().getSize());
 		histogramPanel.showHistogram(parties);
-		
-		window.show_if_current(histogramPanel,histogramPanel);
+		window.show_if_current(histogramWraper,histogramWraper);
 	}
 
 	@Override

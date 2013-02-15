@@ -1,5 +1,6 @@
 package mainframe;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -18,11 +19,29 @@ public class HistogramPanel extends JPanel {
 static final long serialVersionUID = 1L;
   private IPartiesList parties;
 
-
+  
+  public HistogramPanel(){
+	  super();
+	  setLayout(new BorderLayout());
+  }
+  
   /** Set the count and display histogram */
   public void showHistogram(IPartiesList parties) {
 	this.parties = parties;
     repaint();
+  }
+  
+  
+  private int getPreferredWidth(){
+	  if(parties == null) return getWidth();
+	    int maxStringLength = 0;
+	    FontMetrics metrics = getFontMetrics(getFont());
+	    
+	    for (IParty party : parties) {
+	      if (maxStringLength < metrics.stringWidth(party.getName()))
+	    	  maxStringLength = metrics.stringWidth(party.getName());
+	    }
+	    return 2*parties.size()*maxStringLength;
   }
 
   /** Paint the histogram */
@@ -78,9 +97,9 @@ static final long serialVersionUID = 1L;
       x += interval;
     }
   }
-
-  /** Override getPreferredSize */
-  public Dimension getPreferredSize() {
-    return new Dimension(500, 300);
+  
+  @Override
+  public Dimension getPreferredSize(){
+	  return new Dimension(getPreferredWidth(), 180);
   }
 }
