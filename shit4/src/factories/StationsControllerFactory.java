@@ -3,6 +3,8 @@ package factories;
 import java.util.ArrayList;
 import java.util.List;
 
+import GUI.Main_Window;
+
 import mainframe.IMainframe;
 import communication.IStationsController;
 import communication.StationsController;
@@ -16,28 +18,28 @@ public class StationsControllerFactory implements IStationsControllerFactory {
 			IVotingStationFactory votingStationFactory,
 			IChoosingListFactory choosingListFactory,
 			IChoosingWindowFactory choosingWindowFactory,
-			IVotingStationWindowFactory votingStationWindowFactory) {
-		
+			IVotingStationWindowFactory votingStationWindowFactory,
+			Main_Window mainWindow) {
+
 		List<String> stationsNames = getStationsNames();
 		List<String> passwords = getPasswords();
-		
+
 		return new StationsController(mainframe, votingStationFactory,
 				choosingListFactory, choosingWindowFactory,
-				votingStationWindowFactory, stationsNames, passwords);
+				votingStationWindowFactory, stationsNames, passwords,
+				mainWindow);
 	}
-	
-	
-	private List<String> getStationsNames(){
+
+	private List<String> getStationsNames() {
 		List<String> names = new ArrayList<String>();
-		for(int i = 1; i <= NUM_STATIONS; i++){
+		for (int i = 1; i <= NUM_STATIONS; i++) {
 			names.add("voting station " + i);
 		}
 		return names;
 	}
-	
-	
-	private List<String> getPasswords(){
-		//TODO: set some passwords here
+
+	private List<String> getPasswords() {
+		// TODO: set some passwords here
 		return null;
 	}
 }

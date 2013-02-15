@@ -58,7 +58,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		
 	}
 	
-	public ImagePanel(IListImages images_list, JPanel callerStation) {
+	public ImagePanel(IListImages images_list, JPanel callerStation, Main_Window mainWindow) {
 		super(new BorderLayout());
 		
 		this.callerStation = callerStation;
@@ -74,7 +74,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		
 		fileToShow = images_list.getFile(0);
 		fileShownIndex = 0;
-		window = Global_Window.main_window;
+		window = mainWindow;
 	}
 	
 	public boolean hasNext(){

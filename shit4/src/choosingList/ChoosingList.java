@@ -2,6 +2,8 @@ package choosingList;
 
 import javax.swing.JPanel;
 
+import GUI.Main_Window;
+
 import factories.IChoosingWindowFactory;
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -15,9 +17,9 @@ public class ChoosingList implements IChoosingList{
 	final static private int MAX_PARTIES = 9;
 	
 	//for test without graphic: stationPanel = null
-	public ChoosingList(IPartiesList parties, JPanel stationPanel, IChoosingWindowFactory windowFactory){
+	public ChoosingList(IPartiesList parties, JPanel stationPanel, IChoosingWindowFactory windowFactory, Main_Window mainWindow){
 		this.parties = parties;
-		this.window = windowFactory.createInstance(stationPanel);
+		this.window = windowFactory.createInstance(stationPanel, mainWindow);
 		this.place = 0;
 	};
 	

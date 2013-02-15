@@ -27,6 +27,7 @@ import votersList.IVotersList;
 import votersList.IVoterData.AlreadyIdentified;
 import votersList.IVotersList.VoterDoesntExist;
 import votingStation.IVotingStation;
+import GUI.Main_Window;
 import XML.IBackup;
 import XML.IReadSuppliedXML;
 
@@ -55,6 +56,8 @@ public class Mainframe implements IMainframe, Runnable {
 	private IMainframeWindowFactory mainframeWindowFactory;
 	private IReadSuppliedXMLFactory readSuppliedXMLFactory;
 	private IStationsControllerFactory stationsControllerFactory;
+	
+	private Main_Window mainWindow;
 
 	public Mainframe(IBackupFactory backupFactory,
 			IPartiesListFactory partiesListFactory, IPartyFactory partyFactory,
@@ -66,7 +69,8 @@ public class Mainframe implements IMainframe, Runnable {
 			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
-			IStationsControllerFactory stationsControllerFactory) {
+			IStationsControllerFactory stationsControllerFactory,
+			Main_Window mainWindow) {
 		this.backupFactory = backupFactory;
 		this.partiesListFactory = partiesListFactory;
 		this.partyFactory = partyFactory;
@@ -79,6 +83,7 @@ public class Mainframe implements IMainframe, Runnable {
 		this.mainframeWindowFactory = mainframeWindowFactory;
 		this.readSuppliedXMLFactory = readSuppliedXMLFactory;
 		this.stationsControllerFactory = stationsControllerFactory;
+		this.mainWindow = mainWindow;
 	}
 
 	@Override
@@ -104,9 +109,9 @@ public class Mainframe implements IMainframe, Runnable {
 		this.parties = parties;
 		votingStations = stationsControllerFactory.createInstance(this,
 				votingStationFactory, choosingListFactory,
-				choosingWindowFactory, votingStationWindowFactory);
+				choosingWindowFactory, votingStationWindowFactory, mainWindow);
 		votingStations.initialize(parties);
-		window = mainframeWindowFactory.createInstance(this);
+		window = mainframeWindowFactory.createInstance(this, mainWindow);
 		window.init();
 		continueRun = true;
 	}

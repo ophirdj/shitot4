@@ -11,6 +11,7 @@ import javax.swing.JTextField;
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
 
+import GUI.Main_Window;
 import GUI.StationPanel;
 import GUI.WaitForClick;
 
@@ -30,8 +31,8 @@ public class VotingStation_window extends StationPanel implements IVotingStation
 	}
 	
 	
-	  public VotingStation_window(String name, IVotingStation caller){
-		  super(name);
+	  public VotingStation_window(String name, IVotingStation caller, Main_Window mainWindow){
+		  super(name, mainWindow);
 		  callerStation = caller;
 	  }
 	  

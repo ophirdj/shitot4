@@ -2,6 +2,8 @@ package factories;
 
 import javax.swing.JPanel;
 
+import GUI.Main_Window;
+
 import choosingList.IChoosingList;
 import partiesList.IPartiesList;
 
@@ -15,8 +17,10 @@ public interface IChoosingListFactory {
 	 *            graphic)
 	 * @param windowFactory
 	 *            : abstract factory that create a window
+	 * @param mainWindow
+	 * 			  : main window
 	 * @return a new object that implements IChoosingList
 	 */
 	IChoosingList createInstance(IPartiesList parties, JPanel stationPanel,
-			IChoosingWindowFactory windowFactory);
+			IChoosingWindowFactory windowFactory, Main_Window mainWindow);
 }

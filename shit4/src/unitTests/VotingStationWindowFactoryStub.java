@@ -1,5 +1,6 @@
 package unitTests;
 
+import GUI.Main_Window;
 import votingStation.IVotingStation;
 import votingStation.IVotingStationWindow;
 import factories.IVotingStationWindowFactory;
@@ -8,8 +9,8 @@ public class VotingStationWindowFactoryStub implements IVotingStationWindowFacto
 
 	@Override
 	public IVotingStationWindow createInstance(String name,
-			IVotingStation caller) {
-		return new VotingStationWindowStub("");
+			IVotingStation caller, Main_Window mainWindow) {
+		return new VotingStationWindowStub("", mainWindow);
 	}
 
 }

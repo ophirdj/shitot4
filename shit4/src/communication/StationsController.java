@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import GUI.Main_Window;
+
 import partiesList.IPartiesList;
 
 import factories.IChoosingListFactory;
@@ -24,13 +26,14 @@ public class StationsController implements IStationsController {
 			IChoosingListFactory choosingListFactory,
 			IChoosingWindowFactory choosingWindowFactory,
 			IVotingStationWindowFactory votingStationWindowFactory,
-			List<String> stationsNames, List<String> passwords) {
+			List<String> stationsNames, List<String> passwords,
+			Main_Window mainWindow) {
 		this.mainframe = mainframe;
 		this.stations = new ArrayList<IVotingStation>();
-		for (String name: stationsNames) {
-			stations.add(votingStationFactory.createInstance(passwords,
-					name, choosingListFactory,
-					choosingWindowFactory, votingStationWindowFactory));
+		for (String name : stationsNames) {
+			stations.add(votingStationFactory.createInstance(passwords, name,
+					choosingListFactory, choosingWindowFactory,
+					votingStationWindowFactory, mainWindow));
 		}
 	}
 
@@ -39,7 +42,7 @@ public class StationsController implements IStationsController {
 		System.out.println("=========================");
 		System.out.println("Peep of StationsController");
 		System.out.println("=========================");
-		for(IVotingStation s: stations){
+		for (IVotingStation s : stations) {
 			s.peep();
 		}
 	}
@@ -47,12 +50,11 @@ public class StationsController implements IStationsController {
 	@Override
 	public void initialize(IPartiesList parties) {
 		boolean flag = true;
-		for(IVotingStation s: stations){
-			if(flag){
+		for (IVotingStation s : stations) {
+			if (flag) {
 				s.initialize(parties, this);
 				flag = false;
-			}
-			else{
+			} else {
 				s.initialize(parties.zeroCopy(), this);
 			}
 		}
@@ -60,7 +62,7 @@ public class StationsController implements IStationsController {
 
 	@Override
 	public void retire() {
-		for(IVotingStation s: stations){
+		for (IVotingStation s : stations) {
 			s.retire();
 		}
 	}
@@ -83,13 +85,12 @@ public class StationsController implements IStationsController {
 	@Override
 	public IPartiesList hotBackup() {
 		IPartiesList all = null;
-		boolean first=true;
-		for(IVotingStation s: stations){
-			if(first){ 
+		boolean first = true;
+		for (IVotingStation s : stations) {
+			if (first) {
 				all = s.getPartiesList().copy();
 				first = false;
-			}
-			else{
+			} else {
 				all = all.joinLists(s.getPartiesList());
 			}
 		}

@@ -1,4 +1,4 @@
-package translate;
+package dictionaries;
 
 /**
  * Added feature: display messages in user's native language.
@@ -6,11 +6,11 @@ package translate;
  * @author Ophir De Jager
  *
  */
-public interface ITranslator {
+public interface IDictionary {
 	
 	enum Messages{
 		Hi
 	}
 	
-	String getMessage(Messages message);
+	String translate(Messages message);
 }

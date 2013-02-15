@@ -6,6 +6,7 @@ import choosingList.IChoosingList;
 import choosingList.IChoosingList.ChoosingInterruptedException;
 
 import GUI.IImagePanel;
+import GUI.Main_Window;
 import factories.IChoosingListFactory;
 import factories.IChoosingWindowFactory;
 import partiesList.IPartiesList;
@@ -18,6 +19,7 @@ public class PracticeStation implements IPracticeStation {
 	IChoosingList choosingList;
 	IImagePanelFactory imagePanelFactory;
 	IImagePanel guide;
+	private Main_Window mainWindow;
 
 	private final int max_practice_time = 5;
 
@@ -25,13 +27,14 @@ public class PracticeStation implements IPracticeStation {
 			IChoosingListFactory choseFactory,
 			IChoosingWindowFactory choseWindowFactory,
 			IPracticeStationWindowFactory stationWindowFactory,
-			IImagePanelFactory imagePanelFactory) {
+			IImagePanelFactory imagePanelFactory, Main_Window mainWindow) {
 		this.parties = parties;
 		this.practiceStationWindow = stationWindowFactory.createInstance(name,
-				this);
+				this, mainWindow);
 		this.imagePanelFactory = imagePanelFactory;
 		this.choosingList = choseFactory.createInstance(parties,
-				(JPanel) practiceStationWindow, choseWindowFactory);
+				(JPanel) practiceStationWindow, choseWindowFactory, mainWindow);
+		this.mainWindow = mainWindow;
 	};
 
 	class Watcher extends Thread {
@@ -71,7 +74,7 @@ public class PracticeStation implements IPracticeStation {
 		boolean understandConformation = false;
 		IParty chosen;
 		guide = imagePanelFactory.createInstance(new PracticeStationImages(),
-				(JPanel) practiceStationWindow);
+				(JPanel) practiceStationWindow,mainWindow);
 		Watcher watcher = new Watcher(this);
 		try {
 			watcher.start();

@@ -14,6 +14,11 @@ import javax.swing.JPanel;
 import javax.swing.Scrollable;
 import javax.swing.border.TitledBorder;
 
+import dictionaries.IDictionary;
+
+import factories.IDictionaryFactory;
+
+
 public class Main_Window extends JFrame {
 	private static final long serialVersionUID = 56L;
 	public static final Color BackGroundColor = new Color(58,95,205);
@@ -29,8 +34,12 @@ public class Main_Window extends JFrame {
 	private Hashtable<JPanel, JPanel> station_show_map;
 	private Hashtable<JPanel, String> station_name_map;
 	
-	public Main_Window() {
-		super("Main_Window");
+	private IDictionary dictionary;
+	
+	public Main_Window(IDictionaryFactory translatorFactory) {
+		super();
+		this.dictionary = translatorFactory.createInstance();
+		super.setTitle("Main Window");
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setMinimumSize(new Dimension(500,300));
 		

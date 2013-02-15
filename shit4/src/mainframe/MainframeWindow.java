@@ -12,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
 
+import GUI.Main_Window;
 import GUI.StationPanel;
 import GUI.View;
 import GUI.WaitForClick;
@@ -31,8 +32,8 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private final int NUM_OF_LAYER = MainframeAction.maxRow();
 	private final Color MainframeBackGround = new Color(255,255,255); 
 	
-	public MainframeWindow(IMainframe callerStation) {
-		super("Main Frame");
+	public MainframeWindow(IMainframe callerStation, Main_Window window) {
+		super("Main Frame", window);
 		this.callerStation = callerStation;
 		
 	}
@@ -62,7 +63,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	public void showTable(IPartiesList parties) {
 		
 		if(tablePanel == null){
-			tablePanel = new TablePanel();
+			tablePanel = new TablePanel(window);
 			window.add_button(new View("table"), tablePanel);
 		}
 		tablePanel.showTable(parties);

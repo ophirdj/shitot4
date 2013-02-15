@@ -10,10 +10,13 @@ import javax.swing.JPanel;
 public abstract class BasicPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	
+	protected Main_Window window;
 
-	public BasicPanel() {
+	public BasicPanel(Main_Window mainWindow) {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
+		this.window = mainWindow;
 	}
 	
 	public Boolean getConfirmation(String confirmationMessage){
@@ -38,6 +41,6 @@ public abstract class BasicPanel extends JPanel {
 	  }
 	  
 	  public void closeWindow() {
-		  Global_Window.main_window.remove_panel(this);
+		 window.remove_panel(this);
 	  }
 }

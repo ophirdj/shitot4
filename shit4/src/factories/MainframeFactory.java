@@ -1,5 +1,6 @@
 package factories;
 
+import GUI.Main_Window;
 import mainframe.IMainframe;
 import mainframe.Mainframe;
 
@@ -16,11 +17,12 @@ public class MainframeFactory implements IMainframeFactory {
 			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
-			IStationsControllerFactory stationsControllerFactory) {
+			IStationsControllerFactory stationsControllerFactory,
+			Main_Window mainWindow) {
 		return new Mainframe(backupFactory, partiesListFactory, partyFactory,
 				votersListFactory, voterDataFactory, choosingListFactory,
 				choosingWindowFactory, votingStationFactory,
 				votingStationWindowFactory, mainframeWindowFactory,
-				readSuppliedXMLFactory, stationsControllerFactory);
+				readSuppliedXMLFactory, stationsControllerFactory, mainWindow);
 	}
 }

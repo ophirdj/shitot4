@@ -1,8 +1,8 @@
-package translate;
+package dictionaries;
 
 import java.util.EnumMap;
 
-public class TranslatorEnglish implements ITranslator {
+public class Translate2English implements IDictionary {
 	
 	private static final EnumMap<Messages, String> dictionary = createDictionary();
 	
@@ -19,7 +19,7 @@ public class TranslatorEnglish implements ITranslator {
 	}
 
 	@Override
-	public String getMessage(Messages message) {
+	public String translate(Messages message) {
 		return dictionary.get(message);
 	}
 	
