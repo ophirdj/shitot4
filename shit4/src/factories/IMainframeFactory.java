@@ -1,5 +1,6 @@
 package factories;
 
+import GUI.Main_Window;
 import mainframe.IMainframe;
 
 public interface IMainframeFactory {
@@ -14,5 +15,6 @@ public interface IMainframeFactory {
 			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
-			IStationsControllerFactory stationsControllerFactory);
+			IStationsControllerFactory stationsControllerFactory,
+			Main_Window mainWindow);
 }

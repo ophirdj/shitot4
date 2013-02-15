@@ -9,7 +9,9 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 
-import GUI.Global_Window;
+import dictionaries.IDictionary.Messages;
+
+import GUI.Main_Window;
 import partiesList.IPartiesList;
 import partiesList.IParty;
 
@@ -19,16 +21,18 @@ public class TablePanel extends JPanel {
 	final int PARTIES_IN_WINDOW = 10;
 	int current_place;
 	JTable table;
+	private Main_Window mainWindow;
 
-	public TablePanel() {
+	public TablePanel(Main_Window mainWindow) {
 		super(new BorderLayout());
+		this.mainWindow = mainWindow;
 	}
 	
 	private void displayTable() {
 		table = new ReadOnlyTable(all_parties.size(), 3);
-		table.getColumnModel().getColumn(0).setHeaderValue("parties symbol");
-		table.getColumnModel().getColumn(1).setHeaderValue("parties name");
-		table.getColumnModel().getColumn(2).setHeaderValue("vote count");
+		table.getColumnModel().getColumn(0).setHeaderValue(mainWindow.translate(Messages.symbol));
+		table.getColumnModel().getColumn(1).setHeaderValue(mainWindow.translate(Messages.name));
+		table.getColumnModel().getColumn(2).setHeaderValue(mainWindow.translate(Messages.votes));
 		int i = 0;
 		for (IParty party : all_parties) {
 			table.setValueAt(party.getSymbol(), i, 0);
@@ -40,7 +44,7 @@ public class TablePanel extends JPanel {
 		JScrollPane sp = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		this.add(sp);
-		Global_Window.main_window.show_if_current(this, this);
+		mainWindow.show_if_current(this, this);
 	}
 
 	public void showTable(IPartiesList parties) {

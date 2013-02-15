@@ -1,11 +1,14 @@
 package practiceStation;
 
+import dictionaries.IDictionary.Messages;
+import GUI.Main_Window;
+
 public enum PracticeStationAction {
 	
 		practice_vote{
 			@Override
-			public String toString() {
-				return "practice vote";
+			public String getString(Main_Window mainWindow) {
+				return mainWindow.translate(Messages.practice_vote);
 			}
 			
 			@Override
@@ -20,8 +23,8 @@ public enum PracticeStationAction {
 		}, 
 		shut_down{
 			@Override
-			public String toString() {
-				return "shut down";
+			public String getString(Main_Window mainWindow) {
+				return mainWindow.translate(Messages.shut_down);
 			}
 			
 			@Override
@@ -39,6 +42,9 @@ public enum PracticeStationAction {
 		;
 
 	abstract void activate(IPracticeStation callerStation, IPracticeStationWindow window);
+	
+	abstract String getString(Main_Window mainWindow);
+	
 	abstract int getRow();
 	
 	public static int maxRow(){

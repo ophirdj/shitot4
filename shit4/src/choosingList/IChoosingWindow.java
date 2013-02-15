@@ -2,6 +2,7 @@ package choosingList;
 
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.IDictionary.Messages;
 import GUI.IWindow;
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -32,5 +33,13 @@ public interface IChoosingWindow extends IWindow{
 	 * @param switchTo the panel to switch to
 	 */
 	public void switchOff();
+	
+	
+	/**
+	 * Translate a message to native language
+	 * @param message
+	 * @return
+	 */
+	String translate(Messages message);
 
 }
