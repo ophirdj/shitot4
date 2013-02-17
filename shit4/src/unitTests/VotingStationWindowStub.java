@@ -1,6 +1,5 @@
 package unitTests;
 
-import GUI.Main_Window;
 import GUI.StationPanel;
 import votingStation.IVotingStationWindow;
 
@@ -13,10 +12,9 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 	private static int i;
 	private static String message;
 
-	public VotingStationWindowStub(String name, Main_Window mainWindow) {
-		super(name, mainWindow);
+	public VotingStationWindowStub(String name) {
+		super(name);
 		closeWindow();
-		mainWindow.setVisible(false);
 	}
 
 	@Override

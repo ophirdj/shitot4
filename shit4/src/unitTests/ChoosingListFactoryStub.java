@@ -2,8 +2,6 @@ package unitTests;
 
 import javax.swing.JPanel;
 
-import GUI.Main_Window;
-
 import partiesList.IPartiesList;
 import choosingList.IChoosingList;
 import factories.IChoosingListFactory;
@@ -13,7 +11,7 @@ public class ChoosingListFactoryStub implements IChoosingListFactory {
 
 	@Override
 	public IChoosingList createInstance(IPartiesList parties,
-			JPanel stationPanel, IChoosingWindowFactory windowFactory, Main_Window mainWindow) {
+			JPanel stationPanel, IChoosingWindowFactory windowFactory) {
 		return new ChoosingListStub();
 	}
 

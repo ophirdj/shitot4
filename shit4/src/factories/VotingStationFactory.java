@@ -2,8 +2,6 @@ package factories;
 
 import java.util.List;
 
-import GUI.Main_Window;
-
 import votingStation.IVotingStation;
 import votingStation.VotingStation;
 
@@ -13,10 +11,9 @@ public class VotingStationFactory implements IVotingStationFactory {
 	public IVotingStation createInstance(List<String> passwords, String name,
 			IChoosingListFactory choseFactory,
 			IChoosingWindowFactory choseWindowFactory,
-			IVotingStationWindowFactory stationWindowFactory,
-			Main_Window mainWindow) {
+			IVotingStationWindowFactory stationWindowFactory) {
 		return new VotingStation(passwords, name, choseFactory,
-				choseWindowFactory, stationWindowFactory, mainWindow);
+				choseWindowFactory, stationWindowFactory);
 	}
 
 }

@@ -1,7 +1,6 @@
 package GUI;
 
 
-import dictionaries.IDictionary.Messages;
 import java.awt.Color;
 import java.awt.GridBagLayout;
 
@@ -11,19 +10,16 @@ import javax.swing.JPanel;
 public abstract class BasicPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
-	protected Main_Window window;
 
-	public BasicPanel(Main_Window mainWindow) {
+	public BasicPanel() {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
-		this.window = mainWindow;
 	}
 	
 	public Boolean getConfirmation(String confirmationMessage){
 		  int n= JOptionPane.showConfirmDialog(this,
 				  	confirmationMessage,
-		            window.translate(Messages.Ask_for_conformation),
+		            "Ask for conformation",
 		            JOptionPane.YES_NO_OPTION,
 		            JOptionPane.QUESTION_MESSAGE,
 		            null);
@@ -34,14 +30,14 @@ public abstract class BasicPanel extends JPanel {
 	  }
 	  
 	  public void printError(String errorMessage) {
-		  JOptionPane.showMessageDialog(this, errorMessage, window.translate(Messages.ERROR), JOptionPane.ERROR_MESSAGE);
+		  JOptionPane.showMessageDialog(this, errorMessage, "ERROR!", JOptionPane.ERROR_MESSAGE);
 	  }
 	  
 	  public void printMessage(String message) {
-		  JOptionPane.showMessageDialog(this, message, window.translate(Messages.FYI), JOptionPane.INFORMATION_MESSAGE);
+		  JOptionPane.showMessageDialog(this, message, "FYI", JOptionPane.INFORMATION_MESSAGE);
 	  }
 	  
 	  public void closeWindow() {
-		 window.remove_panel(this);
+		  Global_Window.main_window.remove_panel(this);
 	  }
 }

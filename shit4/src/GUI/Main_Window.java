@@ -3,17 +3,16 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Hashtable;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Scrollable;
 import javax.swing.border.TitledBorder;
-import dictionaries.IDictionary;
-import factories.IDictionaryFactory;
-import dictionaries.IDictionary.Messages;
-
 
 public class Main_Window extends JFrame {
 	private static final long serialVersionUID = 56L;
@@ -30,12 +29,8 @@ public class Main_Window extends JFrame {
 	private Hashtable<JPanel, JPanel> station_show_map;
 	private Hashtable<JPanel, String> station_name_map;
 	
-	private IDictionary dictionary;
-	
-	public Main_Window(IDictionaryFactory translatorFactory) {
-		super();
-		this.dictionary = translatorFactory.createInstance();
-		super.setTitle(dictionary.translate(Messages.Main_Window));
+	public Main_Window() {
+		super("Main_Window");
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setMinimumSize(new Dimension(500,300));
 		
@@ -57,15 +52,6 @@ public class Main_Window extends JFrame {
 		
 		this.add(main_panel);
 		this.setVisible(true);
-	}
-	
-	/**
-	 * Translate the given message to native language.
-	 * @param message
-	 * @return
-	 */
-	public String translate(Messages message){
-		return dictionary.translate(message);
 	}
 	
 	public void add_button(View view, JPanel station_panel){

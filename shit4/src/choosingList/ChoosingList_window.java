@@ -1,6 +1,7 @@
 package choosingList;
 
 import GUI.BasicPanel;
+import GUI.Global_Window;
 import GUI.Main_Window;
 
 import java.lang.String;
@@ -12,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
-import dictionaries.IDictionary.Messages;
 
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -21,6 +21,7 @@ import partiesList.IParty;
 public class ChoosingList_window extends BasicPanel implements IChoosingWindow {
 
 private static final long serialVersionUID = 23L;
+private Main_Window window;  
 private IParty current_party;
 private ChooseType return_type;
 private boolean was_pushed = false;
@@ -39,9 +40,9 @@ private void add_party_button(JPanel panel,String name,ChooseType type,IParty pa
 }
 
 private void make_special_panel(JPanel special_panel, IParty whiteNote){
-	  add_party_button(special_panel,window.translate(Messages.previous),ChooseType.Prev,IChoosingList.NO_PARTY,null);
-	  add_party_button(special_panel,window.translate(Messages.white_note),ChooseType.Party,whiteNote,Color.WHITE);
-	  add_party_button(special_panel,window.translate(Messages.next),ChooseType.Next,IChoosingList.NO_PARTY,null);
+	  add_party_button(special_panel,"previous parties",ChooseType.Prev,IChoosingList.NO_PARTY,null);
+	  add_party_button(special_panel,"white note",ChooseType.Party,whiteNote,Color.WHITE);
+	  add_party_button(special_panel,"next parties",ChooseType.Next,IChoosingList.NO_PARTY,null);
 }
 
 private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow){
@@ -57,8 +58,8 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 }
 
 
-  public ChoosingList_window(JPanel stationPanel, Main_Window mainWindow){
-	super(mainWindow);
+  public ChoosingList_window(JPanel stationPanel){
+    window = Global_Window.main_window;
     this.stationPanel = stationPanel;
   }
   
@@ -126,11 +127,6 @@ public void closeWindow() {
 		keep_running = false;
 		stationPanel.notify();
 	}
-}
-
-@Override
-public String translate(Messages message){
-	return window.translate(message);
 }
 
 }

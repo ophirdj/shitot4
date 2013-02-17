@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
-import GUI.Main_Window;
 import GUI.StationPanel;
 
 public class PracticeStationWindow extends StationPanel implements
@@ -24,8 +22,8 @@ public class PracticeStationWindow extends StationPanel implements
 		was_pushed = true;
 	}
 
-	public PracticeStationWindow(String name, IPracticeStation caller, Main_Window mainWindow) {
-		super(name, mainWindow);
+	public PracticeStationWindow(String name, IPracticeStation caller) {
+		super(name);
 		callerStation = caller;
 		(new Thread(this)).start();
 	}

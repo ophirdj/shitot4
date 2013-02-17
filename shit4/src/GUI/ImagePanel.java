@@ -7,12 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import dictionaries.IDictionary;
-import dictionaries.IDictionary.Messages;
 
 
 public class ImagePanel  extends JPanel implements IImagePanel{
@@ -24,9 +23,9 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 	int fileShownIndex;
 	IListImages images_list;
 	
-	JButton nextButton = new JButton();
-	JButton prevButton = new JButton();
-	JButton exitButton = new JButton();
+	JButton nextButton = new JButton(">");
+	JButton prevButton = new JButton("<");
+	JButton exitButton = new JButton("exit");
 	
 	JPanel callerStation;
 	Canvas canvas;
@@ -59,12 +58,8 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		
 	}
 	
-	public ImagePanel(IListImages images_list, JPanel callerStation, Main_Window mainWindow) {
+	public ImagePanel(IListImages images_list, JPanel callerStation) {
 		super(new BorderLayout());
-		
-		nextButton.setText(">");
-		prevButton.setText("<");
-		exitButton.setText(mainWindow.translate(Messages.Exit));
 		
 		this.callerStation = callerStation;
 		this.images_list = images_list;
@@ -79,7 +74,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		
 		fileToShow = images_list.getFile(0);
 		fileShownIndex = 0;
-		window = mainWindow;
+		window = Global_Window.main_window;
 	}
 	
 	public boolean hasNext(){
