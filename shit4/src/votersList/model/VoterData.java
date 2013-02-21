@@ -6,22 +6,32 @@ public class VoterData implements IVoterData{
 	private int id;
 	private boolean identified;
 	private boolean voted;
+	private boolean startedVote;
 	
 	public VoterData(int id){
 		this.id = id;
-		identified = voted = false;
+		identified = voted = startedVote = false;
+		
 	}
 	
+	@Override
 	public int getId(){
 		return id;
 	}
 	
+	@Override
 	public boolean isIdentified() {
 		return identified;
 	}
 
+	@Override
 	public boolean hasVoted() {
 		return voted;
+	}
+	
+	@Override
+	public boolean hasStartedVote() {
+		return startedVote;
 	}
 	
 	@Override
@@ -43,6 +53,7 @@ public class VoterData implements IVoterData{
 		return ret;
 	}
 	
+	@Override
 	public VoterData copy(){
 		VoterData ret = new VoterData(id);
 		ret.identified = identified;
@@ -60,7 +71,7 @@ public class VoterData implements IVoterData{
 		
 	}
 	
-	
+	@Override
 	public void markIdentified() throws AlreadyIdentified{
 		if(this.identified) throw new AlreadyIdentified();
 		this.identified = true;
@@ -70,8 +81,15 @@ public class VoterData implements IVoterData{
 	public void markVoted() throws Unidentified {
 		if(!identified) throw new Unidentified();
 		voted = true;
+		startedVote = false;
 	}
 	
+	
+	@Override
+	public void markStartedVote() throws Unidentified{
+		if(!identified) throw new Unidentified();
+		startedVote = true;
+	}
 	
 	
 }

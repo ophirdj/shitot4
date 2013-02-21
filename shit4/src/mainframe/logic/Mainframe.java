@@ -214,8 +214,18 @@ public class Mainframe implements IMainframe, Runnable {
 		}
 		if (voter.hasVoted())
 			return VoterStatus.voted;
-		if (voter.isIdentified())
+		if(voter.hasStartedVote()){
+			return VoterStatus.startedVote;
+		}
+		if (voter.isIdentified()){
+			try {
+				voter.markStartedVote();
+			} catch (Unidentified e) {
+				//shoauldn't reach here
+				e.printStackTrace();
+			}
 			return VoterStatus.identified;
+		}
 		return VoterStatus.unidentified;
 	}
 

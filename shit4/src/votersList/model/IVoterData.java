@@ -1,4 +1,7 @@
 package votersList.model;
+
+import votersList.model.IVoterData.Unidentified;
+
 public interface IVoterData {
 	
 	
@@ -23,6 +26,13 @@ public interface IVoterData {
 	 * @return true if voter has identified himself, false otherwise.
 	 */
 	boolean isIdentified();
+	
+	
+	/**
+	 * Check if the voter has already started voting in a station.
+	 * @return true if the voter has started voting, false otherwise.
+	 */
+	boolean hasStartedVote();
 	
 	
 	/**
@@ -51,4 +61,11 @@ public interface IVoterData {
 	 * @return A copy of the voter.
 	 */
 	IVoterData copy();
+
+
+	/**
+	 * Mark the voter started a voting process in one station.
+	 * @throws Unidentified
+	 */
+	void markStartedVote() throws Unidentified;
 }

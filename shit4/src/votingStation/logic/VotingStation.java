@@ -68,6 +68,12 @@ public class VotingStation implements IVotingStation {
 				}
 			}
 			votingStationWindow.printErrorMessage(Messages.You_cannot_vote_here);
+			return null;
+		case startedVote:
+			votingStationWindow.printErrorMessage(Messages.You_cannot_vote_here);
+			return null;
+		default:
+			break;
 		}
 		return null;
 	}

@@ -9,7 +9,7 @@ public interface IMainframe{
 		private static final long serialVersionUID = 1L;
 		}
 	
-	enum VoterStatus{identified, unidentified, voted;}
+	enum VoterStatus{identified, unidentified, voted, startedVote;}
 	
 	/**
 	 * Clean boot of the system.
