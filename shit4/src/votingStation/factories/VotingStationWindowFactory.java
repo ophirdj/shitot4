@@ -1,0 +1,22 @@
+package votingStation.factories;
+
+import global.gui.Main_Window;
+import votingStation.gui.IVotingStationWindow;
+import votingStation.gui.VotingStationWindow;
+import votingStation.logic.IVotingStation;
+
+public class VotingStationWindowFactory implements IVotingStationWindowFactory {
+
+	private Main_Window main_window;
+
+	public VotingStationWindowFactory(Main_Window main_window) {
+		this.main_window = main_window;
+	}
+	
+	@Override
+	public IVotingStationWindow createInstance(String name,
+			IVotingStation caller) {
+		return new VotingStationWindow(name, caller,main_window);
+	}
+
+}
