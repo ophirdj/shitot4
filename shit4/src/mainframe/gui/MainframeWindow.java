@@ -1,9 +1,9 @@
 package mainframe.gui;
 
+import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import global.gui.Main_Window;
 import global.gui.StationPanel;
-import global.gui.View;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,9 +29,11 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private boolean was_pushed=true;
 	private MainframeAction chosen_action;
 	private HistogramPanel histogramPanel;
-	private JScrollPane histogramScroll;
-	private JPanel histogramWraper;
 	private TablePanel tablePanel;
+	
+	private JScrollPane histogramScroll;
+	private StationPanel histogramWraper;
+	private StationPanel tableWraper;
 	
 	private boolean was_init = false;
 	
@@ -39,7 +41,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private final Color MainframeBackGround = new Color(255,255,255); 
 	
 	public MainframeWindow(IMainframe callerStation, Main_Window main_window) {
-		super("Main Frame",main_window);
+		super(Messages.Main_frame,main_window);
 		this.callerStation = callerStation;
 		new Thread(this).start();
 	}
@@ -51,14 +53,13 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 
 	@Override
 	public void showHistogram(IPartiesList parties) {
-		if(histogramPanel == null){
+		if(histogramWraper == null){
 			histogramPanel = new HistogramPanel();
 			histogramScroll = new JScrollPane(histogramPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			histogramWraper = new JPanel();
+			histogramWraper = new StationPanel(Messages.histogram,window);
 			histogramScroll.setLayout(new ScrollPaneLayout());
 			histogramWraper.setLayout(new BorderLayout());
 			histogramWraper.add(histogramScroll, BorderLayout.CENTER);
-			window.add_button(new View("histogram"), histogramWraper);
 		}
 		histogramScroll.setPreferredSize(histogramScroll.getParent().getSize());
 		histogramPanel.showHistogram(parties);
@@ -68,12 +69,12 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	@Override
 	public void showTable(IPartiesList parties) {
 		
-		if(tablePanel == null){
+		if(tableWraper == null){
 			tablePanel = new TablePanel(window);
-			window.add_button(new View("table"), tablePanel);
+			tableWraper = new StationPanel(Messages.table,window);
 		}
 		tablePanel.showTable(parties);
-		window.show_if_current(tablePanel,tablePanel);
+		window.show_if_current(tableWraper,tablePanel);
 	}
 	
 	void setAction(MainframeAction action){
@@ -162,8 +163,17 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	@Override
 	public void closeWindow() {
 		if(histogramWraper != null) window.remove_panel(histogramWraper);
-		if(tablePanel != null) window.remove_panel(tablePanel);
+		if(tableWraper != null) window.remove_panel(tableWraper);
 		super.closeWindow();
+	}
+	
+	@Override
+	public void setLanguage(Languages language) {
+		super.setLanguage(language);
+		this.getButton().setText(translate(Messages.Main_frame));
+		if(histogramWraper!=null) histogramWraper.getButton().setText(translate(Messages.histogram));
+		if(tableWraper!=null) tableWraper.getButton().setText(translate(Messages.table));
+		window.MAINFRAME_LANGUAGE = language;
 	}
 
 }

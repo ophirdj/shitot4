@@ -10,7 +10,7 @@ import mainframe.logic.IMainframe;
 
 public class StationsControllerFactory implements IStationsControllerFactory {
 
-	private static final int NUM_STATIONS = 2;
+	private static final int NUM_STATIONS = 5;
 	private IVotingStationFactory votingStationFactory;
 
 	public StationsControllerFactory(IVotingStationFactory votingStationFactory) {
@@ -21,19 +21,9 @@ public class StationsControllerFactory implements IStationsControllerFactory {
 	@Override
 	public IStationsController createInstance(IMainframe mainframe) {
 		
-		List<String> stationsNames = getStationsNames();
 		List<String> passwords = getPasswords();
 		
-		return new StationsController(mainframe, votingStationFactory, stationsNames, passwords);
-	}
-	
-	
-	private List<String> getStationsNames(){
-		List<String> names = new ArrayList<String>();
-		for(int i = 1; i <= NUM_STATIONS; i++){
-			names.add("voting station " + i);
-		}
-		return names;
+		return new StationsController(mainframe, votingStationFactory, passwords,NUM_STATIONS);
 	}
 	
 	

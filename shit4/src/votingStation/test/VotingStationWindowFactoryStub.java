@@ -7,7 +7,7 @@ import votingStation.logic.IVotingStation;
 public class VotingStationWindowFactoryStub implements IVotingStationWindowFactory{
 
 	@Override
-	public IVotingStationWindow createInstance(String name,
+	public IVotingStationWindow createInstance(
 			IVotingStation caller) {
 		return new VotingStationWindowStub();
 	}

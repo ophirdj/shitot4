@@ -13,5 +13,5 @@ public interface IPracticeStationWindowFactory {
 	 *            : caller station
 	 * @return a new object that implement IPracticeStationWindow
 	 */
-	IPracticeStationWindow createInstance(String name, IPracticeStation caller);
+	IPracticeStationWindow createInstance(IPracticeStation caller);
 }

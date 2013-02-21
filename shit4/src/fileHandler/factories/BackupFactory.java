@@ -29,11 +29,13 @@ public class BackupFactory implements IBackupFactory {
 			/*,String backupedVotersListFile, String backupedPartiesListFile,
 			  String unregisteredVotersFile*/
 			) {
-			 
+		
+		String backupFolder = "backup/";
+		String unregFolder = "unregisteredVoters/";
 		return new Backup(partiesListFactory, partyFactory, voterListFactory,
 				voterDataFactory,
 				/*backupedVotersListFile, backupedPartiesListFile, unregisteredVotersFile*/
-				"VotersListBackup.xml", "PartiesListBackup.xml", "UnregisteredVoters.xml");
+				backupFolder+"VotersListBackup.xml", backupFolder+"PartiesListBackup.xml", unregFolder+"UnregisteredVoters.xml");
 	}
 
 }

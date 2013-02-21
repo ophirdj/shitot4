@@ -1,6 +1,7 @@
 package practiceStation.gui;
 
 import global.dictionaries.Languages;
+import global.dictionaries.Messages;
 import global.gui.Main_Window;
 import global.gui.StationPanel;
 
@@ -25,7 +26,9 @@ public class PracticeStationWindow extends StationPanel implements
 	private final Color PracticeBackground = new Color(255, 255, 255);
 	private IPracticeStation callerStation;
 	private final int NUM_OF_ROW = PracticeStationAction.maxRow();
-
+	private int id;
+	
+	
 	public void setAction(PracticeStationAction action) {
 		if (!was_pushed) {
 			chosen_action = action;
@@ -33,10 +36,11 @@ public class PracticeStationWindow extends StationPanel implements
 		was_pushed = true;
 	}
 
-	public PracticeStationWindow(String name, IPracticeStation caller, Main_Window main_window) {
-		super(name,main_window);
+	public PracticeStationWindow(int id, IPracticeStation caller, Main_Window main_window) {
+		super(Messages.practiceStation,id,main_window);
 		callerStation = caller;
-		callerStation.setLanguage(window.DEFUALT_LANGUAGE);
+		callerStation.setLanguage(window.MAINFRAME_LANGUAGE);
+		this.id = id;
 		(new Thread(this)).start();
 	}
 
@@ -88,7 +92,8 @@ public class PracticeStationWindow extends StationPanel implements
 	
 	@Override
 	public void setLanguage(Languages language) {
-		callerStation.setLanguage(language);
 		super.setLanguage(language);
+		callerStation.setLanguage(language);
+		this.getButton().setText(translate(Messages.practiceStation)+id);
 	}
 }

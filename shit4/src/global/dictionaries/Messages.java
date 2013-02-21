@@ -52,4 +52,6 @@ public enum Messages {
 	Yes,
 	No,
 	Ok,
+	practiceStation,
+	voting_station,
 }

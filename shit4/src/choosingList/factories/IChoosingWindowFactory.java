@@ -1,6 +1,6 @@
 package choosingList.factories;
 
-import global.gui.BasicPanel;
+import global.gui.StationPanel;
 import choosingList.gui.IChoosingWindow;
 
 public interface IChoosingWindowFactory {
@@ -8,5 +8,5 @@ public interface IChoosingWindowFactory {
 	 * 
 	 * @return a new object that implements IChoosingWindow
 	 */
-	IChoosingWindow createInstance(BasicPanel stationPanel);
+	IChoosingWindow createInstance(StationPanel stationPanel);
 }

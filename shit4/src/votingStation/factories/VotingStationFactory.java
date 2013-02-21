@@ -19,8 +19,8 @@ public class VotingStationFactory implements IVotingStationFactory {
 	}
 	
 	@Override
-	public IVotingStation createInstance(List<String> passwords, String name) {
-		return new VotingStation(passwords, name, choseFactory,stationWindowFactory);
+	public IVotingStation createInstance(List<String> passwords) {
+		return new VotingStation(passwords, choseFactory,stationWindowFactory);
 	}
 
 }

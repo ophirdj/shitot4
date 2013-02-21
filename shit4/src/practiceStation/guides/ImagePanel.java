@@ -71,7 +71,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		super(new BorderLayout());
 		this.callerStation = callerStation;
 		this.guideMap = guideMap;
-		this.images_list = guideMap.get(main_window.DEFUALT_LANGUAGE);
+		this.images_list = guideMap.get(main_window.MAINFRAME_LANGUAGE);
 		nextButton.addActionListener(new DirectionClick(image_action.next));
 		prevButton.addActionListener(new DirectionClick(image_action.prev));
 		exitButton.addActionListener(new DirectionClick(image_action.exit));

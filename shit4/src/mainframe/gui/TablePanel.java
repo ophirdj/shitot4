@@ -4,6 +4,7 @@ import global.gui.Main_Window;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -42,7 +43,6 @@ public class TablePanel extends JPanel {
 		JScrollPane sp = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		this.add(sp);
-		main_window.show_if_current(this, this);
 	}
 
 	public void showTable(IPartiesList parties) {

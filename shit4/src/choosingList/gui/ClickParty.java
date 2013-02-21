@@ -14,11 +14,11 @@ import partiesList.model.IParty;
 public class ClickParty implements ActionListener{
 	private ChooseType return_type;
 	private IParty button_party;
-	private ChoosingList_window original_window;
+	private ChoosingListWindow original_window;
 	private Object lock;
 	
 	public ClickParty(ChooseType type, IParty given_party, 
-						Object window_lock, ChoosingList_window caller) {
+						Object window_lock, ChoosingListWindow caller) {
 		button_party = given_party;
 		lock = window_lock;
 		original_window = caller;

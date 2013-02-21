@@ -1,7 +1,7 @@
 package choosingList.logic;
 
 import global.dictionaries.Messages;
-import global.gui.BasicPanel;
+import global.gui.StationPanel;
 import choosingList.factories.IChoosingWindowFactory;
 import choosingList.gui.IChoosingWindow;
 
@@ -18,7 +18,7 @@ public class ChoosingList implements IChoosingList{
 	final static private int MAX_PARTIES = 9;
 	
 	//for test without graphic: stationPanel = null
-	public ChoosingList(IPartiesList parties, BasicPanel stationPanel, IChoosingWindowFactory windowFactory){
+	public ChoosingList(IPartiesList parties, StationPanel stationPanel, IChoosingWindowFactory windowFactory){
 		this.parties = parties;
 		this.window = windowFactory.createInstance(stationPanel);
 		this.place = 0;

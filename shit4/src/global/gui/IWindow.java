@@ -26,11 +26,6 @@ public interface IWindow{
 	public void printMessage(String message);
 	
 	/**
-	 * close the window
-	 */
-	public void closeWindow();
-	
-	/**
 	 * change the language of the station to the given language
 	 * @param language: the language for the station
 	 */
@@ -76,4 +71,9 @@ public interface IWindow{
 	 * @return the voter choice
 	 */
 	boolean printConformationMessage(Messages message, IParty party);
+	
+	/**
+	 * close the window
+	 */
+	void closeWindow();
 }

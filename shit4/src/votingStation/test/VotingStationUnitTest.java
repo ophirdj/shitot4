@@ -32,7 +32,7 @@ public class VotingStationUnitTest {
 	private IStationsController stationsController = new StationsControllerStub();
 
 	public VotingStationUnitTest() {
-		votingStation = new VotingStation(passwords,"voting station 1",
+		votingStation = new VotingStation(passwords,
 				new ChoosingListFactoryStub(), new VotingStationWindowFactoryStub());
 		
 	}

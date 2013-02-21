@@ -1,8 +1,8 @@
 package choosingList.factories;
 
-import global.gui.BasicPanel;
 import global.gui.Main_Window;
-import choosingList.gui.ChoosingList_window;
+import global.gui.StationPanel;
+import choosingList.gui.ChoosingListWindow;
 import choosingList.gui.IChoosingWindow;
 
 
@@ -15,8 +15,8 @@ public class ChoosingWindowFactory implements IChoosingWindowFactory {
 	}
 	
 	@Override
-	public IChoosingWindow createInstance(BasicPanel stationPanel) {
-		return new ChoosingList_window(stationPanel,main_window);
+	public IChoosingWindow createInstance(StationPanel stationPanel) {
+		return new ChoosingListWindow(stationPanel,main_window);
 	}
 
 }

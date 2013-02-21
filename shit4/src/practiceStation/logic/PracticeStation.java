@@ -25,13 +25,12 @@ public class PracticeStation implements IPracticeStation {
 
 	private final int max_practice_time = 5;
 
-	public PracticeStation(String name, IPartiesList parties,
+	public PracticeStation(IPartiesList parties,
 			IChoosingListFactory chooseFactory,
 			IPracticeStationWindowFactory stationWindowFactory,
 			IImagePanelFactory imagePanelFactory) {
 		this.parties = parties;
-		this.practiceStationWindow = stationWindowFactory.createInstance(name,
-				this);
+		this.practiceStationWindow = stationWindowFactory.createInstance(this);
 		this.imagePanelFactory = imagePanelFactory;
 		this.choosingList = chooseFactory.createInstance(parties,
 				(StationPanel) practiceStationWindow);

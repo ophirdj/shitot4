@@ -1,5 +1,6 @@
 package votingStation.gui;
 
+import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import global.gui.Main_Window;
 import global.gui.StationPanel;
@@ -32,6 +33,7 @@ public class VotingStationWindow extends StationPanel implements
 	private boolean was_called = false;
 
 	private final int NUM_OF_LAYER = VotingStationAction.maxRow();
+	private int id;
 	
 	public void setAction(VotingStationAction action) {
 		if (!was_pushed) {
@@ -44,10 +46,11 @@ public class VotingStationWindow extends StationPanel implements
 		was_called = true;
 	}
 
-	public VotingStationWindow(String name, IVotingStation caller,
+	public VotingStationWindow(int id, IVotingStation caller,
 			Main_Window main_window) {
-		super(name, main_window);
+		super(Messages.voting_station,id, main_window);
 		callerStation = caller;
+		this.id = id;
 	}
 
 	void make_voting_button(JPanel voting_panel, VotingStationAction action,
@@ -168,5 +171,11 @@ public class VotingStationWindow extends StationPanel implements
 	public synchronized void endLoop() {
 		keepRunning = false;
 		this.notify();
+	}
+	
+	@Override
+	public void setLanguage(Languages language) {
+		super.setLanguage(language);
+		getButton().setText(translate(Messages.voting_station)+id);
 	}
 }

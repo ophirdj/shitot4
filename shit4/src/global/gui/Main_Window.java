@@ -7,7 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.Hashtable;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,18 +19,14 @@ public class Main_Window extends JFrame {
 	private static final long serialVersionUID = 56L;
 	public static final Color BackGroundColor = new Color(58,95,205);
 	
-	private final JPanel defualt_panel = new JPanel(new FlowLayout());
-	public final Languages DEFUALT_LANGUAGE = Languages.English;
+	private final StationPanel defualt_panel = new StationPanel(this, new JPanel());
+	public Languages MAINFRAME_LANGUAGE = Languages.English;
 	
 	
 	private JPanel main_panel;
 	private JPanel buttons_panel;
 	private JPanel current_panel;
-	private JPanel current_station_panel;
-	
-	private Hashtable<JPanel, JButton> station_button_map = new Hashtable<JPanel, JButton>();
-	private Hashtable<JPanel, JPanel> station_show_map =  new Hashtable<JPanel, JPanel>();;
-	private Hashtable<JPanel, String> station_name_map = new Hashtable<JPanel, String>();
+	private StationPanel current_station_panel;
 	
 	public Main_Window() {
 		super("Main_Window");
@@ -47,69 +42,62 @@ public class Main_Window extends JFrame {
 		current_panel = defualt_panel;
 		
 		main_panel.add(buttons_panel,BorderLayout.SOUTH);
-		station_show_map.put(defualt_panel, defualt_panel);
 		
 		this.add(main_panel);
 		this.setVisible(true);
 	}
 	
-	public void add_button(View view, JPanel station_panel){
-		JButton viewButton = new JButton(view.getName());
+	public void add_button(View view, StationPanel station_panel){
+		JButton viewButton = new JButton(view.toString());
 		viewButton.addActionListener(new ClickView(station_panel,this));
 		buttons_panel.add(viewButton);
-		
-		station_button_map.put(station_panel, viewButton);
-		station_show_map.put(station_panel, station_panel);
-		station_name_map.put(station_panel, view.getName());
+		station_panel.setButton(viewButton);
+		station_panel.setPanel(station_panel);
+		station_panel.setStationName(view.getName());
 	}
 	
 	public void show_window(){
 		main_panel.setVisible(false);
 		main_panel.remove(current_panel);
-		current_panel = station_show_map.get(current_station_panel);
+		current_panel = current_station_panel.getPanel();
 		if(current_station_panel == defualt_panel){
 			current_panel.setBackground(BackGroundColor);
 		}
 		else{
 			current_panel.setBackground(Color.WHITE);
 		}
-		String name = station_name_map.get(current_station_panel);
-		if(name != null) current_panel.setBorder(new TitledBorder(name));
+		String name = current_station_panel.getStationName();
+		if(name != null){
+			current_panel.setBorder(new TitledBorder(name));
+		}
 		main_panel.add(current_panel,BorderLayout.CENTER);
 		main_panel.setPreferredSize(getPreferredSize());
 		main_panel.setVisible(true);
 	}
 	
-	public void show_station(JPanel station_panel){
+	public void show_station(StationPanel station_panel){
 		current_station_panel = station_panel;
 		show_window();
 	}
 	
-	public void show_if_current(JPanel station_panel, JPanel new_panel){
-		station_show_map.remove(station_panel);
-		station_show_map.put(station_panel, new_panel);
+	public void show_if_current(StationPanel station_panel, JPanel new_panel){
+		station_panel.setPanel(new_panel);
 		if(station_panel == current_station_panel){
 			show_window();
 		}
 	}
 	
-	public void hide_panel(JPanel station_panel){
+	public void hide_panel(StationPanel station_panel){
 		if(station_panel != current_station_panel) return;
 		current_station_panel = defualt_panel;
 		show_window();
 	}
 	
-	public void remove_panel(JPanel station_panel){
+	public void remove_panel(StationPanel station_panel){
 		hide_panel(station_panel);
-		if(!station_button_map.containsKey(station_panel)){
-			return;
-		}
-		JButton button_to_remove = station_button_map.get(station_panel);
+		JButton button_to_remove = station_panel.getButton();
 		buttons_panel.remove(button_to_remove);
-		station_button_map.remove(station_panel);
-		station_show_map.remove(station_panel);
-		station_name_map.remove(station_panel);
-		if(station_button_map.size() == 0){
+		if(buttons_panel.getComponentCount() == 0){
 			this.dispose();
 		}
 		else{

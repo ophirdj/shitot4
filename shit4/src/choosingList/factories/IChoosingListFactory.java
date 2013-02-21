@@ -1,7 +1,7 @@
 package choosingList.factories;
 
 
-import global.gui.BasicPanel;
+import global.gui.StationPanel;
 import choosingList.logic.IChoosingList;
 
 import partiesList.model.IPartiesList;
@@ -16,5 +16,5 @@ public interface IChoosingListFactory {
 	 *            graphic)
 	 * @return a new object that implements IChoosingList
 	 */
-	IChoosingList createInstance(IPartiesList parties, BasicPanel stationPanel);
+	IChoosingList createInstance(IPartiesList parties, StationPanel stationPanel);
 }

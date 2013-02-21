@@ -78,7 +78,7 @@ public class VotingSystem {
 		PracticeStationWindowFactory practiceStationWindowFactory = new PracticeStationWindowFactory(main_window);
 		IImagePanelFactory imagePanelFactory = new ImagePanelFactory(main_window);
 		IPracticeStationFactory practiceStationFactory = new PracticeStationFactory(choosingListFactory, practiceStationWindowFactory, imagePanelFactory);
-		practiceStationFactory.createInstance("practice station", getPracticeParties());
+		practiceStationFactory.createInstance(getPracticeParties());
 		main_window.show_window();
 	}
 }

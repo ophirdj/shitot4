@@ -1,6 +1,6 @@
 package votingStation.test;
 
-import global.gui.BasicPanel;
+import global.gui.StationPanel;
 import choosingList.factories.IChoosingListFactory;
 import choosingList.logic.IChoosingList;
 
@@ -10,7 +10,7 @@ public class ChoosingListFactoryStub implements IChoosingListFactory {
 
 	@Override
 	public IChoosingList createInstance(IPartiesList parties,
-			BasicPanel stationPanel) {
+			StationPanel stationPanel) {
 		return new ChoosingListStub();
 	}
 

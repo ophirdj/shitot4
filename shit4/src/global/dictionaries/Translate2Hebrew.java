@@ -55,7 +55,8 @@ public class Translate2Hebrew implements IDictionary {
 		dict.put(Messages.Yes, "כן");
 		dict.put(Messages.No, "לא");
 		dict.put(Messages.Ok, "אישור");
-		
+		dict.put(Messages.practiceStation, "עמדת תרגול מספר ");
+		dict.put(Messages.voting_station, "עמדת הצבעה מספר ");
 		return dict;
 	}
 

@@ -55,7 +55,8 @@ public class Translate2English implements IDictionary {
 		dict.put(Messages.Yes, "Yes");
 		dict.put(Messages.No, "No");
 		dict.put(Messages.Ok, "Ok");
-		
+		dict.put(Messages.practiceStation, "practice station no. ");
+		dict.put(Messages.voting_station, "voting station no. ");
 		return dict;
 	}
 

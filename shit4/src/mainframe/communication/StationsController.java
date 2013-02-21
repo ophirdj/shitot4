@@ -17,12 +17,11 @@ public class StationsController implements IStationsController {
 
 	public StationsController(IMainframe mainframe,
 			IVotingStationFactory votingStationFactory,
-			List<String> stationsNames, List<String> passwords) {
+			List<String> passwords, int stationAmounts) {
 		this.mainframe = mainframe;
 		this.stations = new ArrayList<IVotingStation>();
-		for (String name: stationsNames) {
-			stations.add(votingStationFactory.createInstance(passwords,
-					name));
+		for (int i = 0; i < stationAmounts; i++) {
+			stations.add(votingStationFactory.createInstance(passwords));
 		}
 	}
 

@@ -1,6 +1,6 @@
 package choosingList.factories;
 
-import global.gui.BasicPanel;
+import global.gui.StationPanel;
 import choosingList.logic.ChoosingList;
 import choosingList.logic.IChoosingList;
 
@@ -17,7 +17,7 @@ public class ChoosingListFactory implements IChoosingListFactory {
 
 	@Override
 	public IChoosingList createInstance(IPartiesList parties,
-			BasicPanel stationPanel) {
+			StationPanel stationPanel) {
 		return new ChoosingList(parties, stationPanel, windowFactory);
 	}
 

@@ -1,6 +1,6 @@
 package votingStation.test;
 
-import global.gui.BasicPanel;
+import global.gui.StationPanel;
 import choosingList.factories.IChoosingWindowFactory;
 import choosingList.gui.IChoosingWindow;
 
@@ -8,7 +8,7 @@ import choosingList.gui.IChoosingWindow;
 public class ChoosingWindowFactoryStub implements IChoosingWindowFactory {
 
 	@Override
-	public IChoosingWindow createInstance(BasicPanel stationPanel) {
+	public IChoosingWindow createInstance(StationPanel stationPanel) {
 		return new ChoosingWindowStub();
 	}
 

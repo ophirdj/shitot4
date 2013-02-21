@@ -1,9 +1,11 @@
 package choosingList.gui;
 
 
+import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import global.gui.BasicPanel;
 import global.gui.Main_Window;
+import global.gui.StationPanel;
 
 import java.lang.String;
 import java.awt.BorderLayout;
@@ -23,14 +25,14 @@ import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 
 
-public class ChoosingList_window extends BasicPanel implements IChoosingWindow {
+public class ChoosingListWindow extends BasicPanel implements IChoosingWindow {
 
 private static final long serialVersionUID = 23L;
 private IParty current_party;
 private ChooseType return_type;
 private boolean was_pushed = false;
 private boolean keep_running = true;
-private BasicPanel stationPanel;
+private StationPanel stationPanel;
 
 public static final Color ChoosingBackGroundColor = new Color(255,255,255);
 
@@ -62,7 +64,7 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 }
 
 
-  public ChoosingList_window(BasicPanel stationPanel, Main_Window window){
+  public ChoosingListWindow(StationPanel stationPanel, Main_Window window){
 	super(window);
     this.stationPanel = stationPanel;
   }
@@ -136,6 +138,11 @@ public void closeWindow() {
 @Override
 public String translate(Messages message){
 	return stationPanel.translate(message);
+}
+
+@Override
+public void setLanguage(Languages language) {
+	stationPanel.setLanguage(language);
 }
 
 }

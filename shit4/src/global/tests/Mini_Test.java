@@ -115,9 +115,9 @@ public class Mini_Test {
 		VotingStationFactory fac = new VotingStationFactory(chooseFactory,new VotingStationWindowFactory(window));
 		List<String> pass = new ArrayList<String>();
 		pass.add("abc");
-		IVotingStation vote1 = fac.createInstance(pass, "voting station 1");
+		IVotingStation vote1 = fac.createInstance(pass);
 		vote1.initialize(parties, new Driver_StationsContoller());
-		IVotingStation vote2 = fac.createInstance(pass, "voting station 2");
+		IVotingStation vote2 = fac.createInstance(pass);
 		vote2.initialize(other_parties, new Driver_StationsContoller());
 		window.show_window();
 		try {
@@ -155,7 +155,7 @@ public class Mini_Test {
 		Main_Window window =new Main_Window();
 		IPartiesList parties = ConstParties.getParties();
 		//IPartiesList other_parties = ConstParties.getOtherParties();
-		new PracticeStation("practice station",
+		new PracticeStation(
 				parties, new ChoosingListFactory(new ChoosingWindowFactory(window)),
 				new PracticeStationWindowFactory(window), new ImagePanelFactory(window));
 		window.show_window();

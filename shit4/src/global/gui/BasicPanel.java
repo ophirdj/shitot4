@@ -1,7 +1,5 @@
 package global.gui;
 
-import global.dictionaries.IDictionary;
-import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 
 import java.awt.Color;
@@ -18,13 +16,11 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 	private static final long serialVersionUID = 1L;
 
 	protected Main_Window window;
-	protected IDictionary dictionary;
 
 	public BasicPanel(Main_Window window) {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
 		this.window = window;
-		dictionary = window.DEFUALT_LANGUAGE.getDictionary();
 	}
 
 	public Boolean getConfirmation(String confirmationMessage) {
@@ -57,21 +53,6 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 				translate(Messages.FYI),
 				JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 				options, options[0]);
-	}
-
-	@Override
-	public void closeWindow() {
-		window.remove_panel(this);
-	}
-
-	@Override
-	public void setLanguage(Languages language) {
-		dictionary = language.getDictionary();
-	}
-
-	@Override
-	public String translate(Messages message) {
-		return dictionary.translate(message);
 	}
 
 	@Override

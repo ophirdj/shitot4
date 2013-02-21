@@ -20,8 +20,8 @@ public class PracticeStationFactory implements IPracticeStationFactory {
 	}
 	
 	@Override
-	public IPracticeStation createInstance(String name, IPartiesList parties) {
-		return new PracticeStation(name, parties, chooseFactory, stationWindowFactory, imagePanelFactory);
+	public IPracticeStation createInstance(IPartiesList parties) {
+		return new PracticeStation(parties, chooseFactory, stationWindowFactory, imagePanelFactory);
 	}
 
 }
