@@ -3,12 +3,13 @@ package votingStation;
 import java.util.List;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
+import GUI.BasicPanel;
 
 import communication.IStationsController;
 
 import choosingList.IChoosingList;
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.Messages;
 
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -39,7 +40,7 @@ public class VotingStation implements IVotingStation {
 		this.controller = controller;
 		this.parties = parties;
 		localVotersList = new ArrayList<VotingRecord>();
-		choosingList = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow);
+		choosingList = choosingListFactory.createInstance(parties, (BasicPanel)votingStationWindow);
 		votingStationWindow.startLoop();
 	}
 
@@ -51,7 +52,7 @@ public class VotingStation implements IVotingStation {
 		IMainframe.VoterStatus status = controller.getVoterStatus(id);
 		switch (status) {
 		case unidentified:
-			votingStationWindow.printError("You need to identify yourself in the mainframe");
+			votingStationWindow.printErrorMessage(Messages.You_need_to_identify_yourself_in_the_mainframe);
 			return null;
 		case identified:
 			return new VotingRecord(id);
@@ -59,11 +60,11 @@ public class VotingStation implements IVotingStation {
 			for(VotingRecord voter: localVotersList){
 				if(voter.getID() == id && voter.canVote()) return voter;
 				if(voter.getID() == id){
-					votingStationWindow.printError("You can't change your vote anymore");
+					votingStationWindow.printErrorMessage(Messages.You_cannot_change_your_vote_anymore);
 					return null;
 				}
 			}
-			votingStationWindow.printError("You can't vote here");
+			votingStationWindow.printErrorMessage(Messages.You_cannot_vote_here);
 		}
 		return null;
 	}
@@ -74,7 +75,7 @@ public class VotingStation implements IVotingStation {
 			id = votingStationWindow.getID();
 		}catch (NumberFormatException e) {
 			System.out.println(e.getMessage());
-			votingStationWindow.printError("Error: id must be a number!");
+			votingStationWindow.printErrorMessage(Messages.ID_must_be_a_number);
 			return;
 		}
 		
@@ -87,10 +88,10 @@ public class VotingStation implements IVotingStation {
 		} catch (VoterDoesNotExist e) {
 			// shouldn't happen
 			e.printStackTrace();
-			votingStationWindow.printError("Error: Chuck Norris removed you from existance.");
+			votingStationWindow.printErrorMessage(Messages.Chuck_Norris_removed_you_from_existance);
 		}
 		voter.vote(lastParty);
-		votingStationWindow.printMessage("You successfully voted for the party " + lastParty.getName());
+		votingStationWindow.printInfoMessage(Messages.You_successfully_voted_for_the_party,lastParty);
 		
 	}
 
@@ -98,7 +99,7 @@ public class VotingStation implements IVotingStation {
 	public void testVoting() throws ChoosingInterruptedException{
 		String password = votingStationWindow.getPassword();
 		if (!passwords.contains(password)){
-			votingStationWindow.printError("Error: wrong password");
+			votingStationWindow.printErrorMessage(Messages.wrong_password);
 			return;
 		}
 		
@@ -106,14 +107,14 @@ public class VotingStation implements IVotingStation {
 		try{
 			id = votingStationWindow.getID();
 		}catch (NumberFormatException e) {
-			votingStationWindow.printError("Error: id must be a number!");
+			votingStationWindow.printErrorMessage(Messages.ID_must_be_a_number);
 			return;
 		}
 		
 		VotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
 		IParty lastParty = choosingList.chooseList();
-		votingStationWindow.printMessage("You successfully test voted for the party " + lastParty.getName());
+		votingStationWindow.printInfoMessage(Messages.You_successfully_test_voted_for_the_party,lastParty);
 	}
 
 	@Override

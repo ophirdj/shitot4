@@ -1,10 +1,9 @@
 package practiceStation;
 
 import java.io.File;
-
 import GUI.IListImages;
 
-public class PracticeStationImages implements IListImages{
+public class PracticeStationImagesEnglish implements IListImages{
 	final String src_directory = "Images/";
 	final String[] filesName ={"enterScreenEnglishExplained.png","ID_ScreenEnglishExplained.png",
 			"choosingScreenEnglishExplained1.png","choosingScreenEnglishExplained2.png",

@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.Messages;
 
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -24,7 +25,7 @@ private IParty current_party;
 private ChooseType return_type;
 private boolean was_pushed = false;
 private boolean keep_running = true;
-private JPanel stationPanel;
+private BasicPanel stationPanel;
 
 public static final Color ChoosingBackGroundColor = new Color(255,255,255);
 
@@ -38,9 +39,9 @@ private void add_party_button(JPanel panel,String name,ChooseType type,IParty pa
 }
 
 private void make_special_panel(JPanel special_panel, IParty whiteNote){
-	  add_party_button(special_panel,"previous parties",ChooseType.Prev,IChoosingList.NO_PARTY,null);
-	  add_party_button(special_panel,"white note",ChooseType.Party,whiteNote,Color.WHITE);
-	  add_party_button(special_panel,"next parties",ChooseType.Next,IChoosingList.NO_PARTY,null);
+	  add_party_button(special_panel,translate(Messages.previous),ChooseType.Prev,IChoosingList.NO_PARTY,null);
+	  add_party_button(special_panel,translate(Messages.white_note),ChooseType.Party,whiteNote,Color.WHITE);
+	  add_party_button(special_panel,translate(Messages.next),ChooseType.Next,IChoosingList.NO_PARTY,null);
 }
 
 private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow){
@@ -56,7 +57,7 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 }
 
 
-  public ChoosingList_window(JPanel stationPanel, Main_Window window){
+  public ChoosingList_window(BasicPanel stationPanel, Main_Window window){
 	super(window);
     this.stationPanel = stationPanel;
   }
@@ -125,6 +126,11 @@ public void closeWindow() {
 		keep_running = false;
 		stationPanel.notify();
 	}
+}
+
+@Override
+public String translate(Messages message){
+	return stationPanel.translate(message);
 }
 
 }

@@ -1,6 +1,7 @@
 package factories;
 
-import javax.swing.JPanel;
+
+import GUI.BasicPanel;
 
 import choosingList.IChoosingList;
 import partiesList.IPartiesList;
@@ -15,5 +16,5 @@ public interface IChoosingListFactory {
 	 *            graphic)
 	 * @return a new object that implements IChoosingList
 	 */
-	IChoosingList createInstance(IPartiesList parties, JPanel stationPanel);
+	IChoosingList createInstance(IPartiesList parties, BasicPanel stationPanel);
 }

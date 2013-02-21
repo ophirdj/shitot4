@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
 
+import dictionaries.Messages;
+
 import GUI.Main_Window;
 import GUI.StationPanel;
 import GUI.View;
@@ -79,7 +81,8 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	}
 	
 	private void make_mainframe_button(JPanel mainframe_panel, MainframeAction action, Object lock){
-		JButton button = new JButton(action.toString());
+		JButton button = new JButton(action.getString(dictionary));
+		
 		button.addActionListener(new MainframeClick(this,action,lock));
 		mainframe_panel.add(button);
 	}
@@ -118,9 +121,10 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		catch(InterruptedException e){}
 	}
 	
-	private void make_id_panel(JPanel id_panel,JTextField textField, Object lock,String name){
+	private void make_id_panel(JPanel id_panel,JTextField textField, Object lock,Messages message){
 		id_panel.add(textField);
-		JButton button = new JButton(name);
+		
+		JButton button = new JButton(dictionary.translate(message));
 		button.addActionListener(new WaitForClick(lock));
 		id_panel.add(button);
 	}
@@ -129,7 +133,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		
 		JPanel id_panel = new JPanel(new GridLayout(2,1));
 	  	JTextField textField = new JTextField();
-	  	make_id_panel(id_panel,textField,this,"enter ID");
+	  	make_id_panel(id_panel,textField,this,Messages.enter_ID);
 		this.removeAll();
 		this.add(id_panel);
 		window.show_if_current(this,this);

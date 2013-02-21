@@ -1,11 +1,16 @@
 package practiceStation;
 
+import java.util.Map;
+
 import javax.swing.JPanel;
+
+import dictionaries.Languages;
 
 import GUI.IImagePanel;
 import GUI.IListImages;
 import GUI.ImagePanel;
 import GUI.Main_Window;
+import GUI.StationPanel;
 
 public class ImagePanelFactory implements IImagePanelFactory {
 
@@ -16,7 +21,7 @@ public class ImagePanelFactory implements IImagePanelFactory {
 	}
 	
 	@Override
-	public IImagePanel createInstance(IListImages images, JPanel caller) {
+	public IImagePanel createInstance(Map<Languages,IListImages> images, StationPanel caller) {
 		return new ImagePanel(images,caller,mainWindow);
 	}
 

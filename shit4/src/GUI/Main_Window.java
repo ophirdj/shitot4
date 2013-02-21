@@ -3,7 +3,6 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.Hashtable;
@@ -11,29 +10,31 @@ import java.util.Hashtable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Scrollable;
 import javax.swing.border.TitledBorder;
+
+import dictionaries.Languages;
 
 public class Main_Window extends JFrame {
 	private static final long serialVersionUID = 56L;
 	public static final Color BackGroundColor = new Color(58,95,205);
 	
-	private static final JPanel defualt_panel = new JPanel(new FlowLayout());
+	private final JPanel defualt_panel = new JPanel(new FlowLayout());
+	public final Languages DEFUALT_LANGUAGE = Languages.English;
+	
 	
 	private JPanel main_panel;
 	private JPanel buttons_panel;
 	private JPanel current_panel;
 	private JPanel current_station_panel;
 	
-	private Hashtable<JPanel, JButton> station_button_map;
-	private Hashtable<JPanel, JPanel> station_show_map;
-	private Hashtable<JPanel, String> station_name_map;
+	private Hashtable<JPanel, JButton> station_button_map = new Hashtable<JPanel, JButton>();
+	private Hashtable<JPanel, JPanel> station_show_map =  new Hashtable<JPanel, JPanel>();;
+	private Hashtable<JPanel, String> station_name_map = new Hashtable<JPanel, String>();
 	
 	public Main_Window() {
 		super("Main_Window");
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    this.setMinimumSize(new Dimension(500,300));
-		
 	    
 	    main_panel = new JPanel();
 	    main_panel.setLayout(new BorderLayout());
@@ -44,10 +45,6 @@ public class Main_Window extends JFrame {
 		current_panel = defualt_panel;
 		
 		main_panel.add(buttons_panel,BorderLayout.SOUTH);
-		
-		station_button_map = new Hashtable<JPanel, JButton>();
-		station_show_map =  new Hashtable<JPanel, JPanel>();
-		station_name_map =  new Hashtable<JPanel, String>();
 		station_show_map.put(defualt_panel, defualt_panel);
 		
 		this.add(main_panel);

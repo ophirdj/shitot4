@@ -2,6 +2,11 @@ package unitTests;
 
 import javax.swing.JPanel;
 
+import partiesList.IParty;
+
+import dictionaries.Languages;
+import dictionaries.Messages;
+
 import GUI.Main_Window;
 import GUI.StationPanel;
 import votingStation.IVotingStationWindow;
@@ -73,5 +78,47 @@ public class VotingStationWindowStub extends JPanel implements IVotingStationWin
 	}
 	public static String getMessage(){
 		return message;
+	}
+
+	@Override
+	public void setLanguage(Languages language) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String translate(Messages message) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void printErrorMessage(Messages message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void printInfoMessage(Messages message, IParty party) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void printInfoMessage(Messages message) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean printConformationMessage(Messages message) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean printConformationMessage(Messages message, IParty party) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

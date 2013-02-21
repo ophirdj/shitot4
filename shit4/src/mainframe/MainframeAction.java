@@ -1,5 +1,8 @@
 package mainframe;
 
+import dictionaries.IDictionary;
+import dictionaries.Languages;
+import dictionaries.Messages;
 import mainframe.IMainframe.IdentificationError;
 
 public enum MainframeAction {
@@ -23,6 +26,11 @@ public enum MainframeAction {
 		public boolean isBeforeInit() {
 			return false;
 		}
+		
+		@Override
+		public String getString(IDictionary dictionary){
+			return dictionary.translate(Messages.count_votes);
+		}
 	}, 
 	identification{
 		@Override
@@ -35,9 +43,9 @@ public enum MainframeAction {
 			try{
 				callerStation.identification(window.getID());
 			}catch(NumberFormatException e){
-				window.printError("id should be a number");
+				window.printErrorMessage(Messages.ID_must_be_a_number);
 			}catch (IdentificationError e) {
-				window.printError("voter already registered");
+				window.printErrorMessage(Messages.ID_is_already_registered);
 			}
 		}
 		
@@ -49,6 +57,11 @@ public enum MainframeAction {
 		@Override
 		public boolean isBeforeInit() {
 			return false;
+		}
+		
+		@Override
+		public String getString(IDictionary dictionary){
+			return dictionary.translate(Messages.identification);
 		}
 	},
 	initialize{
@@ -71,6 +84,11 @@ public enum MainframeAction {
 		public boolean isBeforeInit() {
 			return true;
 		}
+		
+		@Override
+		public String getString(IDictionary dictionary){
+			return dictionary.translate(Messages.boot);
+		}
 	},
 	restore{
 		@Override
@@ -91,6 +109,11 @@ public enum MainframeAction {
 		@Override
 		public boolean isBeforeInit() {
 			return true;
+		}
+		
+		@Override
+		public String getString(IDictionary dictionary){
+			return dictionary.translate(Messages.boot_from_backup);
 		}
 	},
 	shutDown{
@@ -114,7 +137,40 @@ public enum MainframeAction {
 		public boolean isBeforeInit() {
 			return true;
 		}
+
+		@Override
+		public String getString(IDictionary dictionary){
+			return dictionary.translate(Messages.shut_down);
+		}
 	},
+	
+	english{
+		@Override
+		public String toString() {
+			return "English";
+		}
+		
+		@Override
+		public void activate(IMainframe callerStation, IMainframeWindow window){
+			window.setLanguage(Languages.English);
+		}
+		
+		@Override
+		protected int getRowInKind(){
+			return 1;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return true;
+		}
+
+		@Override
+		public String getString(IDictionary dictionary){
+			return "English";
+		}
+	},
+	
 	hebrew{
 		@Override
 		public String toString() {
@@ -123,6 +179,7 @@ public enum MainframeAction {
 		
 		@Override
 		public void activate(IMainframe callerStation, IMainframeWindow window){
+			window.setLanguage(Languages.Hebrew);
 		}
 		
 		@Override
@@ -134,25 +191,10 @@ public enum MainframeAction {
 		public boolean isBeforeInit() {
 			return true;
 		}
-	},
-	english{
+
 		@Override
-		public String toString() {
-			return "english";
-		}
-		
-		@Override
-		public void activate(IMainframe callerStation, IMainframeWindow window){
-		}
-		
-		@Override
-		protected int getRowInKind(){
-			return 1;
-		}
-		
-		@Override
-		public boolean isBeforeInit() {
-			return true;
+		public String getString(IDictionary dictionary){
+			return "עברית";
 		}
 	}
 	;
@@ -160,6 +202,7 @@ public enum MainframeAction {
 	public abstract void activate(IMainframe callerStation, IMainframeWindow window);
 	protected abstract int getRowInKind();
 	public abstract boolean isBeforeInit();
+	public abstract String getString(IDictionary dictionary);
 	
 	public int getRow(boolean afterInit){
 		if(isBeforeInit() && afterInit)

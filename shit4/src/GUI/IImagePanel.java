@@ -1,5 +1,7 @@
 package GUI;
 
+import dictionaries.Languages;
+
 public interface IImagePanel {
 	
 	/**
@@ -26,8 +28,9 @@ public interface IImagePanel {
 	
 	/**
 	 * show first image (if exist)
+	 * @param language: the language of the guide
 	 */
-	public void showFirstImage();
+	public void showFirstImage(Languages language);
 	
 	/**
 	 * return to caller station

@@ -9,7 +9,12 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import mainframe.MainframeAction;
+
+import partiesList.IParty;
+
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.Messages;
 
 import GUI.Main_Window;
 import GUI.StationPanel;
@@ -26,6 +31,8 @@ public class VotingStation_window extends StationPanel implements
 
 	private boolean was_called = false;
 
+	private final int NUM_OF_LAYER = VotingStationAction.maxRow();
+	
 	public void setAction(VotingStationAction action) {
 		if (!was_pushed) {
 			chosen_action = action;
@@ -45,25 +52,33 @@ public class VotingStation_window extends StationPanel implements
 
 	void make_voting_button(JPanel voting_panel, VotingStationAction action,
 			Object lock) {
-		JButton action_button = new JButton(action.toString());
+		JButton action_button = new JButton(action.getString(dictionary));
 		action_button.addActionListener(new VoteClick(this, action, lock));
 		voting_panel.add(action_button);
 	}
 
-	private void make_voting_panel(JPanel voting_panel, Object lock) {
+	private void make_voting_panel(JPanel rows[], Object lock) {
 		for (VotingStationAction action : VotingStationAction.values()) {
-			make_voting_button(voting_panel, action, lock);
+			make_voting_button(rows[action.getRow()], action, lock);
 		}
 	}
 
 	public synchronized void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;
-		JPanel voting_panel = new JPanel(new FlowLayout());
-		make_voting_panel(voting_panel, this);
+		JPanel voting_panel = new JPanel(new GridLayout(NUM_OF_LAYER,1));
+		JPanel rows[] = new JPanel[NUM_OF_LAYER];
+		for (int i = 0; i < rows.length; i++) {
+			rows[i] = new JPanel(new FlowLayout());
+			rows[i].setBackground(VotingBackGround);
+		}
+		make_voting_panel(rows, this);
 		this.removeAll();
 		voting_panel.setBackground(VotingBackGround);
 		this.setBackground(VotingBackGround);
+		for (int i = 0; i < rows.length; i++) {
+			voting_panel.add(rows[i]);
+		}
 		this.add(voting_panel);
 		window.show_if_current(this, this);
 		try {
@@ -88,7 +103,7 @@ public class VotingStation_window extends StationPanel implements
 		was_called = false;
 		JPanel password_panel = new JPanel(new GridLayout(2, 1));
 		JPasswordField textField = new JPasswordField();
-		make_input_panel(password_panel, textField, this, "enter password");
+		make_input_panel(password_panel, textField, this, dictionary.translate(Messages.enter_password));
 		this.removeAll();
 		this.add(password_panel);
 		window.show_if_current(this, this);
@@ -109,7 +124,7 @@ public class VotingStation_window extends StationPanel implements
 		was_called = false;
 		JPanel id_panel = new JPanel(new GridLayout(2, 1));
 		JTextField textField = new JTextField();
-		make_input_panel(id_panel, textField, this, "enter ID");
+		make_input_panel(id_panel, textField, this, dictionary.translate(Messages.enter_ID));
 		this.removeAll();
 		this.add(id_panel);
 		window.show_if_current(this, this);
@@ -135,10 +150,10 @@ public class VotingStation_window extends StationPanel implements
 				if (!keepRunning) {
 					break;
 				}
-				chosen_action.activate(callerStation);
+				chosen_action.activate(callerStation,this);
 			}
 		} catch (ChoosingInterruptedException e) {
-			printMessage("You quit in the process of voting");
+			printMessage(dictionary.translate(Messages.You_quit_in_the_process_of_voting));
 		}
 		closeWindow();
 	}

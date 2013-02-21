@@ -1,6 +1,6 @@
 package factories;
 
-import javax.swing.JPanel;
+import GUI.BasicPanel;
 
 import choosingList.ChoosingList;
 import choosingList.IChoosingList;
@@ -17,7 +17,7 @@ public class ChoosingListFactory implements IChoosingListFactory {
 
 	@Override
 	public IChoosingList createInstance(IPartiesList parties,
-			JPanel stationPanel) {
+			BasicPanel stationPanel) {
 		return new ChoosingList(parties, stationPanel, windowFactory);
 	}
 

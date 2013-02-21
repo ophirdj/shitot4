@@ -1,5 +1,7 @@
 package practiceStation;
 
+import dictionaries.Languages;
+
 public interface IPracticeStation {
 	
 	class PracticeTimedOutException extends Exception{
@@ -10,4 +12,6 @@ public interface IPracticeStation {
 	void practiceVote();
 	
 	void retire();
+	
+	void setLanguage(Languages language);
 }

@@ -1,6 +1,6 @@
 package factories;
 
-import javax.swing.JPanel;
+import GUI.BasicPanel;
 import choosingList.IChoosingWindow;
 
 public interface IChoosingWindowFactory {
@@ -8,5 +8,5 @@ public interface IChoosingWindowFactory {
 	 * 
 	 * @return a new object that implements IChoosingWindow
 	 */
-	IChoosingWindow createInstance(JPanel stationPanel);
+	IChoosingWindow createInstance(BasicPanel stationPanel);
 }

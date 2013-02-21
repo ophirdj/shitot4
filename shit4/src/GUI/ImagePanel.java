@@ -7,11 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+
+import dictionaries.Languages;
+import dictionaries.Messages;
 
 
 public class ImagePanel  extends JPanel implements IImagePanel{
@@ -25,9 +29,10 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 	
 	private JButton nextButton = new JButton(">");
 	private JButton prevButton = new JButton("<");
-	private JButton exitButton = new JButton("exit");
+	private JButton exitButton = new JButton();
+	private Map<Languages, IListImages> guideMap;
 	
-	private JPanel callerStation;
+	private StationPanel callerStation;
 	private Canvas canvas;
 	private Main_Window window;
 	
@@ -58,11 +63,11 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		
 	}
 	
-	public ImagePanel(IListImages images_list, JPanel callerStation, Main_Window main_window) {
+	public ImagePanel(Map<Languages, IListImages> guideMap,StationPanel callerStation, Main_Window main_window) {
 		super(new BorderLayout());
-		
 		this.callerStation = callerStation;
-		this.images_list = images_list;
+		this.guideMap = guideMap;
+		this.images_list = guideMap.get(main_window.DEFUALT_LANGUAGE);
 		nextButton.addActionListener(new DirectionClick(image_action.next));
 		prevButton.addActionListener(new DirectionClick(image_action.prev));
 		exitButton.addActionListener(new DirectionClick(image_action.exit));
@@ -71,8 +76,6 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		this.add(exitButton, BorderLayout.SOUTH);
 		this.canvas = new Canvas();
 		this.add(canvas, BorderLayout.CENTER);
-		
-		fileToShow = images_list.getFile(0);
 		fileShownIndex = 0;
 		window = main_window;
 	}
@@ -105,10 +108,12 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		showImage(fileToShow);
 	}
 	
-	public void showFirstImage() {
+	public void showFirstImage(Languages language) {
+		images_list = guideMap.get(language);
 		fileShownIndex = 0;
 		fileToShow = images_list.getFile(fileShownIndex);
 		showImage(fileToShow);
+		exitButton.setText(callerStation.translate(Messages.Exit));
 		window.show_if_current(callerStation, this);
 		synchronized (this) {
 			try{

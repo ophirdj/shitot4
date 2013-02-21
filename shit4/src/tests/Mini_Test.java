@@ -16,7 +16,7 @@ import partiesList.IPartiesList;
 import practiceStation.IPracticeStation;
 import practiceStation.ImagePanelFactory;
 import practiceStation.PracticeStation;
-import practiceStation.PracticeStationImages;
+import practiceStation.PracticeStationImagesEnglish;
 import practiceStation.PracticeStationWindowFactory;
 import votingStation.Driver_StationsContoller;
 import votingStation.IVotingStation;

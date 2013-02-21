@@ -1,5 +1,9 @@
 package practiceStation;
 
+import dictionaries.IDictionary;
+import dictionaries.Languages;
+import dictionaries.Messages;
+
 public enum PracticeStationAction {
 	
 		practice_vote{
@@ -9,13 +13,18 @@ public enum PracticeStationAction {
 			}
 			
 			@Override
-			void activate(IPracticeStation callerStation, IPracticeStationWindow window){
+			public void activate(IPracticeStation callerStation, IPracticeStationWindow window){
 				callerStation.practiceVote();
 			}
 			
 			@Override
-			int getRow(){
+			public int getRow(){
 				return 0;
+			}
+
+			@Override
+			public String getString(IDictionary dictionary) {
+				return dictionary.translate(Messages.practice_vote);
 			}
 		}, 
 		shut_down{
@@ -25,21 +34,71 @@ public enum PracticeStationAction {
 			}
 			
 			@Override
-			void activate(IPracticeStation callerStation, IPracticeStationWindow window){
+			public void activate(IPracticeStation callerStation, IPracticeStationWindow window){
 				callerStation.retire();
 				window.closeWindow();
 			}
 			
 			@Override
-			int getRow(){
+			public int getRow(){
 				return 0;
 			}
-		}, 
+
+			@Override
+			public String getString(IDictionary dictionary) {
+				return dictionary.translate(Messages.shut_down);
+			}
+		
+		},
+		english{
+			@Override
+			public String toString() {
+				return "shut down";
+			}
+			
+			@Override
+			public void activate(IPracticeStation callerStation, IPracticeStationWindow window){
+				window.setLanguage(Languages.English);
+			}
+			
+			@Override
+			public int getRow(){
+				return 1;
+			}
+
+			@Override
+			public String getString(IDictionary dictionary) {
+				return "English";
+			}
+		},
+		hebrew{
+			@Override
+			public String toString() {
+				return "shut down";
+			}
+			
+			@Override
+			public void activate(IPracticeStation callerStation, IPracticeStationWindow window){
+				window.setLanguage(Languages.Hebrew);
+			}
+			
+			@Override
+			public int getRow(){
+				return 1;
+			}
+			
+			@Override
+			public String getString(IDictionary dictionary){
+				return "עברית";
+			}
+			
+		},
 		
 		;
 
-	abstract void activate(IPracticeStation callerStation, IPracticeStationWindow window);
-	abstract int getRow();
+	public abstract void activate(IPracticeStation callerStation, IPracticeStationWindow window);
+	public abstract int getRow();
+	public abstract String getString(IDictionary dictionary);
 	
 	public static int maxRow(){
 		int max_row = 0;

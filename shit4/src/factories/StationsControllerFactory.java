@@ -38,6 +38,8 @@ public class StationsControllerFactory implements IStationsControllerFactory {
 	
 	private List<String> getPasswords(){
 		//TODO: set some passwords here
-		return null;
+		List<String> passwords = new ArrayList<String>();
+		passwords.add("pass");
+		return passwords;
 	}
 }

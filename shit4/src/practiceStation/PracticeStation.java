@@ -4,8 +4,12 @@ import javax.swing.JPanel;
 
 import choosingList.IChoosingList;
 import choosingList.IChoosingList.ChoosingInterruptedException;
+import dictionaries.Languages;
+import dictionaries.Messages;
 
+import GUI.BasicPanel;
 import GUI.IImagePanel;
+import GUI.StationPanel;
 import factories.IChoosingListFactory;
 import partiesList.IPartiesList;
 import partiesList.IParty;
@@ -17,6 +21,7 @@ public class PracticeStation implements IPracticeStation {
 	IChoosingList choosingList;
 	IImagePanelFactory imagePanelFactory;
 	IImagePanel guide;
+	Languages language;
 
 	private final int max_practice_time = 5;
 
@@ -29,7 +34,7 @@ public class PracticeStation implements IPracticeStation {
 				this);
 		this.imagePanelFactory = imagePanelFactory;
 		this.choosingList = chooseFactory.createInstance(parties,
-				(JPanel) practiceStationWindow);
+				(StationPanel) practiceStationWindow);
 	};
 
 	class Watcher extends Thread {
@@ -68,48 +73,49 @@ public class PracticeStation implements IPracticeStation {
 	public void practiceVote() {
 		boolean understandConformation = false;
 		IParty chosen;
-		guide = imagePanelFactory.createInstance(new PracticeStationImages(),
-				(JPanel) practiceStationWindow);
+		guide = imagePanelFactory.createInstance(new PracticeStationImagesMap(),
+				(StationPanel) practiceStationWindow);
 		Watcher watcher = new Watcher(this);
 		try {
 			watcher.start();
 			practiceStationWindow
-					.printMessage("This station is only for practice");
+					.printInfoMessage(Messages.This_station_is_only_for_practice);
 			while (!understandConformation) {
 				watcher.checkTime();
 				boolean choice = practiceStationWindow
-						.getConfirmation("Do you want to see a guide?");
+						.printConformationMessage(Messages.Do_you_want_to_see_a_guide);
 				if (choice) {
-					guide.showFirstImage();
+					guide.showFirstImage(this.language);
 				}
 				watcher.checkTime();
 				practiceStationWindow
-						.printMessage("This station is only for practice");
+						.printInfoMessage(Messages.This_station_is_only_for_practice);
 				try {
 					boolean partyConformation = false;
 					while (!partyConformation) {
 						chosen = choosingList.chooseList();
-						String confirmationMessage = "You voted for "
-								+ chosen.getName()
-								+ ". is that what you meant?";
 						watcher.checkTime();
 						partyConformation = practiceStationWindow
-								.getConfirmation(confirmationMessage);
+								.printConformationMessage(Messages.Did_you_intend_to_vote_for, chosen);
 					}
 				} catch (ChoosingInterruptedException e) {
 					throw new PracticeTimedOutException();
 				}
 				watcher.checkTime();
 				understandConformation = practiceStationWindow
-						.getConfirmation("did you understand the process?");
+						.printConformationMessage(Messages.Have_you_understood_the_process);
 			}
 		} catch (PracticeTimedOutException e) {
-			practiceStationWindow.printMessage("your time is up");
+			practiceStationWindow.printInfoMessage(Messages.Your_time_is_up);
 		}
 		watcher.interrupt();
 	}
 
 	public void retire() {
+	}
+	
+	public void setLanguage(Languages language){
+		this.language = language;
 	}
 
 }
