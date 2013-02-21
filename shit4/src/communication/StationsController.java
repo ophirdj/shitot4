@@ -5,11 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import partiesList.IPartiesList;
-
-import factories.IChoosingListFactory;
-import factories.IChoosingWindowFactory;
 import factories.IVotingStationFactory;
-import factories.IVotingStationWindowFactory;
 import votingStation.IVotingStation;
 import mainframe.IMainframe;
 import mainframe.IMainframe.VoterDoesNotExist;
@@ -21,16 +17,12 @@ public class StationsController implements IStationsController {
 
 	public StationsController(IMainframe mainframe,
 			IVotingStationFactory votingStationFactory,
-			IChoosingListFactory choosingListFactory,
-			IChoosingWindowFactory choosingWindowFactory,
-			IVotingStationWindowFactory votingStationWindowFactory,
 			List<String> stationsNames, List<String> passwords) {
 		this.mainframe = mainframe;
 		this.stations = new ArrayList<IVotingStation>();
 		for (String name: stationsNames) {
 			stations.add(votingStationFactory.createInstance(passwords,
-					name, choosingListFactory,
-					choosingWindowFactory, votingStationWindowFactory));
+					name));
 		}
 	}
 

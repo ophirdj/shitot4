@@ -14,7 +14,6 @@ import partiesList.IPartiesList;
 import partiesList.IParty;
 import votingStation.VotingRecord;
 import factories.IChoosingListFactory;
-import factories.IChoosingWindowFactory;
 import factories.IVotingStationWindowFactory;
 import mainframe.IMainframe;
 import mainframe.IMainframe.VoterDoesNotExist;
@@ -28,13 +27,11 @@ public class VotingStation implements IVotingStation {
 	private IChoosingList choosingList;
 	
 	private IVotingStationWindow votingStationWindow;
-	private IChoosingWindowFactory choosingWindowFactory;
 	private IChoosingListFactory choosingListFactory;
 
-	public VotingStation(List<String> passwords,String name, IChoosingListFactory choseFactory, IChoosingWindowFactory choseWindowFactory, IVotingStationWindowFactory stationWindowFactory){
+	public VotingStation(List<String> passwords,String name, IChoosingListFactory choseFactory, IVotingStationWindowFactory stationWindowFactory){
 		this.passwords = passwords;
 		votingStationWindow = stationWindowFactory.createInstance(name, this);
-		choosingWindowFactory = choseWindowFactory;
 		choosingListFactory = choseFactory;
 	};
 
@@ -42,7 +39,7 @@ public class VotingStation implements IVotingStation {
 		this.controller = controller;
 		this.parties = parties;
 		localVotersList = new ArrayList<VotingRecord>();
-		choosingList = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow, choosingWindowFactory);
+		choosingList = choosingListFactory.createInstance(parties, (JPanel)votingStationWindow);
 		votingStationWindow.startLoop();
 	}
 

@@ -11,9 +11,12 @@ public abstract class BasicPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
-	public BasicPanel() {
+	protected Main_Window window;
+	
+	public BasicPanel(Main_Window window) {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
+		this.window = window;
 	}
 	
 	public Boolean getConfirmation(String confirmationMessage){
@@ -38,6 +41,6 @@ public abstract class BasicPanel extends JPanel {
 	  }
 	  
 	  public void closeWindow() {
-		  Global_Window.main_window.remove_panel(this);
+		  window.remove_panel(this);
 	  }
 }

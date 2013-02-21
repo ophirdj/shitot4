@@ -8,13 +8,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -38,21 +35,13 @@ import factories.IVotersListFactory;
 
 import partiesList.IPartiesList;
 import partiesList.IParty;
-import partiesList.Party;
 import votersList.IVoterData;
 import votersList.IVotersList;
-import votersList.VoterData;
-import votersList.VotersList;
 
 
 
 public class Backup implements IBackup {
 	private ReadXMLFile readXMLFilesService;	
-	
-	private IPartiesListFactory partiesListFactory;
-	private IPartyFactory partyFactory;
-	private IVotersListFactory votersListFactory;
-	private IVoterDataFactory voterDataFactory;
 	
 	/*
 	 * these strings will hold the path to all the XML files
@@ -70,10 +59,6 @@ public class Backup implements IBackup {
 			IVoterDataFactory voterDataFactory,
 			String backupedVotersListFile, String backupedPartiesListFile, 
 			String unregisteredVotersFile){
-		this.partiesListFactory = partiesListFactory;
-		this.partyFactory = partyFactory;
-		this.voterDataFactory = voterDataFactory;
-		this.votersListFactory = votersListFactory;
 		
 		this.readXMLFilesService = new ReadXMLFile(partiesListFactory,
 									partyFactory, votersListFactory,
@@ -335,7 +320,7 @@ public class Backup implements IBackup {
 		 
 				transformer.transform(source, result);
 		 
-				System.out.println("File saved!");
+				//System.out.println("File saved!");
 	 
 		  } catch (ParserConfigurationException pce) {
 			pce.printStackTrace();

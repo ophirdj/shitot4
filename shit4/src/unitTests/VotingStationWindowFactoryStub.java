@@ -9,7 +9,7 @@ public class VotingStationWindowFactoryStub implements IVotingStationWindowFacto
 	@Override
 	public IVotingStationWindow createInstance(String name,
 			IVotingStation caller) {
-		return new VotingStationWindowStub("");
+		return new VotingStationWindowStub();
 	}
 
 }

@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import GUI.Main_Window;
+
 import communication.IStationsController;
 
 import choosingList.IChoosingList.ChoosingInterruptedException;
@@ -16,11 +18,18 @@ import factories.*;
 
 
 public class VotingStationUnitTest {
+	Main_Window window = new Main_Window();
 	private List<String> passwords = Arrays.asList("password1", "password2", "password3");
-	private IVotingStation votingStation = new VotingStation(passwords,"voting station 1",new ChoosingListFactoryStub(), new ChoosingWindowFactory(), new VotingStationWindowFactoryStub());
-	private IPartiesList parties = new PartiesList();	
+	private IVotingStation votingStation; 
+	private IPartiesList parties = new PartiesList(new PartyFactory());	
 	private IStationsController stationsController = new StationsControllerStub();
 
+	public VotingStationUnitTest() {
+		votingStation = new VotingStation(passwords,"voting station 1",
+				new ChoosingListFactoryStub(), new VotingStationWindowFactoryStub());
+		
+	}
+	
 	@Test
 	public void initialize_getPartiesList_Test(){
 		parties.addParty(new Party("likoud","l"));

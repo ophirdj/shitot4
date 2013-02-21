@@ -1,7 +1,6 @@
 package choosingList;
 
 import GUI.BasicPanel;
-import GUI.Global_Window;
 import GUI.Main_Window;
 
 import java.lang.String;
@@ -21,7 +20,6 @@ import partiesList.IParty;
 public class ChoosingList_window extends BasicPanel implements IChoosingWindow {
 
 private static final long serialVersionUID = 23L;
-private Main_Window window;  
 private IParty current_party;
 private ChooseType return_type;
 private boolean was_pushed = false;
@@ -58,8 +56,8 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 }
 
 
-  public ChoosingList_window(JPanel stationPanel){
-    window = Global_Window.main_window;
+  public ChoosingList_window(JPanel stationPanel, Main_Window window){
+	super(window);
     this.stationPanel = stationPanel;
   }
   

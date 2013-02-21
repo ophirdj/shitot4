@@ -5,22 +5,32 @@ import mainframe.Mainframe;
 
 public class MainframeFactory implements IMainframeFactory {
 
-	@Override
-	public IMainframe createInstance(IBackupFactory backupFactory,
-			IPartiesListFactory partiesListFactory, IPartyFactory partyFactory,
-			IVotersListFactory votersListFactory,
-			IVoterDataFactory voterDataFactory,
-			IChoosingListFactory choosingListFactory,
-			IChoosingWindowFactory choosingWindowFactory,
-			IVotingStationFactory votingStationFactory,
-			IVotingStationWindowFactory votingStationWindowFactory,
+	private IVoterDataFactory voterDataFactory;
+	private IVotersListFactory votersListFactory;
+	private IBackupFactory backupFactory;
+	private IMainframeWindowFactory mainframeWindowFactory;
+	private IReadSuppliedXMLFactory readSuppliedXMLFactory;
+	private IStationsControllerFactory stationsControllerFactory;
+
+	public MainframeFactory(IBackupFactory backupFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
-			IStationsControllerFactory stationsControllerFactory) {
-		return new Mainframe(backupFactory, partiesListFactory, partyFactory,
-				votersListFactory, voterDataFactory, choosingListFactory,
-				choosingWindowFactory, votingStationFactory,
-				votingStationWindowFactory, mainframeWindowFactory,
-				readSuppliedXMLFactory, stationsControllerFactory);
+			IStationsControllerFactory stationsControllerFactory,
+			IVoterDataFactory voterDataFactory,
+			IVotersListFactory votersListFactory) {
+		this.backupFactory = backupFactory;
+		this.mainframeWindowFactory = mainframeWindowFactory;
+		this.readSuppliedXMLFactory = readSuppliedXMLFactory;
+		this.stationsControllerFactory = stationsControllerFactory;
+		this.voterDataFactory = voterDataFactory;
+		this.votersListFactory = votersListFactory;
+	}
+	
+	@Override
+	public IMainframe createInstance() {
+		
+		return new Mainframe(backupFactory,
+				mainframeWindowFactory,
+				readSuppliedXMLFactory, stationsControllerFactory,voterDataFactory,votersListFactory);
 	}
 }

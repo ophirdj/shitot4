@@ -1,9 +1,12 @@
 package unitTests;
 
+import javax.swing.JPanel;
+
+import GUI.Main_Window;
 import GUI.StationPanel;
 import votingStation.IVotingStationWindow;
 
-public class VotingStationWindowStub extends StationPanel implements IVotingStationWindow{
+public class VotingStationWindowStub extends JPanel implements IVotingStationWindow{
 
 	/**
 	 * 
@@ -11,11 +14,6 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 	private static final long serialVersionUID = 1L;
 	private static int i;
 	private static String message;
-
-	public VotingStationWindowStub(String name) {
-		super(name);
-		closeWindow();
-	}
 
 	@Override
 	public Boolean getConfirmation(String confirmationMessage) {

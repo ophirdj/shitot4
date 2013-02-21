@@ -10,20 +10,20 @@ import communication.StationsController;
 public class StationsControllerFactory implements IStationsControllerFactory {
 
 	private static final int NUM_STATIONS = 2;
+	private IVotingStationFactory votingStationFactory;
 
+	public StationsControllerFactory(IVotingStationFactory votingStationFactory) {
+		this.votingStationFactory = votingStationFactory;
+	}
+	
+	
 	@Override
-	public IStationsController createInstance(IMainframe mainframe,
-			IVotingStationFactory votingStationFactory,
-			IChoosingListFactory choosingListFactory,
-			IChoosingWindowFactory choosingWindowFactory,
-			IVotingStationWindowFactory votingStationWindowFactory) {
+	public IStationsController createInstance(IMainframe mainframe) {
 		
 		List<String> stationsNames = getStationsNames();
 		List<String> passwords = getPasswords();
 		
-		return new StationsController(mainframe, votingStationFactory,
-				choosingListFactory, choosingWindowFactory,
-				votingStationWindowFactory, stationsNames, passwords);
+		return new StationsController(mainframe, votingStationFactory, stationsNames, passwords);
 	}
 	
 	

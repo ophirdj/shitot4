@@ -7,13 +7,18 @@ import votingStation.VotingStation;
 
 public class VotingStationFactory implements IVotingStationFactory {
 
+	private IChoosingListFactory choseFactory;
+	private IVotingStationWindowFactory stationWindowFactory;
+
+	public VotingStationFactory(IChoosingListFactory choseFactory,
+	IVotingStationWindowFactory stationWindowFactory) {
+		this.choseFactory = choseFactory;
+		this.stationWindowFactory = stationWindowFactory;
+	}
+	
 	@Override
-	public IVotingStation createInstance(List<String> passwords, String name,
-			IChoosingListFactory choseFactory,
-			IChoosingWindowFactory choseWindowFactory,
-			IVotingStationWindowFactory stationWindowFactory) {
-		return new VotingStation(passwords, name, choseFactory,
-				choseWindowFactory, stationWindowFactory);
+	public IVotingStation createInstance(List<String> passwords, String name) {
+		return new VotingStation(passwords, name, choseFactory,stationWindowFactory);
 	}
 
 }

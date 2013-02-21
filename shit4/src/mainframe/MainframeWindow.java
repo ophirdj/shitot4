@@ -2,7 +2,6 @@ package mainframe;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 
@@ -12,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneLayout;
 
+import GUI.Main_Window;
 import GUI.StationPanel;
 import GUI.View;
 import GUI.WaitForClick;
@@ -28,18 +28,20 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private JPanel histogramWraper;
 	private TablePanel tablePanel;
 	
+	private boolean was_init = false;
+	
 	private final int NUM_OF_LAYER = MainframeAction.maxRow();
 	private final Color MainframeBackGround = new Color(255,255,255); 
 	
-	public MainframeWindow(IMainframe callerStation) {
-		super("Main Frame");
+	public MainframeWindow(IMainframe callerStation, Main_Window main_window) {
+		super("Main Frame",main_window);
 		this.callerStation = callerStation;
-		
+		new Thread(this).start();
 	}
 	
 	@Override
 	public void init() {
-		new Thread(this).start();
+		was_init = true;
 	}
 
 	@Override
@@ -62,7 +64,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	public void showTable(IPartiesList parties) {
 		
 		if(tablePanel == null){
-			tablePanel = new TablePanel();
+			tablePanel = new TablePanel(window);
 			window.add_button(new View("table"), tablePanel);
 		}
 		tablePanel.showTable(parties);
@@ -84,7 +86,9 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	
 	 private void make_mainframe_panel(JPanel mainframe_panel[], Object lock){
 		for(MainframeAction action : MainframeAction.values()){
-			make_mainframe_button(mainframe_panel[action.getRow()],action,lock);
+			if(was_init || action.isBeforeInit()){
+				make_mainframe_button(mainframe_panel[action.getRow(was_init)],action,lock);
+			}
 		}
 	  }
 	
@@ -146,6 +150,13 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 			chooseAction();
 			chosen_action.activate(callerStation, this);
 		}
+	}
+	
+	@Override
+	public void closeWindow() {
+		if(histogramWraper != null) window.remove_panel(histogramWraper);
+		if(tablePanel != null) window.remove_panel(tablePanel);
+		super.closeWindow();
 	}
 
 }

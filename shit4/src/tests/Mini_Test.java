@@ -5,8 +5,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
-import GUI.Global_Window;
 import GUI.ImagePanel;
+import GUI.Main_Window;
 import GUI.View;
 import mainframe.MainframeWindow;
 import mainframe.Mainframe_stub;
@@ -24,6 +24,7 @@ import votingStation.VotingStation;
 import choosingList.ChoosingList;
 import factories.ChoosingListFactory;
 import factories.ChoosingWindowFactory;
+import factories.PartyFactory;
 import factories.VotingStationFactory;
 import factories.VotingStationWindowFactory;
 
@@ -48,7 +49,7 @@ public class Mini_Test {
 
 	public static class ConstParties {
 		static IPartiesList getParties() {
-			IPartiesList parties = new PartiesList();
+			IPartiesList parties = new PartiesList(new PartyFactory());
 			parties.addParty(new Party("Party1", "a", 0));
 			parties.addParty(new Party("Party2", "b", 0));
 			parties.addParty(new Party("Party3", "c", 23));
@@ -66,7 +67,7 @@ public class Mini_Test {
 		}
 
 		static IPartiesList getOtherParties() {
-			IPartiesList other_parties = new PartiesList();
+			IPartiesList other_parties = new PartiesList(new PartyFactory());
 			other_parties.addParty(new Party("Party14", "a1", 0));
 			other_parties.addParty(new Party("Party15", "b1", 0));
 			other_parties.addParty(new Party("Party16", "c1", 0));
@@ -86,19 +87,19 @@ public class Mini_Test {
 	}
 
 	public static void test1() {
-
+		Main_Window window =new Main_Window();
 		IPartiesList parties = ConstParties.getParties();
 		IPartiesList other_parties = ConstParties.getOtherParties();
 		ChoosingList choose1 = new ChoosingList(parties, null,
-				new ChoosingWindowFactory());
+				new ChoosingWindowFactory(window));
 
 		ChoosingList choose2 = new ChoosingList(other_parties, null,
-				new ChoosingWindowFactory());
+				new ChoosingWindowFactory(window));
 		ChoosingList choose3 = new ChoosingList(other_parties, null,
-				new ChoosingWindowFactory());
+				new ChoosingWindowFactory(window));
 		ChoosingList choose4 = new ChoosingList(parties, null,
-				new ChoosingWindowFactory());
-		Global_Window.main_window.show_window();
+				new ChoosingWindowFactory(window));
+		window.show_window();
 
 		Mini t1 = new Mini(choose1);
 		Mini t2 = new Mini(choose2);
@@ -112,21 +113,18 @@ public class Mini_Test {
 	}
 
 	public static void test2() {
+		Main_Window window =new Main_Window();
 		IPartiesList parties = ConstParties.getParties();
 		IPartiesList other_parties = ConstParties.getOtherParties();
-
-		VotingStationFactory fac = new VotingStationFactory();
+		ChoosingListFactory chooseFactory = new ChoosingListFactory(new ChoosingWindowFactory(window));
+		VotingStationFactory fac = new VotingStationFactory(chooseFactory,new VotingStationWindowFactory(window));
 		List<String> pass = new ArrayList<String>();
 		pass.add("abc");
-		IVotingStation vote1 = fac.createInstance(pass, "voting station 1",
-				new ChoosingListFactory(), new ChoosingWindowFactory(),
-				new VotingStationWindowFactory());
+		IVotingStation vote1 = fac.createInstance(pass, "voting station 1");
 		vote1.initialize(parties, new Driver_StationsContoller());
-		IVotingStation vote2 = new VotingStation(new ArrayList<String>(),
-				"voting station 2", new ChoosingListFactory(),
-				new ChoosingWindowFactory(), new VotingStationWindowFactory());
+		IVotingStation vote2 = fac.createInstance(pass, "voting station 2");
 		vote2.initialize(other_parties, new Driver_StationsContoller());
-		Global_Window.main_window.show_window();
+		window.show_window();
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
@@ -138,15 +136,16 @@ public class Mini_Test {
 	}
 
 	public static void test3() {
+		Main_Window window =new Main_Window();
 		IPartiesList parties = ConstParties.getParties();
 		IPartiesList other_parties = ConstParties.getOtherParties();
 
-		MainframeWindow testedWindow = new MainframeWindow(new Mainframe_stub());
+		MainframeWindow testedWindow = new MainframeWindow(new Mainframe_stub(),window);
 		testedWindow.init();
-		Global_Window.main_window.show_window();
+	
 		testedWindow.showHistogram(parties);
 		testedWindow.showTable(parties);
-
+		window.show_window();
 		try {
 			Thread.sleep(5000);
 		} catch (InterruptedException e) {
@@ -158,16 +157,17 @@ public class Mini_Test {
 	}
 
 	public static void test4() {
+		Main_Window window =new Main_Window();
 		IPartiesList parties = ConstParties.getParties();
 		IPartiesList other_parties = ConstParties.getOtherParties();
 		IPracticeStation station = new PracticeStation("practice station",
-				parties, new ChoosingListFactory(),
-				new ChoosingWindowFactory(),
-				new PracticeStationWindowFactory(), new ImagePanelFactory());
+				parties, new ChoosingListFactory(new ChoosingWindowFactory(window)),
+				new PracticeStationWindowFactory(window), new ImagePanelFactory(window));
+		window.show_window();
 	}
 
 	public static void main(String[] args) {
-		test3();
+		test4();
 	}
 
 }

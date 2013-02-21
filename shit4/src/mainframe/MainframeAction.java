@@ -10,13 +10,18 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		public void activate(IMainframe callerStation, IMainframeWindow window){
 			callerStation.countVotes();
 		}
 		
 		@Override
-		int getRow(){
+		protected int getRowInKind(){
 			return 0;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return false;
 		}
 	}, 
 	identification{
@@ -26,7 +31,7 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		public void activate(IMainframe callerStation, IMainframeWindow window){
 			try{
 				callerStation.identification(window.getID());
 			}catch(NumberFormatException e){
@@ -37,8 +42,13 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		int getRow(){
+		protected int getRowInKind(){
 			return 0;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return false;
 		}
 	},
 	initialize{
@@ -48,13 +58,18 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		public void activate(IMainframe callerStation, IMainframeWindow window){
 			callerStation.initialize();
 		}
 		
 		@Override
-		int getRow(){
-			return 1;
+		protected int getRowInKind(){
+			return 0;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return true;
 		}
 	},
 	restore{
@@ -64,13 +79,18 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		public void activate(IMainframe callerStation, IMainframeWindow window){
 			callerStation.restore();
 		}
 		
 		@Override
-		int getRow(){
-			return 1;
+		protected int getRowInKind(){
+			return 0;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return true;
 		}
 	},
 	shutDown{
@@ -80,26 +100,89 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		void activate(IMainframe callerStation, IMainframeWindow window){
+		public void activate(IMainframe callerStation, IMainframeWindow window){
 			callerStation.shutDown();
 			window.closeWindow();
 		}
 		
 		@Override
-		int getRow(){
+		protected int getRowInKind(){
+			return 0;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return true;
+		}
+	},
+	hebrew{
+		@Override
+		public String toString() {
+			return "עברית";
+		}
+		
+		@Override
+		public void activate(IMainframe callerStation, IMainframeWindow window){
+		}
+		
+		@Override
+		protected int getRowInKind(){
 			return 1;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return true;
+		}
+	},
+	english{
+		@Override
+		public String toString() {
+			return "english";
+		}
+		
+		@Override
+		public void activate(IMainframe callerStation, IMainframeWindow window){
+		}
+		
+		@Override
+		protected int getRowInKind(){
+			return 1;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return true;
 		}
 	}
 	;
 
-	abstract void activate(IMainframe callerStation, IMainframeWindow window);
-	abstract int getRow();
+	public abstract void activate(IMainframe callerStation, IMainframeWindow window);
+	protected abstract int getRowInKind();
+	public abstract boolean isBeforeInit();
+	
+	public int getRow(boolean afterInit){
+		if(isBeforeInit() && afterInit)
+			return getRowInKind()+afterInitRow();
+		else if(isBeforeInit() || afterInit){
+			return getRowInKind();
+		}
+		return -1;
+	}
 	
 	public static int maxRow(){
 		int max_row = 0;
 		for(MainframeAction action : MainframeAction.values()){
-			if(action.getRow() > max_row) max_row = action.getRow(); 
+			if(action.getRow(true) > max_row) max_row = action.getRow(true); 
 		}
 		return max_row+1;
+	}
+	
+	private static int afterInitRow(){
+		int max_row = 0;
+		for(MainframeAction action : MainframeAction.values()){
+			if(action.getRowInKind() > max_row && !action.isBeforeInit()) max_row = action.getRowInKind(); 
+		}
+		return max_row+2;
 	}
 }

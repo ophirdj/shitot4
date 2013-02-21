@@ -8,8 +8,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
-
-import GUI.Global_Window;
+import GUI.Main_Window;
 import partiesList.IPartiesList;
 import partiesList.IParty;
 
@@ -19,9 +18,11 @@ public class TablePanel extends JPanel {
 	final int PARTIES_IN_WINDOW = 10;
 	int current_place;
 	JTable table;
+	Main_Window main_window;
 
-	public TablePanel() {
+	public TablePanel(Main_Window main_window) {
 		super(new BorderLayout());
+		this.main_window = main_window;
 	}
 	
 	private void displayTable() {
@@ -40,7 +41,7 @@ public class TablePanel extends JPanel {
 		JScrollPane sp = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		this.add(sp);
-		Global_Window.main_window.show_if_current(this, this);
+		main_window.show_if_current(this, this);
 	}
 
 	public void showTable(IPartiesList parties) {

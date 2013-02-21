@@ -8,17 +8,11 @@ package mainframe;
 
 import communication.IStationsController;
 import factories.IBackupFactory;
-import factories.IChoosingListFactory;
-import factories.IChoosingWindowFactory;
 import factories.IMainframeWindowFactory;
-import factories.IPartiesListFactory;
-import factories.IPartyFactory;
 import factories.IReadSuppliedXMLFactory;
 import factories.IStationsControllerFactory;
 import factories.IVoterDataFactory;
 import factories.IVotersListFactory;
-import factories.IVotingStationFactory;
-import factories.IVotingStationWindowFactory;
 import partiesList.IPartiesList;
 import partiesList.IParty;
 import votersList.IVoterData;
@@ -44,57 +38,36 @@ public class Mainframe implements IMainframe, Runnable {
 
 	// factories
 	private IBackupFactory backupFactory;
-	private IPartiesListFactory partiesListFactory;
-	private IPartyFactory partyFactory;
 	private IVoterDataFactory voterDataFactory;
 	private IVotersListFactory votersListFactory;
-	private IChoosingListFactory choosingListFactory;
-	private IChoosingWindowFactory choosingWindowFactory;
-	private IVotingStationFactory votingStationFactory;
-	private IVotingStationWindowFactory votingStationWindowFactory;
-	private IMainframeWindowFactory mainframeWindowFactory;
 	private IReadSuppliedXMLFactory readSuppliedXMLFactory;
 	private IStationsControllerFactory stationsControllerFactory;
 
 	public Mainframe(IBackupFactory backupFactory,
-			IPartiesListFactory partiesListFactory, IPartyFactory partyFactory,
-			IVotersListFactory votersListFactory,
-			IVoterDataFactory voterDataFactory,
-			IChoosingListFactory choosingListFactory,
-			IChoosingWindowFactory choosingWindowFactory,
-			IVotingStationFactory votingStationFactory,
-			IVotingStationWindowFactory votingStationWindowFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
-			IStationsControllerFactory stationsControllerFactory) {
+			IStationsControllerFactory stationsControllerFactory,
+			IVoterDataFactory voterDataFactory,
+			IVotersListFactory votersListFactory) {
 		this.backupFactory = backupFactory;
-		this.partiesListFactory = partiesListFactory;
-		this.partyFactory = partyFactory;
-		this.voterDataFactory = voterDataFactory;
-		this.votersListFactory = votersListFactory;
-		this.choosingListFactory = choosingListFactory;
-		this.choosingWindowFactory = choosingWindowFactory;
-		this.votingStationFactory = votingStationFactory;
-		this.votingStationWindowFactory = votingStationWindowFactory;
-		this.mainframeWindowFactory = mainframeWindowFactory;
 		this.readSuppliedXMLFactory = readSuppliedXMLFactory;
 		this.stationsControllerFactory = stationsControllerFactory;
+		this.voterDataFactory = voterDataFactory;
+		this.votersListFactory = votersListFactory;
+		
+		window = mainframeWindowFactory.createInstance(this);
 	}
 
 	@Override
 	public void initialize() {
-		IReadSuppliedXML initRead = readSuppliedXMLFactory.createInstance(
-				voterDataFactory, votersListFactory, partyFactory,
-				partiesListFactory);
-		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
-				votersListFactory, voterDataFactory);
+		IReadSuppliedXML initRead = readSuppliedXMLFactory.createInstance();
+		backup = backupFactory.createInstance();
 		init(initRead.readVotersList(), votersListFactory.createInstance(), initRead.readPartiesList());
 	}
 
 	@Override
 	public void restore() {
-		backup = backupFactory.createInstance(partiesListFactory, partyFactory,
-				votersListFactory, voterDataFactory);
+		backup = backupFactory.createInstance();
 		init(backup.restoreVoters(), backup.restoreUnregisteredVoters(), backup.restoreParties());
 	}
 	
@@ -102,13 +75,11 @@ public class Mainframe implements IMainframe, Runnable {
 	private void init(IVotersList voters, IVotersList unregistered, IPartiesList parties){
 		this.voters = voters;
 		this.parties = parties;
-		votingStations = stationsControllerFactory.createInstance(this,
-				votingStationFactory, choosingListFactory,
-				choosingWindowFactory, votingStationWindowFactory);
+		this.unregisteredVoters = unregistered;
+		votingStations = stationsControllerFactory.createInstance(this);
 		votingStations.initialize(parties);
-		window = mainframeWindowFactory.createInstance(this);
-		window.init();
 		continueRun = true;
+		window.init();
 	}
 
 	@Override
@@ -125,10 +96,8 @@ public class Mainframe implements IMainframe, Runnable {
 	@Override
 	public void shutDown() {
 		continueRun = false;
-		backupState();
-		for (IVotingStation s : votingStations) {
-			s.retire();
-		}
+		if(backup != null) backupState();
+		if(votingStations != null) votingStations.retire();
 	}
 
 	// Save voters and parties lists to backup file. Lists must match.
@@ -141,7 +110,7 @@ public class Mainframe implements IMainframe, Runnable {
 				voters = this.voters.copy();
 				parties = this.parties.copy();
 			}
-		} while (!matchingLists(voters, parties));
+		} while (!matchingLists(voters ,parties));
 		backup.storeState(parties, voters, unregisteredVoters);
 	}
 
@@ -190,6 +159,7 @@ public class Mainframe implements IMainframe, Runnable {
 				return;
 			}
 			unregisteredVoters.addVoter(voter);
+			voters.addVoter(voter);
 		}
 	}
 
@@ -211,28 +181,16 @@ public class Mainframe implements IMainframe, Runnable {
 	}
 
 	private synchronized IVoterData getVoter(int id) throws VoterDoesNotExist {
-		boolean inVoters = voters.inList(id);
-		boolean inUnregisteredVoters = unregisteredVoters.inList(id);
-		if (!inVoters && !inUnregisteredVoters) {
+		if (!voters.inList(id)) {
 			throw new VoterDoesNotExist();
 		}
-		IVoterData voter = null;
-		if (inVoters) {
-			try {
-				voter = voters.findVoter(id);
-			} catch (VoterDoesntExist e) {
-				// won't happen
-				e.printStackTrace();
-			}
-		} else {
-			try {
-				voter = unregisteredVoters.findVoter(id);
-			} catch (VoterDoesntExist e) {
-				// won't happen
-				e.printStackTrace();
-			}
+		try {
+			return voters.findVoter(id);
+		} catch (VoterDoesntExist e) {
+			// won't happen
+			e.printStackTrace();
+			throw new VoterDoesNotExist();
 		}
-		return voter;
 	}
 
 	@Override

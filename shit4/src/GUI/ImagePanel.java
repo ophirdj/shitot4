@@ -19,17 +19,17 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 	final private Color INACTIVE_COLOR = Color.GRAY;
 	final private Color ACTIVE_COLOR = UIManager.getColor("Button.background");
 	
-	File fileToShow;
-	int fileShownIndex;
-	IListImages images_list;
+	private File fileToShow;
+	private int fileShownIndex;
+	private IListImages images_list;
 	
-	JButton nextButton = new JButton(">");
-	JButton prevButton = new JButton("<");
-	JButton exitButton = new JButton("exit");
+	private JButton nextButton = new JButton(">");
+	private JButton prevButton = new JButton("<");
+	private JButton exitButton = new JButton("exit");
 	
-	JPanel callerStation;
-	Canvas canvas;
-	Main_Window window;
+	private JPanel callerStation;
+	private Canvas canvas;
+	private Main_Window window;
 	
 	boolean timeout = false;
 	
@@ -58,7 +58,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		
 	}
 	
-	public ImagePanel(IListImages images_list, JPanel callerStation) {
+	public ImagePanel(IListImages images_list, JPanel callerStation, Main_Window main_window) {
 		super(new BorderLayout());
 		
 		this.callerStation = callerStation;
@@ -74,7 +74,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		
 		fileToShow = images_list.getFile(0);
 		fileShownIndex = 0;
-		window = Global_Window.main_window;
+		window = main_window;
 	}
 	
 	public boolean hasNext(){
@@ -117,6 +117,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 				
 			}
 		}
+		window.show_if_current(callerStation, callerStation);
 	}
 	
 	public void retire(){
@@ -124,10 +125,13 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 			timeout = true;
 			this.notify();
 		}
-		window.show_if_current(callerStation, callerStation);
 	}
 	 
-	
+	private void continuePractice(){
+		synchronized (this) {
+			this.notify();
+		}
+	}
 	
 	
 	public enum image_action{
@@ -152,7 +156,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 				showPrevImage();
 				break;
 			case exit:
-				retire();
+				continuePractice();
 				break;
 			default:
 				break;

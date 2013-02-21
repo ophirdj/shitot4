@@ -9,9 +9,15 @@ import partiesList.IPartiesList;
 
 public class ChoosingListFactory implements IChoosingListFactory {
 
+	private IChoosingWindowFactory windowFactory;
+	
+	public ChoosingListFactory(IChoosingWindowFactory windowFactory) {
+		this.windowFactory = windowFactory;
+	}
+
 	@Override
 	public IChoosingList createInstance(IPartiesList parties,
-			JPanel stationPanel, IChoosingWindowFactory windowFactory) {
+			JPanel stationPanel) {
 		return new ChoosingList(parties, stationPanel, windowFactory);
 	}
 

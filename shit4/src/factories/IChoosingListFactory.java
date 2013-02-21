@@ -13,10 +13,7 @@ public interface IChoosingListFactory {
 	 * @param stationPanel
 	 *            : the main panel of station (null in order to not show
 	 *            graphic)
-	 * @param windowFactory
-	 *            : abstract factory that create a window
 	 * @return a new object that implements IChoosingList
 	 */
-	IChoosingList createInstance(IPartiesList parties, JPanel stationPanel,
-			IChoosingWindowFactory windowFactory);
+	IChoosingList createInstance(IPartiesList parties, JPanel stationPanel);
 }
