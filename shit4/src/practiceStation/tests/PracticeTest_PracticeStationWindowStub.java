@@ -15,17 +15,17 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	static final long serialVersionUID = 1L;
 	
 	private PracticeStationTestEnvironment testEnvironment;
-	private Queue<printErrorMessageComponent> printErrorMessageQueue;
+	private Queue<PrintErrorMessageComponent> printErrorMessageQueue;
 	private Queue<PrintConformationMessageComponent> printConformationMessageQueue;
 	private Queue<ConformationWithPartyComponent> ConformationWithPartyQueue;
-	private Queue<printInfoMessageComponent> printInfoMessageQueue;
+	private Queue<PrintInfoMessageComponent> printInfoMessageQueue;
 	
 	public PracticeTest_PracticeStationWindowStub(
 			PracticeStationTestEnvironment testEnvironment,
-			Queue<printErrorMessageComponent> printErrorMessageQueue,
+			Queue<PrintErrorMessageComponent> printErrorMessageQueue,
 			Queue<PrintConformationMessageComponent> printConformationMessageQueue,
 			Queue<ConformationWithPartyComponent> ConformationWithPartyQueue,
-			Queue<printInfoMessageComponent> printInfoMessageQueue) {
+			Queue<PrintInfoMessageComponent> printInfoMessageQueue) {
 		super();
 		this.testEnvironment = testEnvironment;
 		this.printErrorMessageQueue = printErrorMessageQueue;
@@ -35,10 +35,10 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		
 	}
 	
-	public static class printInfoMessageComponent{
+	public static class PrintInfoMessageComponent{
 		private Messages shouldBeMessage;
 		
-		public printInfoMessageComponent(Messages shouldBeMessage) {
+		public PrintInfoMessageComponent(Messages shouldBeMessage) {
 			this.shouldBeMessage = shouldBeMessage;
 		}
 		
@@ -52,10 +52,10 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		}
 	}
 	
-	public static class printInfoMessageLongComponent extends printInfoMessageComponent{
+	public static class PrintInfoMessageLongComponent extends PrintInfoMessageComponent{
 		private long milliSeconds2Wait;
 		
-		public printInfoMessageLongComponent(Messages shouldBeMessage,
+		public PrintInfoMessageLongComponent(Messages shouldBeMessage,
 				long milliSecond2Wait) {
 			super(shouldBeMessage);
 			this.milliSeconds2Wait = milliSecond2Wait;
@@ -210,10 +210,10 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	}
 
 	
-	public static class printErrorMessageComponent{
+	public static class PrintErrorMessageComponent{
 		private Messages shouldBeMessage;
 		
-		public printErrorMessageComponent(Messages shouldBeMessage) {
+		public PrintErrorMessageComponent(Messages shouldBeMessage) {
 			this.shouldBeMessage = shouldBeMessage;
 		}
 		
@@ -227,10 +227,10 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		}
 	}
 	
-	public static class printErrorMessageLongComponent extends printErrorMessageComponent{
+	public static class PrintErrorMessageLongComponent extends PrintErrorMessageComponent{
 		private long milliSeconds2Wait;
 		
-		public printErrorMessageLongComponent(Messages shouldBeMessage,
+		public PrintErrorMessageLongComponent(Messages shouldBeMessage,
 				long milliSecond2Wait) {
 			super(shouldBeMessage);
 			this.milliSeconds2Wait = milliSecond2Wait;

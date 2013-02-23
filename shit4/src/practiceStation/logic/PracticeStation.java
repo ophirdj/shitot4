@@ -16,24 +16,43 @@ import practiceStation.guides.PracticeStationImagesMap;
 
 public class PracticeStation implements IPracticeStation {
 
-	IPartiesList parties;
-	IPracticeStationWindow practiceStationWindow;
-	IChoosingList choosingList;
-	IImagePanelFactory imagePanelFactory;
-	IImagePanel guide;
-	Languages language;
+	private final int DEFUALT_MINUTES = 5;
+	
+	private IPracticeStationWindow practiceStationWindow;
+	private IChoosingList choosingList;
+	private IImagePanelFactory imagePanelFactory;
+	private IImagePanel guide;
+	private Languages language;
+	
 
-	private final int max_practice_time = 5;
+	private final long mill2Minutes = 1000 * 60;
+	private long max_practice_time;
 
 	public PracticeStation(IPartiesList parties,
 			IChoosingListFactory chooseFactory,
 			IPracticeStationWindowFactory stationWindowFactory,
 			IImagePanelFactory imagePanelFactory) {
-		this.parties = parties;
 		this.practiceStationWindow = stationWindowFactory.createInstance(this);
 		this.imagePanelFactory = imagePanelFactory;
 		this.choosingList = chooseFactory.createInstance(parties,
 				(StationPanel) practiceStationWindow);
+		this.max_practice_time = mill2Minutes * DEFUALT_MINUTES;
+	};
+	
+	/**
+	 * Build practice station for test (different waiting time)
+	 */
+	public PracticeStation(IPartiesList parties,
+			IChoosingListFactory chooseFactory,
+			IPracticeStationWindowFactory stationWindowFactory,
+			IImagePanelFactory imagePanelFactory,
+			long max_practice_time) {
+
+		this.practiceStationWindow = stationWindowFactory.createInstance(this);
+		this.imagePanelFactory = imagePanelFactory;
+		this.choosingList = chooseFactory.createInstance(parties,
+				(StationPanel) practiceStationWindow);
+		this.max_practice_time = max_practice_time;
 	};
 
 	class Watcher extends Thread {
@@ -45,8 +64,7 @@ public class PracticeStation implements IPracticeStation {
 		}
 
 		private long maxTime() {
-			final long mill2Minutes = 1000 * 60;
-			return max_practice_time * mill2Minutes;
+			return max_practice_time;
 		}
 
 		@Override
@@ -54,18 +72,19 @@ public class PracticeStation implements IPracticeStation {
 			try {
 				Thread.sleep(maxTime());
 				synchronized (lock) {
-					timeout = true;
 					choosingList.retire();
 					guide.retire();
+					timeout = true;
 					lock.notify();
 				}
-			} catch (InterruptedException e) {
-			}
+			} catch (InterruptedException e) {}
 		}
 
 		public void checkTime() throws PracticeTimedOutException {
-			if (timeout)
-				throw new PracticeTimedOutException();
+			synchronized (lock) {
+				if (timeout)
+					throw new PracticeTimedOutException();
+			}
 		}
 	}
 
@@ -98,7 +117,12 @@ public class PracticeStation implements IPracticeStation {
 								.printConformationMessage(Messages.Did_you_intend_to_vote_for, chosen);
 					}
 				} catch (ChoosingInterruptedException e) {
-					throw new PracticeTimedOutException();
+					/*
+					 * synchronized to assure deterministic calls for testing
+					 */
+					synchronized (this) {
+						throw new PracticeTimedOutException();
+					}
 				}
 				watcher.checkTime();
 				understandConformation = practiceStationWindow

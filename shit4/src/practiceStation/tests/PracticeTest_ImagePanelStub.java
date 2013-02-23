@@ -9,12 +9,12 @@ import practiceStation.guides.IImagePanel;
 public class PracticeTest_ImagePanelStub implements IImagePanel {
 
 	private PracticeStationTestEnvironment testEnviroment;
-	private Queue<showFirstImageComponent> showFirstImageQueue;
+	private Queue<ShowFirstImageComponent> showFirstImageQueue;
 	private Queue<ImagePanelRetireComponent> retireQueue;
 	private Thread showThread;
 	
 	public PracticeTest_ImagePanelStub(PracticeStationTestEnvironment testEnviroment,
-			Queue<showFirstImageComponent> showFirstImageQueue,
+			Queue<ShowFirstImageComponent> showFirstImageQueue,
 			Queue<ImagePanelRetireComponent> retireQueue) {
 
 		this.testEnviroment = testEnviroment;
@@ -40,13 +40,14 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 		}catch (NoSuchElementException e) {
 			throw new AssertionError();
 		}
+		
 	}
 
 	
-	public static class showFirstImageComponent{
+	public static class ShowFirstImageComponent{
 		private Languages shouldBeLanguage;
 		
-		public showFirstImageComponent(Languages shouldBeLanguage) {
+		public ShowFirstImageComponent(Languages shouldBeLanguage) {
 			this.shouldBeLanguage = shouldBeLanguage;
 		}
 		
@@ -60,7 +61,7 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 		}
 	}
 	
-	public static class ShowFirstImageLongComponent extends showFirstImageComponent{
+	public static class ShowFirstImageLongComponent extends ShowFirstImageComponent{
 		
 		private long milliSeconds2Wait;
 		
@@ -71,12 +72,13 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 		
 		@Override
 		public void checkParameters(Languages language) throws InterruptedException{
+			super.checkParameters(language);
 			try{
 				Thread.sleep(milliSeconds2Wait);
 			}catch (InterruptedException e) {
 				throw new AssertionError();
 			}
-			super.checkParameters(language);
+			
 		}
 		
 		@Override
@@ -85,17 +87,18 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 		}
 	}
 	
-	public static class ShowFirstImageTooLongComponent extends showFirstImageComponent{
+	public static class ShowFirstImageTooLongComponent extends ShowFirstImageComponent{
 		
 		private long milliSeconds2Wait;
 		
-		public ShowFirstImageTooLongComponent(long milliSeconds2Wait) {
-			super(null);
+		public ShowFirstImageTooLongComponent(Languages language ,long milliSeconds2Wait) {
+			super(language);
 			this.milliSeconds2Wait = milliSeconds2Wait;
 		}
 		
 		@Override
 		public void checkParameters(Languages language) throws InterruptedException{
+			super.checkParameters(language);
 			try{
 				Thread.sleep(milliSeconds2Wait);
 				throw new AssertionError();

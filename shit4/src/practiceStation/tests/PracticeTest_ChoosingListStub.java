@@ -8,6 +8,8 @@ import choosingList.logic.IChoosingList;
 
 public class PracticeTest_ChoosingListStub implements IChoosingList {
 
+	static final IParty wrongParty = new PracticeTest_PartyStub("ERROR;");
+	
 	private PracticeStationTestEnvironment testEnviroment;
 	private Queue<ChooseListComponent> chooseListQueue;
 	private Queue<ChoosingListRetireComponent> retireQueue;
@@ -70,7 +72,7 @@ public class PracticeTest_ChoosingListStub implements IChoosingList {
 		private long milliSeconds2Wait;
 		
 		public ChooseListTooLongComponent(long milliSeconds2Wait) {
-			super(null);
+			super(wrongParty);
 			this.milliSeconds2Wait = milliSeconds2Wait;
 		}
 		
@@ -86,7 +88,7 @@ public class PracticeTest_ChoosingListStub implements IChoosingList {
 		
 		@Override
 		public String toString() {
-			return "wait " + milliSeconds2Wait + "millis, " +super.toString() + "shouldn't return. ";
+			return "wait " + milliSeconds2Wait + "millis, " +super.toString() + " shouldn't return. ";
 		}
 	}
 	

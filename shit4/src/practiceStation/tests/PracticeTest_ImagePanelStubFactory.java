@@ -10,17 +10,17 @@ import practiceStation.factories.IImagePanelFactory;
 import practiceStation.guides.IImagePanel;
 import practiceStation.guides.IListImages;
 import practiceStation.tests.PracticeTest_ImagePanelStub.ImagePanelRetireComponent;
-import practiceStation.tests.PracticeTest_ImagePanelStub.showFirstImageComponent;
+import practiceStation.tests.PracticeTest_ImagePanelStub.ShowFirstImageComponent;
 
 public class PracticeTest_ImagePanelStubFactory implements IImagePanelFactory{
 	
 	private PracticeStationTestEnvironment testEnviroment;
-	private Queue<showFirstImageComponent> showFirstImageQueue;
+	private Queue<ShowFirstImageComponent> showFirstImageQueue;
 	private Queue<ImagePanelRetireComponent> retireQueue;
 	
 	public PracticeTest_ImagePanelStubFactory(
 			PracticeStationTestEnvironment testEnviroment,
-			Queue<showFirstImageComponent> showFirstImageQueue,
+			Queue<ShowFirstImageComponent> showFirstImageQueue,
 			Queue<ImagePanelRetireComponent> retireQueue) {
 		this.testEnviroment = testEnviroment;
 		this.showFirstImageQueue = showFirstImageQueue;

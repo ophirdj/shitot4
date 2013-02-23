@@ -1,5 +1,8 @@
 package practiceStation.tests;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import global.dictionaries.Languages;
 
 import org.junit.Test;
@@ -26,6 +29,14 @@ public class PracticeStationUnitTests {
 		IPracticeStationWindowFactory practiceWindowFactory = testEnviroment.getPracticeWindowFactory();
 		IChoosingListFactory choosingListFactory = testEnviroment.getChoosingListFactory();
 		return new PracticeStation(partiesList,choosingListFactory,practiceWindowFactory,ImagePanelFactory);
+	}
+	
+	public PracticeStation buildStation(PracticeStationTestEnvironment testEnviroment, IPartiesList partiesList, long waitTime){
+		IImagePanelFactory ImagePanelFactory = testEnviroment.getImagePanelFactory();
+		IPracticeStationWindowFactory practiceWindowFactory = testEnviroment.getPracticeWindowFactory();
+		IChoosingListFactory choosingListFactory = testEnviroment.getChoosingListFactory();
+		long actualStationTime = PracticeTestPathes.getStationActualTime(waitTime);
+		return new PracticeStation(partiesList,choosingListFactory,practiceWindowFactory,ImagePanelFactory,actualStationTime);
 	}
 	
 	@Test
@@ -124,4 +135,93 @@ public class PracticeStationUnitTests {
 		PracticeStation testedStation = buildStation(harderTestEnviroment,partiesList);
 		harderTestEnviroment.runTest(testedStation);
 	}
+	
+	@Test
+	public void trivialWaitingTest(){
+		final long stationWaitingTime = 100;
+		final long moreThenStationWaitingTime = stationWaitingTime+1;
+		
+		PracticeStationTestEnvironment trivialWaitingTestEnviroment = new PracticeStationTestEnvironment("trivialWaitingTest");
+		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
+		IParty party1 = partyFactory.createInstance("tested1", "1");
+		
+		
+		Languages language = Languages.Hebrew;
+		trivialWaitingTestEnviroment.addSetLanguage(language);
+		pathes.longFirstGuide(trivialWaitingTestEnviroment, party1, moreThenStationWaitingTime, language,stationWaitingTime);
+		
+		/*
+		 * will also work with partiesList = null,
+		 * but I want to be fair about the parties.
+		 */
+		IPartiesList partiesList = partiesListFactory.createInstance();
+		partiesList.addParty(party1);
+
+		PracticeStation testedStation = buildStation(trivialWaitingTestEnviroment,partiesList,stationWaitingTime);
+		trivialWaitingTestEnviroment.runTest(testedStation);
+	}
+	
+	@Test
+	public void easyWaitingTest(){
+		final long stationWaitingTime = 100;
+		final long moreThenStationWaitingTime = stationWaitingTime+1;
+		
+		PracticeStationTestEnvironment easyWaitingTestEnviroment = new PracticeStationTestEnvironment("easyWaitingTest");
+		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
+		IParty party1 = partyFactory.createInstance("tested1", "1");
+		
+		
+		Languages language = Languages.Hebrew;
+		easyWaitingTestEnviroment.addSetLanguage(language);
+		pathes.longFirstGuide(easyWaitingTestEnviroment, party1, moreThenStationWaitingTime, language,stationWaitingTime);
+		pathes.shortestPathCall(easyWaitingTestEnviroment, party1);
+		pathes.longFirstGuide(easyWaitingTestEnviroment, party1, stationWaitingTime, language, stationWaitingTime);
+		pathes.longFirstChoose(easyWaitingTestEnviroment, party1, moreThenStationWaitingTime, language, stationWaitingTime);
+		pathes.longFirstChoose(easyWaitingTestEnviroment, party1, stationWaitingTime, language, stationWaitingTime);
+		
+		/*
+		 * will also work with partiesList = null,
+		 * but I want to be fair about the parties.
+		 */
+		IPartiesList partiesList = partiesListFactory.createInstance();
+		partiesList.addParty(party1);
+		PracticeStation testedStation = buildStation(easyWaitingTestEnviroment,partiesList,stationWaitingTime);
+		easyWaitingTestEnviroment.runTest(testedStation);
+		
+	}
+	
+	@Test
+	public void harderWaitingTest(){
+		final long stationWaitingTime = 100;
+		
+		PracticeStationTestEnvironment harderWaitingTestEnviroment = new PracticeStationTestEnvironment("harderWaitingTest");
+		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		PartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
+		
+		
+		IPartiesList parties = partiesListFactory.createInstance();
+		parties.addParty(partyFactory.createInstance("tested1", "1"));
+		parties.addParty(partyFactory.createInstance("tested2", "2"));
+		parties.addParty(partyFactory.createInstance("tested3", "3"));
+		parties.addParty(partyFactory.createInstance("tested4", "4"));
+		parties.addParty(partyFactory.createInstance("tested5", "5"));
+		parties.addParty(partyFactory.createInstance("tested6", "6"));
+		
+		Collection<IParty> partiesCollection = new ArrayList<IParty>();
+		for (IParty party : parties) {
+			partiesCollection.add(party);
+		}
+		
+		Languages language = Languages.Hebrew;
+		harderWaitingTestEnviroment.addSetLanguage(language);
+		pathes.complicatedPath(harderWaitingTestEnviroment, partiesCollection, language, stationWaitingTime);
+		
+		harderWaitingTestEnviroment.expectedTestLog();
+		PracticeStation testedStation = buildStation(harderWaitingTestEnviroment,parties,stationWaitingTime);
+		harderWaitingTestEnviroment.runTest(testedStation);
+	}
+	
+	
 }
