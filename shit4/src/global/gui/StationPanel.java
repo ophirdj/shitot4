@@ -19,6 +19,11 @@ public class StationPanel extends BasicPanel{
 	
 	private Integer id;
 	
+	/**
+	 * use this constructor for tests without graphic
+	 */
+	public StationPanel(){} 
+	
 	public StationPanel(Main_Window main_window, JPanel defualtPanel){
 		super(main_window);
 		setPanel(defualtPanel);

@@ -1,7 +1,5 @@
 package votersList.model;
 
-import votersList.model.IVoterData.Unidentified;
-
 public interface IVoterData {
 	
 	

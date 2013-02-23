@@ -17,6 +17,11 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 
 	protected Main_Window window;
 
+	/**
+	 * use this constructor for tests without graphic
+	 */
+	public BasicPanel(){}
+	
 	public BasicPanel(Main_Window window) {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
