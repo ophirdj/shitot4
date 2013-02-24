@@ -1,0 +1,46 @@
+Main_Window	Main Window
+Ask_for_conformation	Ask for confirmation
+ERROR	ERROR
+FYI	FYI
+Exit	Exit
+Main_frame	Main Frame
+histogram	histogram
+table	table
+enter_ID	enter ID
+symbol	symbol
+name	name
+votes	votes
+previous	previous
+next	next
+white_note	white note
+Are_you_sure_you_dont_want_to_vote_for_anyone	 Are you sure you don't want to vote for anyone
+Are_you_sure_you_want_to_vote_for	Are you sure you want to vote for
+This_station_is_only_for_practice	This station is for practice only
+Do_you_want_to_see_a_guide	Do you want to see a guide
+Did_you_intend_to_vote_for	Did you intend to vote for 
+Have_you_understood_the_process	Have you understood the process?
+Your_time_is_up	Your time is up
+enter_password	enter password
+You_quit_in_the_process_of_voting	You quit in the process of voting
+You_need_to_identify_yourself_in_the_mainframe	You need to identify yourself in the mainframe
+You_cannot_change_your_vote_anymore	You cannot change your vote anymore
+You_cannot_vote_here	You cannot vote here
+ID_must_be_a_number	ID must be a number
+Chuck_Norris_removed_you_from_existance	Chuck Norris removed you from existance
+You_successfully_voted_for_the_party	You successfull voted for the party
+You_successfully_test_voted_for_the_party	You successfully test voted for the party
+wrong_password	wrong password
+make_vote	make vote
+test_vote	test vote
+practice_vote	practice vote
+shut_down	shut down
+count_votes	count votes
+identification	identification
+boot	boot
+boot_from_backup	boot from backup
+ID_is_already_registered	ID is slready registered
+Yes	Yes
+No	No
+Ok	Ok
+practiceStation	practice station no. 
+voting_station	voting station no. 

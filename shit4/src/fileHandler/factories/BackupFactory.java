@@ -30,7 +30,7 @@ public class BackupFactory implements IBackupFactory {
 			  String unregisteredVotersFile*/
 			) {
 		
-		String backupFolder = "backup/";
+		String backupFolder = "listBackup/";
 		String unregFolder = "unregisteredVoters/";
 		return new Backup(partiesListFactory, partyFactory, voterListFactory,
 				voterDataFactory,
