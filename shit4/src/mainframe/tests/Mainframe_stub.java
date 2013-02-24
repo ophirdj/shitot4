@@ -59,4 +59,10 @@ public class Mainframe_stub implements IMainframe {
 		System.out.println("shutDown");
 	}
 
+	@Override
+	public void markStartedVote(int id) throws VoterDoesNotExist {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

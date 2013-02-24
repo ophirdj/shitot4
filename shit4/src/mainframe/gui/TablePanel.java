@@ -1,9 +1,8 @@
 package mainframe.gui;
 
-import global.gui.Main_Window;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.util.Comparator;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -11,20 +10,19 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 
 public class TablePanel extends JPanel {
-	static final long serialVersionUID = 1L;
-	IPartiesList all_parties;
-	final int PARTIES_IN_WINDOW = 10;
-	int current_place;
-	JTable table;
-	Main_Window main_window;
+	private static final long serialVersionUID = 1L;
+	private IPartiesList all_parties;
+	private JTable table;
 
-	public TablePanel(Main_Window main_window) {
+	public TablePanel() {
 		super(new BorderLayout());
-		this.main_window = main_window;
 	}
 	
 	private void displayTable() {
@@ -39,14 +37,42 @@ public class TablePanel extends JPanel {
 			table.setValueAt(party.getVoteNumber(), i, 2);
 			i++;
 		}
+		
+		TableRowSorter<TableModel> rowSorter = new TableRowSorter<TableModel>(table.getModel());
+		rowSorter.setComparator(1, new AlphabeticComparator());
+		rowSorter.setComparator(2, new NumericComparator());
+		table.setRowSorter(rowSorter);
+		
+		
 		this.removeAll();
 		JScrollPane sp = new JScrollPane(table);
 		table.setFillsViewportHeight(true);
 		this.add(sp);
 	}
+	
+	
+	private static class AlphabeticComparator implements Comparator<String> {
+
+		@Override
+		public int compare(String s1, String s2) {
+			return s1.compareTo(s2);
+		}
+		
+	}
+	
+	
+	private static class NumericComparator implements Comparator<Integer> {
+
+		@Override
+		public int compare(Integer i1, Integer i2) {
+			return i1.compareTo(i2);
+		}
+		
+	}
+	
+	
 
 	public void showTable(IPartiesList parties) {
-		current_place = 0;
 		all_parties = parties;
 		displayTable();
 	}

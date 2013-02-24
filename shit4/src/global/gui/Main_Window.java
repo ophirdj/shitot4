@@ -5,12 +5,16 @@ import global.dictionaries.Languages;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.FontMetrics;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneLayout;
 import javax.swing.border.TitledBorder;
 
 
@@ -28,10 +32,13 @@ public class Main_Window extends JFrame {
 	private JPanel current_panel;
 	private StationPanel current_station_panel;
 	
+	private JScrollPane buttons_scroll;
+	
 	public Main_Window() {
 		super("Main_Window");
 	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    this.setMinimumSize(new Dimension(500,300));
+	    
+	    setMinimumSize(new Dimension(500, 350));
 	    
 	    main_panel = new JPanel();
 	    main_panel.setLayout(new BorderLayout());
@@ -41,7 +48,11 @@ public class Main_Window extends JFrame {
 		current_station_panel = defualt_panel;
 		current_panel = defualt_panel;
 		
-		main_panel.add(buttons_panel,BorderLayout.SOUTH);
+		//main_panel.add(buttons_panel,BorderLayout.SOUTH);
+		
+		buttons_scroll = new JScrollPane(buttons_panel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		buttons_scroll.setLayout(new ScrollPaneLayout());
+		main_panel.add(buttons_scroll, BorderLayout.SOUTH);
 		
 		this.add(main_panel);
 		this.setVisible(true);
@@ -54,6 +65,9 @@ public class Main_Window extends JFrame {
 		station_panel.setButton(viewButton);
 		station_panel.setPanel(station_panel);
 		station_panel.setStationName(view.getName());
+		
+		
+		buttons_scroll.setPreferredSize(new Dimension(buttons_panel.getPreferredSize().width, buttons_panel.getPreferredSize().height + 20));
 	}
 	
 	public void show_window(){

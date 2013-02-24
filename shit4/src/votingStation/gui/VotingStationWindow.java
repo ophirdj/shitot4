@@ -143,7 +143,10 @@ public class VotingStationWindow extends StationPanel implements
 		}
 
 		String id = textField.getText();
-		return Integer.parseInt(id);
+		int res = Integer.parseInt(id);
+		//we want an id (positive number)
+		if(res < 0) throw new NumberFormatException();
+		return res;
 	}
 
 	public void run() {

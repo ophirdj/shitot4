@@ -203,6 +203,17 @@ public class Mainframe implements IMainframe, Runnable {
 			throw new VoterDoesNotExist();
 		}
 	}
+	
+	@Override
+	public synchronized void markStartedVote(int id) throws VoterDoesNotExist, VoterStartedVote {
+		IVoterData voter = getVoter(id);
+		try {
+			if(voter.hasStartedVote()) throw new VoterStartedVote();
+			voter.markStartedVote();
+		} catch (Unidentified e) {
+			throw new VoterDoesNotExist();
+		}
+	}
 
 	@Override
 	public synchronized VoterStatus getVoterStatus(int id) {
@@ -218,12 +229,6 @@ public class Mainframe implements IMainframe, Runnable {
 			return VoterStatus.startedVote;
 		}
 		if (voter.isIdentified()){
-			try {
-				voter.markStartedVote();
-			} catch (Unidentified e) {
-				//shoauldn't reach here
-				e.printStackTrace();
-			}
 			return VoterStatus.identified;
 		}
 		return VoterStatus.unidentified;

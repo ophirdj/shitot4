@@ -70,7 +70,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	public void showTable(IPartiesList parties) {
 		
 		if(tableWraper == null){
-			tablePanel = new TablePanel(window);
+			tablePanel = new TablePanel();
 			tableWraper = new StationPanel(Messages.table,window);
 		}
 		tablePanel.showTable(parties);

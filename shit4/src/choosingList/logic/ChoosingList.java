@@ -28,6 +28,7 @@ public class ChoosingList implements IChoosingList{
 	public IParty chooseList() throws ChoosingInterruptedException{
 		IParty chosenParty = null;
 		Boolean hasConfirmed = false;
+		place = 0;
 		window.switchOn();
 		while (!hasConfirmed){
 			int end_for_print = place+MAX_PARTIES;

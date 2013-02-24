@@ -3,6 +3,7 @@ package mainframe.communication;
 import partiesList.model.IPartiesList;
 import votingStation.logic.IVotingStation;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
+import mainframe.logic.IMainframe.VoterStartedVote;
 import mainframe.logic.IMainframe.VoterStatus;
 
 public interface IStationsController extends Iterable<IVotingStation>{
@@ -40,6 +41,13 @@ public interface IStationsController extends Iterable<IVotingStation>{
 	 * @param id - Voter's ID.
 	 */
 	void markVoted(int id) throws VoterDoesNotExist;
+	
+	
+	/**
+	 * Mark that voter has started voting in a voting station.
+	 * @param id - Voter's ID.
+	 */
+	void markStartedVote(int id) throws VoterDoesNotExist, VoterStartedVote;
 	
 	
 	/**

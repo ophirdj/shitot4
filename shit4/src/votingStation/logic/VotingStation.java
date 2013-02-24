@@ -21,6 +21,7 @@ import votingStation.model.VotingRecord;
 import mainframe.communication.IStationsController;
 import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
+import mainframe.logic.IMainframe.VoterStartedVote;
 
 public class VotingStation implements IVotingStation {
 	private IStationsController controller;
@@ -33,10 +34,10 @@ public class VotingStation implements IVotingStation {
 	private IVotingStationWindow votingStationWindow;
 	private IChoosingListFactory choosingListFactory;
 
-	public VotingStation(List<String> passwords, IChoosingListFactory choseFactory, IVotingStationWindowFactory stationWindowFactory){
+	public VotingStation(List<String> passwords, IChoosingListFactory chooseFactory, IVotingStationWindowFactory stationWindowFactory){
 		this.passwords = passwords;
 		votingStationWindow = stationWindowFactory.createInstance(this);
-		choosingListFactory = choseFactory;
+		choosingListFactory = chooseFactory;
 	};
 
 	public void initialize(IPartiesList parties,IStationsController controller){
@@ -90,6 +91,12 @@ public class VotingStation implements IVotingStation {
 		
 		VotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
+		try {
+			controller.markStartedVote(id);
+		} catch (VoterDoesNotExist e1) {
+		} catch (VoterStartedVote e) {
+			return;
+		}
 		IParty lastParty = choosingList.chooseList();
 		try {
 			controller.markVoted(id);

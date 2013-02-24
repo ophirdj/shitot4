@@ -10,6 +10,7 @@ import votingStation.logic.IVotingStation;
 import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStatus;
+import mainframe.logic.IMainframe.VoterStartedVote;
 
 public class StationsController implements IStationsController {
 	private List<IVotingStation> stations;
@@ -40,7 +41,7 @@ public class StationsController implements IStationsController {
 		boolean flag = true;
 		for(IVotingStation s: stations){
 			if(flag){
-				s.initialize(parties, this);
+				s.initialize(parties.copy(), this);
 				flag = false;
 			}
 			else{
@@ -64,6 +65,11 @@ public class StationsController implements IStationsController {
 	@Override
 	public void markVoted(int id) throws VoterDoesNotExist {
 		mainframe.markVoted(id);
+	}
+	
+	@Override
+	public void markStartedVote(int id) throws VoterDoesNotExist, VoterStartedVote {
+		mainframe.markStartedVote(id);
 	}
 
 	@Override
