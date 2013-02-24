@@ -1,7 +1,6 @@
 package votingStation.logic;
 
 import global.dictionaries.IDictionary;
-import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import votingStation.gui.IVotingStationWindow;
 import choosingList.logic.IChoosingList.ChoosingInterruptedException;
@@ -47,48 +46,6 @@ public enum VotingStationAction {
 		@Override
 		public String getString(IDictionary dictionary) {
 			return dictionary.translate(Messages.test_vote);
-		}
-	},
-	ENGLISH{
-		@Override
-		public void activate(IVotingStation callerStation, IVotingStationWindow votingWindow) throws ChoosingInterruptedException{
-			votingWindow.setLanguage(Languages.English);
-		}
-		
-		@Override
-		public String toString() {
-			return "English";
-		}
-
-		@Override
-		public int getRow() {
-			return 1;
-		}
-
-		@Override
-		public String getString(IDictionary dictionary) {
-			return "English";
-		}
-	},
-	HEBREW{
-		@Override
-		public void activate(IVotingStation callerStation, IVotingStationWindow votingWindow) throws ChoosingInterruptedException{
-			votingWindow.setLanguage(Languages.Hebrew);
-		}
-		
-		@Override
-		public String toString() {
-			return "עברית";
-		}
-
-		@Override
-		public int getRow() {
-			return 1;
-		}
-
-		@Override
-		public String getString(IDictionary dictionary) {
-			return "עברית";
 		}
 	}
 	;

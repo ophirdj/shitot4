@@ -131,7 +131,6 @@ public class PracticeStationUnitTests {
 		pathes.guidePathCall(harderTestEnviroment, party1, thirdLanguage);
 		pathes.didntUnderstandPathCall(harderTestEnviroment, party1, party2, thirdLanguage);
 		
-		
 		PracticeStation testedStation = buildStation(harderTestEnviroment,partiesList);
 		harderTestEnviroment.runTest(testedStation);
 	}
@@ -218,7 +217,6 @@ public class PracticeStationUnitTests {
 		harderWaitingTestEnviroment.addSetLanguage(language);
 		pathes.complicatedPath(harderWaitingTestEnviroment, partiesCollection, language, stationWaitingTime);
 		
-		harderWaitingTestEnviroment.expectedTestLog();
 		PracticeStation testedStation = buildStation(harderWaitingTestEnviroment,parties,stationWaitingTime);
 		harderWaitingTestEnviroment.runTest(testedStation);
 	}

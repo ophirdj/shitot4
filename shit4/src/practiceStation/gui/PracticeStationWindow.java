@@ -25,7 +25,8 @@ public class PracticeStationWindow extends StationPanel implements
 	private boolean was_pushed = false;
 	private final Color PracticeBackground = new Color(255, 255, 255);
 	private IPracticeStation callerStation;
-	private final int NUM_OF_ROW = PracticeStationAction.maxRow();
+	private final int NUM_OF_PERSONAL_ROWS = PracticeStationAction.maxRow();
+	private final int NUM_OF_TOTAL_ROWS = NUM_OF_PERSONAL_ROWS + StationPanel.GLOBAL_ROWS_NUM;
 	private int id;
 	
 	
@@ -60,8 +61,8 @@ public class PracticeStationWindow extends StationPanel implements
 	public void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;
-		JPanel practice_panel = new JPanel(new GridLayout(NUM_OF_ROW,1));
-		JPanel rows[] = new JPanel[NUM_OF_ROW];
+		JPanel practice_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_ROWS,1));
+		JPanel rows[] = new JPanel[NUM_OF_PERSONAL_ROWS];
 		for (int i = 0; i < rows.length; i++) {
 			rows[i] = new JPanel(new FlowLayout());
 			rows[i].setBackground(PracticeBackground);
@@ -73,6 +74,7 @@ public class PracticeStationWindow extends StationPanel implements
 		for (int i = 0; i < rows.length; i++) {
 			practice_panel.add(rows[i]);
 		}
+		this.addGlobalRows(practice_panel, PracticeBackground);
 		this.add(practice_panel);
 		window.show_if_current(this, this);
 		try {
@@ -86,7 +88,7 @@ public class PracticeStationWindow extends StationPanel implements
 	public void run() {
 		while (chosen_action != PracticeStationAction.shut_down) {
 			chooseAction();
-			chosen_action.activate(callerStation, this);
+			if(chosen_action != null) chosen_action.activate(callerStation, this);
 		}
 	}
 	

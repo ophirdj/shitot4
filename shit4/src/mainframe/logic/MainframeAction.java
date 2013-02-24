@@ -1,7 +1,6 @@
 package mainframe.logic;
 
 import global.dictionaries.IDictionary;
-import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import mainframe.gui.IMainframeWindow;
 import mainframe.logic.IMainframe.IdentificationError;
@@ -31,6 +30,11 @@ public enum MainframeAction {
 		@Override
 		public String getString(IDictionary dictionary){
 			return dictionary.translate(Messages.count_votes);
+		}
+		
+		@Override
+		public boolean isAfterInit() {
+			return true;
 		}
 	}, 
 	identification{
@@ -64,6 +68,11 @@ public enum MainframeAction {
 		public String getString(IDictionary dictionary){
 			return dictionary.translate(Messages.identification);
 		}
+		
+		@Override
+		public boolean isAfterInit() {
+			return true;
+		}
 	},
 	initialize{
 		@Override
@@ -90,6 +99,43 @@ public enum MainframeAction {
 		public String getString(IDictionary dictionary){
 			return dictionary.translate(Messages.boot);
 		}
+		
+		@Override
+		public boolean isAfterInit() {
+			return false;
+		}
+	},
+shutDown{
+		@Override
+		public String toString() {
+			return "shut down";
+		}
+		
+		@Override
+		public void activate(IMainframe callerStation, IMainframeWindow window){
+			callerStation.shutDown();
+			window.closeWindow();
+		}
+		
+		@Override
+		protected int getRowInKind(){
+			return 0;
+		}
+		
+		@Override
+		public boolean isBeforeInit() {
+			return true;
+		}
+		
+		@Override
+		public boolean isAfterInit() {
+			return true;
+		}
+
+		@Override
+		public String getString(IDictionary dictionary){
+			return dictionary.translate(Messages.shut_down);
+		}
 	},
 	restore{
 		@Override
@@ -113,105 +159,33 @@ public enum MainframeAction {
 		}
 		
 		@Override
+		public boolean isAfterInit() {
+			return false;
+		}
+		
+		@Override
 		public String getString(IDictionary dictionary){
 			return dictionary.translate(Messages.boot_from_backup);
 		}
-	},
-	shutDown{
-		@Override
-		public String toString() {
-			return "shut down";
-		}
-		
-		@Override
-		public void activate(IMainframe callerStation, IMainframeWindow window){
-			callerStation.shutDown();
-			window.closeWindow();
-		}
-		
-		@Override
-		protected int getRowInKind(){
-			return 0;
-		}
-		
-		@Override
-		public boolean isBeforeInit() {
-			return true;
-		}
-
-		@Override
-		public String getString(IDictionary dictionary){
-			return dictionary.translate(Messages.shut_down);
-		}
-	},
-	
-	english{
-		@Override
-		public String toString() {
-			return "English";
-		}
-		
-		@Override
-		public void activate(IMainframe callerStation, IMainframeWindow window){
-			window.setLanguage(Languages.English);
-		}
-		
-		@Override
-		protected int getRowInKind(){
-			return 1;
-		}
-		
-		@Override
-		public boolean isBeforeInit() {
-			return true;
-		}
-
-		@Override
-		public String getString(IDictionary dictionary){
-			return "English";
-		}
-	},
-	
-	hebrew{
-		@Override
-		public String toString() {
-			return "עברית";
-		}
-		
-		@Override
-		public void activate(IMainframe callerStation, IMainframeWindow window){
-			window.setLanguage(Languages.Hebrew);
-		}
-		
-		@Override
-		protected int getRowInKind(){
-			return 1;
-		}
-		
-		@Override
-		public boolean isBeforeInit() {
-			return true;
-		}
-
-		@Override
-		public String getString(IDictionary dictionary){
-			return "עברית";
-		}
 	}
 	;
-
+	
 	public abstract void activate(IMainframe callerStation, IMainframeWindow window);
 	protected abstract int getRowInKind();
 	public abstract boolean isBeforeInit();
+	public abstract boolean isAfterInit();
 	public abstract String getString(IDictionary dictionary);
 	
+	public enum existsIn{
+		BeforeInit,
+		AfterInit,
+		Always
+	}
+	
 	public int getRow(boolean afterInit){
-		if(isBeforeInit() && afterInit)
+		if(isBeforeInit())
 			return getRowInKind()+afterInitRow();
-		else if(isBeforeInit() || afterInit){
-			return getRowInKind();
-		}
-		return -1;
+		return getRowInKind();
 	}
 	
 	public static int maxRow(){
@@ -225,7 +199,7 @@ public enum MainframeAction {
 	private static int afterInitRow(){
 		int max_row = 0;
 		for(MainframeAction action : MainframeAction.values()){
-			if(action.getRowInKind() > max_row && !action.isBeforeInit()) max_row = action.getRowInKind(); 
+			if(action.getRowInKind() > max_row && action.isAfterInit()) max_row = action.getRowInKind(); 
 		}
 		return max_row+2;
 	}

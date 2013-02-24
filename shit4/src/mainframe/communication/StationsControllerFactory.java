@@ -10,7 +10,7 @@ import mainframe.logic.IMainframe;
 
 public class StationsControllerFactory implements IStationsControllerFactory {
 
-	private static final int NUM_STATIONS = 5;
+	private static final int NUM_STATIONS = 2;
 	private IVotingStationFactory votingStationFactory;
 
 	public StationsControllerFactory(IVotingStationFactory votingStationFactory) {

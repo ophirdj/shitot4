@@ -209,7 +209,7 @@ public class PracticeTestPathes {
 		}
 		GuideParameters guideParametersRandom = new GuideParameters(language,onePerFour);
 		pathes.add(new PathParameters(partiesParametersRandom,guideParametersRandom));
-		genericPath(testEnviroment,pathes,enough_time);
+		genericPath(testEnviroment,pathes,stationTime);
 		
 	}
 	
