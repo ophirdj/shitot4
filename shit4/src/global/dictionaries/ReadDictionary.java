@@ -14,36 +14,27 @@ import java.util.Scanner;
 
 public class ReadDictionary{
 	
-	private static final String directory = "dictionaries/";
+	private static final String directory = "languages/dictionaries/";
 	
 	public static String delimiter = "\u0009";	
 	
 	
-	public class LanguageNotSupportedException extends Exception{
-		private static final long serialVersionUID = 1L;
-	} 
-	
-	
-	
-	public static Map<Messages, String> readDictionary(String filename){
-		try{
-			Scanner in = new Scanner(new File(directory + filename), "UTF8");
-			String s, key, value;
-			
-			EnumMap<Messages, String> dict = new EnumMap<Messages, String>(Messages.class);
-			
-			while(in.hasNext()){
-				s = in.nextLine();
-				String[] parts = s.split(delimiter, 2);
-				key = parts[0];
-				value = parts[1];
-				dict.put(Messages.valueOf(filterNonAscii(key)), value);
-			}
-			
-			return dict;
+	public static Map<Messages, String> readDictionary(String filename) throws IOException{
+		Scanner in = new Scanner(new File(directory + filename), "UTF8");
+		String s, key, value;
+		
+		EnumMap<Messages, String> dict = new EnumMap<Messages, String>(Messages.class);
+		
+		while(in.hasNext()){
+			s = in.nextLine();
+			String[] parts = s.split(delimiter, 2);
+			key = parts[0];
+			value = parts[1];
+			dict.put(Messages.valueOf(filterNonAscii(key)), value);
 		}
-		catch(IOException e){}
-		return null;
+		
+		in.close();
+		return dict;
 	}
 	
 	

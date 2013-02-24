@@ -1,36 +1,90 @@
 package global.dictionaries;
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
+import java.util.Scanner;
 
 public enum Languages {	
 	English{
 		@Override
 		public String toString() {
-			return "English";
+			return EnglishSymbol;
 		}
 		
 		@Override
 		public IDictionary getDictionary(){
-			return new Dictionary(EnglishDictionary);
+			return EnglishDictionary;
 		}
 	},
 	
 	Hebrew{		
 		@Override
 		public String toString() {
-			return "Hebrew";
+			return HebrewSymbol;
 		}
 		
 		@Override
 		public IDictionary getDictionary(){
-			return new Dictionary(HebrewDictionary);
+			return HebrewDictionary;
 		}
 	}
 	;
 	
 	//dictionaries
-	private static final Map<Messages, String> EnglishDictionary = ReadDictionary.readDictionary("English.dict");
-	private static final Map<Messages, String> HebrewDictionary = ReadDictionary.readDictionary("Hebrew.dict");
+	private static final IDictionary EnglishDictionary = readDictionary("English.dict");
+	private static final IDictionary HebrewDictionary = readDictionary("Hebrew.dict");
 	
+	
+	//language names
+	private static final String EnglishSymbol = readLanguageSymbol("English.txt");
+	private static final String HebrewSymbol = readLanguageSymbol("Hebrew.txt");
+	
+	
+	
+	public static class LanguageNotSupportedException extends Exception{
+		private static final long serialVersionUID = 1L;
+	} 
+	
+	
+	
+	private static IDictionary readDictionary(String filename){
+		try{
+			return readDictionaryFromFile(filename);
+		}
+		catch(LanguageNotSupportedException e){
+			//shouldn't happen
+			//if it does one of the dictionary files is missing some translations
+		}
+		return null;
+	}
+	
+	private static IDictionary readDictionaryFromFile(String filename) throws LanguageNotSupportedException{
+		Map<Messages, String> dict;
+		try {
+			dict = ReadDictionary.readDictionary(filename);
+		} catch (IOException e) {
+			throw new LanguageNotSupportedException();
+		}
+		if(dict.size() != Messages.values().length){
+			throw new LanguageNotSupportedException();
+		}
+		return new Dictionary(dict);
+	}
+	
+	
+	
+	
+	private static String readLanguageSymbol(String filename){
+		final String directory = "languages/symbols/";
+		
+		try{
+			Scanner in = new Scanner(new File(directory + filename), "UTF8");
+			String name = in.nextLine();
+			in.close();
+			return name;
+		} catch(IOException e){}
+		return null;
+	}
 	
 	
 	public abstract IDictionary getDictionary();
