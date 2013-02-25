@@ -32,7 +32,9 @@ public class VotingStationWindow extends StationPanel implements
 
 	private boolean was_called = false;
 
-	private final int NUM_OF_LAYER = VotingStationAction.maxRow();
+	private static final int NUM_OF_PERSONAL_ROWS = VotingStationAction.maxRow();
+	private static final int NUM_OF_TOTAL_ROWS = NUM_OF_PERSONAL_ROWS + StationPanel.GLOBAL_ROWS_NUM;
+	
 	private int id;
 	
 	public void setAction(VotingStationAction action) {
@@ -69,8 +71,8 @@ public class VotingStationWindow extends StationPanel implements
 	public synchronized void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;
-		JPanel voting_panel = new JPanel(new GridLayout(NUM_OF_LAYER,1));
-		JPanel rows[] = new JPanel[NUM_OF_LAYER];
+		JPanel voting_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_ROWS,1));
+		JPanel rows[] = new JPanel[NUM_OF_PERSONAL_ROWS];
 		for (int i = 0; i < rows.length; i++) {
 			rows[i] = new JPanel(new FlowLayout());
 			rows[i].setBackground(VotingBackGround);
@@ -82,14 +84,13 @@ public class VotingStationWindow extends StationPanel implements
 		for (int i = 0; i < rows.length; i++) {
 			voting_panel.add(rows[i]);
 		}
+		this.addGlobalRows(voting_panel, VotingBackGround);
 		this.add(voting_panel);
 		window.show_if_current(this, this);
 		try {
-			while (chosen_action == null) {
-				if (keepRunning == false)
-					return;
-				this.wait();
-			}
+			if (keepRunning == false)
+				return;
+			this.wait();
 		} catch (InterruptedException e) {
 		}
 	}
@@ -143,20 +144,14 @@ public class VotingStationWindow extends StationPanel implements
 		}
 
 		String id = textField.getText();
-		int res = Integer.parseInt(id);
-		//we want an id (positive number)
-		if(res < 0) throw new NumberFormatException();
-		return res;
+		return Integer.parseInt(id);
 	}
 
 	public void run() {
 		try {
 			while (keepRunning) {
 				chooseAction();
-				if (!keepRunning) {
-					break;
-				}
-				chosen_action.activate(callerStation,this);
+				if(chosen_action != null) chosen_action.activate(callerStation,this);
 			}
 		} catch (ChoosingInterruptedException e) {
 			printMessage(dictionary.translate(Messages.You_quit_in_the_process_of_voting));

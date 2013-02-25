@@ -1,5 +1,7 @@
 package global.gui;
 
+import java.awt.Color;
+
 import global.dictionaries.IDictionary;
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
@@ -12,11 +14,19 @@ public class StationPanel extends BasicPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	protected static final int GLOBAL_ROWS_NUM = 1;
+	protected void addGlobalRows(JPanel stationPanel, Color bgColor){
+		JPanel languagePanel = Languages.getLanguagesPanel(this, this);
+		languagePanel.setBackground(bgColor);
+		stationPanel.add(languagePanel);
+	}
+	
+	
 	private JButton button;
 	private JPanel panel;
 	private Messages name;
 	protected IDictionary dictionary;
-	
 	private Integer id;
 	
 	/**

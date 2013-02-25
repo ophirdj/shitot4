@@ -37,7 +37,8 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	
 	private boolean was_init = false;
 	
-	private final int NUM_OF_LAYER = MainframeAction.maxRow();
+	private final int NUM_OF_PERSONAL_LAYER = MainframeAction.maxRow();
+	private final int NUM_OF_TOTAL_LAYER = MainframeAction.maxRow()+StationPanel.GLOBAL_ROWS_NUM;
 	private final Color MainframeBackGround = new Color(255,255,255); 
 	
 	public MainframeWindow(IMainframe callerStation, Main_Window main_window) {
@@ -93,7 +94,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	
 	 private void make_mainframe_panel(JPanel mainframe_panel[], Object lock){
 		for(MainframeAction action : MainframeAction.values()){
-			if(was_init || action.isBeforeInit()){
+			if(was_init && action.isAfterInit() || !was_init && action.isBeforeInit()){
 				make_mainframe_button(mainframe_panel[action.getRow(was_init)],action,lock);
 			}
 		}
@@ -102,8 +103,8 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private void chooseAction(){
 		was_pushed = false;
 		chosen_action = null;
-		JPanel mainframe_panel = new JPanel(new GridLayout(NUM_OF_LAYER,1));
-		JPanel layers[] = new JPanel[NUM_OF_LAYER];
+		JPanel mainframe_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_LAYER,1));
+		JPanel layers[] = new JPanel[NUM_OF_PERSONAL_LAYER];
 		for (int i = 0; i < layers.length; i++) {
 			layers[i] = new JPanel(new FlowLayout());
 			layers[i].setBackground(MainframeBackGround);
@@ -115,6 +116,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		for (int i = 0; i < layers.length; i++) {
 			mainframe_panel.add(layers[i]);
 		}
+		this.addGlobalRows(mainframe_panel, MainframeBackGround);
 		this.add(mainframe_panel);
 		window.show_if_current(this,this);
 		try{
@@ -156,7 +158,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	public void run() {
 		while(chosen_action != MainframeAction.shutDown){
 			chooseAction();
-			chosen_action.activate(callerStation, this);
+			if(chosen_action != null) chosen_action.activate(callerStation, this);
 		}
 	}
 	

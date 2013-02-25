@@ -1,7 +1,6 @@
 package practiceStation.logic;
 
 import global.dictionaries.IDictionary;
-import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import practiceStation.gui.IPracticeStationWindow;
 
@@ -49,51 +48,7 @@ public enum PracticeStationAction {
 			public String getString(IDictionary dictionary) {
 				return dictionary.translate(Messages.shut_down);
 			}
-		
-		},
-		english{
-			@Override
-			public String toString() {
-				return "shut down";
-			}
-			
-			@Override
-			public void activate(IPracticeStation callerStation, IPracticeStationWindow window){
-				window.setLanguage(Languages.English);
-			}
-			
-			@Override
-			public int getRow(){
-				return 1;
-			}
-
-			@Override
-			public String getString(IDictionary dictionary) {
-				return "English";
-			}
-		},
-		hebrew{
-			@Override
-			public String toString() {
-				return "shut down";
-			}
-			
-			@Override
-			public void activate(IPracticeStation callerStation, IPracticeStationWindow window){
-				window.setLanguage(Languages.Hebrew);
-			}
-			
-			@Override
-			public int getRow(){
-				return 1;
-			}
-			
-			@Override
-			public String getString(IDictionary dictionary){
-				return "עברית";
-			}
-			
-		},
+		}
 		
 		;
 
