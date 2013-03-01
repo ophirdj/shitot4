@@ -57,7 +57,7 @@ public class VotingSystem {
 			return parties;
 	}
 	
-	public static void main1(String[] args) {
+	public static void main(String[] args) {
 		Main_Window main_window = new Main_Window();
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);

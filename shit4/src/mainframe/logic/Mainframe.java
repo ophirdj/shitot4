@@ -15,7 +15,6 @@ import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.logic.IBackup;
 import fileHandler.logic.IReadSuppliedXML;
 import partiesList.model.IPartiesList;
-import partiesList.model.IParty;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.model.IVoterData;
@@ -127,15 +126,13 @@ public class Mainframe implements IMainframe, Runnable {
 	// Check that sum of votes in voters list matches sum of votes in parties
 	// list
 	private boolean matchingLists(IVotersList voters, IPartiesList parties) {
-		int sumVotesVoters = 0, sumVotesParties = 0;
+		int sumVotesVoters = 0;
 		for (IVoterData v : voters) {
 			if (v.hasVoted()) {
 				sumVotesVoters++;
 			}
 		}
-		for (IParty p : parties) {
-			sumVotesParties += p.getVoteNumber();
-		}
+		int sumVotesParties = parties.getTotalVotes();
 		return sumVotesVoters == sumVotesParties;
 	}
 

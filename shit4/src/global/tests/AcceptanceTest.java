@@ -172,14 +172,22 @@ public class AcceptanceTest {
 		initialPartiesList = reader.readPartiesList();
 		initialVotersList = reader.readVotersList();
 		
-		expectedPartiesList = initialPartiesList;
-		expectedVotersList = initialVotersList;
+		expectedPartiesList = initialPartiesList.copy();
+		expectedVotersList = initialVotersList.copy();
 		expectedUnregisteredList = new VotersList();
+		
+		
+		mainframe.initialize();
 	}
 	
 	
 	@After
 	public void checkBackupLists() throws Exception{
+		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
+		mainframe.countVotes();
+		mainframe.shutDown();
+		
+		
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 		IVotersListFactory votersListFactory = new VotersListFactory();
@@ -245,13 +253,13 @@ public class AcceptanceTest {
 			int id = data.getId();
 			try {
 				mainframe.identification(id);
-				if(!initialVotersList.inList(id)){
+				if(!expectedVotersList.inList(id)){
 					IVoterData toAddUnreg = new VoterData(id);
 					expectedUnregisteredList.addVoter(toAddUnreg);
 					IVoterData toAdd = new VoterData(id);
 					expectedVotersList.addVoter(toAdd);
 				}
-				IVoterData voter = initialVotersList.findVoter(id);
+				IVoterData voter = expectedVotersList.findVoter(id);
 				voter.markIdentified();
 			} catch (IdentificationError e) {
 			}
@@ -260,9 +268,10 @@ public class AcceptanceTest {
 	
 	private void doVotes(votingData[] voting) throws Exception{
 		for(votingData singleVoting : voting){
-			int id = singleVoting.getId();
-			int party = singleVoting.getParty();
-			int station = singleVoting.getStation();
+			Integer id = singleVoting.getId();
+			Integer party = singleVoting.getParty();
+			Integer station = singleVoting.getStation();
+			
 			
 			VotingStationWindowStub votingWindowStub = votingWindowStubs.get(station);
 			ChoosingWindowStub choosingWindowStub = choosingWindowStubs.get(votingWindowStub);
@@ -291,7 +300,6 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testInitialize(){
-		mainframe.initialize();
 		Assert.assertEquals(numVotingStations, votingWindowStubs.size());
 		Assert.assertNotNull(mainframeWindowStub);
 		Assert.assertEquals(numPracticeStations, practiceStationWindowStubs.size());
@@ -299,21 +307,19 @@ public class AcceptanceTest {
 			Assert.assertTrue(imagePanelStubs.containsKey(stub));
 			Assert.assertNotNull(imagePanelStubs.get(stub));
 		}
-		mainframe.shutDown();
-		expectedPartiesList = initialPartiesList;
-		expectedVotersList = initialVotersList;
 		
 	}
 	
 	
 	@Test
 	public void testOneVote() throws Exception{
-		mainframe.initialize();
+		
 
 		votingData voting[] = {new votingData(1,0,0)};
 		
 		startVoting(voting);
-		mainframe.shutDown();
+		
+		
 	}
 	
 	
@@ -321,33 +327,33 @@ public class AcceptanceTest {
 
 	@Test
 	public void testOneVoteFromUnregisteredVoter() throws Exception{
-		mainframe.initialize();
+		
 		
 		votingData voting[] = {new votingData(4,0,0)};
 		startVoting(voting);
-		mainframe.shutDown();
+		
 	}
 	
 	@Test
 	public void testOneIdentification() throws Exception{
-		mainframe.initialize();
+		
 
 		int id0 = 1;
 		
 		mainframe.identification(id0);
-		mainframe.shutDown();
+		
 		
 		expectedVotersList.findVoter(id0).markIdentified();
 	}
 	
 	@Test
 	public void testIdentificationFromUnregisteredVoter() throws Exception{
-		mainframe.initialize();
+		
 	
 		int id0 = 4;
 		
 		mainframe.identification(id0);
-		mainframe.shutDown();
+		
 		
 		IVoterData toAdd = new VoterData(id0);
 		toAdd.markIdentified();
@@ -361,7 +367,7 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testFirstVotingAllParties() throws Exception{
-		mainframe.initialize();
+		
 		int parties[] = new int[initialPartiesList.size()];
 		for (int i = 0; i < parties.length; i++) {
 			parties[i] = i;
@@ -376,14 +382,10 @@ public class AcceptanceTest {
 		}
 		
 		startVoting(voting);
-		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
-		mainframe.countVotes();
-		mainframe.shutDown();
 	}
 	
 	@Test
 	public void testFirstVotingManyParties() throws Exception{
-		mainframe.initialize();
 		int parties[] = new int[initialPartiesList.size()-1];
 		for (int i = 0; i < parties.length; i++) {
 			parties[i] = i;
@@ -398,9 +400,6 @@ public class AcceptanceTest {
 		}
 		
 		startVoting(voting);
-		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
-		mainframe.countVotes();
-		mainframe.shutDown();
 	}
 	
 	
@@ -414,7 +413,6 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testFirstFewVotes() throws Exception{
-		mainframe.initialize();
 		int parties[] = new int[initialPartiesList.size()-1];
 		for (int i = 0; i < parties.length; i++) {
 			parties[i] = i;
@@ -429,21 +427,17 @@ public class AcceptanceTest {
 		}
 		
 		startVoting(voting);
-		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
-		mainframe.countVotes();
-		mainframe.shutDown();
 	}
 	
 	@Test
 	public void testRevoteOnce() throws Exception{
-		mainframe.initialize();
+		
 		votingData voting[] = {new votingData(1, 0, 0)};
 		startVoting(voting);
 		votingData reVoting[] = {new votingData(1, 0, WhitePartyNum)};
+		
 		startVoting(reVoting);
-		expectedPartiesList = initialPartiesList;
-		expectedPartiesList.peep();
-		peepParties();
+		expectedPartiesList = initialPartiesList.copy();
 	}
 	
 	

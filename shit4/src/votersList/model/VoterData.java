@@ -58,6 +58,7 @@ public class VoterData implements IVoterData{
 		VoterData ret = new VoterData(id);
 		ret.identified = identified;
 		ret.voted = voted;
+		ret.startedVote = startedVote;
 		return ret;
 	}
 	

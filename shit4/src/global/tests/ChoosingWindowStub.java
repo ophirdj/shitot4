@@ -94,8 +94,9 @@ public class ChoosingWindowStub implements IChoosingWindow {
 			} catch (PartyDoesNotExist e) {
 				throw new AssertionError();
 			}
-		if(type == ChooseType.Party && symbol == null)
+		if(type == ChooseType.Party && symbol == null){
 			this.party = partiesToShow.getWhiteNoteParty();
+		}
 		return type;
 	}
 
