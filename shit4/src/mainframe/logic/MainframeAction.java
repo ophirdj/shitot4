@@ -47,7 +47,7 @@ public enum MainframeAction {
 		public void activate(IMainframe callerStation, IMainframeWindow window){
 			try{
 				callerStation.identification(window.getID());
-			}catch(NumberFormatException e){
+			}catch(IMainframeWindow.IllegalIdException e){
 				window.printErrorMessage(Messages.ID_must_be_a_number);
 			}catch (IdentificationError e) {
 				window.printErrorMessage(Messages.ID_is_already_registered);

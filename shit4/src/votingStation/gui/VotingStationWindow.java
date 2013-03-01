@@ -124,7 +124,7 @@ public class VotingStationWindow extends StationPanel implements
 		return new String(textField.getPassword());
 	}
 
-	public int getID() throws ChoosingInterruptedException {
+	public int getID() throws ChoosingInterruptedException, IllegalIdException {
 		was_called = false;
 		JPanel id_panel = new JPanel(new GridLayout(2, 1));
 		JTextField textField = new JTextField();
@@ -144,7 +144,18 @@ public class VotingStationWindow extends StationPanel implements
 		}
 
 		String id = textField.getText();
-		return Integer.parseInt(id);
+		if(id.length() != 9){
+			throw new IVotingStationWindow.IllegalIdException();
+		}
+		try{
+			int numId = Integer.parseInt(id);
+			if(numId < 0){
+				throw new IVotingStationWindow.IllegalIdException();
+			}
+			return numId;
+		}catch(NumberFormatException e){
+			throw new IVotingStationWindow.IllegalIdException();
+		}
 	}
 
 	public void run() {

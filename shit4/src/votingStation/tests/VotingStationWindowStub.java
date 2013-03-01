@@ -108,9 +108,9 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 	}
 
 	@Override
-	public int getID() throws ChoosingInterruptedException {
+	public int getID() throws ChoosingInterruptedException,IllegalIdException {
 		if(interrupt) throw new ChoosingInterruptedException();
-		if(throwID) throw new NumberFormatException();
+		if(throwID) throw new IllegalIdException();
 		return id;
 	}
 

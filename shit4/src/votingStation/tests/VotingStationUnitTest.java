@@ -253,13 +253,17 @@ public class VotingStationUnitTest {
 		station.voting();
 		controllerStub.status = VoterStatus.voted;
 		station.voting();
+		
+		chooseStub.party = chooseStub.partiesList.getPartyBySymbol("p3");
+		windowStub.message = Messages.You_successfully_voted_for_the_party;
+		windowStub.party = chooseStub.partiesList.getPartyBySymbol("p3");
 		station.voting();
 		
 		windowStub.errorMessage = Messages.You_cannot_change_your_vote_anymore;
 		station.voting();
 		
-		//need to verify vote amount of p2 increased by 1
-		partiesStub.getPartyBySymbol("p2").decreaseVoteNumber();
+		//need to verify vote amount of p3 increased by 1
+		partiesStub.getPartyBySymbol("p3").decreaseVoteNumber();
 	}
 	
 	@Test
@@ -415,6 +419,34 @@ public class VotingStationUnitTest {
 		partiesStub.getPartyBySymbol("p2").decreaseVoteNumber();
 		partiesStub.getPartyBySymbol("p2").decreaseVoteNumber();
 		partiesStub.getPartyBySymbol("p3").decreaseVoteNumber();
+	}
+	
+	
+	@Test
+	public void voteTwiceWaitTooMuch() throws Exception{
+		controllerStub.status = VoterStatus.identified;
+		controllerStub.id = windowStub.id = 23;
+		chooseStub.party = chooseStub.partiesList.getPartyBySymbol("p2");
+		windowStub.message = Messages.You_successfully_voted_for_the_party;
+		windowStub.party = chooseStub.partiesList.getPartyBySymbol("p2");
+		
+		//first vote is good
+		station.voting();
+		controllerStub.status = VoterStatus.voted;
+		
+		//sleep ridiculous amounts of time
+		Thread.sleep(3*60*1000);
+		
+		
+		chooseStub.party = chooseStub.partiesList.getPartyBySymbol("p1");
+		windowStub.message = Messages.You_successfully_voted_for_the_party;
+		windowStub.party = chooseStub.partiesList.getPartyBySymbol("p1");
+		//cannot vote anymore
+		windowStub.errorMessage = Messages.You_cannot_change_your_vote_anymore;
+		station.voting();
+		
+		//need to verify vote amount of p2 increased by 1
+		partiesStub.getPartyBySymbol("p2").decreaseVoteNumber();
 	}
 
 }

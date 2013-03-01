@@ -23,10 +23,14 @@ public interface IMainframeWindow extends IWindow, Runnable {
 	 * 
 	 * @return the entered id
 	 */
-	int getID();
+	int getID() throws IllegalIdException;
 	
 	/**
 	 * Start the main loop.
 	 */
 	void init();
+	
+	class IllegalIdException extends Exception{
+		private static final long serialVersionUID = 1L;
+	}
 }

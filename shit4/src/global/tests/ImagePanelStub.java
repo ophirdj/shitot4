@@ -6,6 +6,8 @@ import practiceStation.guides.IImagePanel;
 
 public class ImagePanelStub implements IImagePanel{
 
+	private boolean showGuide = false;
+
 	public ImagePanelStub(StationPanel caller) {
 		// TODO Auto-generated constructor stub
 	}
@@ -36,14 +38,17 @@ public class ImagePanelStub implements IImagePanel{
 
 	@Override
 	public void showFirstImage(Languages language) {
-		// TODO Auto-generated method stub
-		
+		showGuide = true;
 	}
 
 	@Override
 	public void retire() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public boolean hasShowGuide() {
+		return showGuide ;
 	}
 
 }

@@ -17,6 +17,7 @@ import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 import votingStation.factories.IVotingStationWindowFactory;
 import votingStation.gui.IVotingStationWindow;
+import votingStation.gui.IVotingStationWindow.IllegalIdException;
 import votingStation.model.VotingRecord;
 import mainframe.communication.IStationsController;
 import mainframe.logic.IMainframe;
@@ -83,8 +84,7 @@ public class VotingStation implements IVotingStation {
 		int id;
 		try{
 			id = votingStationWindow.getID();
-		}catch (NumberFormatException e) {
-			System.out.println(e.getMessage());
+		}catch (IllegalIdException e) {
 			votingStationWindow.printErrorMessage(Messages.ID_must_be_a_number);
 			return;
 		}
@@ -94,6 +94,7 @@ public class VotingStation implements IVotingStation {
 		try {
 			controller.markStartedVote(id);
 		} catch (VoterDoesNotExist e1) {
+			return;
 		} catch (VoterStartedVote e) {
 			return;
 		}
@@ -122,7 +123,7 @@ public class VotingStation implements IVotingStation {
 		int id;
 		try{
 			id = votingStationWindow.getID();
-		}catch (NumberFormatException e) {
+		}catch (IllegalIdException e) {
 			votingStationWindow.printErrorMessage(Messages.ID_must_be_a_number);
 			return;
 		}

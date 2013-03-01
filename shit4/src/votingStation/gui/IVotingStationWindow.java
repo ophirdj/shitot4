@@ -13,7 +13,7 @@ public interface IVotingStationWindow extends  IWindow, Runnable{
 	 * 
 	 * @return the id the user entered
 	 */
-	int getID() throws ChoosingInterruptedException;
+	int getID() throws ChoosingInterruptedException, IllegalIdException;
 	
 	/**
 	 * 
@@ -25,4 +25,8 @@ public interface IVotingStationWindow extends  IWindow, Runnable{
 	 * finish the loop. 
 	 */
 	void endLoop();
+	
+	class IllegalIdException extends Exception{
+		private static final long serialVersionUID = 1L;
+	}
 }

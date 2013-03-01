@@ -1,5 +1,8 @@
 package global.tests;
 
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import global.gui.StationPanel;
@@ -10,15 +13,18 @@ import practiceStation.logic.IPracticeStation;
 public class PracticeStationWindowStub extends StationPanel implements IPracticeStationWindow {
 
 	private static final long serialVersionUID = 1L;
+	private IPracticeStation caller;
+	private boolean defaultConformation = true;
+	private Queue<Boolean> conformations = new LinkedBlockingQueue<Boolean>();
 
 	public PracticeStationWindowStub(IPracticeStation caller) {
-		// TODO Auto-generated constructor stub
+		this.caller = caller;
 	}
 
 	@Override
 	public Boolean getConfirmation(String confirmationMessage) {
-		// TODO Auto-generated method stub
-		return null;
+		if(conformations.isEmpty()) return defaultConformation;
+		return conformations.poll();
 	}
 
 	@Override
@@ -65,20 +71,24 @@ public class PracticeStationWindowStub extends StationPanel implements IPractice
 
 	@Override
 	public boolean printConformationMessage(Messages message) {
-		// TODO Auto-generated method stub
-		return false;
+		if(conformations.isEmpty()) return defaultConformation;
+		return conformations.poll();
 	}
 
 	@Override
 	public boolean printConformationMessage(Messages message, IParty party) {
-		// TODO Auto-generated method stub
-		return false;
+		if(conformations.isEmpty()) return defaultConformation;
+		return conformations.poll();
 	}
 
 	@Override
 	public void closeWindow() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void practiceVote() {
+		caller.practiceVote();
 	}
 
 }

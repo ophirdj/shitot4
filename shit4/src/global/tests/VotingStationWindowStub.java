@@ -13,6 +13,8 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 	private static final long serialVersionUID = 1L;
 	private IVotingStation caller;
 	private int id;
+	private String password;
+	private boolean wasWrongPassword;
 
 	public VotingStationWindowStub(IVotingStation caller) {
 		this.caller = caller;
@@ -50,8 +52,14 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 
 	@Override
 	public void printErrorMessage(Messages message) {
-		// TODO Auto-generated method stub
+		switch (message) {
+		case wrong_password:
+			setWasWrongPassword(true);
+			break;
 
+		default:
+			break;
+		}
 	}
 
 	@Override
@@ -103,8 +111,7 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 
 	@Override
 	public String getPassword() throws ChoosingInterruptedException {
-		// TODO Auto-generated method stub
-		return null;
+		return password;
 	}
 
 	@Override
@@ -124,6 +131,26 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 		try {
 			caller.voting();
 		} catch (ChoosingInterruptedException e) {}
+	}
+
+	public void testVote() {
+		try {
+			caller.testVoting();
+		} catch (ChoosingInterruptedException e) {}
+		
+	}
+
+	public void setPassword(String string) {
+		this.password = string;
+		
+	}
+
+	public boolean isWasWrongPassword() {
+		return wasWrongPassword;
+	}
+
+	private void setWasWrongPassword(boolean wasWrongPassword) {
+		this.wasWrongPassword = wasWrongPassword;
 	}
 
 }

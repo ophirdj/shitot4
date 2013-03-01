@@ -3,6 +3,8 @@ package global.tests;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.junit.Assert;
+
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import partiesList.model.IPartiesList;
@@ -86,6 +88,7 @@ public class ChoosingWindowStub implements IChoosingWindow {
 	@Override
 	public ChooseType receiveChoiceSymbol(IPartiesList partiesToShow)
 			throws ChoosingInterruptedException {
+		Assert.assertTrue(partiesToShow.size() <= 9);
 		ChooseType type = defaultChooseType;
 		if(!chooseType.isEmpty()) type = chooseType.poll();
 		if(type == ChooseType.Party && symbol != null)

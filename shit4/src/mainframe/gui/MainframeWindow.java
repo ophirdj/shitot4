@@ -135,7 +135,7 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		id_panel.add(button);
 	}
 
-	public int getID(){
+	public int getID() throws IMainframeWindow.IllegalIdException{
 		
 		JPanel id_panel = new JPanel(new GridLayout(2,1));
 	  	JTextField textField = new JTextField();
@@ -151,7 +151,14 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		catch(InterruptedException e){}
 		
 		String id = textField.getText();
-		return Integer.parseInt(id);
+		if(id.length() != 9) throw new IllegalIdException();
+		try{
+			int idNum = Integer.parseInt(id);
+			if(idNum < 0) throw new IllegalIdException();
+			return idNum;
+		}catch(NumberFormatException e){
+			throw new IllegalIdException();
+		}
 	}
 
 	@Override

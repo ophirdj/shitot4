@@ -180,14 +180,7 @@ public class AcceptanceTest {
 		mainframe.initialize();
 	}
 	
-	
-	@After
-	public void checkBackupLists() throws Exception{
-		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
-		mainframe.countVotes();
-		mainframe.shutDown();
-		
-		
+	private void checkBackUp(){
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 		IVotersListFactory votersListFactory = new VotersListFactory();
@@ -200,6 +193,14 @@ public class AcceptanceTest {
 		Assert.assertEquals(expectedPartiesList,resultParties);
 		Assert.assertEquals(expectedVotersList, resultVoters);
 		Assert.assertEquals(expectedUnregisteredList, reusltUnregistered);
+	}
+	
+	@After
+	public void checkBackupLists() throws Exception{
+		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
+		mainframe.countVotes();
+		mainframe.shutDown();
+		checkBackUp();
 	}
 
 	public void addVotingWindowStub(VotingStationWindowStub stub) {
@@ -307,19 +308,13 @@ public class AcceptanceTest {
 			Assert.assertTrue(imagePanelStubs.containsKey(stub));
 			Assert.assertNotNull(imagePanelStubs.get(stub));
 		}
-		
 	}
 	
 	
 	@Test
 	public void testOneVote() throws Exception{
-		
-
 		votingData voting[] = {new votingData(1,0,0)};
-		
 		startVoting(voting);
-		
-		
 	}
 	
 	
@@ -327,21 +322,15 @@ public class AcceptanceTest {
 
 	@Test
 	public void testOneVoteFromUnregisteredVoter() throws Exception{
-		
-		
 		votingData voting[] = {new votingData(4,0,0)};
 		startVoting(voting);
-		
 	}
 	
 	@Test
 	public void testOneIdentification() throws Exception{
-		
 
 		int id0 = 1;
-		
 		mainframe.identification(id0);
-		
 		
 		expectedVotersList.findVoter(id0).markIdentified();
 	}
@@ -440,8 +429,161 @@ public class AcceptanceTest {
 		expectedPartiesList = initialPartiesList.copy();
 	}
 	
+	@Test
+	public void testRevoteAfterTimeOnce() throws Exception{
+		final long waiting_time = ((2 * 60)-1) * 1000;
+		votingData voting[] = {new votingData(1, 0, 0)};
+		startVoting(voting);
+		votingData reVoting[] = {new votingData(1, 0, WhitePartyNum)};
+		//Thread.sleep(waiting_time);
+		startVoting(reVoting);
+		expectedPartiesList = initialPartiesList.copy();
+	}
 	
+	@Test
+	public void testRevoteAfterTimeOver() throws Exception{
+		final long waiting_time = ((2 * 60)+1) * 1000;
+		votingData voting[] = {new votingData(1, 0, 0)};
+		startVoting(voting);
+		votingData reVoting[] = {new votingData(1, 0, WhitePartyNum)};
+		//Thread.sleep(waiting_time);
+		startVoting(reVoting);
+		
+		//TODO: delete
+		expectedPartiesList = initialPartiesList.copy();
+	}
 	
+	@Test
+	public void testRevoteDifferentStation() throws Exception{
+		votingData voting[] = {new votingData(1, 0, 0)};
+		startVoting(voting);
+		votingData reVoting[] = {new votingData(1, 1, 1)};
+		startVoting(reVoting);
+		expectedPartiesList = initialPartiesList.copy();
+		expectedPartiesList.getPartyBySymbol(getSymbolByPlace(0)).increaseVoteNumber();
+	}
 	
+	@Test
+	public void testRevoteDifferentStationAfterLongWait() throws Exception{
+		final long waiting_time = ((2 * 60)+1) * 1000;
+		votingData voting[] = {new votingData(1, 0, 0)};
+		startVoting(voting);
+		votingData reVoting[] = {new votingData(1, 1, 1)};
+		//Thread.sleep(waiting_time);
+		startVoting(reVoting);
+		expectedPartiesList = initialPartiesList.copy();
+		expectedPartiesList.getPartyBySymbol(getSymbolByPlace(0)).increaseVoteNumber();
+	}
+	
+	@Test
+	public void testGuideExist(){
+		PracticeStationWindowStub practiceStationWindow = practiceStationWindowStubs.get(0);
+		practiceStationWindow.practiceVote();
+		Assert.assertTrue(imagePanelStubs.get(practiceStationWindow).hasShowGuide());
+	}
+	
+	@Test
+	public void testTestVote() throws Exception{
+		int id = 1;
+		int party = 0;
+		mainframe.identification(id);
+		expectedVotersList.findVoter(id).markIdentified();
+		VotingStationWindowStub votingWindowStub = votingWindowStubs.get(0);
+		ChoosingWindowStub choosingWindowStub = choosingWindowStubs.get(votingWindowStub);
+		String partySymbol = getSymbolByPlace(party);
+		
+		votingWindowStub.setId(id);
+		votingWindowStub.setPassword("password1");
+		
+		choosingWindowStub.setParty(partySymbol);
+		votingWindowStub.testVote();
+		Assert.assertFalse(votingWindowStub.isWasWrongPassword());
+	}
+	
+	@Test
+	public void testTestVoteWrongPassword() throws Exception{
+		int id = 1;
+		int party = 0;
+		mainframe.identification(id);
+		expectedVotersList.findVoter(id).markIdentified();
+		VotingStationWindowStub votingWindowStub = votingWindowStubs.get(0);
+		ChoosingWindowStub choosingWindowStub = choosingWindowStubs.get(votingWindowStub);
+		String partySymbol = getSymbolByPlace(party);
+		
+		votingWindowStub.setId(id);
+		votingWindowStub.setPassword("passwerd2");
+		
+		choosingWindowStub.setParty(partySymbol);
+		votingWindowStub.testVote();
+		Assert.assertTrue(votingWindowStub.isWasWrongPassword());
+	}
+	
+	@Test
+	public void testRevoteOnlyTwice() throws Exception{
+		final long waiting1 = 60 * 1000;
+		final long waiting2 = 30 * 1000;
+		final long waiting3 = 10 * 1000;
+		votingData voting[] = {new votingData(1, 0, 0)};
+		startVoting(voting);
+		votingData reVoting1[] = {new votingData(1, 0, 1)};
+		//Thread.sleep(waiting1);
+		startVoting(reVoting1);
+		
+		votingData reVoting2[] = {new votingData(1, 0, 2)};
+		//Thread.sleep(waiting2);
+		startVoting(reVoting2);
+		
+		votingData reVoting3[] = {new votingData(1, 0, WhitePartyNum)};
+		//Thread.sleep(waiting3);
+		startVoting(reVoting3);
+		
+		expectedPartiesList = initialPartiesList.copy();
+		expectedPartiesList.getPartyBySymbol(getSymbolByPlace(2)).increaseVoteNumber();
+	}
+	
+	private void testBackUp(long timeBetweenVotes) throws Exception{
+		//TODO: increase
+		final long finisingAfter = 1 * 1000;
+		final long waiting2 = 3 * 60 * 1000;
+
+		int id = 1;
+		
+		
+		int parties[] = new int[initialPartiesList.size()];
+		for (int i = 0; i < parties.length; i++) {
+			parties[i] = i;
+		}
+		int stations[] = new int[numVotingStations];
+		for (int i = 0; i < stations.length; i++) {
+			stations[i] = i;
+		}
+		votingData voting[] = new votingData[1];
+		long finalTime = System.currentTimeMillis() + finisingAfter;
+		while(System.currentTimeMillis() < finalTime){
+			voting[0] = new votingData(id, stations[id%stations.length], parties[id % parties.length]);
+			startVoting(voting);
+			//Thread.sleep(timeBetweenVotes);
+			Thread.sleep(1000);
+			id++;
+		}
+		//Thread.sleep(waiting2);
+		
+		//checkBackUp();
+	}
+	
+	@Test
+	public void testIntensiveHotBackUp() throws Exception{
+		testBackUp(2 * 1000);
+	}
+	
+	@Test
+	public void testNormalHotBackUp() throws Exception{
+		testBackUp(30 * 1000);
+	}
+	
+	@Test
+	public void testSlowHotBackUp() throws Exception{
+		testBackUp(120 * 1000);
+	}
 	
 }
