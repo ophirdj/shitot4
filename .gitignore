@@ -169,3 +169,7 @@ pip-log.txt
 listBackup/*
 
 unregisteredVoters/*
+
+acceptanceTest/listBackup/*
+
+acceptanceTest/unregisteredVoters/*
