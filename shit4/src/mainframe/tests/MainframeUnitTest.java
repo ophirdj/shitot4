@@ -7,6 +7,7 @@ import mainframe.factories.IMainframeWindowFactory;
 import mainframe.logic.IMainframe;
 import mainframe.logic.Mainframe;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -52,8 +53,8 @@ public class MainframeUnitTest {
 	BackupStubFactory backupStubFactory = new BackupStubFactory() ;
 	IMainframeWindowFactory mainframeWindowStubFactory = new MainframeWindowStubFactory();
 	IStationsControllerFactory stationsControllerStubFactory = new StationsControllerStubFactory();
-	IVoterDataFactory voterDataStubFactory = new VoterDataFactory();
-	IVotersListFactory votersListStubFactory = new VotersListFactory();
+	//IVoterDataFactory voterDataStubFactory = new VoterDataFactory();
+	//IVotersListFactory votersListStubFactory = new VotersListFactory();
 	ReadSuppliedXMLStubFactory readSuppliedXMLStubFactory = new ReadSuppliedXMLStubFactory(); 
 	
 	IMainframe mainframe;
@@ -66,8 +67,8 @@ public class MainframeUnitTest {
 				, mainframeWindowStubFactory
 				, readSuppliedXMLStubFactory
 				, stationsControllerStubFactory
-				, voterDataStubFactory
-				, votersListStubFactory);
+				, voterDataFactory
+				, votersListFactory);
 		
 		
 		
@@ -124,8 +125,8 @@ public class MainframeUnitTest {
 									, mainframeWindowStubFactory
 									, readSuppliedXMLStubFactory
 									, stationsControllerStubFactory
-									, voterDataStubFactory
-									, votersListStubFactory);
+									, voterDataFactory
+									, votersListFactory);
 		
 		
 		
@@ -149,11 +150,18 @@ public class MainframeUnitTest {
 
 	@Test
 	public void testShutDown() {
+		assertNotNull(readSuppliedXMLStubFactory.getReadSuppliedXMLStub().readPartiesList());
+		assertNotNull(readSuppliedXMLStubFactory.getReadSuppliedXMLStub().readVotersList());
+		mainframe.initialize();
 		mainframe.shutDown();
 		//no check if the backup is correct
 		IPartiesList p = backupStubFactory.getCreatedBackupStub().restoreParties();
 		IVotersList v = backupStubFactory.getCreatedBackupStub().restoreVoters();
 		IVotersList u = backupStubFactory.getCreatedBackupStub().restoreUnregisteredVoters();
+		assertEquals(votersListFactory.createInstance(), u);
+		votersListFactory.createInstance().peep();
+		assertEquals(readVotersList, v);
+		assertEquals(readPartiesList, p);
 	}
 	
 

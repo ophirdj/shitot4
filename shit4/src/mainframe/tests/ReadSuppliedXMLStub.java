@@ -16,13 +16,13 @@ import fileHandler.logic.IReadSuppliedXML;
 
 public class ReadSuppliedXMLStub implements IReadSuppliedXML {
 	
-	IPartyFactory partyFactory = new PartyFactory();
-	IVoterDataFactory voterDataFactory = new VoterDataFactory();
-	IVotersListFactory votersListFactory = new VotersListFactory();
-	IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
+	private IPartyFactory partyFactory = new PartyFactory();
+	private IVoterDataFactory voterDataFactory = new VoterDataFactory();
+	private IVotersListFactory votersListFactory = new VotersListFactory();
+	private IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 
-	IVotersList readVotersList = votersListFactory.createInstance();
-	IPartiesList readPartiesList = partiesListFactory.createInstance();
+	private IVotersList readVotersList = votersListFactory.createInstance();
+	private IPartiesList readPartiesList = partiesListFactory.createInstance();
 	
 	public void setReadVotersList(IVotersList v){
 		readVotersList = v;
