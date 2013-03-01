@@ -71,4 +71,9 @@ public class VotersList implements IVotersList {
 		}
 		return(!thisVoterDataIterator.hasNext() && !objVoterDataIterator.hasNext());
 	}
+	
+	@Override
+	public boolean isEmpty(){
+		return this.voters.isEmpty();
+	}
 }

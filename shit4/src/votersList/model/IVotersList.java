@@ -42,4 +42,11 @@ public interface IVotersList extends Iterable<IVoterData>{
 	 * @return a copy of this list.
 	 */
 	IVotersList copy();
+	
+	/**
+	 * 
+	 * @return true if the list is empty,
+	 * 		   false otherwise
+	 */
+	boolean isEmpty();
 }

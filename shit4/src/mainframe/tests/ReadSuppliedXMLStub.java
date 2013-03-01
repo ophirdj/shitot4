@@ -25,22 +25,22 @@ public class ReadSuppliedXMLStub implements IReadSuppliedXML {
 	private IPartiesList readPartiesList = partiesListFactory.createInstance();
 	
 	public void setReadVotersList(IVotersList v){
-		readVotersList = v;
+		readVotersList = v.copy();
 	}
 	
 	public void setReadPartiesList(IPartiesList p){
-		readPartiesList = p;
+		readPartiesList = p.copy();
 	}
 	
 	
 	@Override
 	public IVotersList readVotersList() {
-		return readVotersList;
+		return readVotersList.copy();
 	}
 
 	@Override
 	public IPartiesList readPartiesList() {
-		return readPartiesList;
+		return readPartiesList.copy();
 	}
 
 }

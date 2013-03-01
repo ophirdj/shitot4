@@ -6,10 +6,20 @@ import mainframe.logic.IMainframe;
 
 public class StationsControllerStubFactory implements
 		IStationsControllerFactory {
+	
+	private StationsControllerStub stationsControllerStub = new StationsControllerStub();
 
 	@Override
 	public IStationsController createInstance(IMainframe mainframe) {
-		return new StationsControllerStub();
+		return stationsControllerStub;
+	}
+	
+	public StationsControllerStub getStationsController(){
+		return this.stationsControllerStub;
+	}
+	
+	public void reset(){
+		this.stationsControllerStub = new StationsControllerStub();
 	}
 
 }

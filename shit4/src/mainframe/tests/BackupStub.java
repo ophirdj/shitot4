@@ -35,39 +35,39 @@ public class BackupStub implements IBackup {
 	
 	
 	public void setBackupedVotersList(IVotersList v){
-		backupedVotersList = v;
+		backupedVotersList = v.copy();
 	}
 	
 	public void setBackupedUnregisteredVotersList(IVotersList unregistered){
-		backupedUnregisteredVotersList = unregistered;
+		backupedUnregisteredVotersList = unregistered.copy();
 	}
 	
 	public void setBackupedPartiesList(IPartiesList p){
-		backupedPartiesList = p;
+		backupedPartiesList = p.copy();
 	}
 	
 	
 	@Override
 	public IVotersList restoreVoters() {
-		return backupedVotersList;
+		return backupedVotersList.copy();
 	}
 
 	@Override
 	public IVotersList restoreUnregisteredVoters() {
-		return backupedUnregisteredVotersList;
+		return backupedUnregisteredVotersList.copy();
 	}
 
 	@Override
 	public IPartiesList restoreParties() {
-		return backupedPartiesList;
+		return backupedPartiesList.copy();
 	}
 
 	@Override
 	public void storeState(IPartiesList parties, IVotersList voters,
 			IVotersList unregistered) {
-		backupedVotersList = voters;
-		backupedUnregisteredVotersList = unregistered;
-		backupedPartiesList = parties;
+		backupedVotersList = voters.copy();
+		backupedUnregisteredVotersList = unregistered.copy();
+		backupedPartiesList = parties.copy();
 
 	}
 
