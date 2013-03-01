@@ -169,7 +169,6 @@ public class Backup implements IBackup {
 		/**
 		 * adds a party to the XML file that his name is given as parameter
 		 * @param givenParty: the party to add to the XML file
-		 * @param fileName: the name of the XML file
 		 */
 		public void addPartyToXMLFile(IParty givenParty){
 			

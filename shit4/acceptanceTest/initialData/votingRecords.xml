@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<votingRecords xsi:noNamespaceSchemaLocation="votingRecords.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <votingRecord>
+     <recordName>p1</recordName>
+     <ballotLetters>p1</ballotLetters>
+  </votingRecord>
+  <votingRecord>
+     <recordName> p2</recordName>
+     <ballotLetters>p2</ballotLetters>
+  </votingRecord>
+  <votingRecord>
+     <recordName>p3</recordName>
+     <ballotLetters>p3</ballotLetters>
+  </votingRecord>
+</votingRecords>

@@ -57,4 +57,18 @@ public class VotersList implements IVotersList {
 		}
 		return copy;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj.getClass() != VotersList.class) return false;
+		IVotersList list = (IVotersList) obj;
+		Iterator<IVoterData> thisVoterDataIterator = iterator();
+		Iterator<IVoterData> objVoterDataIterator = list.iterator();
+		while(thisVoterDataIterator.hasNext() && objVoterDataIterator.hasNext()){
+			IVoterData thisData = thisVoterDataIterator.next();
+			IVoterData objData = objVoterDataIterator.next();
+			if(!thisData.equals(objData)) return false;
+		}
+		return(!thisVoterDataIterator.hasNext() && !objVoterDataIterator.hasNext());
+	}
 }

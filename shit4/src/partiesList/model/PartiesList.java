@@ -27,8 +27,9 @@ public class PartiesList implements IPartiesList {
 	@Override
 	public synchronized IParty getPartyBySymbol(String symbol) throws PartyDoesNotExist{
 		if(symbol == IParty.WHITE_VOTE_SYMBOL) return whiteNote;
+		
 		for(IParty party: parties){
-			if(party.getSymbol() == symbol){
+			if(party.getSymbol().equals(symbol)){
 				return party;
 			}
 		}
@@ -117,5 +118,25 @@ public class PartiesList implements IPartiesList {
 		return pList;
 	}
 
-
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || obj.getClass() != PartiesList.class) return false;
+		PartiesList parties = (PartiesList)obj;
+		if(parties.size() != size()) return false;
+		
+		Iterator<IParty> thisPartyIterator = iterator();
+		Iterator<IParty> objPartyIterator = parties.iterator();
+		while(thisPartyIterator.hasNext() && objPartyIterator.hasNext()){
+			IParty thisParty = thisPartyIterator.next();
+			IParty objParty = objPartyIterator.next();
+			if(!thisParty.equals(objParty)){
+				return false;
+			}
+			if(thisParty.getVoteNumber() != objParty.getVoteNumber()){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 }	

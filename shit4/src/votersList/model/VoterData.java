@@ -63,11 +63,11 @@ public class VoterData implements IVoterData{
 	
 	@Override
 	public boolean equals(Object arg0) {
-		if(arg0.getClass()!=this.getClass() || arg0==null){
+		if(arg0==null || arg0.getClass()!=this.getClass()  ){
 			return false;
 		}
 		VoterData arg = (VoterData) arg0;		
-		return arg.id == id && arg.identified == identified && arg.voted == voted;
+		return arg.id == id && arg.identified == identified && arg.voted == voted && arg.startedVote == startedVote;
 		
 	}
 	
@@ -90,6 +90,8 @@ public class VoterData implements IVoterData{
 		if(!identified) throw new Unidentified();
 		startedVote = true;
 	}
+	
+	
 	
 	
 }

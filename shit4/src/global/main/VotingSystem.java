@@ -19,6 +19,7 @@ import partiesList.model.PartiesList;
 import partiesList.model.Party;
 import practiceStation.factories.IImagePanelFactory;
 import practiceStation.factories.IPracticeStationFactory;
+import practiceStation.factories.IPracticeStationWindowFactory;
 import practiceStation.factories.ImagePanelFactory;
 import practiceStation.factories.PracticeStationFactory;
 import practiceStation.factories.PracticeStationWindowFactory;
@@ -56,7 +57,7 @@ public class VotingSystem {
 			return parties;
 	}
 	
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		Main_Window main_window = new Main_Window();
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
@@ -75,7 +76,7 @@ public class VotingSystem {
 		IMainframeFactory mainframeFactory = new MainframeFactory(backupFactory, mainframeWindowFactory, readSuppliedXMLFactory, stationsControllerFactory, voterDataFactory, votersListFactory);
 		mainframeFactory.createInstance();
 		
-		PracticeStationWindowFactory practiceStationWindowFactory = new PracticeStationWindowFactory(main_window);
+		IPracticeStationWindowFactory practiceStationWindowFactory = new PracticeStationWindowFactory(main_window);
 		IImagePanelFactory imagePanelFactory = new ImagePanelFactory(main_window);
 		IPracticeStationFactory practiceStationFactory = new PracticeStationFactory(choosingListFactory, practiceStationWindowFactory, imagePanelFactory);
 		practiceStationFactory.createInstance(getPracticeParties());

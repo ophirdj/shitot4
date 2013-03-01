@@ -18,7 +18,7 @@ import partiesList.model.Party;
 
 import votingStation.logic.VotingStation;
 
-public class test {
+public class VotingStationUnitTest {
 
 	ChoosingListStub chooseStub;
 	VotingStationWindowStub windowStub;
@@ -86,7 +86,7 @@ public class test {
 	}
 
 	@Test
-	public void initializeTest() throws Exception {
+	public void testInitialize() throws Exception {
 		IPartiesList stationParties = station.getPartiesList();
 
 		Assert.assertEquals("p1", stationParties.getPartyBySymbol("p1")

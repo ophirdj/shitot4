@@ -20,7 +20,6 @@ public class PracticeStation implements IPracticeStation {
 	
 	private IPracticeStationWindow practiceStationWindow;
 	private IChoosingList choosingList;
-	private IImagePanelFactory imagePanelFactory;
 	private IImagePanel guide;
 	private Languages language;
 	
@@ -33,10 +32,11 @@ public class PracticeStation implements IPracticeStation {
 			IPracticeStationWindowFactory stationWindowFactory,
 			IImagePanelFactory imagePanelFactory) {
 		this.practiceStationWindow = stationWindowFactory.createInstance(this);
-		this.imagePanelFactory = imagePanelFactory;
 		this.choosingList = chooseFactory.createInstance(parties,
 				(StationPanel) practiceStationWindow);
 		this.max_practice_time = mill2Minutes * DEFUALT_MINUTES;
+		this.guide = imagePanelFactory.createInstance(new PracticeStationImagesMap(),
+				(StationPanel) practiceStationWindow);
 	};
 	
 	/**
@@ -49,10 +49,11 @@ public class PracticeStation implements IPracticeStation {
 			long max_practice_time) {
 
 		this.practiceStationWindow = stationWindowFactory.createInstance(this);
-		this.imagePanelFactory = imagePanelFactory;
 		this.choosingList = chooseFactory.createInstance(parties,
 				(StationPanel) practiceStationWindow);
 		this.max_practice_time = max_practice_time;
+		this.guide = imagePanelFactory.createInstance(new PracticeStationImagesMap(),
+				(StationPanel) practiceStationWindow);
 	};
 
 	class Watcher extends Thread {
@@ -91,8 +92,6 @@ public class PracticeStation implements IPracticeStation {
 	public void practiceVote() {
 		boolean understandConformation = false;
 		IParty chosen;
-		guide = imagePanelFactory.createInstance(new PracticeStationImagesMap(),
-				(StationPanel) practiceStationWindow);
 		Watcher watcher = new Watcher(this);
 		try {
 			watcher.start();

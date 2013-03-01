@@ -56,11 +56,11 @@ public class Party implements IParty{
 	
 	@Override
 	public boolean equals(Object obj) {
-		Party arg = (Party) obj;
-		if(this.getClass()!=obj.getClass() || obj==null){
+		if(obj==null || this.getClass()!=obj.getClass()){
 			return false;
 		}
-		return this.name==arg.name && this.symbol==arg.symbol;
+		Party arg = (Party) obj;
+		return this.name.equals(arg.name) && this.symbol.equals(arg.symbol);
 	}
 
 
