@@ -96,13 +96,13 @@ public class Backup implements IBackup {
 		 * "VotersListBackup.xml"
 		 */
 
-		//Voters
+		//Parties
 		this.new BackupPartiesListToXMLFile().createEmptyPartiesListXMLFile();
 		for (IParty party : parties) {
 			this.new BackupPartiesListToXMLFile().addPartyToXMLFile(party);
 		}
 		
-		//Parties
+		//Voters
 		this.new BackupVotersListToXMLFile().createEmptyVotersListXMLFile();
 		for (IVoterData voter : voters) {
 			this.new BackupVotersListToXMLFile().addVoterToXMLFile(voter);
