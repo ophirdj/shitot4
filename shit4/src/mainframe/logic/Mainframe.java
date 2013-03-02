@@ -77,7 +77,7 @@ public class Mainframe implements IMainframe {
 		this.unregisteredVoters = unregistered;
 		votingStations = stationsControllerFactory.createInstance(this);
 		votingStations.initialize(parties);
-		backupThread = new BackupThread();
+		backupThread = new BackupThread(this);
 		backupThread.start();
 		window.init();
 	}
@@ -102,7 +102,6 @@ public class Mainframe implements IMainframe {
 
 	// Save voters and parties lists to backup file. Lists must match.
 	private void backupState() {
-		System.out.println("backup state");
 		IVotersList unregistered;
 		IVotersList voters;
 		IPartiesList parties;
@@ -238,22 +237,32 @@ public class Mainframe implements IMainframe {
 	
 	private class BackupThread extends Thread{
 		
-		private boolean continueRun = true;
+		private Object lock;
+		private boolean continueRun;
+		private Mainframe caller;
+		
+		public BackupThread(Mainframe caller) {
+			lock = new Object();
+			continueRun = true;
+			this.caller = caller;
+		}
 		
 		@Override
-		public synchronized void run() {
-			while(continueRun){
-				backupState();
-				try {wait(MILLISECONDS_BETWEEN_BACKUPS);}
-				catch (InterruptedException e) {}
+		public void run() {
+			synchronized (lock) {
+				while(continueRun){
+					caller.backupState();
+					try {lock.wait(MILLISECONDS_BETWEEN_BACKUPS);}
+					catch (InterruptedException e) {}
+				}
+				caller.backupState();	
 			}
 		}
 		
 		public void retire(){
-			synchronized(this){
-				backupState();
+			synchronized(lock){
 				continueRun = false;
-				notify();
+				lock.notify();
 			}
 			try {join();}
 			catch (InterruptedException e) {}

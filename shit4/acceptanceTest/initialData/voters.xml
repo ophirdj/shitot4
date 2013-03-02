@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <voters xsi:noNamespaceSchemaLocation="voters.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <voter>
-     <name> v1 </name>
+     <name> אופיר1 </name>
      <id>   1     </id>
   </voter>
   <voter>
