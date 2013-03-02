@@ -102,7 +102,7 @@ public class Backup implements IBackup {
 			this.new BackupPartiesListToXMLFile().addPartyToXMLFile(party);
 		}
 		
-		//Voters
+		/*//Voters
 		this.new BackupVotersListToXMLFile().createEmptyVotersListXMLFile();
 		for (IVoterData voter : voters) {
 			this.new BackupVotersListToXMLFile().addVoterToXMLFile(voter);
@@ -113,7 +113,7 @@ public class Backup implements IBackup {
 		for (IVoterData voter : unregistered) {
 			this.unregisteredVotersService.addVoterToXMLFile(voter);
 		}
-		
+		*/
 		
 		
 	}
@@ -175,7 +175,7 @@ public class Backup implements IBackup {
 			String fileName = backupedPartiesListFile;
 			
 			try {
-				File file = new File(fileName);
+			/*	File file = new File(fileName);
 				
 				String xml = "";
 				
@@ -208,17 +208,28 @@ public class Backup implements IBackup {
 				
 				
 				ByteArrayInputStream encXML = new  ByteArrayInputStream(xml.getBytes("UTF8"));
+				*/
 				
-				
+			//File file = new File("file.xml");
+			File file = new File(fileName);
+		 
+			//Create instance of DocumentBuilderFactory
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		 
+			//Get the DocumentBuilder
+			DocumentBuilder docBuilder = factory.newDocumentBuilder();
+		 
+			//Using existing XML Document
+			Document doc = docBuilder.parse(file);
 			 
-				//Create instance of DocumentBuilderFactory
+				/*//Create instance of DocumentBuilderFactory
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			 
 				//Get the DocumentBuilder
 				DocumentBuilder docBuilder = factory.newDocumentBuilder();
 			 
 				//Using existing XML Document
-				Document doc = docBuilder.parse(encXML);
+				Document doc = docBuilder.parse(encXML);*/
 			 
 				//create the root element
 				Element root = doc.getDocumentElement();
