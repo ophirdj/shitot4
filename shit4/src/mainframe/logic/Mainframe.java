@@ -95,9 +95,7 @@ public class Mainframe implements IMainframe {
 
 	@Override
 	public void shutDown() {
-		if(backupThread != null){
-			backupThread.retire();
-		}
+		if(backupThread != null) backupThread.retire();
 		else backupState();
 		if(votingStations != null) votingStations.retire();
 	}
@@ -105,16 +103,18 @@ public class Mainframe implements IMainframe {
 	// Save voters and parties lists to backup file. Lists must match.
 	private void backupState() {
 		System.out.println("backup state");
+		IVotersList unregistered;
 		IVotersList voters;
 		IPartiesList parties;
 		do {
 			hotBackup();
 			synchronized (this) {
+				unregistered = unregisteredVoters.copy();
 				voters = this.voters.copy();
 				parties = this.parties.copy();
 			}
 		} while (!matchingLists(voters ,parties));
-		backup.storeState(parties, voters, unregisteredVoters);
+		backup.storeState(parties, voters, unregistered);
 	}
 
 	// Synchronize mainframe's parties list with the ones in the voting
@@ -135,8 +135,7 @@ public class Mainframe implements IMainframe {
 				sumVotesVoters++;
 			}
 		}
-		int sumVotesParties = parties.getTotalVotes();
-		return sumVotesVoters == sumVotesParties;
+		return sumVotesVoters == parties.getTotalVotes();
 	}
 
 	@Override
