@@ -102,7 +102,7 @@ public class Backup implements IBackup {
 			this.new BackupPartiesListToXMLFile().addPartyToXMLFile(party);
 		}
 		
-		/*//Voters
+		//Voters
 		this.new BackupVotersListToXMLFile().createEmptyVotersListXMLFile();
 		for (IVoterData voter : voters) {
 			this.new BackupVotersListToXMLFile().addVoterToXMLFile(voter);
@@ -113,7 +113,7 @@ public class Backup implements IBackup {
 		for (IVoterData voter : unregistered) {
 			this.unregisteredVotersService.addVoterToXMLFile(voter);
 		}
-		*/
+		
 		
 		
 	}
