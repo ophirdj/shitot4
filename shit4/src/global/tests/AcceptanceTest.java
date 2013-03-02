@@ -411,7 +411,6 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testFirstVotingNoVoting() throws Exception{
-		mainframe.initialize();
 		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
 		mainframe.countVotes();
 		mainframe.shutDown();
@@ -419,8 +418,6 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testFirstFewVotes() throws Exception{
-		boolean b = true;
-		while(b){}
 		int parties[] = new int[initialPartiesList.size()-1];
 		for (int i = 0; i < parties.length; i++) {
 			parties[i] = i;
