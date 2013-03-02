@@ -3,6 +3,7 @@ package choosingList.tests;
 import global.dictionaries.Messages;
 import global.gui.StationPanel;
 
+import org.junit.After;
 import org.junit.Test;
 
 import partiesList.model.IPartiesList;
@@ -28,6 +29,8 @@ import choosingList.tests.PartiesListStub.whiteNotePartyComponent;
 
 public class ChoosingListUnitTest {
 	
+	ChoosingListTestEnvironment testEnviroment;
+	int partiesAmount;
 	private int max_parties = 9;
 	
 	private ChoosingList buildChoosingList(ChoosingListTestEnvironment testEnvironment, int partiesCount) {
@@ -36,195 +39,234 @@ public class ChoosingListUnitTest {
 		return new ChoosingList(parties,new StationPanel(),choosingWindow);
 	}
 	
+	@After
+	public void runningTheTest() throws Exception{
+		try{
+			IChoosingList tested = buildChoosingList(testEnviroment,partiesAmount);
+			testEnviroment.runTest(tested);
+		}catch (AssertionError e) {
+			testEnviroment.printLogDiffs();
+			throw e;
+		}
+	}
+	
 	@Test
 	public void buildTest(){
-		ChoosingListTestEnvironment TestEnviroment = new ChoosingListTestEnvironment("buildTest");
-
-		TestEnviroment.addComponentForTest(new CloseWindowComponent()); 
-		TestEnviroment.addRetireCall();
+		testEnviroment = new ChoosingListTestEnvironment("buildTest");
+		partiesAmount = 5;
 		
-		IChoosingList tested = buildChoosingList(TestEnviroment,5);
-		TestEnviroment.rutTest(tested);
+		testEnviroment.addRetireCall();
+		testEnviroment.addComponentForTest(new CloseWindowComponent()); 
 	}
 	
 	@Test
 	public void easyTest(){
-		ChoosingListTestEnvironment TestEnviroment = new ChoosingListTestEnvironment("easyTest");
+		testEnviroment = new ChoosingListTestEnvironment("easyTest");
+		partiesAmount = 6;
+		
 		IParty party1 = new PartyStub("party1");
 		IParty party2 = new PartyStub("party2");
-		int partiesAmount = 6;
 		IPartiesList ret1 = new PartiesListNulled("list1");
 		
-		TestEnviroment.addChooseList(party1);
+		testEnviroment.addChooseList(party1);
 		
-		TestEnviroment.addComponentForTest(new switchOnComponent());
-		TestEnviroment.addComponentForTest(new sublistComponent(0,Math.min(max_parties,partiesAmount),ret1));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
-		TestEnviroment.addComponentForTest(new getPartyComponent(party1));
-		TestEnviroment.addComponentForTest(new whiteNotePartyComponent(party2));
-		TestEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
-		TestEnviroment.addComponentForTest(new switchOffComponent());
-		TestEnviroment.addComponentForTest(new CloseWindowComponent());
-		TestEnviroment.addRetireCall();
+		testEnviroment.addComponentForTest(new switchOnComponent());
+		testEnviroment.addComponentForTest(new sublistComponent(0,Math.min(max_parties,partiesAmount),ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
+		testEnviroment.addComponentForTest(new getPartyComponent(party1));
+		testEnviroment.addComponentForTest(new whiteNotePartyComponent(party2));
+		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
+		testEnviroment.addComponentForTest(new switchOffComponent());
+		testEnviroment.addRetireCall();
+		testEnviroment.addComponentForTest(new CloseWindowComponent());
 		
-		IChoosingList tested = buildChoosingList(TestEnviroment,partiesAmount);
-		TestEnviroment.rutTest(tested);
 	}
 	
 	@Test
 	public void whiteNoteTest(){
-		ChoosingListTestEnvironment TestEnviroment = new ChoosingListTestEnvironment("whiteNoteTest");
+		testEnviroment = new ChoosingListTestEnvironment("whiteNoteTest");
+		partiesAmount = 6;
+		
 		IParty party1 = new PartyStub("party1");
-		int partiesAmount = 6;
 		IPartiesList ret1 = new PartiesListNulled("list1");
 		
-		TestEnviroment.addChooseList(party1);
+		testEnviroment.addChooseList(party1);
 		
-		TestEnviroment.addComponentForTest(new switchOnComponent());
-		TestEnviroment.addComponentForTest(new sublistComponent(0,Math.min(max_parties,partiesAmount),ret1));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
-		TestEnviroment.addComponentForTest(new getPartyComponent(party1));
-		TestEnviroment.addComponentForTest(new whiteNotePartyComponent(party1));
-		TestEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,true)); 
-		TestEnviroment.addComponentForTest(new switchOffComponent());
-		TestEnviroment.addComponentForTest(new CloseWindowComponent());
-		TestEnviroment.addRetireCall();
-		
-		IChoosingList tested = buildChoosingList(TestEnviroment,partiesAmount);
-		TestEnviroment.rutTest(tested);
+		testEnviroment.addComponentForTest(new switchOnComponent());
+		testEnviroment.addComponentForTest(new sublistComponent(0,Math.min(max_parties,partiesAmount),ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
+		testEnviroment.addComponentForTest(new getPartyComponent(party1));
+		testEnviroment.addComponentForTest(new whiteNotePartyComponent(party1));
+		testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,true)); 
+		testEnviroment.addComponentForTest(new switchOffComponent());
+		testEnviroment.addRetireCall();
+		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
 	@Test
 	public void oneNextTest(){
-		ChoosingListTestEnvironment TestEnviroment = new ChoosingListTestEnvironment("oneNextTest");
+		testEnviroment = new ChoosingListTestEnvironment("oneNextTest");
+		//need to be at least 10
+		partiesAmount = 10;
+		int finalEnd = Math.min(2*max_parties, partiesAmount);
+		
 		IParty party1 = new PartyStub("party1");
-		int partiesAmount = 25;
 		IPartiesList ret1 = new PartiesListNulled("list1");
 		IPartiesList ret2 = new PartiesListNulled("list2");
 		
-		TestEnviroment.addChooseList(party1);
+		testEnviroment.addChooseList(party1);
 		
-		TestEnviroment.addComponentForTest(new switchOnComponent());
-		TestEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Next));
-		TestEnviroment.addComponentForTest(new sublistComponent(max_parties,2*max_parties,ret2));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Party));
-		TestEnviroment.addComponentForTest(new getPartyComponent(party1));
-		TestEnviroment.addComponentForTest(new whiteNotePartyComponent(party1));
-		TestEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,true)); 
-		TestEnviroment.addComponentForTest(new switchOffComponent());
-		TestEnviroment.addComponentForTest(new CloseWindowComponent());
-		TestEnviroment.addRetireCall();
-
-		IChoosingList tested = buildChoosingList(TestEnviroment,partiesAmount);
-		TestEnviroment.rutTest(tested);
+		testEnviroment.addComponentForTest(new switchOnComponent());
+		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Next));
+		testEnviroment.addComponentForTest(new sublistComponent(max_parties,finalEnd,ret2));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Party));
+		testEnviroment.addComponentForTest(new getPartyComponent(party1));
+		testEnviroment.addComponentForTest(new whiteNotePartyComponent(party1));
+		testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,true)); 
+		testEnviroment.addComponentForTest(new switchOffComponent());
+		testEnviroment.addRetireCall();
+		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 
 	@Test
 	public void twoNextTest(){
-		ChoosingListTestEnvironment TestEnviroment = new ChoosingListTestEnvironment("twoNextTest");
+		testEnviroment = new ChoosingListTestEnvironment("twoNextTest");
+		//need to be at least 19
+		partiesAmount = 25;
+		
 		IParty party1 = new PartyStub("party1");
 		IParty party2 = new PartyStub("party2");
-		int partiesAmount = 25;
+		
 		IPartiesList ret1 = new PartiesListNulled("list1");
 		IPartiesList ret2 = new PartiesListNulled("list2");
 		IPartiesList ret3 = new PartiesListNulled("list3");
 		
-		TestEnviroment.addChooseList(party1);
+		int finalEnd = Math.min(3*max_parties, partiesAmount);
 		
-		TestEnviroment.addComponentForTest(new switchOnComponent());
-		TestEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Next));
-		TestEnviroment.addComponentForTest(new sublistComponent(max_parties,2*max_parties,ret2));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Next));
-		TestEnviroment.addComponentForTest(new sublistComponent(2*max_parties,25,ret3));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret3,ChooseType.Party));
-		TestEnviroment.addComponentForTest(new getPartyComponent(party1));
-		TestEnviroment.addComponentForTest(new whiteNotePartyComponent(party2));
-		TestEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
-		TestEnviroment.addComponentForTest(new switchOffComponent());
-		TestEnviroment.addComponentForTest(new CloseWindowComponent());
-		TestEnviroment.addRetireCall();
+		testEnviroment.addChooseList(party1);
 		
-		IChoosingList tested = buildChoosingList(TestEnviroment,partiesAmount);
-		TestEnviroment.rutTest(tested);
+		testEnviroment.addComponentForTest(new switchOnComponent());
+		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Next));
+		testEnviroment.addComponentForTest(new sublistComponent(max_parties,2*max_parties,ret2));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Next));
+		testEnviroment.addComponentForTest(new sublistComponent(2*max_parties,finalEnd,ret3));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret3,ChooseType.Party));
+		testEnviroment.addComponentForTest(new getPartyComponent(party1));
+		testEnviroment.addComponentForTest(new whiteNotePartyComponent(party2));
+		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
+		testEnviroment.addComponentForTest(new switchOffComponent());
+		testEnviroment.addRetireCall();
+		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
 	@Test
 	public void forthAndBack(){
-		ChoosingListTestEnvironment TestEnviroment = new ChoosingListTestEnvironment("forthAndBack");
+		testEnviroment = new ChoosingListTestEnvironment("forthAndBack");
+		//need to be at least 18
+		partiesAmount = 25;
+		
 		IParty party1 = new PartyStub("party1");
 		IParty party2 = new PartyStub("party2");
-		int partiesAmount = 25;
+		
 		IPartiesList ret1 = new PartiesListNulled("list1");
 		IPartiesList ret2 = new PartiesListNulled("list2");
 		
-		TestEnviroment.addChooseList(party1);
+		testEnviroment.addChooseList(party1);
 		
-		TestEnviroment.addComponentForTest(new switchOnComponent());
-		TestEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Next));
-		TestEnviroment.addComponentForTest(new sublistComponent(max_parties,2*max_parties,ret2));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Prev));
-		TestEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
-		TestEnviroment.addComponentForTest(new getPartyComponent(party1));
-		TestEnviroment.addComponentForTest(new whiteNotePartyComponent(party2));
-		TestEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
-		TestEnviroment.addComponentForTest(new switchOffComponent());
-		TestEnviroment.addComponentForTest(new CloseWindowComponent());
-		TestEnviroment.addRetireCall();
-		
-		IChoosingList tested = buildChoosingList(TestEnviroment,partiesAmount);
-		TestEnviroment.rutTest(tested);
+		testEnviroment.addComponentForTest(new switchOnComponent());
+		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Next));
+		testEnviroment.addComponentForTest(new sublistComponent(max_parties,2*max_parties,ret2));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Prev));
+		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
+		testEnviroment.addComponentForTest(new getPartyComponent(party1));
+		testEnviroment.addComponentForTest(new whiteNotePartyComponent(party2));
+		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
+		testEnviroment.addComponentForTest(new switchOffComponent());
+		testEnviroment.addRetireCall();
+		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
 	@Test
 	public void backAndForth(){
-		ChoosingListTestEnvironment TestEnviroment = new ChoosingListTestEnvironment("backAndForth");
+		testEnviroment = new ChoosingListTestEnvironment("backAndForth");
+		//need to be at least 9
+		partiesAmount = 9;
+		
 		IParty party1 = new PartyStub("party1");
-		IParty party2 = new PartyStub("party2");
-		int partiesAmount = 25;
+		IParty party2 = new PartyStub("party2"); 
 		IPartiesList ret1 = new PartiesListNulled("list1");
 		IPartiesList ret2 = new PartiesListNulled("list2");
 		
-		TestEnviroment.addChooseList(party1);
+		int finalPageStart = partiesAmount - (partiesAmount % max_parties);
 		
-		TestEnviroment.addComponentForTest(new switchOnComponent());
-		TestEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Prev));
-		TestEnviroment.addComponentForTest(new sublistComponent(2*max_parties,partiesAmount,ret2));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Next));
-		TestEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
-		TestEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
-		TestEnviroment.addComponentForTest(new getPartyComponent(party1));
-		TestEnviroment.addComponentForTest(new whiteNotePartyComponent(party2));
-		TestEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
-		TestEnviroment.addComponentForTest(new switchOffComponent());
-		TestEnviroment.addComponentForTest(new CloseWindowComponent());
-		TestEnviroment.addRetireCall();
-
-		IChoosingList tested = buildChoosingList(TestEnviroment,partiesAmount);
-		TestEnviroment.rutTest(tested);
+		testEnviroment.addChooseList(party1);
+		
+		testEnviroment.addComponentForTest(new switchOnComponent());
+		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Prev));
+		testEnviroment.addComponentForTest(new sublistComponent(finalPageStart,partiesAmount,ret2));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Next));
+		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
+		testEnviroment.addComponentForTest(new getPartyComponent(party1));
+		testEnviroment.addComponentForTest(new whiteNotePartyComponent(party2));
+		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
+		testEnviroment.addComponentForTest(new switchOffComponent());
+		testEnviroment.addRetireCall();
+		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
 	@Test
 	public void easyInterruptTest(){
-		ChoosingListTestEnvironment TestEnviroment = new ChoosingListTestEnvironment("easyInterruptTest");
-		int partiesAmount = 25;
+		testEnviroment = new ChoosingListTestEnvironment("easyInterruptTest");
+		partiesAmount = 25;
+		
 		IPartiesList ret1 = new PartiesListNulled("list1");
 		
-		TestEnviroment.addWaitChooseList();
+		testEnviroment.addWaitChooseList();
 		
-		TestEnviroment.addComponentForTest(new switchOnComponent());
-		TestEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
+		testEnviroment.addComponentForTest(new switchOnComponent());
+		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
 		getChoiceWaitComponent choice = new getChoiceWaitComponent(ret1);
-		TestEnviroment.addComponentForTest(choice);
-		TestEnviroment.addComponentForTest(new CloseWindowComponent(choice));
+		testEnviroment.addComponentForTest(choice);
+		testEnviroment.neededRetireCall();
+		testEnviroment.addComponentForTest(new CloseWindowComponent(choice));
+	}
+	
+	@Test
+	public void reChooseTest(){
+		testEnviroment = new ChoosingListTestEnvironment("reChooseTest");
+		partiesAmount = 25;
 		
+		IParty party1 = new PartyStub("party1");
+		IParty party2 = new PartyStub("party2");
 		
-		IChoosingList tested = buildChoosingList(TestEnviroment,partiesAmount);
-		TestEnviroment.rutTest(tested);
+		IPartiesList ret1 = new PartiesListNulled("list1");
+		IPartiesList ret2 = new PartiesListNulled("list2");
+		IPartiesList ret3 = new PartiesListNulled("list3");
+		
+		testEnviroment.addChooseList(party1);
+		
+		testEnviroment.addComponentForTest(new switchOnComponent());
+		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Next));
+		testEnviroment.addComponentForTest(new sublistComponent(max_parties,2*max_parties,ret2));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Party));
+		testEnviroment.addComponentForTest(new getPartyComponent(party1));
+		testEnviroment.addComponentForTest(new whiteNotePartyComponent(party1));
+		testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,false));
+		testEnviroment.addComponentForTest(new sublistComponent(max_parties,2*max_parties,ret3));
+		testEnviroment.addComponentForTest(new getChoiceComponent(ret3,ChooseType.Party));
+		testEnviroment.addComponentForTest(new getPartyComponent(party2));
+		testEnviroment.addComponentForTest(new whiteNotePartyComponent(party1));
+		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party2,true));
+		testEnviroment.addComponentForTest(new switchOffComponent());
+		testEnviroment.addRetireCall(); 
+		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
 }

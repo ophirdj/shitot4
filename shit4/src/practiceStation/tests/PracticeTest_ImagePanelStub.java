@@ -27,11 +27,15 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 		public String toString() {
 			return "imagePanel.retire()";
 		}
+
+		public PracticeTestFunction getFunction() {
+			return PracticeTestFunction.ImagePanel_retire;
+		}
 	}
 	
 	@Override
 	public void retire() {
-		PracticeStationTestEnvironment.assertTrue(testEnviroment.checkCalling(PracticeTestFunction.ImagePanel_retire));
+		testEnviroment.checkCalling(PracticeTestFunction.ImagePanel_retire);
 		if(showThread != null){
 			showThread.interrupt();
 		}
@@ -52,12 +56,16 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 		}
 		
 		public void checkParameters(Languages language) throws InterruptedException{
-			PracticeStationTestEnvironment.assertTrue(language.equals(shouldBeLanguage));
+			language.equals(shouldBeLanguage);
 		}
 		
 		@Override
 		public String toString() {
 			return "imagePanel.showFirstImage("+shouldBeLanguage+")";
+		}
+
+		public PracticeTestFunction getFunction() {
+			return PracticeTestFunction.ImagePanel_showFirstImage;
 		}
 	}
 	
@@ -116,7 +124,7 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 	
 	@Override
 	public void showFirstImage(Languages language) {
-		PracticeStationTestEnvironment.assertTrue(testEnviroment.checkCalling(PracticeTestFunction.ImagePanel_showFirstImage));
+		testEnviroment.checkCalling(PracticeTestFunction.ImagePanel_showFirstImage);
 		showThread = Thread.currentThread();
 		try{
 			showFirstImageQueue.remove().checkParameters(language);

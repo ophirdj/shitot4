@@ -3,6 +3,8 @@ package choosingList.tests;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+import org.junit.Assert;
+
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import partiesList.model.IPartiesList;
@@ -46,9 +48,14 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	public static class getPartyComponent{
 		
 		private IParty party;
+		private ChoosingListTestEnvironment testEnvironment;
 
 		public getPartyComponent(IParty party) {
 			this.party =party;
+		}
+		
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
 		}
 		
 		@Override
@@ -57,6 +64,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		}
 		
 		public IParty checkAndReturn(){
+			testEnvironment.updateRunningTestLog(this.toString());
 			return party;
 		}
 		
@@ -67,7 +75,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	
 	@Override
 	public IParty getParty() {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_getParty));
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_getParty);
 		try{
 			return getPartyQueue.remove().checkAndReturn();
 		}catch (NoSuchElementException e) {
@@ -79,19 +87,25 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		
 		protected IPartiesList shouldBeParties;
 		private ChooseType choice;
+		protected ChoosingListTestEnvironment testEnvironment;
 
 		public getChoiceComponent(IPartiesList partiesToShow, ChooseType choice) {
 			this.shouldBeParties =partiesToShow;
 			this.choice = choice;
 		}
 		
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
+		}
+		
 		@Override
 		public String toString() {
-			return "choosingWindow.getParty("+shouldBeParties+"), return: " + choice;
+			return "choosingWindow.recieveChoice("+shouldBeParties+"), return: " + choice;
 		}
 		
 		public ChooseType checkAndReturn(IPartiesList actualParties) throws ChoosingInterruptedException{
-			ChoosingListTestEnvironment.assertTrue(actualParties.equals(shouldBeParties));
+			Assert.assertEquals(shouldBeParties, actualParties);
+			testEnvironment.updateRunningTestLog(this.toString());
 			return choice;
 		}
 		
@@ -108,6 +122,10 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		
 		public getChoiceWaitComponent(IPartiesList partiesToShow) {
 			super(partiesToShow, null);
+		}
+		
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
 		}
 		
 		@Override
@@ -140,7 +158,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	@Override
 	public ChooseType receiveChoiceSymbol(IPartiesList partiesToShow)
 			throws ChoosingInterruptedException {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_recieveChoice));
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_recieveChoice);
 		try{
 			return receiveChoiceQueue.remove().checkAndReturn(partiesToShow);
 		}catch (NoSuchElementException e) {
@@ -149,6 +167,13 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	}
 
 	public static class switchOffComponent{
+		
+		private ChoosingListTestEnvironment testEnvironment;
+
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
+		}
+		
 		@Override
 		public String toString() {
 			return "choosingWindow.switchOff()";
@@ -157,19 +182,30 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		public ChoosingListFunction getFunction(){
 			return ChoosingListFunction.choosingWindow_switchOff;
 		}
+
+		public void updateLog() {
+			testEnvironment.updateRunningTestLog(this.toString());
+		}
 	}
 
 	@Override
 	public void switchOff() {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_switchOff));
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_switchOff);
 		try{
-			switchOffQueue.remove();
+			switchOffQueue.remove().updateLog();
 		}catch (NoSuchElementException e) {
 			throw new AssertionError();
 		}
 	}
 	
 	public static class switchOnComponent{
+		
+		private ChoosingListTestEnvironment testEnvironment;
+
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
+		}
+		
 		@Override
 		public String toString() {
 			return "choosingWindow.switchOn()";
@@ -178,25 +214,34 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		public ChoosingListFunction getFunction(){
 			return ChoosingListFunction.choosingWindow_switchOn;
 		}
+
+		public void updateLog() {
+			testEnvironment.updateRunningTestLog(this.toString());
+		}
 	}
 
 	@Override
 	public void switchOn() {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_switchOn));
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_switchOn);
 		try{
-			switchOnQueue.remove();
+			switchOnQueue.remove().updateLog();
 		}catch (NoSuchElementException e) {
 			throw new AssertionError();
 		}
 	}
 	
 	public static class CloseWindowComponent{
-		getChoiceComponent toStop = null;
+		private getChoiceComponent toStop = null;
+		private ChoosingListTestEnvironment testEnvironment;
 		
 		public CloseWindowComponent(){}
 		
 		public CloseWindowComponent(getChoiceComponent toStop) {
 			this.toStop = toStop;
+		}
+		
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
 		}
 		
 		@Override
@@ -209,13 +254,14 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		}
 		
 		public void retire(){
+			testEnvironment.updateRunningTestLog(this.toString());
 			if(toStop != null) toStop.retire();
 		}
 	}
 
 	@Override
 	public void closeWindow() {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_closeWindow));
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_closeWindow);
 		try{
 			closeWindowQueue.remove().retire();
 		}catch (NoSuchElementException e) {
@@ -226,14 +272,20 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	public static class PrintConformationMessageComponent{
 		private boolean returnValue;
 		private Messages shouldBeMessage;
+		private ChoosingListTestEnvironment testEnvironment;
 		
 		public PrintConformationMessageComponent(Messages shouldBeMessage, boolean returnValue) {
 			this.returnValue = returnValue;
 			this.shouldBeMessage = shouldBeMessage;
 		}
 		
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
+		}
+		
 		public boolean checkAndReturn(Messages message){
-			ChoosingListTestEnvironment.assertTrue(message.equals(shouldBeMessage));
+			Assert.assertEquals(shouldBeMessage, message);
+			testEnvironment.updateRunningTestLog(this.toString());
 			return returnValue;
 		}
 		
@@ -249,7 +301,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	
 	@Override
 	public boolean printConformationMessage(Messages message) {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConformationMessage));
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConformationMessage);
 		try{
 			return printConformationMessageQueue.remove().checkAndReturn(message);
 		}catch (NoSuchElementException e) {
@@ -261,6 +313,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		private boolean returnValue;
 		private Messages shouldBeMessage;
 		private IParty shouldBeParty;
+		private ChoosingListTestEnvironment testEnvironment;
 		
 		public ConformationWithPartyComponent(Messages shouldBeMessage, IParty shouldBeParty, boolean returnValue) {
 			this.returnValue = returnValue;
@@ -268,9 +321,14 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 			this.shouldBeParty = shouldBeParty;
 		}
 		
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
+		}
+		
 		public boolean checkAndReturn(Messages message,IParty party){
-			ChoosingListTestEnvironment.assertTrue(message.equals(shouldBeMessage));
-			ChoosingListTestEnvironment.assertTrue(party.equals(shouldBeParty));
+			Assert.assertEquals(shouldBeMessage, message);
+			Assert.assertEquals(shouldBeParty, party);
+			testEnvironment.updateRunningTestLog(this.toString());
 			return returnValue;
 		}
 		
@@ -286,7 +344,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 
 	@Override
 	public boolean printConformationMessage(Messages message, IParty party) {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConformationMessageWithParty));
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConformationMessageWithParty);
 		try{
 			return ConformationWithPartyQueue.remove().checkAndReturn(message,party);
 		}catch (NoSuchElementException e) {

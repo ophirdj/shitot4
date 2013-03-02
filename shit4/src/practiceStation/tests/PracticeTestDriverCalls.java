@@ -7,17 +7,31 @@ import practiceStation.logic.IPracticeStation;
 public enum PracticeTestDriverCalls {
 	PracticeVote{
 		@Override
+		public String toString() {
+			return "call parcticeStation.parcticeVote()";
+		}
+		
+		@Override
 		public void activate(IPracticeStation testedStation){
 			testedStation.practiceVote();
 		}
 	},
 	Retire{
 		@Override
+		public String toString() {
+			return "call parcticeStation.retire()";
+		}
+		
+		@Override
 		public void activate(IPracticeStation testedStation){
 			testedStation.retire();
 		}
 	},
 	SetLangugeEnglish{
+		@Override
+		public String toString() {
+			return "call parcticeStation.setLanguage("+Languages.English+")";
+		}
 		
 		@Override
 		public void activate(IPracticeStation testedStation){
@@ -26,6 +40,11 @@ public enum PracticeTestDriverCalls {
 	},
 	
 	SetLangugeHebrew{
+		
+		@Override
+		public String toString() {
+			return "call parcticeStation.setLanguage("+Languages.Hebrew+")";
+		}
 		
 		@Override
 		public void activate(IPracticeStation testedStation){

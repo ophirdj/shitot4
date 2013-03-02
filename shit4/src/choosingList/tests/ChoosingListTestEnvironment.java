@@ -1,5 +1,6 @@
 package choosingList.tests;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -27,12 +28,11 @@ import choosingList.tests.PartiesListStub.sublistComponent;
 import choosingList.tests.PartiesListStub.whiteNotePartyComponent;
 
 public class ChoosingListTestEnvironment {
-	public static void assertTrue(boolean b){
-		if(!b) throw new AssertionError();
-	}
 	
-	private int instructionCounter = 1;
-	private List<String> testLog = new LinkedList<String>();
+	private List<String> expectedTestLog = new LinkedList<String>();
+	
+	private List<String> runningTestLog = new LinkedList<String>();
+	private String testName;
 	
 	private Queue<ChoosingListFunction> functionQueue = new LinkedBlockingQueue<ChoosingListFunction>();
 	private Queue<ConformationWithPartyComponent> conformationWithPartyQueue = new LinkedBlockingQueue<ConformationWithPartyComponent>();
@@ -46,100 +46,156 @@ public class ChoosingListTestEnvironment {
 	private Queue<whiteNotePartyComponent> whiteNoteQueue = new LinkedBlockingQueue<whiteNotePartyComponent>();
 	private Queue<CallerComponent> driverCalls = new LinkedBlockingQueue<CallerComponent>();
 	
+	
 	public ChoosingListTestEnvironment(String testName) {
-		testLog.add("build test: " + testName);
+		this.testName = testName;
 	}
 	
-	private void updateLog(String str){
-		testLog.add("\t"+instructionCounter + ". " + str);
-		instructionCounter++;
+	private void updateExpectedTestLog(String str){
+		expectedTestLog.add(str);
+	}
+	
+	public void updateRunningTestLog(String str){
+		runningTestLog.add(str);
 	}
 	
 	public void addComponentForTest(ConformationWithPartyComponent comp){
 		functionQueue.add(comp.getFunction());
 		conformationWithPartyQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addComponentForTest(PrintConformationMessageComponent comp){
 		functionQueue.add(comp.getFunction());
 		conformationQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addComponentForTest(CloseWindowComponent comp){
 		functionQueue.add(comp.getFunction());
 		closeWindowQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addComponentForTest(switchOnComponent comp){
 		functionQueue.add(comp.getFunction());
 		switchOnQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addComponentForTest(switchOffComponent comp){
 		functionQueue.add(comp.getFunction());
 		switchOffQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addComponentForTest(getPartyComponent comp){
 		functionQueue.add(comp.getFunction());
 		getPartyQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addComponentForTest(getChoiceComponent comp){
 		functionQueue.add(comp.getFunction());
 		recieveChoiceQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addComponentForTest(sublistComponent comp){
 		functionQueue.add(comp.getFunction());
 		sublistQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addComponentForTest(whiteNotePartyComponent comp){
 		functionQueue.add(comp.getFunction());
 		whiteNoteQueue.add(comp);
-		updateLog(comp.toString());
+		updateExpectedTestLog(comp.toString());
+		comp.setTestEnvironment(this);
 	}
 	
 	public void addRetireCall(){
-		CallerComponent caller = new ChooseListRetireComponent();
+		CallerComponent caller = new ChooseListRetireComponent(this);
 		driverCalls.add(caller);
-		updateLog(caller.toString());
+		updateExpectedTestLog(caller.toString());
+		
+	}
+	
+	//add retire in needed place
+	public void neededRetireCall(){
+		updateExpectedTestLog(new ChooseListRetireComponent(this).toString());
 	}
 	
 	public void addChooseList(IParty result){
-		CallerComponent caller = new ChooseListCallerComponent(result);
+		CallerComponent caller = new ChooseListCallerComponent(result,this);
 		driverCalls.add(caller);
-		updateLog(caller.toString());
+		updateExpectedTestLog(caller.toString());
 	}
 	
 	public void addWaitChooseList(){
-		CallerComponent caller = new ChooseListCallerWaitComponent();
+		CallerComponent caller = new ChooseListCallerWaitComponent(this);
 		driverCalls.add(caller);
-		updateLog(caller.toString());
+		updateExpectedTestLog(caller.toString());
 	}
 	
-	public void printExpectedLog(){
+	private void printLog(List<String> testLog,String starting){
+		int lineNum = 1;
+		System.out.println(starting+testName);
 		for(String str : testLog){
-			System.out.println(str);
+			System.out.println("\t"+lineNum+". "+str);
+			lineNum++;
 		}
+		System.out.println();
+		System.out.println("end of test: "+testName);
+		System.out.println();
 		System.out.println();
 	}
 	
-	public boolean checkCalling(ChoosingListFunction callerFunction){
-		ChoosingListFunction shouldBeCaller = functionQueue.poll();
-		if(!callerFunction.equals(shouldBeCaller)){
-			System.out.println("was: "+callerFunction+", should be: "+shouldBeCaller);
+	public void printExpectedLog(){
+		printLog(expectedTestLog,"expected test: ");
+	}
+	
+	public void printRunningLog(){
+		printLog(runningTestLog,"actual test: ");
+	}
+	
+	public void printLogDiffs(){
+		int lineNum = 1;
+		boolean sameLogs = true;
+		Iterator<String> runningIterator = runningTestLog.iterator();
+		Iterator<String> expectedIterator = expectedTestLog.iterator();
+		while(runningIterator.hasNext() && expectedIterator.hasNext()){
+			String runningStr = runningIterator.next();
+			String expectedStr = expectedIterator.next();
+			if(!runningStr.equals(expectedStr)){
+				if(sameLogs){
+					System.out.println("in test: " + testName);
+				}
+				System.out.println("in line: "+ lineNum +" should be: ");
+				System.out.println(expectedStr);
+				System.out.println("got: ");
+				System.out.println(runningStr);
+				sameLogs = false;
+			}
+			lineNum++;
 		}
-		return callerFunction.equals(shouldBeCaller);
+		if(sameLogs){
+			System.out.println(testName + " ended successfully");
+		}
+		Assert.assertTrue(sameLogs);
+	}
+	
+	public void checkCalling(ChoosingListFunction callerFunction){
+		ChoosingListFunction shouldBeCaller = functionQueue.poll();
+		Assert.assertEquals(shouldBeCaller, callerFunction);
 	}
 
 	public IChoosingWindowFactory getChoosingWindowFactory() {
@@ -153,7 +209,7 @@ public class ChoosingListTestEnvironment {
 		return new PartiesListStubFactory(this,size,sublistQueue,whiteNoteQueue);
 	}
 
-	public void rutTest(IChoosingList tested) {
+	public void runTest(IChoosingList tested) {
 		while(!driverCalls.isEmpty()){
 			driverCalls.poll().activate(tested);
 		}

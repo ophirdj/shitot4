@@ -2,9 +2,12 @@ package practiceStation.tests;
 
 import global.dictionaries.Languages;
 
-import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
+
+import org.junit.Assert;
 
 import choosingList.factories.IChoosingListFactory;
 
@@ -22,10 +25,6 @@ import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintErrorMe
 
 public class PracticeStationTestEnvironment {
 	
-	public static void assertTrue(boolean b){
-		if(!b) throw new AssertionError();
-	}
-	
 	private Queue<PracticeTestFunction> functionQueue;
 	private Queue<ChooseListComponent> choosingList_chooseListQueue;
 	private Queue<ChoosingListRetireComponent> choosingList_retireQueue;
@@ -38,6 +37,8 @@ public class PracticeStationTestEnvironment {
 	
 	private Queue<PracticeTestDriverCalls> driverCalls;
 	private String testName;
+	private List<String> expectedTestLog = new LinkedList<String>();
+	private int instructionCount = 1;
 	
 	public PracticeStationTestEnvironment(String testName) {
 		this.testName = testName;
@@ -55,50 +56,64 @@ public class PracticeStationTestEnvironment {
 		this.driverCalls = new LinkedBlockingQueue<PracticeTestDriverCalls>();
 	}
 	
+	private void updateLog(String str, List<String> testLog){
+		testLog.add("\t" + instructionCount +". "+str);
+		instructionCount++;
+	}
+	
 	public void addComponentForTest(ChooseListComponent component){
-		functionQueue.add(PracticeTestFunction.ChoosingList_ChooseList);
+		functionQueue.add(component.getFunction());
 		choosingList_chooseListQueue.add(component);
+		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public void addComponentForTest(
 			ChoosingListRetireComponent component){
-		functionQueue.add(PracticeTestFunction.ChoosingList_retire);
+		functionQueue.add(component.getFunction());
 		choosingList_retireQueue.add(component);
+		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public void addComponentForTest(ShowFirstImageComponent component){
-		functionQueue.add(PracticeTestFunction.ImagePanel_showFirstImage);
+		functionQueue.add(component.getFunction());
 		ImagePanel_showFirstImageQueue.add(component);
+		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public void addComponentForTest(
 			ImagePanelRetireComponent component){
-		functionQueue.add(PracticeTestFunction.ImagePanel_retire);
+		functionQueue.add(component.getFunction());
 		ImagePanel_retireQueue.add(component);
+		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public void addComponentForTest(
 			PrintErrorMessageComponent component){
-		functionQueue.add(PracticeTestFunction.PracticeWindow_printErrorMessage);
+		functionQueue.add(component.getFunction());
 		PracticeWindow_printErrorMessageQueue.add(component);
+		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public void addComponentForTest(
 			PrintConformationMessageComponent component){
-		functionQueue.add(PracticeTestFunction.PracticeWindow_printConformationMessage);
+		functionQueue.add(component.getFunction());
 		PracticeWindow_printConformationMessageQueue.add(component);
+		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public void addComponentForTest(
 			ConformationWithPartyComponent component){
-		functionQueue.add(PracticeTestFunction.PracticeWindow_printConformationMessageWithParty);
+		functionQueue.add(component.getFunction());
 		PracticeWindow_ConformationWithPartyQueue.add(component);
+		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public void addComponentForTest(
 			PrintInfoMessageComponent component){
-		functionQueue.add(PracticeTestFunction.PracticeWindow_printInfoMessage);
+		
+		functionQueue.add(component.getFunction());
 		PracticeWindow_printInfoMessageQueue.add(component);
+		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public IPracticeStationWindowFactory getPracticeWindowFactory(){
@@ -121,26 +136,30 @@ public class PracticeStationTestEnvironment {
 				choosingList_retireQueue);
 	}
 	
-	public boolean checkCalling(PracticeTestFunction callerFunction){
+	public void checkCalling(PracticeTestFunction callerFunction){
 		PracticeTestFunction shouldBeCaller = functionQueue.poll();
-		return callerFunction.equals(shouldBeCaller);
+		Assert.assertEquals(shouldBeCaller, callerFunction);
 	}
 	
 	public void addPracticeVoteCall(){
 		driverCalls.add(PracticeTestDriverCalls.PracticeVote);
+		updateLog(PracticeTestDriverCalls.PracticeVote.toString(),expectedTestLog);
 	}
 	
 	public void addSetLanguage(Languages language){
 		switch(language){
 		case Hebrew: driverCalls.add(PracticeTestDriverCalls.SetLangugeHebrew);
+			updateLog(PracticeTestDriverCalls.SetLangugeHebrew.toString(),expectedTestLog);
 			break;
 		case English: driverCalls.add(PracticeTestDriverCalls.SetLangugeEnglish);
+			updateLog(PracticeTestDriverCalls.SetLangugeEnglish.toString(),expectedTestLog);
 			break;
 		}
 	}
 	
 	public void addRetire(){
 		driverCalls.add(PracticeTestDriverCalls.Retire);
+		updateLog(PracticeTestDriverCalls.Retire.toString(),expectedTestLog);
 	}
 	
 	/**
@@ -148,71 +167,12 @@ public class PracticeStationTestEnvironment {
 	 * 	showing the expected function call of practice station to is stubs
 	 */
 	public void expectedTestLog(){
-		System.out.println("about to run test: "+ testName);
-		
-		Iterator<ChooseListComponent> ChooseListIterator = choosingList_chooseListQueue.iterator();
-		Iterator<ChoosingListRetireComponent> ChoosingListRetireIterator = choosingList_retireQueue.iterator();
-		Iterator<ShowFirstImageComponent> showFirstImageIterator = ImagePanel_showFirstImageQueue.iterator();
-		Iterator<ImagePanelRetireComponent> ImagePanelRetireIterator = ImagePanel_retireQueue.iterator();
-		Iterator<PrintErrorMessageComponent> printErrorMessageIterator= PracticeWindow_printErrorMessageQueue.iterator();
-		Iterator<PrintConformationMessageComponent> PrintConformationMessageIterator = PracticeWindow_printConformationMessageQueue.iterator();
-		Iterator<ConformationWithPartyComponent> conformationWithPartyIterator =  PracticeWindow_ConformationWithPartyQueue.iterator();
-		Iterator<PrintInfoMessageComponent> printInfoMessageIterator = PracticeWindow_printInfoMessageQueue.iterator();
-		
-		int stubCallId = 0, driverCallId=0;
-		
-		System.out.println("calls to stub: ");
-		
-		for (Iterator<PracticeTestFunction> iterator = functionQueue.iterator(); iterator.hasNext();) {
-			PracticeTestFunction function = iterator.next();
-			Iterator<?> correctIterator;
-			switch(function){
-			case ChoosingList_ChooseList:
-				correctIterator = ChooseListIterator;
-				break;
-			case ChoosingList_retire:
-				correctIterator = ChoosingListRetireIterator;
-				break;
-			case ImagePanel_showFirstImage:
-				correctIterator = showFirstImageIterator;
-				break;
-			case ImagePanel_retire:
-				correctIterator = ImagePanelRetireIterator;
-				break;
-			case PracticeWindow_printConformationMessage:
-				correctIterator = PrintConformationMessageIterator;
-				break;
-			case PracticeWindow_printConformationMessageWithParty:
-				correctIterator = conformationWithPartyIterator;
-				break;
-			case PracticeWindow_printErrorMessage:
-				correctIterator = printErrorMessageIterator;
-				break;
-			case PracticeWindow_printInfoMessage:
-				correctIterator = printInfoMessageIterator;
-				break;
-			default:
-				System.out.println("wrong usage.");
-				throw new RuntimeException();
-			}
-			
-			if(!correctIterator.hasNext()){
-				System.out.println("wrong usage.");
-				throw new RuntimeException();
-			}
-			System.out.println("\t"+stubCallId+". "+correctIterator.next());
-			stubCallId++;
-		}
-		
-		System.out.println();
-		System.out.println("call from driver");
-		for (Iterator<PracticeTestDriverCalls> iterator = driverCalls.iterator(); iterator.hasNext();) {
-			PracticeTestDriverCalls call =  iterator.next();
-			System.out.println("\t"+driverCallId+". "+call);
-			driverCallId++;
+		System.out.println("expected test: "+ testName);
+		for(String insturction : expectedTestLog){
+			System.out.println(insturction);
 		}
 		System.out.println();
-		System.out.println("end of test: " + testName);
+		System.out.println("end test: "+ testName);
 		System.out.println();
 		System.out.println();
 	}
@@ -223,6 +183,6 @@ public class PracticeStationTestEnvironment {
 		while(!driverCalls.isEmpty()){
 			driverCalls.poll().activate(testedStation);
 		}
-		PracticeStationTestEnvironment.assertTrue(functionQueue.isEmpty());
+		Assert.assertTrue(functionQueue.isEmpty());
 	}
 }

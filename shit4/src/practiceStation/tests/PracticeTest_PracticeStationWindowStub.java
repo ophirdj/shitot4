@@ -3,6 +3,8 @@ package practiceStation.tests;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+import org.junit.Assert;
+
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import global.gui.StationPanel;
@@ -43,12 +45,16 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		}
 		
 		public void checkAndReturn(Messages message) throws InterruptedException{
-			PracticeStationTestEnvironment.assertTrue(message.equals(shouldBeMessage));
+			Assert.assertEquals(shouldBeMessage, message);
 		}
 		
 		@Override
 		public String toString() {
 			return "practiceWindow.printInfoMessage("+shouldBeMessage+")";
+		}
+
+		public PracticeTestFunction getFunction() {
+			return PracticeTestFunction.PracticeWindow_printInfoMessage;
 		}
 	}
 	
@@ -79,7 +85,7 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	
 	@Override
 	public void printInfoMessage(Messages message) {
-		PracticeStationTestEnvironment.assertTrue(testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printInfoMessage));
+		testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printInfoMessage);
 		try{
 			printInfoMessageQueue.remove().checkAndReturn(message);
 		}catch (NoSuchElementException e) {
@@ -101,13 +107,17 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		}
 		
 		public boolean checkAndReturn(Messages message) throws InterruptedException{
-			PracticeStationTestEnvironment.assertTrue(message.equals(shouldBeMessage));
+			Assert.assertEquals(shouldBeMessage, message);
 			return returnValue;
 		}
 		
 		@Override
 		public String toString() {
 			return "practiceWindow.printConformationMessage("+shouldBeMessage+"), return " + returnValue;
+		}
+
+		public PracticeTestFunction getFunction() {
+			return PracticeTestFunction.PracticeWindow_printConformationMessage;
 		}
 	}
 	
@@ -137,7 +147,7 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	
 	@Override
 	public boolean printConformationMessage(Messages message) {
-		PracticeStationTestEnvironment.assertTrue(testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printConformationMessage));
+		testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printConformationMessage);
 		try{
 			return printConformationMessageQueue.remove().checkAndReturn(message);
 		}catch (NoSuchElementException e) {
@@ -161,14 +171,18 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		}
 		
 		public boolean checkAndReturn(Messages message,IParty party) throws InterruptedException{
-			PracticeStationTestEnvironment.assertTrue(message.equals(shouldBeMessage));
-			PracticeStationTestEnvironment.assertTrue(party.equals(shouldBeParty));
+			Assert.assertEquals(shouldBeMessage, message);
+			Assert.assertEquals(shouldBeParty, party);
 			return returnValue;
 		}
 		
 		@Override
 		public String toString() {
 			return "practiceWindow.printConformationMessage("+shouldBeMessage+", "+shouldBeParty+"), return " + returnValue;
+		}
+
+		public PracticeTestFunction getFunction() {
+			return PracticeTestFunction.PracticeWindow_printConformationMessageWithParty;
 		}
 	}
 
@@ -198,7 +212,7 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	
 	@Override
 	public boolean printConformationMessage(Messages message, IParty party) {
-		PracticeStationTestEnvironment.assertTrue(testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printConformationMessageWithParty));
+		testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printConformationMessageWithParty);
 		try{
 			return ConformationWithPartyQueue.remove().checkAndReturn(message,party);
 		}catch (NoSuchElementException e) {
@@ -218,12 +232,16 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		}
 		
 		public void checkAndReturn(Messages message) throws InterruptedException{
-			PracticeStationTestEnvironment.assertTrue(message.equals(shouldBeMessage));
+			Assert.assertEquals(shouldBeMessage, message);
 		}
 		
 		@Override
 		public String toString() {
 			return "practiceWindow.printErrorMessage("+shouldBeMessage+")";
+		}
+
+		public PracticeTestFunction getFunction() {
+			return PracticeTestFunction.PracticeWindow_printErrorMessage;
 		}
 	}
 	
@@ -254,7 +272,7 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	
 	@Override
 	public void printErrorMessage(Messages message) {
-		PracticeStationTestEnvironment.assertTrue(testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printErrorMessage));
+		testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printErrorMessage);
 		try{
 			printErrorMessageQueue.remove().checkAndReturn(message);
 		}catch (NoSuchElementException e) {

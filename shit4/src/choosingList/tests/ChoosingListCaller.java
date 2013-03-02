@@ -1,5 +1,7 @@
 package choosingList.tests;
 
+import org.junit.Assert;
+
 import choosingList.logic.IChoosingList;
 import choosingList.logic.IChoosingList.ChoosingInterruptedException;
 import partiesList.model.IParty;
@@ -11,9 +13,11 @@ public class ChoosingListCaller {
 	
 	public static class ChooseListCallerComponent implements CallerComponent{
 		private IParty shouldBeParty;
+		protected ChoosingListTestEnvironment testEnvironment;
 
-		public ChooseListCallerComponent(IParty party) {
+		public ChooseListCallerComponent(IParty party, ChoosingListTestEnvironment testEnvironment) {
 			this.shouldBeParty = party;
+			this.testEnvironment = testEnvironment;
 		}
 		
 		@Override
@@ -23,8 +27,9 @@ public class ChoosingListCaller {
 		
 		public void activate(IChoosingList choosingList) {
 			try{
+				testEnvironment.updateRunningTestLog(this.toString());
 				IParty party = choosingList.chooseList();
-				ChoosingListTestEnvironment.assertTrue(party.equals(shouldBeParty));
+				Assert.assertEquals(shouldBeParty, party);
 			}catch(ChoosingInterruptedException e){
 				throw new AssertionError();
 			}
@@ -35,16 +40,19 @@ public class ChoosingListCaller {
 
 		private final long shortTime = 10;
 		private IChoosingList choosingList;
+		private ChoosingListTestEnvironment testEnvironment;
 
-		public CloseChoosingList(IChoosingList choosingList) {
+		public CloseChoosingList(ChoosingListTestEnvironment testEnvironment, IChoosingList choosingList) {
 			this.choosingList = choosingList;
+			this.testEnvironment = testEnvironment;
 		}
 
 		@Override
 		public void run() {
 			try {
 				Thread.sleep(shortTime);
-				choosingList.retire();
+				ChooseListRetireComponent closer = new ChooseListRetireComponent(testEnvironment);
+				closer.activate(choosingList);
 			} catch (InterruptedException e) {
 				throw new AssertionError();
 			}
@@ -54,8 +62,8 @@ public class ChoosingListCaller {
 	
 	public static class ChooseListCallerWaitComponent extends ChooseListCallerComponent{
 		
-		public ChooseListCallerWaitComponent() {
-			super(null);
+		public ChooseListCallerWaitComponent(ChoosingListTestEnvironment testEnvironment) {
+			super(null,testEnvironment);
 		}
 		
 		@Override
@@ -66,11 +74,12 @@ public class ChoosingListCaller {
 		
 		@Override
 		public void activate(IChoosingList choosingList) {
-			Thread closer = new Thread(new CloseChoosingList(choosingList));
+			Thread closer = new Thread(new CloseChoosingList(testEnvironment,choosingList));
 			try{
 				closer.start();
+				testEnvironment.updateRunningTestLog(this.toString());
 				choosingList.chooseList();
-				throw new AssertionError();
+				Assert.fail();
 			}catch (ChoosingInterruptedException e) {
 			}
 		}
@@ -78,6 +87,12 @@ public class ChoosingListCaller {
 	
 	public static class ChooseListRetireComponent implements CallerComponent{
 
+		private ChoosingListTestEnvironment testEnvironment;
+
+		public ChooseListRetireComponent(ChoosingListTestEnvironment testEnvironment) {
+			this.testEnvironment = testEnvironment;
+		}
+		
 		@Override
 		public String toString() {
 			return "choosingList.retire()";
@@ -85,6 +100,7 @@ public class ChoosingListCaller {
 		
 		@Override
 		public void activate(IChoosingList choosingList) {
+			testEnvironment.updateRunningTestLog(this.toString());
 			choosingList.retire();
 		}
 		

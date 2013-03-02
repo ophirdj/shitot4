@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+import org.junit.Assert;
+
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 
@@ -34,11 +36,16 @@ public class PartiesListStub implements IPartiesList{
 		private int shouldBeStart;
 		private int shouldBeEnd;
 		private IPartiesList returnVal;
+		private ChoosingListTestEnvironment testEnvironment;
 
 		public sublistComponent(int start, int end, IPartiesList returnVal) {
 			this.shouldBeStart = start;
 			this.shouldBeEnd =end;
 			this.returnVal = returnVal;
+		}
+		
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
 		}
 		
 		@Override
@@ -47,8 +54,9 @@ public class PartiesListStub implements IPartiesList{
 		}
 		
 		public IPartiesList checkAndReturn(int start, int end){
-			ChoosingListTestEnvironment.assertTrue(shouldBeStart == start );
-			ChoosingListTestEnvironment.assertTrue(shouldBeEnd == end );
+			Assert.assertEquals(shouldBeStart, start);
+			Assert.assertEquals(shouldBeEnd, end);
+			testEnvironment.updateRunningTestLog(this.toString());
 			return returnVal;
 		}
 		
@@ -59,7 +67,7 @@ public class PartiesListStub implements IPartiesList{
 
 	@Override
 	public IPartiesList sublist(int start, int end) {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.PartiesList_sublist));
+		testEnvironment.checkCalling(ChoosingListFunction.PartiesList_sublist);
 		try{
 			return sublistQueue.remove().checkAndReturn(start, end);
 		}catch(NoSuchElementException e){
@@ -70,9 +78,14 @@ public class PartiesListStub implements IPartiesList{
 	public static class whiteNotePartyComponent{
 		
 		private IParty returnVal;
+		private ChoosingListTestEnvironment testEnvironment;
 
 		public whiteNotePartyComponent(IParty returnVal) {
 			this.returnVal = returnVal;
+		}
+		
+		public void setTestEnvironment(ChoosingListTestEnvironment testEnvironment){
+			this.testEnvironment = testEnvironment;
 		}
 		
 		@Override
@@ -81,6 +94,7 @@ public class PartiesListStub implements IPartiesList{
 		}
 		
 		public IParty checkAndReturn(){
+			testEnvironment.updateRunningTestLog(this.toString());
 			return returnVal;
 		}
 		
@@ -91,7 +105,7 @@ public class PartiesListStub implements IPartiesList{
 	
 	@Override
 	public IParty getWhiteNoteParty() {
-		ChoosingListTestEnvironment.assertTrue(testEnvironment.checkCalling(ChoosingListFunction.PartiesList_getWhiteNote));
+		testEnvironment.checkCalling(ChoosingListFunction.PartiesList_getWhiteNote);
 		try{
 			return whiteNoteQueue.remove().checkAndReturn();
 		}catch(NoSuchElementException e){

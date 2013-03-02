@@ -40,6 +40,10 @@ public class PracticeTest_ChoosingListStub implements IChoosingList {
 		public String toString() {
 			return "choosingList.chooseList(), return " + returnValue.toString(); 
 		}
+		
+		public PracticeTestFunction getFunction(){
+			return PracticeTestFunction.ChoosingList_ChooseList;
+		}
 	}
 	
 	public static class ChooseListLongComponent extends ChooseListComponent{
@@ -94,7 +98,7 @@ public class PracticeTest_ChoosingListStub implements IChoosingList {
 	
 	@Override
 	public IParty chooseList() throws ChoosingInterruptedException {
-		PracticeStationTestEnvironment.assertTrue(testEnviroment.checkCalling(PracticeTestFunction.ChoosingList_ChooseList));
+		testEnviroment.checkCalling(PracticeTestFunction.ChoosingList_ChooseList);
 		choosingThread = Thread.currentThread();
 		IParty chosenParty;
 		try{
@@ -113,11 +117,15 @@ public class PracticeTest_ChoosingListStub implements IChoosingList {
 		public String toString() {
 			return "choosingList.retire()";
 		}
+		
+		public PracticeTestFunction getFunction(){
+			return PracticeTestFunction.ChoosingList_retire;
+		}
 	}
 
 	@Override
 	public void retire() {
-		PracticeStationTestEnvironment.assertTrue(testEnviroment.checkCalling(PracticeTestFunction.ChoosingList_retire));
+		testEnviroment.checkCalling(PracticeTestFunction.ChoosingList_retire);
 		if(choosingThread != null){
 			choosingThread.interrupt();
 		}
