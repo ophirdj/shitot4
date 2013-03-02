@@ -34,9 +34,15 @@ public interface IMainframe{
 	
 	
 	/**
-	 * 
+	 * Safely shut down mainframe
 	 */
 	void shutDown();
+	
+	
+	/**
+	 * Violently shut down mainframe (for tests only)
+	 */
+	void crash();
 	
 	/**
 	 * check if voter is in the voters list and if he isn't there - add him to the unregistered voters list

@@ -65,4 +65,10 @@ public class Mainframe_stub implements IMainframe {
 		
 	}
 
+	@Override
+	public void crash() {
+		this.shutDown();
+		
+	}
+
 }

@@ -205,6 +205,22 @@ public class AcceptanceTest {
 		IPartiesList resultParties = backup.restoreParties();
 		IVotersList resultVoters = backup.restoreVoters();
 		IVotersList reusltUnregistered = backup.restoreUnregisteredVoters();
+		
+		System.out.println("expected parties");
+		expectedPartiesList.peep();
+		System.out.println("actual parties");
+		resultParties.peep();
+		System.out.println("expected voters");
+		expectedVotersList.peep();
+		System.out.println("actual voters");
+		resultVoters.peep();
+		System.out.println("expected unregistered");
+		expectedUnregisteredList.peep();
+		System.out.println("actual unregistered");
+		reusltUnregistered.peep();
+		
+		System.out.println("\n\n\n\n");
+		
 		Assert.assertEquals(expectedPartiesList,resultParties);
 		Assert.assertEquals(expectedVotersList, resultVoters);
 		Assert.assertEquals(expectedUnregisteredList, reusltUnregistered);
@@ -558,7 +574,7 @@ public class AcceptanceTest {
 		//voting time during test is 5 seconds
 		final long finisingAfter = 5 * 1000;
 		//after voting we wait for backup to kick in
-		final long waitingForBackup = backupTimeIntervalSeconds * 1000 + 500;
+		final long waitingForBackup = (backupTimeIntervalSeconds + 2) * 1000;
 
 		int id = 1;
 		
@@ -580,7 +596,7 @@ public class AcceptanceTest {
 			id++;
 		}
 		Thread.sleep(waitingForBackup);
-		
+		mainframe.crash();
 		checkBackUp();
 	}
 	

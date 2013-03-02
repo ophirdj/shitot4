@@ -166,10 +166,10 @@ pip-log.txt
 # my additions
 ##############
 
-shit4/listBackup/
+shit4/listBackup/*
 
-shit4/unregisteredVoters/
+shit4/unregisteredVoters/*
 
-shit4/acceptanceTest/listBackup/
+shit4/acceptanceTest/listBackup/*
 
-shit4/acceptanceTest/unregisteredVoters/
+shit4/acceptanceTest/unregisteredVoters/*

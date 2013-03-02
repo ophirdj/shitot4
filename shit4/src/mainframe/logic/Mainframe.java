@@ -99,6 +99,11 @@ public class Mainframe implements IMainframe {
 		else backupState();
 		if(votingStations != null) votingStations.retire();
 	}
+	
+	@Override
+	public void crash(){
+		if(backupThread != null) backupThread.kill();
+	}
 
 	// Save voters and parties lists to backup file. Lists must match.
 	private void backupState() {
@@ -255,11 +260,20 @@ public class Mainframe implements IMainframe {
 					try {lock.wait(MILLISECONDS_BETWEEN_BACKUPS);}
 					catch (InterruptedException e) {}
 				}
-				caller.backupState();	
 			}
 		}
 		
 		public void retire(){
+			synchronized(lock){
+				continueRun = false;
+				lock.notify();
+			}
+			try {join();}
+			catch (InterruptedException e) {}
+			caller.backupState();
+		}
+		
+		public void kill(){
 			synchronized(lock){
 				continueRun = false;
 				lock.notify();
