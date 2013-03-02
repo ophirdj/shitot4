@@ -35,6 +35,7 @@ import fileHandler.factories.BackupFactory;
 import fileHandler.factories.IBackupFactory;
 import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.factories.ReadSuppliedXMLFactory;
+import fileHandler.logic.IBackup;
 import global.gui.Main_Window;
 
 public class VotingSystem {
@@ -57,7 +58,7 @@ public class VotingSystem {
 			return parties;
 	}
 	
-	public static void main(String[] args) {
+	public static void main1(String[] args) {
 		Main_Window main_window = new Main_Window();
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
@@ -82,4 +83,31 @@ public class VotingSystem {
 		practiceStationFactory.createInstance(getPracticeParties());
 		main_window.show_window();
 	}
+	
+	public static void main(String[] args) {
+		IPartiesList parties = new PartiesList(new PartyFactory());
+		parties.addParty(new Party("Party1", "a", 0));
+		parties.addParty(new Party("Party2", "b", 0));
+		parties.addParty(new Party("שלום", "c", 23));
+		parties.addParty(new Party("Party4", "d", 0));
+		parties.addParty(new Party("Party5", "e", 24));
+		parties.addParty(new Party("Party6", "f", 0));
+		parties.addParty(new Party("Party7", "g", 100));
+		parties.addParty(new Party("Party8", "תודה", 0));
+		parties.addParty(new Party("Party9", "i", 1));
+		parties.addParty(new Party("מה", "j", 0));
+		parties.addParty(new Party("Party11", "k", 0));
+		parties.addParty(new Party("Party12", "נשמע", 0));
+		parties.addParty(new Party("Party13", "m", 0));
+		
+		IBackupFactory bf = new BackupFactory(new PartiesListFactory(new PartyFactory())
+		, new PartyFactory(), new VotersListFactory(), new VoterDataFactory());
+		IBackup b = bf.createInstance();
+		
+		b.storeState(parties, null, null);
+		IPartiesList backuped = b.restoreParties();
+		backuped.peep();
+		System.out.println("yes we can");
+	}
+	
 }
