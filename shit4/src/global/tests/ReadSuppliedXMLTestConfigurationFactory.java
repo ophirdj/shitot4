@@ -8,14 +8,14 @@ import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.logic.IReadSuppliedXML;
 import fileHandler.logic.ReadSuppliedXML;
 
-public class ReadSuppliedXMLTestFactory implements IReadSuppliedXMLFactory {
+public class ReadSuppliedXMLTestConfigurationFactory implements IReadSuppliedXMLFactory {
 
 	private IPartiesListFactory partiesListFactory;
 	private IPartyFactory partyFactory;
 	private IVotersListFactory votersListFactory;
 	private IVoterDataFactory voterDataFactory;
 	
-	public ReadSuppliedXMLTestFactory(IPartiesListFactory partiesListFactory,
+	public ReadSuppliedXMLTestConfigurationFactory(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory votersListFactory,
 			IVoterDataFactory voterDataFactory) {
 		this.partiesListFactory = partiesListFactory;

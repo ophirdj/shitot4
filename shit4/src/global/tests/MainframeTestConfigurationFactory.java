@@ -1,14 +1,16 @@
-package mainframe.factories;
+package global.tests;
 
+import mainframe.communication.IStationsControllerFactory;
+import mainframe.factories.IMainframeFactory;
+import mainframe.factories.IMainframeWindowFactory;
+import mainframe.logic.IMainframe;
+import mainframe.logic.Mainframe;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import fileHandler.factories.IBackupFactory;
 import fileHandler.factories.IReadSuppliedXMLFactory;
-import mainframe.communication.IStationsControllerFactory;
-import mainframe.logic.IMainframe;
-import mainframe.logic.Mainframe;
 
-public class MainframeFactory implements IMainframeFactory {
+public class MainframeTestConfigurationFactory implements IMainframeFactory{
 
 	private IVoterDataFactory voterDataFactory;
 	private IVotersListFactory votersListFactory;
@@ -16,9 +18,9 @@ public class MainframeFactory implements IMainframeFactory {
 	private IMainframeWindowFactory mainframeWindowFactory;
 	private IReadSuppliedXMLFactory readSuppliedXMLFactory;
 	private IStationsControllerFactory stationsControllerFactory;
-	private int backupTimeIntervalSeconds = 180;
+	private int backupTimeIntervalSeconds;
 
-	public MainframeFactory(IBackupFactory backupFactory,
+	public MainframeTestConfigurationFactory(int backupTimeIntervalSeconds, IBackupFactory backupFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
 			IStationsControllerFactory stationsControllerFactory,
@@ -30,6 +32,7 @@ public class MainframeFactory implements IMainframeFactory {
 		this.stationsControllerFactory = stationsControllerFactory;
 		this.voterDataFactory = voterDataFactory;
 		this.votersListFactory = votersListFactory;
+		this.backupTimeIntervalSeconds = backupTimeIntervalSeconds;
 	}
 	
 	@Override

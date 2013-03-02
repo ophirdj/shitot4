@@ -8,14 +8,14 @@ import mainframe.communication.IStationsControllerFactory;
 import mainframe.communication.StationsController;
 import mainframe.logic.IMainframe;
 
-public class StationsControllerTestFactory implements
+public class StationsControllerTestConfigurationFactory implements
 		IStationsControllerFactory {
 
 	private IVotingStationFactory votingStationFactory;
 	private List<String> passwords;
 	private int numStations;
 
-	public StationsControllerTestFactory(
+	public StationsControllerTestConfigurationFactory(
 			IVotingStationFactory votingStationFactory, List<String> passwords, int numStations) {
 		this.votingStationFactory = votingStationFactory;
 		this.passwords = passwords;

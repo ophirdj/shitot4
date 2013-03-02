@@ -2,23 +2,18 @@ package votingStation.logic;
 
 import global.dictionaries.Messages;
 import global.gui.StationPanel;
-
 import java.util.List;
 import java.util.ArrayList;
-
 import choosingList.factories.IChoosingListFactory;
 import choosingList.logic.IChoosingList;
 import choosingList.logic.IChoosingList.ChoosingInterruptedException;
-
-
-
-
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
+import votingStation.factories.IVotingRecordFactory;
 import votingStation.factories.IVotingStationWindowFactory;
 import votingStation.gui.IVotingStationWindow;
 import votingStation.gui.IVotingStationWindow.IllegalIdException;
-import votingStation.model.VotingRecord;
+import votingStation.model.IVotingRecord;
 import mainframe.communication.IStationsController;
 import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
@@ -27,24 +22,26 @@ import mainframe.logic.IMainframe.VoterStartedVote;
 public class VotingStation implements IVotingStation {
 	private IStationsController controller;
 	private IPartiesList parties;
-	private List<VotingRecord> localVotersList; 
+	private List<IVotingRecord> localVotersList; 
 	private List<String> passwords;
 	
 	private IChoosingList choosingList;
 	
 	private IVotingStationWindow votingStationWindow;
 	private IChoosingListFactory choosingListFactory;
+	private IVotingRecordFactory votingRecordFactory;
 
-	public VotingStation(List<String> passwords, IChoosingListFactory chooseFactory, IVotingStationWindowFactory stationWindowFactory){
+	public VotingStation(List<String> passwords, IChoosingListFactory chooseFactory, IVotingStationWindowFactory stationWindowFactory, IVotingRecordFactory votingRecordFactory){
 		this.passwords = passwords;
-		votingStationWindow = stationWindowFactory.createInstance(this);
-		choosingListFactory = chooseFactory;
+		this.votingStationWindow = stationWindowFactory.createInstance(this);
+		this.choosingListFactory = chooseFactory;
+		this.votingRecordFactory = votingRecordFactory;
 	};
 
 	public void initialize(IPartiesList parties,IStationsController controller){
 		this.controller = controller;
 		this.parties = parties;
-		localVotersList = new ArrayList<VotingRecord>();
+		localVotersList = new ArrayList<IVotingRecord>();
 		choosingList = choosingListFactory.createInstance(parties, (StationPanel)votingStationWindow);
 		votingStationWindow.startLoop();
 	}
@@ -53,16 +50,16 @@ public class VotingStation implements IVotingStation {
 		return parties.copy();
 	}
 	
-	private VotingRecord getVotingRecord(int id){
+	private IVotingRecord getVotingRecord(int id){
 		IMainframe.VoterStatus status = controller.getVoterStatus(id);
 		switch (status) {
 		case unidentified:
 			votingStationWindow.printErrorMessage(Messages.You_need_to_identify_yourself_in_the_mainframe);
 			return null;
 		case identified:
-			return new VotingRecord(id);
+			return votingRecordFactory.createInstance(id);
 		case voted:
-			for(VotingRecord voter: localVotersList){
+			for(IVotingRecord voter: localVotersList){
 				if(voter.getID() == id && voter.canVote()) return voter;
 				if(voter.getID() == id){
 					votingStationWindow.printErrorMessage(Messages.You_cannot_change_your_vote_anymore);
@@ -89,7 +86,7 @@ public class VotingStation implements IVotingStation {
 			return;
 		}
 		
-		VotingRecord voter = getVotingRecord(id);
+		IVotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
 		try {
 			controller.markStartedVote(id);
@@ -128,7 +125,7 @@ public class VotingStation implements IVotingStation {
 			return;
 		}
 		
-		VotingRecord voter = getVotingRecord(id);
+		IVotingRecord voter = getVotingRecord(id);
 		if(voter == null) return;
 		IParty lastParty = choosingList.chooseList();
 		votingStationWindow.printInfoMessage(Messages.You_successfully_test_voted_for_the_party,lastParty);

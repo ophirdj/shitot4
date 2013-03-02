@@ -15,6 +15,7 @@ import partiesList.factories.IPartyFactory;
 import partiesList.factories.PartiesListFactory;
 import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;
+import partiesList.model.IParty;
 import partiesList.model.PartiesList;
 import partiesList.model.Party;
 import practiceStation.factories.IImagePanelFactory;
@@ -27,14 +28,21 @@ import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.factories.VoterDataFactory;
 import votersList.factories.VotersListFactory;
+import votersList.model.IVoterData;
+import votersList.model.IVotersList;
+import votersList.model.VoterData;
+import votersList.model.VotersList;
+import votingStation.factories.IVotingRecordFactory;
 import votingStation.factories.IVotingStationFactory;
 import votingStation.factories.IVotingStationWindowFactory;
+import votingStation.factories.VotingRecordFactory;
 import votingStation.factories.VotingStationFactory;
 import votingStation.factories.VotingStationWindowFactory;
 import fileHandler.factories.BackupFactory;
 import fileHandler.factories.IBackupFactory;
 import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.factories.ReadSuppliedXMLFactory;
+import fileHandler.logic.Backup;
 import fileHandler.logic.IBackup;
 import global.gui.Main_Window;
 
@@ -58,7 +66,7 @@ public class VotingSystem {
 			return parties;
 	}
 	
-	public static void main1(String[] args) {
+	public static void main(String[] args) {
 		Main_Window main_window = new Main_Window();
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
@@ -70,7 +78,8 @@ public class VotingSystem {
 		IChoosingWindowFactory choosingWindowFactory = new ChoosingWindowFactory(main_window);
 		IChoosingListFactory choosingListFactory = new ChoosingListFactory(choosingWindowFactory);
 		IVotingStationWindowFactory votingStationWindowFactory = new VotingStationWindowFactory(main_window);
-		IVotingStationFactory votingStationFactory = new VotingStationFactory(choosingListFactory, votingStationWindowFactory);
+		IVotingRecordFactory votingRecordFactory = new VotingRecordFactory();
+		IVotingStationFactory votingStationFactory = new VotingStationFactory(choosingListFactory, votingStationWindowFactory, votingRecordFactory);
 		IStationsControllerFactory stationsControllerFactory = new StationsControllerFactory(votingStationFactory);
 		
 		IBackupFactory backupFactory = new BackupFactory(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
@@ -84,30 +93,46 @@ public class VotingSystem {
 		main_window.show_window();
 	}
 	
-	public static void main(String[] args) {
-		IPartiesList parties = new PartiesList(new PartyFactory());
-		parties.addParty(new Party("Party1", "a", 0));
-		parties.addParty(new Party("Party2", "b", 0));
-		parties.addParty(new Party("˘ÏÂÌ", "c", 23));
-		parties.addParty(new Party("Party4", "d", 0));
-		parties.addParty(new Party("Party5", "e", 24));
-		parties.addParty(new Party("Party6", "f", 0));
-		parties.addParty(new Party("Party7", "g", 100));
-		parties.addParty(new Party("Party8", "˙Â„‰", 0));
-		parties.addParty(new Party("Party9", "i", 1));
-		parties.addParty(new Party("Ó‰", "j", 0));
-		parties.addParty(new Party("Party11", "k", 0));
-		parties.addParty(new Party("Party12", "˘ÓÚ", 0));
-		parties.addParty(new Party("Party13", "m", 0));
-		
-		IBackupFactory bf = new BackupFactory(new PartiesListFactory(new PartyFactory())
-		, new PartyFactory(), new VotersListFactory(), new VoterDataFactory());
-		IBackup b = bf.createInstance();
-		
-		b.storeState(parties, null, null);
-		IPartiesList backuped = b.restoreParties();
-		backuped.peep();
-		System.out.println("yes we can");
-	}
 	
+	public static void main1(String[] args) {
+		IBackup backup = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), new VotersListFactory(), new VoterDataFactory(), "test/voters.xml", "test/parties.xml", "test/unregistered.xml");
+		
+		IPartiesList readPartiesList = new PartiesList(new PartyFactory());
+		IParty p1 = new Party("Vive la France", "alors on dance!");
+		IParty p2 = new Party("◊ô◊© ◊¢◊™◊ô◊ì", "◊ô◊©");
+		IParty p3 = new Party("◊ê◊ô◊ü ◊¢◊™◊ô◊ì", "fuck you");
+		IParty p4 = new Party("Liberte", "oui");
+		IParty p5 = new Party("egalite", "non");
+		IParty p6 = new Party("fraternite", "23");
+		IParty p7 = new Party("technion", "Ullman's metal dick");
+		readPartiesList.addParty(p1);
+		readPartiesList.addParty(p2);
+		readPartiesList.addParty(p3);
+		readPartiesList.addParty(p4);
+		readPartiesList.addParty(p5);
+		readPartiesList.addParty(p6);
+		readPartiesList.addParty(p7);
+		
+		IVotersList readVotersList = new VotersList();
+		IVoterData v1 = new VoterData(111);
+		IVoterData v2 = new VoterData(222);
+		IVoterData v3 = new VoterData(333);
+		IVoterData v4 = new VoterData(444);
+		IVoterData v5 = new VoterData(555);
+		readVotersList.addVoter(v1);
+		readVotersList.addVoter(v2);
+		readVotersList.addVoter(v3);
+		readVotersList.addVoter(v4);
+		readVotersList.addVoter(v5);
+		
+		IVotersList readUnreg = new VotersList();
+		readVotersList.addVoter(new VoterData(1));
+		readVotersList.addVoter(new VoterData(2));
+		readVotersList.addVoter(new VoterData(3));
+		readVotersList.addVoter(new VoterData(4));
+		readVotersList.addVoter(new VoterData(5));
+		
+		backup.storeState(readPartiesList, readVotersList, readUnreg);
+		System.out.println("yay");
+	}
 }

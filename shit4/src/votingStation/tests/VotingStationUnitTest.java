@@ -19,14 +19,16 @@ import partiesList.model.Party;
 import votingStation.logic.VotingStation;
 
 public class VotingStationUnitTest {
+	
+	//voting time (seconds)
+	private final long maxVotingTimeSeconds = 1L;
 
-	ChoosingListStub chooseStub;
-	VotingStationWindowStub windowStub;
-	List<String> passwordsStub;
-	IPartiesList partiesStub;
-	StationsControllerStub controllerStub;
-
-	VotingStation station;
+	private ChoosingListStub chooseStub;
+	private VotingStationWindowStub windowStub;
+	private List<String> passwordsStub;
+	private IPartiesList partiesStub;
+	private StationsControllerStub controllerStub;
+	private VotingStation station;
 
 	@Before
 	public void preprocessing() {
@@ -51,7 +53,7 @@ public class VotingStationUnitTest {
 		
 		
 		station = new VotingStation(passwordsStub, new choosingListStubFactory(
-				chooseStub), new stationWindowStubFactory(windowStub));
+				chooseStub), new stationWindowStubFactory(windowStub), new VotingRecordStubFactory(maxVotingTimeSeconds));
 		
 		station.initialize(partiesStub, controllerStub);
 	}
@@ -434,8 +436,13 @@ public class VotingStationUnitTest {
 		station.voting();
 		controllerStub.status = VoterStatus.voted;
 		
-		//sleep ridiculous amounts of time
-		Thread.sleep(3*60*1000);
+		System.out.println("Commencing voteTwiceWaitTooMuch test. It may take a few moments.");
+		System.out.println("remaining waiting time:");
+		for(long i = (maxVotingTimeSeconds+2); i > 0; i--){
+			System.out.println(i + " seconds");
+			Thread.sleep(1000);
+		}
+		System.out.println("done");
 		
 		
 		chooseStub.party = chooseStub.partiesList.getPartyBySymbol("p1");

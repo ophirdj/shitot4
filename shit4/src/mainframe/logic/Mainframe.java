@@ -24,17 +24,16 @@ import votersList.model.IVoterData.Unidentified;
 import votersList.model.IVotersList.VoterDoesntExist;
 import votingStation.logic.IVotingStation;
 
-public class Mainframe implements IMainframe, Runnable {
+public class Mainframe implements IMainframe {
 	private IVotersList voters;
 	private IPartiesList parties;
 	private IVotersList unregisteredVoters;
 	private IStationsController votingStations;
 	private IBackup backup;
+	private BackupThread backupThread;
 	private IMainframeWindow window;
 
-	private boolean continueRun;
-
-	private static final int MILISECONDS_BETWEEN_BACKUPS = 180 * 1000;
+	private final int MILLISECONDS_BETWEEN_BACKUPS;
 
 	// factories
 	private IBackupFactory backupFactory;
@@ -43,7 +42,7 @@ public class Mainframe implements IMainframe, Runnable {
 	private IReadSuppliedXMLFactory readSuppliedXMLFactory;
 	private IStationsControllerFactory stationsControllerFactory;
 
-	public Mainframe(IBackupFactory backupFactory,
+	public Mainframe(int backupTimeIntervalSeconds, IBackupFactory backupFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
 			IStationsControllerFactory stationsControllerFactory,
@@ -54,8 +53,8 @@ public class Mainframe implements IMainframe, Runnable {
 		this.stationsControllerFactory = stationsControllerFactory;
 		this.voterDataFactory = voterDataFactory;
 		this.votersListFactory = votersListFactory;
-		
-		window = mainframeWindowFactory.createInstance(this);
+		this.MILLISECONDS_BETWEEN_BACKUPS = backupTimeIntervalSeconds * 1000;
+		this.window = mainframeWindowFactory.createInstance(this);
 	}
 
 	@Override
@@ -78,7 +77,8 @@ public class Mainframe implements IMainframe, Runnable {
 		this.unregisteredVoters = unregistered;
 		votingStations = stationsControllerFactory.createInstance(this);
 		votingStations.initialize(parties);
-		continueRun = true;
+		backupThread = new BackupThread();
+		backupThread.start();
 		window.init();
 	}
 
@@ -95,13 +95,16 @@ public class Mainframe implements IMainframe, Runnable {
 
 	@Override
 	public void shutDown() {
-		continueRun = false;
-		if(backup != null) backupState();
+		if(backupThread != null){
+			backupThread.retire();
+		}
+		else backupState();
 		if(votingStations != null) votingStations.retire();
 	}
 
 	// Save voters and parties lists to backup file. Lists must match.
 	private void backupState() {
+		System.out.println("backup state");
 		IVotersList voters;
 		IPartiesList parties;
 		do {
@@ -231,14 +234,30 @@ public class Mainframe implements IMainframe, Runnable {
 		return VoterStatus.unidentified;
 	}
 
-	@Override
-	public void run() {
-		while (continueRun) {
-			try {
-				Thread.sleep(MILISECONDS_BETWEEN_BACKUPS);
-			} catch (InterruptedException e) {
+	
+	
+	
+	private class BackupThread extends Thread{
+		
+		private boolean continueRun = true;
+		
+		@Override
+		public synchronized void run() {
+			while(continueRun){
+				backupState();
+				try {wait(MILLISECONDS_BETWEEN_BACKUPS);}
+				catch (InterruptedException e) {}
 			}
-			backupState();
+		}
+		
+		public void retire(){
+			synchronized(this){
+				backupState();
+				continueRun = false;
+				notify();
+			}
+			try {join();}
+			catch (InterruptedException e) {}
 		}
 	}
 

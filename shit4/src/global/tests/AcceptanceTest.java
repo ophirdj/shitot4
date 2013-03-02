@@ -2,12 +2,13 @@ package global.tests;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import mainframe.communication.IStationsControllerFactory;
 import mainframe.factories.IMainframeFactory;
 import mainframe.factories.IMainframeWindowFactory;
-import mainframe.factories.MainframeFactory;
 import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.IdentificationError;
 import choosingList.factories.ChoosingListFactory;
@@ -40,6 +41,7 @@ import votersList.model.IVoterData;
 import votersList.model.IVotersList;
 import votersList.model.VoterData;
 import votersList.model.VotersList;
+import votingStation.factories.IVotingRecordFactory;
 import votingStation.factories.IVotingStationFactory;
 import votingStation.factories.IVotingStationWindowFactory;
 import votingStation.factories.VotingStationFactory;
@@ -49,6 +51,8 @@ public class AcceptanceTest {
 	
 	private int numVotingStations = 4;
 	private int numPracticeStations = 2;
+	private long maxVotingTimeSeconds = 1L;
+	private int backupTimeIntervalSeconds = 2;
 	private List<String> passwords;
 
 	private IMainframe mainframe;
@@ -75,6 +79,13 @@ public class AcceptanceTest {
 	
 	
 	private final static int WhitePartyNum = -1;
+	
+	
+	//keep track of voters (have they identified themselves? who have they voted to?)
+	private Set<Integer> identifiedIDs;
+	private Map<Integer, IParty> votes;
+	
+	
 	private String getSymbolByPlace(int place) throws Exception{
 		if(place == WhitePartyNum) return null;
 		for(IParty party : initialPartiesList){
@@ -144,16 +155,17 @@ public class AcceptanceTest {
 		IVotersListFactory votersListFactory = new VotersListFactory();
 		IVoterDataFactory voterDataFactory = new VoterDataFactory();
 		IMainframeWindowFactory mainframeWindowFactory = new MainframeWindowStubFactory(this);
-		IReadSuppliedXMLFactory readSuppliedXMLFactory = new ReadSuppliedXMLTestFactory(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
+		IReadSuppliedXMLFactory readSuppliedXMLFactory = new ReadSuppliedXMLTestConfigurationFactory(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
 		
 		IChoosingWindowFactory choosingWindowFactory = new ChoosingWindowStubFactory(this);
 		IChoosingListFactory choosingListFactory = new ChoosingListFactory(choosingWindowFactory);
 		IVotingStationWindowFactory votingStationWindowFactory = new VotingStationWindowStubFactory(this);
-		IVotingStationFactory votingStationFactory = new VotingStationFactory(choosingListFactory, votingStationWindowFactory);
-		IStationsControllerFactory stationsControllerFactory = new StationsControllerTestFactory(votingStationFactory, passwords, numVotingStations);
+		IVotingRecordFactory votingRecordFactory = new VotingRecordTestConfigurationFactory(maxVotingTimeSeconds);
+		IVotingStationFactory votingStationFactory = new VotingStationFactory(choosingListFactory, votingStationWindowFactory, votingRecordFactory);
+		IStationsControllerFactory stationsControllerFactory = new StationsControllerTestConfigurationFactory(votingStationFactory, passwords, numVotingStations);
 		
-		IBackupFactory backupFactory = new BackupTestFactory(partiesListFactory, partyFactory, votersListFactory, voterDataFactory, backupVotersListFile, backupPartiesListFile, backupUnregisteredFile);
-		IMainframeFactory mainframeFactory = new MainframeFactory(backupFactory, mainframeWindowFactory, readSuppliedXMLFactory, stationsControllerFactory, voterDataFactory, votersListFactory);
+		IBackupFactory backupFactory = new BackupTestConfigurationFactory(partiesListFactory, partyFactory, votersListFactory, voterDataFactory, backupVotersListFile, backupPartiesListFile, backupUnregisteredFile);
+		IMainframeFactory mainframeFactory = new MainframeTestConfigurationFactory(backupTimeIntervalSeconds, backupFactory, mainframeWindowFactory, readSuppliedXMLFactory, stationsControllerFactory, voterDataFactory, votersListFactory);
 		mainframe = mainframeFactory.createInstance();
 		
 		IPracticeStationWindowFactory practiceStationWindowFactory = new PracticeStationWindowStubFactory(this);
@@ -176,6 +188,9 @@ public class AcceptanceTest {
 		expectedVotersList = initialVotersList.copy();
 		expectedUnregisteredList = new VotersList();
 		
+		
+		identifiedIDs = new HashSet<Integer>();
+		votes = new HashMap<Integer, IParty>();
 		
 		mainframe.initialize();
 	}
@@ -299,6 +314,8 @@ public class AcceptanceTest {
 	
 	
 	
+	
+	
 	@Test
 	public void testInitialize(){
 		Assert.assertEquals(numVotingStations, votingWindowStubs.size());
@@ -402,6 +419,8 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testFirstFewVotes() throws Exception{
+		boolean b = true;
+		while(b){}
 		int parties[] = new int[initialPartiesList.size()-1];
 		for (int i = 0; i < parties.length; i++) {
 			parties[i] = i;
@@ -431,26 +450,23 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testRevoteAfterTimeOnce() throws Exception{
-		final long waiting_time = ((2 * 60)-1) * 1000;
+		final long waiting_time = (maxVotingTimeSeconds-1) * 1000;
 		votingData voting[] = {new votingData(1, 0, 0)};
 		startVoting(voting);
 		votingData reVoting[] = {new votingData(1, 0, WhitePartyNum)};
-		//Thread.sleep(waiting_time);
+		Thread.sleep(waiting_time);
 		startVoting(reVoting);
 		expectedPartiesList = initialPartiesList.copy();
 	}
 	
 	@Test
 	public void testRevoteAfterTimeOver() throws Exception{
-		final long waiting_time = ((2 * 60)+1) * 1000;
+		final long waiting_time = (maxVotingTimeSeconds+1) * 1000;
 		votingData voting[] = {new votingData(1, 0, 0)};
 		startVoting(voting);
 		votingData reVoting[] = {new votingData(1, 0, WhitePartyNum)};
-		//Thread.sleep(waiting_time);
+		Thread.sleep(waiting_time);
 		startVoting(reVoting);
-		
-		//TODO: delete
-		expectedPartiesList = initialPartiesList.copy();
 	}
 	
 	@Test
@@ -465,11 +481,11 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testRevoteDifferentStationAfterLongWait() throws Exception{
-		final long waiting_time = ((2 * 60)+1) * 1000;
+		final long waiting_time = (maxVotingTimeSeconds+1) * 1000;
 		votingData voting[] = {new votingData(1, 0, 0)};
 		startVoting(voting);
 		votingData reVoting[] = {new votingData(1, 1, 1)};
-		//Thread.sleep(waiting_time);
+		Thread.sleep(waiting_time);
 		startVoting(reVoting);
 		expectedPartiesList = initialPartiesList.copy();
 		expectedPartiesList.getPartyBySymbol(getSymbolByPlace(0)).increaseVoteNumber();
@@ -520,21 +536,21 @@ public class AcceptanceTest {
 	
 	@Test
 	public void testRevoteOnlyTwice() throws Exception{
-		final long waiting1 = 60 * 1000;
-		final long waiting2 = 30 * 1000;
-		final long waiting3 = 10 * 1000;
+		final long waiting1 = maxVotingTimeSeconds * 600;
+		final long waiting2 = maxVotingTimeSeconds * 300;
+		final long waiting3 = maxVotingTimeSeconds * 100;
 		votingData voting[] = {new votingData(1, 0, 0)};
 		startVoting(voting);
 		votingData reVoting1[] = {new votingData(1, 0, 1)};
-		//Thread.sleep(waiting1);
+		Thread.sleep(waiting1);
 		startVoting(reVoting1);
 		
 		votingData reVoting2[] = {new votingData(1, 0, 2)};
-		//Thread.sleep(waiting2);
+		Thread.sleep(waiting2);
 		startVoting(reVoting2);
 		
 		votingData reVoting3[] = {new votingData(1, 0, WhitePartyNum)};
-		//Thread.sleep(waiting3);
+		Thread.sleep(waiting3);
 		startVoting(reVoting3);
 		
 		expectedPartiesList = initialPartiesList.copy();
@@ -542,9 +558,10 @@ public class AcceptanceTest {
 	}
 	
 	private void testBackUp(long timeBetweenVotes) throws Exception{
-		//TODO: increase
-		final long finisingAfter = 1 * 1000;
-		final long waiting2 = 3 * 60 * 1000;
+		//voting time during test is 5 seconds
+		final long finisingAfter = 5 * 1000;
+		//after voting we wait for backup to kick in
+		final long waitingForBackup = backupTimeIntervalSeconds * 1000 + 500;
 
 		int id = 1;
 		
@@ -562,28 +579,27 @@ public class AcceptanceTest {
 		while(System.currentTimeMillis() < finalTime){
 			voting[0] = new votingData(id, stations[id%stations.length], parties[id % parties.length]);
 			startVoting(voting);
-			//Thread.sleep(timeBetweenVotes);
-			Thread.sleep(1000);
+			Thread.sleep(timeBetweenVotes);
 			id++;
 		}
-		//Thread.sleep(waiting2);
+		Thread.sleep(waitingForBackup);
 		
-		//checkBackUp();
+		checkBackUp();
 	}
 	
 	@Test
 	public void testIntensiveHotBackUp() throws Exception{
-		testBackUp(2 * 1000);
+		testBackUp(50);
 	}
 	
 	@Test
 	public void testNormalHotBackUp() throws Exception{
-		testBackUp(30 * 1000);
+		testBackUp(500);
 	}
 	
 	@Test
 	public void testSlowHotBackUp() throws Exception{
-		testBackUp(120 * 1000);
+		testBackUp(5000);
 	}
 	
 }

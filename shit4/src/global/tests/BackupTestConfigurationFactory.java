@@ -8,7 +8,7 @@ import fileHandler.factories.IBackupFactory;
 import fileHandler.logic.Backup;
 import fileHandler.logic.IBackup;
 
-public class BackupTestFactory implements IBackupFactory {
+public class BackupTestConfigurationFactory implements IBackupFactory {
 
 	private IPartiesListFactory partiesListFactory;
 	private IPartyFactory partyFactory;
@@ -18,7 +18,7 @@ public class BackupTestFactory implements IBackupFactory {
 	private String backupPartiesListFile;
 	private String backupUnregisteredFile;
 
-	public BackupTestFactory(IPartiesListFactory partiesListFactory,
+	public BackupTestConfigurationFactory(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory voterListFactory,
 			IVoterDataFactory voterDataFactory, String backupVotersListFile,
 			String backupPartiesListFile, String backupUnregisteredFile) {

@@ -40,6 +40,8 @@ import votersList.model.IVotersList.VoterDoesntExist;
 public class MainframeUnitTest {
 	
 	
+	private final int backupTimeIntervalSeconds = 180;	
+	
 	
 	IPartyFactory partyFactory = new PartyFactory();
 	IVoterDataFactory voterDataFactory = new VoterDataFactory();
@@ -87,7 +89,7 @@ public class MainframeUnitTest {
 	
 	@Before
 	public void preprocessing(){
-		mainframe = new Mainframe(backupStubFactory
+		mainframe = new Mainframe(backupTimeIntervalSeconds, backupStubFactory
 				, mainframeWindowStubFactory
 				, readSuppliedXMLStubFactory
 				, stationsControllerStubFactory
@@ -145,7 +147,7 @@ public class MainframeUnitTest {
 	public void testMainframeBuild() {
 		
 		
-		IMainframe m = new Mainframe(backupStubFactory
+		IMainframe m = new Mainframe(backupTimeIntervalSeconds, backupStubFactory
 									, mainframeWindowStubFactory
 									, readSuppliedXMLStubFactory
 									, stationsControllerStubFactory
