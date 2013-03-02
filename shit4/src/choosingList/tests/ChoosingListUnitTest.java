@@ -41,13 +41,8 @@ public class ChoosingListUnitTest {
 	
 	@After
 	public void runningTheTest() throws Exception{
-		try{
-			IChoosingList tested = buildChoosingList(testEnviroment,partiesAmount);
-			testEnviroment.runTest(tested);
-		}catch (AssertionError e) {
-			testEnviroment.printLogDiffs();
-			throw e;
-		}
+		IChoosingList tested = buildChoosingList(testEnviroment,partiesAmount);
+		testEnviroment.runTest(tested);
 	}
 	
 	@Test
@@ -249,7 +244,7 @@ public class ChoosingListUnitTest {
 		IPartiesList ret2 = new PartiesListNulled("list2");
 		IPartiesList ret3 = new PartiesListNulled("list3");
 		
-		testEnviroment.addChooseList(party1);
+		testEnviroment.addChooseList(party2);
 		
 		testEnviroment.addComponentForTest(new switchOnComponent());
 		testEnviroment.addComponentForTest(new sublistComponent(0,max_parties,ret1));

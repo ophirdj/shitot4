@@ -187,6 +187,29 @@ public class ChoosingListTestEnvironment {
 			}
 			lineNum++;
 		}
+		if(expectedIterator.hasNext()){
+			sameLogs = false;
+			while(expectedIterator.hasNext()){
+				String expectedStr = expectedIterator.next();
+				System.out.println("in line: "+ lineNum +" should be: ");
+				System.out.println(expectedStr);
+				System.out.println("got: ");
+				System.out.println();
+				lineNum++;
+			}
+		}
+		if(runningIterator.hasNext()){
+			sameLogs = false;
+			while(runningIterator.hasNext()){
+				String runningStr = runningIterator.next();
+				System.out.println("in line: "+ lineNum +" should be: ");
+				System.out.println();
+				System.out.println("got: ");
+				System.out.println(runningStr);
+				lineNum++;
+			}
+		}
+		
 		if(sameLogs){
 			System.out.println(testName + " ended successfully");
 		}
@@ -212,6 +235,7 @@ public class ChoosingListTestEnvironment {
 	public void runTest(IChoosingList tested) {
 		while(!driverCalls.isEmpty()){
 			driverCalls.poll().activate(tested);
+			
 		}
 		Assert.assertTrue(functionQueue.isEmpty());
 	}
