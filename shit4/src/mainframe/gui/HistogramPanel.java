@@ -25,7 +25,9 @@ static final long serialVersionUID = 1L;
 	  setLayout(new BorderLayout());
   }
   
-  /** Set the count and display histogram */
+  /** Set the count and display histogram
+   * @param parties the list of the parties that we need to show the histogram for  
+   */
   public void showHistogram(IPartiesList parties) {
 	this.parties = parties;
     repaint();
@@ -44,7 +46,10 @@ static final long serialVersionUID = 1L;
 	    return 2*parties.size()*maxStringLength;
   }
 
-  /** Paint the histogram */
+  /**
+   * Paint the histogram 
+   * @param g TODO
+   */
   protected void paintComponent(Graphics g) {
     if (parties == null) return; // No display if count is null
 
@@ -98,6 +103,9 @@ static final long serialVersionUID = 1L;
     }
   }
   
+  /**
+   * 
+   */
   @Override
   public Dimension getPreferredSize(){
 	  return new Dimension(getPreferredWidth(), 180);

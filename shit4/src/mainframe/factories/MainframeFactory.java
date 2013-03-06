@@ -18,6 +18,15 @@ public class MainframeFactory implements IMainframeFactory {
 	private IStationsControllerFactory stationsControllerFactory;
 	private int backupTimeIntervalSeconds = 180;
 
+	/**
+	 * 
+	 * @param backupFactory factory of the class Backup
+	 * @param mainframeWindowFactory factory of the class mainframeWindow
+	 * @param readSuppliedXMLFactory factory of the class readSuppliedXML
+	 * @param stationsControllerFactory factory of the class stationsController
+	 * @param voterDataFactory factory of the class voterData
+	 * @param votersListFactory factory of the class votersList
+	 */
 	public MainframeFactory(IBackupFactory backupFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,

@@ -30,6 +30,12 @@ public interface IMainframeWindow extends IWindow, Runnable {
 	 */
 	void init();
 	
+	/**
+	 * exception in case that the id that the user is gave as input is of wrong type:
+	 * not of length 9
+	 * not positive number
+	 * 
+	 */
 	class IllegalIdException extends Exception{
 		private static final long serialVersionUID = 1L;
 	}

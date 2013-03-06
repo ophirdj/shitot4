@@ -1,19 +1,48 @@
 package mainframe.logic;
 public interface IMainframe{
 	
+	/**
+	 * exception in case of error in the identification process
+	 */
 	static class IdentificationError extends Exception{
 		private static final long serialVersionUID = 1L;
 		}
 	
+	/**
+	 * exception in case the voter does not exist
+	 */
 	static class VoterDoesNotExist extends Exception{
 		private static final long serialVersionUID = 1L;
 		}
 	
+	/**
+	 * exception in case that the voter has started to vote and we try to mark him again as
+	 * someone who has started to vote
+	 */
 	static class VoterStartedVote extends Exception{
 		private static final long serialVersionUID = 1L;
 		}
 	
-	enum VoterStatus{identified, unidentified, voted, startedVote;}
+	/**
+	 * enum that represents the voter's status
+	 */
+	enum VoterStatus{
+		/**
+		 * the voter has identified
+		 */
+		identified,
+		/**
+		 * the voter did not identified yet
+		 */
+		unidentified,
+		/**
+		 * the voter has already voted
+		 */
+		voted,
+		/**
+		 * the voter has started to vote
+		 */
+		startedVote;}
 	
 	/**
 	 * Clean boot of the system.

@@ -1,0 +1,11 @@
+HistogramPanel:
+	paintComponent
+	getPreferredSize
+	
+IMainframeWindow
+	recheck the IllegalIdException
+	
+IMainframeWindowFactory
+	complete the param
+	
+MainframeWindowFactory

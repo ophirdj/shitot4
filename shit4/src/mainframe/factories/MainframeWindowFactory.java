@@ -9,6 +9,10 @@ public class MainframeWindowFactory implements IMainframeWindowFactory {
 
 	private Main_Window main_window;
 	
+	/**
+	 * 
+	 * @param main_window
+	 */
 	public MainframeWindowFactory(Main_Window main_window) {
 		this.main_window = main_window;
 	}
