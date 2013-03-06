@@ -54,6 +54,16 @@ public class Backup implements IBackup {
 	
 	private WriteXMLFileUnregisteredVoters unregisteredVotersService;
 	
+	/**
+	 * the constructor of Backup
+	 * @param partiesListFactory the parties list factory
+	 * @param partyFactory the party factory
+	 * @param votersListFactory the voters list factory
+	 * @param voterDataFactory the voter's data factory
+	 * @param backupedVotersListFile the location of the file to which we will put the backup of the voters list
+	 * @param backupedPartiesListFile the location of the file to which we will put the backup of the parties list
+	 * @param unregisteredVotersFile the location of the file to which we will put the backup of the unregistered voters
+	 */
 	public Backup(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory votersListFactory,
 			IVoterDataFactory voterDataFactory,
@@ -122,7 +132,6 @@ public class Backup implements IBackup {
 	
 	
 	/***
-	 * ============================================================================================
 	 * this class is implementing backup of IPartiesList
 	 * @author Emil
 	 *
@@ -132,7 +141,6 @@ public class Backup implements IBackup {
 		
 		/**
 		 * creates a raw XML file to save partiesList in it 
-		 * @param fileName: the wanted file name
 		 */
 		public void createEmptyPartiesListXMLFile() {
 			
@@ -168,69 +176,26 @@ public class Backup implements IBackup {
 
 		/**
 		 * adds a party to the XML file that his name is given as parameter
-		 * @param givenParty: the party to add to the XML file
+		 * @param givenParty the party to add to the XML file
 		 */
 		public void addPartyToXMLFile(IParty givenParty){
 			
 			String fileName = backupedPartiesListFile;
 			
 			try {
-			/*	File file = new File(fileName);
 				
-				String xml = "";
-				
-				try {
+				//File file = new File("file.xml");
+				File file = new File(fileName);
 			 
-					BufferedReader in = new BufferedReader(
-					   new InputStreamReader(
-			                      new FileInputStream(file), "UTF8"));
-			 
-					String str;
-			 
-					while ((str = in.readLine()) != null) {
-						xml+=str;
-					}
-			 
-			                in.close();
-				    } 
-			    catch (UnsupportedEncodingException e) 
-			    {
-					System.out.println(e.getMessage());
-			    } 
-			    catch (IOException e) 
-			    {
-					System.out.println(e.getMessage());
-			    }
-			    catch (Exception e)
-			    {
-					System.out.println(e.getMessage());
-			    }
-				
-				
-				ByteArrayInputStream encXML = new  ByteArrayInputStream(xml.getBytes("UTF8"));
-				*/
-				
-			//File file = new File("file.xml");
-			File file = new File(fileName);
-		 
-			//Create instance of DocumentBuilderFactory
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		 
-			//Get the DocumentBuilder
-			DocumentBuilder docBuilder = factory.newDocumentBuilder();
-		 
-			//Using existing XML Document
-			Document doc = docBuilder.parse(file);
-			 
-				/*//Create instance of DocumentBuilderFactory
+				//Create instance of DocumentBuilderFactory
 				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 			 
 				//Get the DocumentBuilder
 				DocumentBuilder docBuilder = factory.newDocumentBuilder();
 			 
 				//Using existing XML Document
-				Document doc = docBuilder.parse(encXML);*/
-			 
+				Document doc = docBuilder.parse(file);
+				 
 				//create the root element
 				Element root = doc.getDocumentElement();
 		 
@@ -253,10 +218,10 @@ public class Backup implements IBackup {
 				Element voteNumberElement = doc.createElement("voteNumber");
 				voteNumberElement.appendChild(doc.createTextNode(Integer.toString(givenParty.getVoteNumber())));
 				newParty.appendChild(voteNumberElement);
-				
-				
-				
-				
+					
+					
+					
+					
 				//the code below writes back the modified XML file with charSet = "UTF8"
 				BufferedWriter xmlOutput =
 						new BufferedWriter (
@@ -272,7 +237,7 @@ public class Backup implements IBackup {
 			    transformer.transform(source, result);
 			    xmlOutput.close();
 
-			     }
+		     }
 		     catch(SAXException e) {
 			e.printStackTrace();
 		     }
@@ -295,7 +260,6 @@ public class Backup implements IBackup {
 
 		
 	/***
-	 * ============================================================================================
 	 * this class is implementing backup of IVotersList
 	 * @author Emil
 	 *
@@ -303,7 +267,6 @@ public class Backup implements IBackup {
 	private class BackupVotersListToXMLFile {
 		/**
 		 * creates a raw XML file to save votersList in it 
-		 * @param fileName: the wanted file name
 		 */
 		public void createEmptyVotersListXMLFile() {
 			
@@ -342,8 +305,7 @@ public class Backup implements IBackup {
 
 		/**
 		 * adds a voter to the XML file that his name is given as parameter
-		 * @param givenVoter: the voter needed to be added to the XML file
-		 * @param fileName: the name of the XML file
+		 * @param givenVoter the voter needed to be added to the XML file
 		 */
 		public void addVoterToXMLFile(IVoterData givenVoter){
 			

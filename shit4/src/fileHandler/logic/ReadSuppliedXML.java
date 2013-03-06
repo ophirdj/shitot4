@@ -10,42 +10,41 @@ import votersList.model.IVotersList;
 public class ReadSuppliedXML implements IReadSuppliedXML {
 	
 	/*
-	 * the needed factories
-	 */
-	/*private IPartiesListFactory partiesListFactory;
-	private IPartyFactory partyFactory;
-	private IVotersListFactory votersListFactory;
-	private IVoterDataFactory voterDataFactory;*/
-	
-	/*
 	 * these strings will hold the path to all needed the XML files
 	 */
+	
+	/**
+	 * the location of the supplied voters list XML file
+	 */
 	private String suppliedVotersListFile;
+	/**
+	 * the location of the supplied parties list XML file
+	 */
 	private String suppliedPartiesListFile;
-	
-	
+	/**
+	 * allows us to use the methods of the class ReadXMLFile
+	 */
 	private ReadXMLFile readService;
 	
+	/**
+	 * 
+	 * @param partiesListFactory the parties list factory
+	 * @param partyFactory the party factory
+	 * @param votersListFactory the voters list factory
+	 * @param voterDataFactory the voter's data factory
+	 * @param suppliedVotersListFile the location of the supplied voters list XML file
+	 * @param suppliedPartiesListFile the location of the supplied parties list XML file
+	 */
 	public ReadSuppliedXML(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory votersListFactory,
 			IVoterDataFactory voterDataFactory,
 			String suppliedVotersListFile, String suppliedPartiesListFile){
-		/*
-		 * initializing the factories
-		 */
-		/*this.partiesListFactory = partiesListFactory;
-		this.partyFactory = partyFactory;
-		this.voterDataFactory = voterDataFactory;
-		this.votersListFactory = votersListFactory;*/
 		
 		/*
 		 * initializing the XML files names
 		 */
 		this.suppliedVotersListFile = suppliedVotersListFile;
 		this.suppliedPartiesListFile = suppliedPartiesListFile;
-		/*this.unregisteredVotersFile = unregisteredVotersFile;
-		this.backupedVotersListFile = backupedVotersListFile;
-		this.backupedPartiesListFile = backupedPartiesListFile;*/
 		
 		this.readService = new ReadXMLFile(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
 		

@@ -12,22 +12,29 @@ public class ReadSuppliedXMLFactory implements IReadSuppliedXMLFactory {
 	private IPartiesListFactory partiesListFactory;
 	private IPartyFactory partyFactory;
 	private IVotersListFactory voterListFactory;
-	private IVoterDataFactory VoterDataFactory;
+	private IVoterDataFactory voterDataFactory;
 
+	/**
+	 * 
+	 * @param partiesListFactory the parties list factory
+	 * @param partyFactory the party factory
+	 * @param voterListFactory the voters list factory
+	 * @param voterDataFactory the voter's data factory
+	 */
 	public ReadSuppliedXMLFactory(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory voterListFactory,
-			IVoterDataFactory VoterDataFactory) {
+			IVoterDataFactory voterDataFactory) {
 		this.partiesListFactory = partiesListFactory;
 		this.partyFactory = partyFactory;
 		this.voterListFactory = voterListFactory;
-		this.VoterDataFactory = VoterDataFactory;
+		this.voterDataFactory = voterDataFactory;
 	}
 
 	@Override
 	public IReadSuppliedXML createInstance() {
 		String suppliedFolder = "initialData/";
 		return new ReadSuppliedXML(partiesListFactory, partyFactory,
-				voterListFactory, VoterDataFactory, 
+				voterListFactory, voterDataFactory, 
 				suppliedFolder+ "voters.xml", suppliedFolder + "votingRecords.xml");
 	}
 

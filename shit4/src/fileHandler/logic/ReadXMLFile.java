@@ -34,21 +34,16 @@ public class ReadXMLFile {
 	private IVotersListFactory votersListFactory;
 	private IVoterDataFactory voterDataFactory;
 	
-	/*
-	 * these strings will hold the path to all the XML files
+	/**
+	 * 
+	 * @param partiesListFactory
+	 * @param partyFactory
+	 * @param votersListFactory
+	 * @param voterDataFactory
 	 */
-	/*private String suppliedVotersListFile;
-	private String suppliedPartiesListFile;
-	private String unregisteredVotersFile;
-	private String backupedVotersListFile;
-	private String backupedPartiesListFile;*/
-	
 	public ReadXMLFile(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory votersListFactory,
-			IVoterDataFactory voterDataFactory/*,
-			String suppliedVotersListFile, String suppliedPartiesListFile,
-			String unregisteredVotersFile, String backupedVotersListFile,
-			String backupedPartiesListFile*/){
+			IVoterDataFactory voterDataFactory){
 		/*
 		 * initializing the factories
 		 */
@@ -56,15 +51,7 @@ public class ReadXMLFile {
 		this.partyFactory = partyFactory;
 		this.voterDataFactory = voterDataFactory;
 		this.votersListFactory = votersListFactory;
-		
-		/*
-		 * initializing the XML files names
-		 */
-		/*this.suppliedVotersListFile = suppliedVotersListFile;
-		this.suppliedPartiesListFile = suppliedPartiesListFile;
-		this.unregisteredVotersFile = unregisteredVotersFile;
-		this.backupedVotersListFile = backupedVotersListFile;
-		this.backupedPartiesListFile = backupedPartiesListFile;*/
+
 	}
 	
 	public IVotersList readSuppliedVotersListXML(String fileName) {
@@ -106,8 +93,8 @@ public class ReadXMLFile {
    
    /***
     * 
-    * @param fileName: the name of the file where the voting records are stored
-    * @return
+    * @param fileName the name of the file where the voting records are stored
+    * @return the supplied parties list
     */
    public IPartiesList readSuppliedVotingRecordsXML(String fileName) {
 	   
@@ -212,7 +199,6 @@ public class ReadXMLFile {
    
    
    /***
-	 * ============================================================================================
 	 * this class is implementing handler needed in order to parse the supplied voters list XML file
 	 * @author Emil
 	 *
@@ -250,6 +236,10 @@ public class ReadXMLFile {
 				bid = false;
 		}
 		
+		/**
+		 * 
+		 * @return list of the id-s that were in the supplied XML file
+		 */
 		public ArrayList<Integer> getVotersIdList(){
 			return votersIdList;
 		}
@@ -263,7 +253,6 @@ public class ReadXMLFile {
    
 
    /***
-	 * ============================================================================================
 	 * this class is implementing handler needed in order to parse the supplied parties list XML file
 	 * @author Emil
 	 *
@@ -316,6 +305,10 @@ public class ReadXMLFile {
 			
 		}
 		
+		/**
+		 * 
+		 * @return the list of the parties that were in the supplied XML file
+		 */
 		public IPartiesList getVotingRecordsList(){
 
 			//now we shall remove redundant records
@@ -359,7 +352,6 @@ public class ReadXMLFile {
    
    
    /***
-	 * ============================================================================================
 	 * this class is implementing handler needed in order to parse the unregistered voters XML file
 	 * @author Emil
 	 *
@@ -399,6 +391,10 @@ public class ReadXMLFile {
 				
 		}
 		
+		/**
+		 * 
+		 * @return the list of the unregistered voters that were in the XML file
+		 */
 		public IVotersList getUnregisteredVotersIdList(){
 			return unregisteredVotersList;
 		}
@@ -410,7 +406,6 @@ public class ReadXMLFile {
    
    
    /***
-	 * ============================================================================================
 	 * this class is implementing handler needed in order to parse the backuped Voters List XML file
 	 * @author Emil
 	 *
@@ -457,21 +452,16 @@ public class ReadXMLFile {
 		public void characters(char ch[], int start, int length) throws SAXException {
 
 			if (bid) {
-				//System.out.println("id : " + new String(ch, start, length));
-				//votersList.add(Integer.valueOf((new String(ch, start, length)).replaceAll("\\s", "")));
 				id = Integer.valueOf((new String(ch, start, length)).replaceAll("\\s", ""));
 				bid = false;
 			}
 			
 			if (bidentified) {
-				//System.out.println("identified : " + new String(ch, start, length));
 				identified = Boolean.valueOf(new String(ch, start, length));
 				bidentified = false;
 			}
 			
 			if (bvoted) {
-				//System.out.println("voted : " + new String(ch, start, length));
-				//votersList.add(Integer.valueOf((new String(ch, start, length)).replaceAll("\\s", "")));
 				voted = Boolean.valueOf(new String(ch, start, length));
 				
 				
@@ -500,6 +490,10 @@ public class ReadXMLFile {
 				
 		}
 		
+		/**
+		 * 
+		 * @return list of the voters that were in the XML file
+		 */
 		public IVotersList getVotersList(){
 			return votersList;
 		}
@@ -511,7 +505,6 @@ public class ReadXMLFile {
    
    
    /***
-	 * ============================================================================================
 	 * this class is implementing handler needed in order to parse the backuped Parties List XML file
 	 * @author Emil
 	 *
@@ -579,6 +572,10 @@ public class ReadXMLFile {
 			
 		}
 		
+		/**
+		 * 
+		 * @return list of the parties that were in the XML file
+		 */
 		public IPartiesList getPariesList(){
 			return votingRecordsList;
 		}

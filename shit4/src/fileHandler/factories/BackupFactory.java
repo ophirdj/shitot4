@@ -14,6 +14,13 @@ public class BackupFactory implements IBackupFactory {
 	private IVotersListFactory voterListFactory;
 	private IVoterDataFactory voterDataFactory;
 	
+	/**
+	 * 
+	 * @param partiesListFactory the parties list factory
+	 * @param partyFactory the party factory
+	 * @param voterListFactory the voters list factory
+	 * @param voterDataFactory the voter's data factory
+	 */
 	public BackupFactory(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory voterListFactory,
 			IVoterDataFactory voterDataFactory) {
@@ -25,16 +32,12 @@ public class BackupFactory implements IBackupFactory {
 	}
 	
 	@Override
-	public IBackup createInstance(
-			/*,String backupedVotersListFile, String backupedPartiesListFile,
-			  String unregisteredVotersFile*/
-			) {
+	public IBackup createInstance() {
 		
 		String backupFolder = "listBackup/";
 		String unregFolder = "unregisteredVoters/";
 		return new Backup(partiesListFactory, partyFactory, voterListFactory,
 				voterDataFactory,
-				/*backupedVotersListFile, backupedPartiesListFile, unregisteredVotersFile*/
 				backupFolder+"VotersListBackup.xml", backupFolder+"PartiesListBackup.xml", unregFolder+"UnregisteredVoters.xml");
 	}
 

@@ -29,9 +29,15 @@ import votersList.model.IVoterData;
  */
 public class WriteXMLFileUnregisteredVoters {
 	
+	/**
+	 * the location of the XML file that saves all the unregistered voters
+	 */
 	private String unregisteredVotersFile;
 	
-	
+	/**
+	 * the constructor of WriteXMLFileUnregisteredVoters
+	 * @param unregisteredVotersFile the location of the XML file that saves all the unregistered voters
+	 */
 	public WriteXMLFileUnregisteredVoters(String unregisteredVotersFile){
 		this.unregisteredVotersFile = unregisteredVotersFile;
 	}
@@ -39,7 +45,6 @@ public class WriteXMLFileUnregisteredVoters {
 	 
 	/**
 	 * creates an empty file for the unregistered voters
-	 * @param fileName: the wanted file name
 	 */
 	public void createEmptyUnregisteredVotersXMLFile() {
  
@@ -58,15 +63,9 @@ public class WriteXMLFileUnregisteredVoters {
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
 		DOMSource source = new DOMSource(doc);
-		//StreamResult result = new StreamResult(new File("file.xml"));
 		StreamResult result = new StreamResult(new File(fileName));
  
-		// Output to console for testing
-		// StreamResult result = new StreamResult(System.out);
- 
 		transformer.transform(source, result);
- 
-		//System.out.println("File saved!");
  
 	  } catch (ParserConfigurationException pce) {
 		pce.printStackTrace();
@@ -77,7 +76,7 @@ public class WriteXMLFileUnregisteredVoters {
 	
 	/**
 	 * adds the voter id to the file of the unregistered voters
-	 * @param id - the id of the unregistered voter
+	 * @param givenVoter the unregistered voter
 	 */
 	public void addVoterToXMLFile(IVoterData givenVoter){
 		
@@ -105,11 +104,6 @@ public class WriteXMLFileUnregisteredVoters {
 			// voter elements
 			Element voter = doc.createElement("voter");
 			root.appendChild(voter);
-	 
-			/*// name elements
-			Element name = doc.createElement("name");
-			name.appendChild(doc.createTextNode(""));
-			voter.appendChild(name);*/
 	 
 			// id elements
 			Element idElement = doc.createElement("id");
