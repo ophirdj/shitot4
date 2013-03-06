@@ -165,7 +165,7 @@ public class VotingStationWindow extends StationPanel implements
 				if(chosen_action != null) chosen_action.activate(callerStation,this);
 			}
 		} catch (ChoosingInterruptedException e) {
-			printMessage(dictionary.translate(Messages.You_quit_in_the_process_of_voting));
+			printInfoMessage(Messages.You_quit_in_the_process_of_voting);
 		}
 		closeWindow();
 	}
