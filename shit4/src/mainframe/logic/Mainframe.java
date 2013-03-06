@@ -1,11 +1,5 @@
 package mainframe.logic;
 
-/*
- * creator: Ophir De Jager
- * date: 30.1.13
- * editors:
- */
-
 import mainframe.communication.IStationsController;
 import mainframe.communication.IStationsControllerFactory;
 import mainframe.factories.IMainframeWindowFactory;
@@ -15,7 +9,6 @@ import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.logic.IBackup;
 import fileHandler.logic.IReadSuppliedXML;
 import partiesList.model.IPartiesList;
-import partiesList.model.IParty;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.model.IVoterData;
@@ -23,8 +16,11 @@ import votersList.model.IVotersList;
 import votersList.model.IVoterData.AlreadyIdentified;
 import votersList.model.IVoterData.Unidentified;
 import votersList.model.IVotersList.VoterDoesntExist;
-import votingStation.logic.IVotingStation;
 
+/**
+ * The Mainframe. The station that keeps track of the voting condition so far.
+ * Also responsible for backing up and showing election local results.
+ */
 public class Mainframe implements IMainframe {
 	
 	private IVotersList voters;
@@ -82,7 +78,14 @@ public class Mainframe implements IMainframe {
 		init(backup.restoreVoters(), backup.restoreUnregisteredVoters(), backup.restoreParties());
 	}
 	
-	
+	/**
+	 * Initiate the mainframe and stations.
+	 * Start the hot backup routine.
+	 * 
+	 * @param voters: The voters that can vote here (predefined or that already identify themselves here)
+	 * @param unregistered: Voters that identify themselves here but were not registered in the initial voters file.
+	 * @param parties: The parties list (might be with partial voting)
+	 */
 	private void init(IVotersList voters, IVotersList unregistered, IPartiesList parties){
 		this.voters = voters;
 		this.parties = parties;
@@ -108,7 +111,6 @@ public class Mainframe implements IMainframe {
 	@Override
 	public void shutDown() {
 		if(backupThread != null) backupThread.retire();
-		else backupState();
 		if(votingStations != null) votingStations.retire();
 	}
 	
@@ -117,7 +119,9 @@ public class Mainframe implements IMainframe {
 		if(backupThread != null) backupThread.kill();
 	}
 
-	// Save voters and parties lists to backup file. Lists must match.
+	/**
+	 *  Save voters and parties lists to backup file. Lists must match.
+	 */
 	private void backupState() {
 		IVotersList unregistered;
 		IVotersList voters;
@@ -133,8 +137,9 @@ public class Mainframe implements IMainframe {
 		backup.storeState(parties, voters, unregistered);
 	}
 
-	// Synchronize mainframe's parties list with the ones in the voting
-	// stations.
+	/**
+	 *  Synchronize mainframe's parties list with the ones in the voting stations.
+	 */
 	private void hotBackup() {
 		IPartiesList stationsParties = votingStations.hotBackup();
 		synchronized (this) {
@@ -142,8 +147,13 @@ public class Mainframe implements IMainframe {
 		}
 	}
 
-	// Check that sum of votes in voters list matches sum of votes in parties
-	// list
+	/**
+	 *  Check that sum of votes in voters list matches sum of votes in parties list
+	 * @param voters: The voter list.
+	 * @param parties: The parties list
+	 * @return True if the amount of votes to the parties match the amount of voting done by voters.
+	 * false otherwise.
+	 */
 	private boolean matchingLists(IVotersList voters, IPartiesList parties) {
 		int sumVotesVoters = 0;
 		for (IVoterData v : voters) {
@@ -194,6 +204,12 @@ public class Mainframe implements IMainframe {
 		votingStations.peep();
 	}
 
+	/**
+	 * Return the voter that match given id.
+	 * @param id: represent a voter id.
+	 * @return The voter data of the voter with the given id.
+	 * @throws VoterDoesNotExist: throw this if the voter doesn't exist.
+	 */
 	private synchronized IVoterData getVoter(int id) throws VoterDoesNotExist {
 		if (!voters.inList(id)) {
 			throw new VoterDoesNotExist();
@@ -247,10 +263,7 @@ public class Mainframe implements IMainframe {
 		return VoterStatus.unidentified;
 	}
 	
-	/**
-	 * TODO
-	 * @return Check that parties lists in all stations have the same parties as in the given list.
-	 */
+	@Override
 	public boolean checkParties(){
 		if(votingStations == null) return false;
 		return votingStations.checkParties(parties.zeroCopy());
@@ -258,25 +271,24 @@ public class Mainframe implements IMainframe {
 
 	
 	
-	
+	/**
+	 * Thread that, when run, performs hot backup every given time
+	 */
 	private class BackupThread extends Thread{
 		
 		/**
-		 * TODO
+		 * Lock to sync backup actions
 		 */
 		private Object lock;
 		/**
-		 * 
+		 * True while still need run hot backup
 		 */
 		private boolean continueRun;
-		/**
-		 * 
-		 */
 		private Mainframe caller;
 		
 		/**
-		 * 
-		 * @param caller
+		 * Create new BackupThread ready to run.
+		 * @param caller: The caller mainframe 
 		 */
 		public BackupThread(Mainframe caller) {
 			lock = new Object();
@@ -284,6 +296,9 @@ public class Mainframe implements IMainframe {
 			this.caller = caller;
 		}
 		
+		/**
+		 * Backup mainframe state every given time (MILLISECONDS_BETWEEN_BACKUPS)
+		 */
 		@Override
 		public void run() {
 			synchronized (lock) {
@@ -296,7 +311,7 @@ public class Mainframe implements IMainframe {
 		}
 		
 		/**
-		 * 
+		 * Stop backing up. also backup one final time
 		 */
 		public void retire(){
 			synchronized(lock){
@@ -309,7 +324,7 @@ public class Mainframe implements IMainframe {
 		}
 		
 		/**
-		 * 
+		 * Simulate crush (exit without backup). for test only.
 		 */
 		public void kill(){
 			synchronized(lock){
