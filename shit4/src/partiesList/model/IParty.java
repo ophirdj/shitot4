@@ -1,6 +1,15 @@
 package partiesList.model;
+
+/**
+ * IParty is an interface that represents a party
+ * @author Emil
+ *
+ */
 public interface IParty{
 	
+	/**
+	 * the name/symbol of the white note
+	 */
 	static final String WHITE_VOTE_SYMBOL = null;
 	
 	/**

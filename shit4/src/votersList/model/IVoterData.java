@@ -1,12 +1,27 @@
 package votersList.model;
 
+/**
+ * IVoterData is an interface that represents a voter
+ * @author Emil
+ *
+ */
 public interface IVoterData {
 	
-	
+	/**
+	 * an exception in case we try to identify the same voter twice
+	 * @author Emil
+	 *
+	 */
 	public static class AlreadyIdentified extends Exception{
 		private static final long serialVersionUID = 1L;
 		}
 	
+	/**
+	 * an exception in case we try to do illegal operation on non-identified voter
+	 * like 'markVoted' or 'markStartedVote' 
+	 * @author Emil
+	 *
+	 */
 	public static class Unidentified extends Exception{
 		private static final long serialVersionUID = 1L;
 		}

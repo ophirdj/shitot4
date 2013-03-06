@@ -7,11 +7,28 @@ import partiesList.factories.IPartyFactory;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 
+/**
+ * a factory of the backup object
+ * @author Emil
+ *
+ */
 public class BackupFactory implements IBackupFactory {
 
+	/**
+	 * the parties list factory
+	 */
 	private IPartiesListFactory partiesListFactory;
+	/**
+	 * the party factory
+	 */
 	private IPartyFactory partyFactory;
+	/**
+	 * the voters list factory
+	 */
 	private IVotersListFactory voterListFactory;
+	/**
+	 * the voter's data factory
+	 */
 	private IVoterDataFactory voterDataFactory;
 	
 	/**

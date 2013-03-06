@@ -1,10 +1,30 @@
 package partiesList.model;
 
+/**
+ * implementation of Party
+ * @author Emil
+ *
+ */
 public class Party implements IParty{
+	/**
+	 * saves the name of the party
+	 */
 	private String name;
+	/**
+	 * saves the symbol of the pary
+	 */
 	private String symbol;
+	/**
+	 * saves the number of votings for the pary
+	 */
 	private int voteNumber = 0;
 	
+	/**
+	 * builds a party
+	 * @param name the name of the party
+	 * @param symbol the symbol  of the party
+	 * @param voteNumber the number of voters  of the party
+	 */
 	public Party(String name,String symbol,int voteNumber){
 		this.name = name;
 		this.symbol = symbol;

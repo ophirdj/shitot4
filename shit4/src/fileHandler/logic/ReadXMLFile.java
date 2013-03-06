@@ -23,23 +23,41 @@ import votersList.model.IVoterData;
 import votersList.model.IVotersList;
 import votersList.model.IVoterData.AlreadyIdentified;
 import votersList.model.IVoterData.Unidentified;
- 
+
+/**
+ * the class which offers the read/parse of all the XML files that are used in
+ * the program
+ * @author Emil
+ *
+ */
 public class ReadXMLFile {
 	
 	/*
 	 * the needed factories
 	 */
+	/**
+	 * the parties list factory
+	 */
 	private IPartiesListFactory partiesListFactory;
+	/**
+	 * the party factory
+	 */
 	private IPartyFactory partyFactory;
+	/**
+	 * the voters list factory
+	 */
 	private IVotersListFactory votersListFactory;
+	/**
+	 * the voter's data factory
+	 */
 	private IVoterDataFactory voterDataFactory;
 	
 	/**
 	 * 
-	 * @param partiesListFactory
-	 * @param partyFactory
-	 * @param votersListFactory
-	 * @param voterDataFactory
+	 * @param partiesListFactory the parties list factory
+	 * @param partyFactory the party factory
+	 * @param votersListFactory the voters list factory
+	 * @param voterDataFactory the voter's data factory
 	 */
 	public ReadXMLFile(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory votersListFactory,

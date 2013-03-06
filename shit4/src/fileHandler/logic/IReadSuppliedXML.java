@@ -3,6 +3,11 @@ package fileHandler.logic;
 import partiesList.model.IPartiesList;
 import votersList.model.IVotersList;
 
+/**
+ * interface of the class which provides the reading of the supplied XML files
+ * @author Emil
+ *
+ */
 public interface IReadSuppliedXML {
 
 	/**

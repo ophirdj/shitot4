@@ -3,6 +3,10 @@ package partiesList.factories;
 import partiesList.model.IParty;
 import partiesList.model.Party;
 
+/**
+ * factory of party
+ *
+ */
 public class PartyFactory implements IPartyFactory {
 
 	@Override

@@ -5,6 +5,11 @@ import mainframe.gui.IMainframeWindow;
 import mainframe.gui.MainframeWindow;
 import mainframe.logic.IMainframe;
 
+/**
+ * the factory of the MainframeWindow
+ * @author Emil
+ *
+ */
 public class MainframeWindowFactory implements IMainframeWindowFactory {
 
 	private Main_Window main_window;

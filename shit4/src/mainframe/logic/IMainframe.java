@@ -1,4 +1,10 @@
 package mainframe.logic;
+
+/**
+ * the interface of the mainframe class in our project
+ * @author Emil
+ *
+ */
 public interface IMainframe{
 	
 	/**

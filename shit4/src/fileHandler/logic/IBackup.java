@@ -2,6 +2,11 @@ package fileHandler.logic;
 import partiesList.model.IPartiesList;
 import votersList.model.IVotersList;
 
+/**
+ * the interface of the class that provides the backup capabilities
+ * @author Emil
+ *
+ */
 public interface IBackup{
 	
 	/**

@@ -8,6 +8,11 @@ import mainframe.communication.IStationsControllerFactory;
 import mainframe.logic.IMainframe;
 import mainframe.logic.Mainframe;
 
+/**
+ * the factory of the mainframe object
+ * @author Emil
+ *
+ */
 public class MainframeFactory implements IMainframeFactory {
 
 	private IVoterDataFactory voterDataFactory;

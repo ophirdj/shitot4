@@ -5,14 +5,32 @@ import java.util.List;
 
 import partiesList.factories.IPartyFactory;
 
-
+/**
+ * implementation of IPartiesList
+ * @author Emil
+ *
+ */
 public class PartiesList implements IPartiesList {
+	/**
+	 * list of all the parties
+	 */
 	private List<IParty> parties;
+	/**
+	 * the party that represents the white note
+	 */
 	private IParty whiteNote;
 	
 	private final String whiteNoteName = "white note";
+	
+	/**
+	 * saves the factory of Party
+	 */
 	private IPartyFactory partyFactory;
 	
+	/**
+	 * builds an empty parties list
+	 * @param partyFactory factory of party
+	 */
 	public PartiesList(IPartyFactory partyFactory){
 		parties = new ArrayList<IParty>();
 		whiteNote = partyFactory.createInstance(whiteNoteName, IParty.WHITE_VOTE_SYMBOL);

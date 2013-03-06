@@ -1,5 +1,10 @@
 package votersList.model;
 
+/**
+ * IVotersList is an interface that represents voters list
+ * @author Emil
+ *
+ */
 public interface IVotersList extends Iterable<IVoterData>{
 	
 	

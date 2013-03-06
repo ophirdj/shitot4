@@ -1,3 +1,8 @@
+fileHandler.factories
+fileHandler.logic
 mainframe.factories
-mainframe.gui
 mainframe.logic
+partiesList.factories
+partiesList.model
+votersList.factories
+votersList.model

@@ -1,13 +1,36 @@
 package votersList.model;
 
-
+/**
+ * implementation of IVoterData
+ * @author Emil
+ *
+ */
 public class VoterData implements IVoterData{
 
+	/**
+	 * the id of the voter
+	 */
 	private int id;
+	/**
+	 * true if the voter has already identified,
+	 * otherwise false
+	 */
 	private boolean identified;
+	/**
+	 * true if the voter has already voted,
+	 * otherwise false 
+	 */
 	private boolean voted;
+	/**
+	 * true if the voter has already started voting,
+	 * otherwise false 
+	 */
 	private boolean startedVote;
 	
+	/**
+	 * constructor of voterData
+	 * @param id - the id of the voter we wish to create
+	 */
 	public VoterData(int id){
 		this.id = id;
 		identified = voted = startedVote = false;

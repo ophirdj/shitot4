@@ -1,5 +1,12 @@
 package partiesList.model;
 
+/**
+ * IPartiesList is an interface that represents parties list
+ * Important: the implementation of this interface should contain also the white vote party.
+ * and also the iterator should NOT iterate over the white note party.
+ * @author Emil
+ *
+ */
 public interface IPartiesList extends Iterable<IParty>{
 	/*
 	 * !!!!!!!!!!!!!!!!!IMPORTANT!!!!!!!!!!!!!!!!!!!
@@ -8,6 +15,11 @@ public interface IPartiesList extends Iterable<IParty>{
 	 * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	 */
 	
+	/**
+	 * an exception in case that a method is asked to relate to a party that does not exist
+	 * @author Emil
+	 *
+	 */
 	static class PartyDoesNotExist extends Exception{
 		private static final long serialVersionUID = 1L;
 	}

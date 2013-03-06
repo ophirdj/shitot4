@@ -7,11 +7,28 @@ import partiesList.factories.IPartyFactory;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 
+/**
+ * implementation of the interface IReadSuppliedXMLFactory
+ * @author Emil
+ *
+ */
 public class ReadSuppliedXMLFactory implements IReadSuppliedXMLFactory {
 
+	/**
+	 * the parties list factory
+	 */
 	private IPartiesListFactory partiesListFactory;
+	/**
+	 * the party factory
+	 */
 	private IPartyFactory partyFactory;
+	/**
+	 * the voters list factory
+	 */
 	private IVotersListFactory voterListFactory;
+	/**
+	 * the voter's data factory
+	 */
 	private IVoterDataFactory voterDataFactory;
 
 	/**

@@ -2,6 +2,11 @@ package partiesList.factories;
 
 import partiesList.model.IParty;
 
+/**
+ * interface of factory of IParty
+ * @author Emil
+ *
+ */
 public interface IPartyFactory {
 	/**
 	 * 

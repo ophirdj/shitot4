@@ -39,17 +39,29 @@ import votersList.model.IVoterData;
 import votersList.model.IVotersList;
 
 
-
+/**
+ * the class which implements IBackup
+ * provides all the backup capabilities of the project
+ * @author Emil
+ *
+ */
 public class Backup implements IBackup {
 	private ReadXMLFile readXMLFilesService;	
 	
 	/*
 	 * these strings will hold the path to all the XML files
 	 */
-	/*private String suppliedVotersListFile;
-	private String suppliedPartiesListFile;*/
+	/**
+	 * the location of the file to which we will put the backup of the unregistered voters
+	 */
 	private String unregisteredVotersFile;
+	/**
+	 * the location of the file to which we will put the backup of the voters list
+	 */
 	private String backupedVotersListFile;
+	/**
+	 * the location of the file to which we will put the backup of the parties list
+	 */
 	private String backupedPartiesListFile;
 	
 	private WriteXMLFileUnregisteredVoters unregisteredVotersService;

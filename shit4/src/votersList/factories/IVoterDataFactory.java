@@ -2,6 +2,11 @@ package votersList.factories;
 
 import votersList.model.IVoterData;
 
+/**
+ * interface of factory of IVoterData
+ * @author Emil
+ *
+ */
 public interface IVoterDataFactory {
 	/**
 	 * 

@@ -4,9 +4,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * implementation of IVotersList
+ * @author Emil
+ *
+ */
 public class VotersList implements IVotersList {
+	/**
+	 * list of the voters
+	 */
 	List<IVoterData> voters;
 	
+	/**
+	 * creates empty voters list
+	 */
 	public VotersList(){
 		voters = new ArrayList<IVoterData>();
 	}

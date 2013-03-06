@@ -7,6 +7,11 @@ import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.model.IVotersList;
 
+/**
+ * the class which provides the reading of the supplied XML files
+ * @author Emil
+ *
+ */
 public class ReadSuppliedXML implements IReadSuppliedXML {
 	
 	/*
