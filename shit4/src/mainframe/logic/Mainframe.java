@@ -26,6 +26,7 @@ import votersList.model.IVotersList.VoterDoesntExist;
 import votingStation.logic.IVotingStation;
 
 public class Mainframe implements IMainframe {
+	
 	private IVotersList voters;
 	private IPartiesList parties;
 	private IVotersList unregisteredVoters;
@@ -43,6 +44,16 @@ public class Mainframe implements IMainframe {
 	private IReadSuppliedXMLFactory readSuppliedXMLFactory;
 	private IStationsControllerFactory stationsControllerFactory;
 
+	/**
+	 * 
+	 * @param backupTimeIntervalSeconds the time between two hot backups (in seconds)
+	 * @param backupFactory factory of the class Backup
+	 * @param mainframeWindowFactory factory of the class mainframeWindow
+	 * @param readSuppliedXMLFactory factory of the class readSuppliedXML
+	 * @param stationsControllerFactory factory of the class stationsController
+	 * @param voterDataFactory factory of the class voterData
+	 * @param votersListFactory factory of the class votersList
+	 */
 	public Mainframe(int backupTimeIntervalSeconds, IBackupFactory backupFactory,
 			IMainframeWindowFactory mainframeWindowFactory,
 			IReadSuppliedXMLFactory readSuppliedXMLFactory,
@@ -236,7 +247,10 @@ public class Mainframe implements IMainframe {
 		return VoterStatus.unidentified;
 	}
 	
-	
+	/**
+	 * TODO
+	 * @return Check that parties lists in all stations have the same parties as in the given list.
+	 */
 	public boolean checkParties(){
 		if(votingStations == null) return false;
 		return votingStations.checkParties(parties.zeroCopy());
@@ -247,10 +261,23 @@ public class Mainframe implements IMainframe {
 	
 	private class BackupThread extends Thread{
 		
+		/**
+		 * TODO
+		 */
 		private Object lock;
+		/**
+		 * 
+		 */
 		private boolean continueRun;
+		/**
+		 * 
+		 */
 		private Mainframe caller;
 		
+		/**
+		 * 
+		 * @param caller
+		 */
 		public BackupThread(Mainframe caller) {
 			lock = new Object();
 			continueRun = true;
@@ -268,6 +295,9 @@ public class Mainframe implements IMainframe {
 			}
 		}
 		
+		/**
+		 * 
+		 */
 		public void retire(){
 			synchronized(lock){
 				continueRun = false;
@@ -278,6 +308,9 @@ public class Mainframe implements IMainframe {
 			caller.backupState();
 		}
 		
+		/**
+		 * 
+		 */
 		public void kill(){
 			synchronized(lock){
 				continueRun = false;
