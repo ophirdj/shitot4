@@ -5,6 +5,12 @@ import partiesList.model.IPartiesList;
 import choosingList.logic.IChoosingList.ChoosingInterruptedException;
 import votingStation.logic.IVotingStation;
 
+/**
+ * this stub is here only because without it the Mainframe wont work
+ * we do not bother to implement any behavior for this stub
+ * @author Emil
+ *
+ */
 public class VotingStationStub implements IVotingStation {
 
 	@Override

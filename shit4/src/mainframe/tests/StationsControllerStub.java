@@ -15,6 +15,14 @@ import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStartedVote;
 import mainframe.logic.IMainframe.VoterStatus;
 
+/**
+ * in the testing, we only use the methods 'initialize', 'markVoted', 
+ * 'checkParties' and 'hotBackup' of this stub
+ * when we use markVoted we mark that the voter voted to a specific party, in our case - 'oui'
+ * 'checkParties' returns true as it will be in the real running of this class
+ * @author Emil
+ *
+ */
 public class StationsControllerStub implements IStationsController {
 
 	/*private IMainframe m;

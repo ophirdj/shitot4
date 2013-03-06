@@ -37,35 +37,35 @@ import votersList.model.IVoterData.Unidentified;
 import votersList.model.IVotersList;
 import votersList.model.IVotersList.VoterDoesntExist;
 
+
+/**
+ * 
+ * unit test for the mainframe
+ * 
+ * we must note that we have a regular way to see if the mainframe is aware of some action:
+ * we do shutDown and check the backup XML file that the mainframe does of its
+ * voters list, parties list and unregistered voters list - if the expected changes are 
+ * not seen then it is a failure - this is the only way to check the mainframe
+ */
 public class MainframeUnitTest {
 	
-	
-	private final int backupTimeIntervalSeconds = 180;	
-	
+	/**
+	 * time for hot backup test
+	 */
+	private final int backupTimeIntervalSeconds = 2;	
 	
 	IPartyFactory partyFactory = new PartyFactory();
 	IVoterDataFactory voterDataFactory = new VoterDataFactory();
 	IVotersListFactory votersListFactory = new VotersListFactory();
 	IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 	
-	/*
-	//VoterDataStub voterDataStub;
-	//VotersListStub votersListStub;
-	BackupStub backupStub;
-	MainframeWindowStub mainframeWindowStub;
-	ReadSuppliedXMLStub readSuppliedXMLStub;
-	StationsControllerStub stationsControllerStub;*/
-	
 	
 	
 	//stub factories
 	
-	//IBackupFactory backupStubFactory = new BackupStubFactory() ;
 	BackupStubFactory backupStubFactory = new BackupStubFactory() ;
-	IMainframeWindowFactory mainframeWindowStubFactory = new MainframeWindowStubFactory();
+	MainframeWindowStubFactory mainframeWindowStubFactory = new MainframeWindowStubFactory();
 	StationsControllerStubFactory stationsControllerStubFactory = new StationsControllerStubFactory();
-	//IVoterDataFactory voterDataStubFactory = new VoterDataFactory();
-	//IVotersListFactory votersListStubFactory = new VotersListFactory();
 	ReadSuppliedXMLStubFactory readSuppliedXMLStubFactory = new ReadSuppliedXMLStubFactory(); 
 	
 	IMainframe mainframe;
@@ -73,7 +73,10 @@ public class MainframeUnitTest {
 	IPartiesList readPartiesList;
 	
 	
-	
+	/**
+	 * invokes the method 'markVoted' of the stub 'stationsControllerStub' 'numOfVotes' times
+	 * @param numOfVotes the number of times we want the station controller to know that we voted
+	 */
 	private void markVotesOnStationController(int numOfVotes){
 		for(int i=0; i<numOfVotes; i++){
 			try {
@@ -89,6 +92,7 @@ public class MainframeUnitTest {
 	
 	@Before
 	public void preprocessing(){
+		//we create a mainframe
 		mainframe = new Mainframe(backupTimeIntervalSeconds, backupStubFactory
 				, mainframeWindowStubFactory
 				, readSuppliedXMLStubFactory
@@ -97,7 +101,7 @@ public class MainframeUnitTest {
 				, votersListFactory);
 		
 		
-		
+		//create a little voters list
 		readVotersList = votersListFactory.createInstance();
 		IVoterData v1 = voterDataFactory.createInstance(111);
 		IVoterData v2 = voterDataFactory.createInstance(222);
@@ -110,7 +114,7 @@ public class MainframeUnitTest {
 		readVotersList.addVoter(v4);
 		readVotersList.addVoter(v5);
 		
-		
+		//create a little parties list
 		readPartiesList = partiesListFactory.createInstance();
 		IParty p1 = partyFactory.createInstance("Vive la France", "alors on dance!");
 		IParty p2 = partyFactory.createInstance("יש עתיד", "יש");
@@ -125,24 +129,18 @@ public class MainframeUnitTest {
 		readPartiesList.addParty(p4);
 		readPartiesList.addParty(p5);
 		readPartiesList.addParty(p6);
-		readPartiesList.addParty(p7);
-		
+		readPartiesList.addParty(p7);		
 		
 		//we want to put these two into the object 
 		//that is returned by readSuppliedXMLStubFactory
-		
 		readSuppliedXMLStubFactory.getReadSuppliedXMLStub().setReadPartiesList(readPartiesList);
 		readSuppliedXMLStubFactory.getReadSuppliedXMLStub().setReadVotersList(readVotersList);
 
-		
-		
-		
-		
-		
-		
-		
 	}
 
+	/**
+	 * sanity check, we did this test before 'preprocessing' existed
+	 */
 	@Test
 	public void testMainframeBuild() {
 		
@@ -153,16 +151,23 @@ public class MainframeUnitTest {
 									, stationsControllerStubFactory
 									, voterDataFactory
 									, votersListFactory);
-		
-		
-		
 	}
 
+	/**
+	 * tests if the initialize works, again this is a sanity check 
+	 */
 	@Test
 	public void testInitialize(){
 		mainframe.initialize();
 	}
 
+	/**
+	 * tests if the function Restore works for all the three:
+	 * the parties list, the voters list and the unregistered voters list
+	 * @throws AlreadyIdentified
+	 * @throws VoterDoesntExist
+	 * @throws Unidentified
+	 */
 	@Test
 	public void testRestore() throws AlreadyIdentified, VoterDoesntExist, Unidentified {
 		mainframe.initialize();
@@ -185,11 +190,31 @@ public class MainframeUnitTest {
 		
 	}
 
+	/**
+	 * we will check if the count votes gives the method 'showHistogram' of
+	 * StationsControllerStub the right parties list
+	 * @throws IdentificationError 
+	 * @throws PartyDoesNotExist 
+	 */
 	@Test
-	public void testCountVotes() {
-		fail("Not yet implemented");
+	public void testCountVotes() throws IdentificationError, PartyDoesNotExist {
+		backupStubFactory.getCreatedBackupStub().setBackupedPartiesList(readPartiesList);
+		backupStubFactory.getCreatedBackupStub().setBackupedVotersList(readVotersList);
+		mainframe.initialize();
+		mainframe.identification(111);
+		mainframe.identification(333);
+		markVotesOnStationController(2);
+		mainframe.countVotes();
+		IPartiesList p = readPartiesList.copy();
+		p.getPartyBySymbol("oui").increaseVoteNumber();
+		p.getPartyBySymbol("oui").increaseVoteNumber();
+		assertEquals(mainframeWindowStubFactory.getCreatedMainframeWindowStub().getWhatShowHistogramGot(), p);
 	}
 
+	/**
+	 * tests if after the shutDown all the backups are as they suppose to be
+	 * i.e. the mainframe does the backup before he shuts down completely
+	 */
 	@Test
 	public void testShutDown() {
 		assertNotNull(readSuppliedXMLStubFactory.getReadSuppliedXMLStub().readPartiesList());
@@ -207,6 +232,12 @@ public class MainframeUnitTest {
 	}
 	
 
+	/**
+	 * tests if after the identification of voter 111 the mainframe is written to the backup file
+	 * @throws IdentificationError
+	 * @throws AlreadyIdentified
+	 * @throws VoterDoesntExist
+	 */
 	@Test
 	public void testIdentification() throws IdentificationError, AlreadyIdentified, VoterDoesntExist {
 		mainframe.initialize();
@@ -222,7 +253,12 @@ public class MainframeUnitTest {
 		assertEquals(readVotersList, v);
 	}
 	
-	//same voter identifies more than once
+	/**
+	 * test that if same voter identifies more than once then a matched exception is thrown
+	 * @throws IdentificationError
+	 * @throws AlreadyIdentified
+	 * @throws VoterDoesntExist
+	 */
 	@Test(expected = IMainframe.IdentificationError.class )
 	public void testIdentification2() throws IdentificationError, AlreadyIdentified, VoterDoesntExist {
 		mainframe.initialize();
@@ -232,7 +268,12 @@ public class MainframeUnitTest {
 	}
 	
 	
-	//check if an unregistered voter is written to the file
+	/**
+	 * check if an unregistered voter is written to the backup file
+	 * @throws IdentificationError
+	 * @throws AlreadyIdentified
+	 * @throws VoterDoesntExist
+	 */
 	@Test
 	public void testIdentification3() throws IdentificationError, AlreadyIdentified, VoterDoesntExist {
 		mainframe.initialize();
@@ -253,11 +294,22 @@ public class MainframeUnitTest {
 		assertEquals(temp,u);
 	}
 
-	@Test
+	/**
+	 * there is nothing to test here
+	 */
+	@Ignore
 	public void testPeep() {
 		//always works
 	}
 
+	/**
+	 * tests that even after a voter identified and voted, a second voter cannot vote
+	 * without identifying first
+	 * @throws VoterDoesNotExist
+	 * @throws Unidentified
+	 * @throws VoterDoesntExist
+	 * @throws IdentificationError
+	 */
 	@Test(expected = IMainframe.VoterDoesNotExist.class)
 	public void testMarkVoted() throws VoterDoesNotExist, Unidentified, VoterDoesntExist, IdentificationError {
 		mainframe.initialize();
@@ -267,6 +319,16 @@ public class MainframeUnitTest {
 		
 	}
 	
+	/**
+	 * checks that after voting of two voters the backup files that mainframe does after it
+	 * shuts down are consistent
+	 * @throws VoterDoesNotExist
+	 * @throws Unidentified
+	 * @throws VoterDoesntExist
+	 * @throws IdentificationError
+	 * @throws AlreadyIdentified
+	 * @throws PartyDoesNotExist
+	 */
 	@Test
 	public void testMarkVoted2() throws VoterDoesNotExist, Unidentified, VoterDoesntExist, IdentificationError, AlreadyIdentified, PartyDoesNotExist {
 		mainframe.initialize();
@@ -294,6 +356,13 @@ public class MainframeUnitTest {
 		
 	}
 	
+	/**
+	 * checks that an unregistered voter cannot vote without identifying first
+	 * @throws IdentificationError
+	 * @throws VoterDoesNotExist
+	 * @throws Unidentified
+	 * @throws VoterDoesntExist
+	 */
 	@Test(expected = IMainframe.VoterDoesNotExist.class)
 	public void testMarkVoted3() throws IdentificationError, VoterDoesNotExist, Unidentified, VoterDoesntExist {
 		mainframe.initialize();
@@ -301,6 +370,16 @@ public class MainframeUnitTest {
 
 	}
 	
+	/**
+	 * checks that after a mixed voting of registered and unregistered users the backup files
+	 * in the end are consistent to what we have done in the test
+	 * @throws IdentificationError
+	 * @throws VoterDoesNotExist
+	 * @throws Unidentified
+	 * @throws VoterDoesntExist
+	 * @throws AlreadyIdentified
+	 * @throws PartyDoesNotExist
+	 */
 	@Test
 	public void testMarkVoted4() throws IdentificationError, VoterDoesNotExist, Unidentified, VoterDoesntExist, AlreadyIdentified, PartyDoesNotExist {
 		mainframe.initialize();
@@ -335,6 +414,17 @@ public class MainframeUnitTest {
 		assertEquals(readVotersList, v);
 	}
 
+	/**
+	 * checks that if voters started voting, the mainframe is really aware of that
+	 * and does not ignore that
+	 * @throws VoterDoesNotExist
+	 * @throws VoterStartedVote
+	 * @throws IdentificationError
+	 * @throws PartyDoesNotExist
+	 * @throws Unidentified
+	 * @throws VoterDoesntExist
+	 * @throws AlreadyIdentified
+	 */
 	@Test
 	public void testMarkStartedVote() throws VoterDoesNotExist, VoterStartedVote, IdentificationError, PartyDoesNotExist, Unidentified, VoterDoesntExist, AlreadyIdentified {
 		mainframe.initialize();
@@ -356,6 +446,12 @@ public class MainframeUnitTest {
 		assertEquals(readVotersList, v);	
 	}
 	
+	/**
+	 * if a voter is marked as 'StartedVote' twice a matched exception will be thrown
+	 * @throws VoterDoesNotExist
+	 * @throws VoterStartedVote
+	 * @throws IdentificationError
+	 */
 	@Test(expected = IMainframe.VoterStartedVote.class)
 	public void testMarkStartedVote2() throws VoterDoesNotExist, VoterStartedVote, IdentificationError {
 		mainframe.initialize();
@@ -364,12 +460,29 @@ public class MainframeUnitTest {
 		mainframe.markStartedVote(111);
 	}
 	
+	/**
+	 * tests that an unregistered voter cannot be mark as someone who is started voting
+	 * before he is identified first 
+	 * @throws VoterDoesNotExist
+	 * @throws VoterStartedVote
+	 */
 	@Test(expected = IMainframe.VoterDoesNotExist.class)
 	public void testMarkStartedVote3() throws VoterDoesNotExist, VoterStartedVote {
 		mainframe.initialize();
 		mainframe.markStartedVote(123);
 	}
 	
+	/**
+	 * a test of two unregistered voters such that the first is identified, starting voting
+	 * and then finishing voting and then the second is identified and then starting voting
+	 * @throws VoterDoesNotExist
+	 * @throws VoterStartedVote
+	 * @throws IdentificationError
+	 * @throws PartyDoesNotExist
+	 * @throws Unidentified
+	 * @throws VoterDoesntExist
+	 * @throws AlreadyIdentified
+	 */
 	@Test
 	public void testMarkStartedVote4() throws VoterDoesNotExist, VoterStartedVote, IdentificationError, PartyDoesNotExist, Unidentified, VoterDoesntExist, AlreadyIdentified {
 		mainframe.initialize();
@@ -406,6 +519,16 @@ public class MainframeUnitTest {
 		assertEquals(readVotersList, v);	
 	}
 	
+	/**
+	 * a more complex test of two registered voters who are starting to vote
+	 * @throws VoterDoesNotExist
+	 * @throws VoterStartedVote
+	 * @throws IdentificationError
+	 * @throws PartyDoesNotExist
+	 * @throws Unidentified
+	 * @throws VoterDoesntExist
+	 * @throws AlreadyIdentified
+	 */
 	@Test
 	public void testMarkStartedVote5() throws VoterDoesNotExist, VoterStartedVote, IdentificationError, PartyDoesNotExist, Unidentified, VoterDoesntExist, AlreadyIdentified {
 		mainframe.initialize();
@@ -432,6 +555,12 @@ public class MainframeUnitTest {
 		assertEquals(readVotersList, v);	
 	}
 
+	/**
+	 * test that the method 'getVoterStatus' returns the right status for all the possible statuses
+	 * @throws IdentificationError
+	 * @throws VoterDoesNotExist
+	 * @throws VoterStartedVote
+	 */
 	@Test
 	public void testGetVoterStatus() throws IdentificationError, VoterDoesNotExist, VoterStartedVote {
 		mainframe.initialize();
@@ -451,27 +580,35 @@ public class MainframeUnitTest {
 		stat = mainframe.getVoterStatus(123);
 		assertEquals(IMainframe.VoterStatus.unidentified, stat);
 	}
-
-	@Test
-	public void testRun() {
-		fail("Not yet implemented");
-	}
 	
+	/**
+	 * check that the hot backup automatic backup really works
+	 * @throws AlreadyIdentified
+	 * @throws VoterDoesntExist
+	 * @throws Unidentified
+	 * @throws InterruptedException 
+	 * @throws IdentificationError 
+	 * @throws VoterStartedVote 
+	 * @throws VoterDoesNotExist 
+	 */
 	@Ignore
-	public void hotBackupWorks() throws AlreadyIdentified, VoterDoesntExist, Unidentified{
+	public void hotBackupWorks() throws AlreadyIdentified, VoterDoesntExist, Unidentified, InterruptedException, IdentificationError, VoterDoesNotExist, VoterStartedVote{
 		mainframe.initialize();
 		backupStubFactory.getCreatedBackupStub().setBackupedPartiesList(readPartiesList);
 		backupStubFactory.getCreatedBackupStub().setBackupedVotersList(readVotersList);
+		mainframe.identification(111);
+		mainframe.identification(222);
+		mainframe.markStartedVote(222);
 		IVotersList temp = votersListFactory.createInstance();
-		temp.addVoter(voterDataFactory.createInstance(123));
+		temp.peep();
+		/*temp.addVoter(voterDataFactory.createInstance(123));
 		temp.findVoter(123).markIdentified();
-		temp.findVoter(123).markStartedVote();
+		temp.findVoter(123).markStartedVote();*/
 		backupStubFactory.getCreatedBackupStub().setBackupedUnregisteredVotersList(temp);
+		temp.peep();
 		
-		//waiting 2 minutes
-		/*
-		 * just add it here
-		 */
+		//waiting for the backup
+		Thread.sleep((backupTimeIntervalSeconds+10)*1000);
 		
 		
 		IPartiesList p = backupStubFactory.getCreatedBackupStub().restoreParties();
@@ -479,6 +616,7 @@ public class MainframeUnitTest {
 		IVotersList u = backupStubFactory.getCreatedBackupStub().restoreUnregisteredVoters();
 		assertEquals(readPartiesList, p);
 		assertEquals(readVotersList,v);
+		u.peep();
 		assertEquals(temp,u);
 	}
 

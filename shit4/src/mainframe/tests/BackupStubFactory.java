@@ -4,7 +4,7 @@ import fileHandler.factories.IBackupFactory;
 import fileHandler.logic.IBackup;
 
 /**
- * this stubs returns the same object - and we can make it return a brand new
+ * this stub factory returns the same object - and we can make it return a brand new
  * object by invoking restart()
  * @author Emil
  *
