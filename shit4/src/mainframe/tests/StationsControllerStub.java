@@ -85,6 +85,11 @@ public class StationsControllerStub implements IStationsController {
 	public IPartiesList hotBackup() {
 		return this.partiesList;
 	}
+
+	@Override
+	public boolean checkParties(IPartiesList partiesList) {
+		return true;
+	}
 	
 	/*public void getPartiesListForHotBackup(IPartiesList p){
 		this.partiesList = p;

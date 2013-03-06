@@ -44,3 +44,6 @@ No	No
 Ok	OK
 practiceStation	practice station no. 
 voting_station	voting station no. 
+Check_parties_consistency	check parties
+parties_match	parties match
+parties_dont_match	parties don't match

@@ -71,4 +71,10 @@ public class Mainframe_stub implements IMainframe {
 		
 	}
 
+	@Override
+	public boolean checkParties() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

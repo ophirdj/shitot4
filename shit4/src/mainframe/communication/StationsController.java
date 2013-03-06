@@ -93,4 +93,12 @@ public class StationsController implements IStationsController {
 		return all;
 	}
 
+	@Override
+	public boolean checkParties(IPartiesList partiesList) {
+		for(IVotingStation station: stations){
+			if(!station.getPartiesList().zeroCopy().equals(partiesList)) return false;
+		}
+		return true;
+	}
+
 }

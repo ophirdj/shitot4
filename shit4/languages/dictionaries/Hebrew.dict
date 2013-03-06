@@ -44,3 +44,6 @@ No	לא
 Ok	אישור
 practiceStation	עמדת תרגול מספר 
 voting_station	עמדת הצבעה מספר 
+Check_parties_consistency	בדוק תאימות רשומות
+parties_match	רשומות תואמות
+parties_dont_match	רשומות לא תואמות

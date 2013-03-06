@@ -54,4 +54,7 @@ public enum Messages {
 	Ok,
 	practiceStation,
 	voting_station,
+	Check_parties_consistency,
+	parties_match,
+	parties_dont_match
 }

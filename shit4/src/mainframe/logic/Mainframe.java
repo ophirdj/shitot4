@@ -15,6 +15,7 @@ import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.logic.IBackup;
 import fileHandler.logic.IReadSuppliedXML;
 import partiesList.model.IPartiesList;
+import partiesList.model.IParty;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.model.IVoterData;
@@ -235,6 +236,12 @@ public class Mainframe implements IMainframe {
 			return VoterStatus.identified;
 		}
 		return VoterStatus.unidentified;
+	}
+	
+	
+	public boolean checkParties(){
+		if(votingStations == null) return false;
+		return votingStations.checkParties(parties.zeroCopy());
 	}
 
 	

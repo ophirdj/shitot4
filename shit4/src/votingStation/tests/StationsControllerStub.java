@@ -62,4 +62,9 @@ public class StationsControllerStub implements IStationsController {
 		Assert.assertEquals(this.id, id);
 	}
 
+	@Override
+	public boolean checkParties(IPartiesList partiesList) {
+		return true;
+	}
+
 }

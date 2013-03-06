@@ -58,4 +58,11 @@ public interface IStationsController extends Iterable<IVotingStation>{
 	 * joinLists method of IPartyList.
 	 */
 	IPartiesList hotBackup();
+
+
+	/**
+	 * Check that parties lists in all stations have the same parties as in the given list.
+	 * @param partiesList
+	 */
+	boolean checkParties(IPartiesList partiesList);
 }

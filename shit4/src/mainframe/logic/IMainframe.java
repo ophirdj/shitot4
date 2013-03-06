@@ -82,6 +82,11 @@ public interface IMainframe{
 	 * @return The voter status.
 	 */
 	VoterStatus getVoterStatus(int id);
-
+	
+	/**
+	 * Check that the parties in every station match the parties in the mainframe.
+	 * @return true if they match, false otherwise.
+	 */
+	boolean checkParties();
 
 }

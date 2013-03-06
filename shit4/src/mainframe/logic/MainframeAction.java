@@ -74,6 +74,39 @@ public enum MainframeAction {
 			return true;
 		}
 	},
+	checkParties{
+
+		@Override
+		public void activate(IMainframe callerStation, IMainframeWindow window) {
+			boolean flag = callerStation.checkParties();
+			if(flag)
+				window.printInfoMessage(Messages.parties_match);
+			else
+				window.printErrorMessage(Messages.parties_dont_match);
+		}
+
+		@Override
+		protected int getRowInKind() {
+			return 0;
+		}
+
+		@Override
+		public boolean isBeforeInit() {
+			return false;
+		}
+
+		@Override
+		public boolean isAfterInit() {
+			return true;
+		}
+
+		@Override
+		public String getString(IDictionary dictionary) {
+			return dictionary.translate(Messages.Check_parties_consistency);
+		}
+		
+	}
+	,
 	initialize{
 		@Override
 		public String toString() {
