@@ -591,33 +591,37 @@ public class MainframeUnitTest {
 	 * @throws VoterStartedVote 
 	 * @throws VoterDoesNotExist 
 	 */
-	@Ignore
+	@Test
 	public void hotBackupWorks() throws AlreadyIdentified, VoterDoesntExist, Unidentified, InterruptedException, IdentificationError, VoterDoesNotExist, VoterStartedVote{
 		mainframe.initialize();
-		backupStubFactory.getCreatedBackupStub().setBackupedPartiesList(readPartiesList);
-		backupStubFactory.getCreatedBackupStub().setBackupedVotersList(readVotersList);
+		//backupStubFactory.getCreatedBackupStub().restoreUnregisteredVoters();
+		IVotersList emptyList = new VotersListFactory().createInstance();
+		//backupStubFactory.getCreatedBackupStub().setBackupedPartiesList(readPartiesList);
+		//backupStubFactory.getCreatedBackupStub().setBackupedVotersList(readVotersList);
+		//backupStubFactory.getCreatedBackupStub().restoreUnregisteredVoters();
 		mainframe.identification(111);
+		mainframe.markStartedVote(111);
 		mainframe.identification(222);
 		mainframe.markStartedVote(222);
-		IVotersList temp = votersListFactory.createInstance();
-		temp.peep();
-		/*temp.addVoter(voterDataFactory.createInstance(123));
-		temp.findVoter(123).markIdentified();
-		temp.findVoter(123).markStartedVote();*/
-		backupStubFactory.getCreatedBackupStub().setBackupedUnregisteredVotersList(temp);
-		temp.peep();
+		mainframe.markVoted(222);
+		//backupStubFactory.getCreatedBackupStub().restoreUnregisteredVoters();
 		
 		//waiting for the backup
-		Thread.sleep((backupTimeIntervalSeconds+10)*1000);
+		Thread.sleep((backupTimeIntervalSeconds+2)*1000);
 		
 		
 		IPartiesList p = backupStubFactory.getCreatedBackupStub().restoreParties();
 		IVotersList v = backupStubFactory.getCreatedBackupStub().restoreVoters();
 		IVotersList u = backupStubFactory.getCreatedBackupStub().restoreUnregisteredVoters();
-		assertEquals(readPartiesList, p);
-		assertEquals(readVotersList,v);
-		u.peep();
-		assertEquals(temp,u);
+		//assertEquals(readPartiesList, p);
+		assertEquals(emptyList,u);
+		IVotersList newVotersList = readVotersList.copy();
+		newVotersList.findVoter(111).markIdentified();
+		newVotersList.findVoter(222).markIdentified();
+		newVotersList.findVoter(111).markStartedVote();
+		newVotersList.findVoter(222).markStartedVote();
+		newVotersList.findVoter(222).markVoted();		
+		assertEquals(newVotersList, v);
 	}
 
 }
