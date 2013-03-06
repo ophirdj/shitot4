@@ -206,20 +206,20 @@ public class AcceptanceTest {
 		IVotersList resultVoters = backup.restoreVoters();
 		IVotersList reusltUnregistered = backup.restoreUnregisteredVoters();
 		
-		System.out.println("expected parties");
-		expectedPartiesList.peep();
-		System.out.println("actual parties");
-		resultParties.peep();
-		System.out.println("expected voters");
-		expectedVotersList.peep();
-		System.out.println("actual voters");
-		resultVoters.peep();
-		System.out.println("expected unregistered");
-		expectedUnregisteredList.peep();
-		System.out.println("actual unregistered");
-		reusltUnregistered.peep();
-		
-		System.out.println("\n\n\n\n");
+//		System.out.println("expected parties");
+//		expectedPartiesList.peep();
+//		System.out.println("actual parties");
+//		resultParties.peep();
+//		System.out.println("expected voters");
+//		expectedVotersList.peep();
+//		System.out.println("actual voters");
+//		resultVoters.peep();
+//		System.out.println("expected unregistered");
+//		expectedUnregisteredList.peep();
+//		System.out.println("actual unregistered");
+//		reusltUnregistered.peep();
+//		
+//		System.out.println("\n\n\n\n");
 		
 		Assert.assertEquals(expectedPartiesList,resultParties);
 		Assert.assertEquals(expectedVotersList, resultVoters);

@@ -138,7 +138,7 @@ public enum MainframeAction {
 			return false;
 		}
 	},
-shutDown{
+	shutDown{
 		@Override
 		public String toString() {
 			return "shut down";

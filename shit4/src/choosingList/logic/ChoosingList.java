@@ -29,27 +29,29 @@ public class ChoosingList implements IChoosingList{
 		IParty chosenParty = null;
 		Boolean hasConfirmed = false;
 		place = 0;
+		int partiesSize = parties.size();
+		IParty whiteNote = parties.getWhiteNoteParty();
 		window.switchOn();
 		while (!hasConfirmed){
 			int end_for_print = place+MAX_PARTIES;
-			if(end_for_print > parties.size())  end_for_print = parties.size();
+			if(end_for_print > partiesSize)  end_for_print = partiesSize;
 			IPartiesList partiesToShow = parties.sublist(place, end_for_print);
 			ChooseType type = window.receiveChoiceSymbol(partiesToShow);
 			if(type == ChooseType.Next){
 				place+=MAX_PARTIES;
-				if (place >= parties.size()){
+				if (place >= partiesSize){
 					place=0;
 				}
 			}
 			else if(type == ChooseType.Prev){
 				place-=MAX_PARTIES;
 				if (place < 0){
-					place=parties.size()-parties.size()%MAX_PARTIES;
+					place=partiesSize-partiesSize%MAX_PARTIES;
 				}
 			}
 			else if(type == ChooseType.Party){
 				chosenParty = window.getParty();
-				if(chosenParty == parties.getWhiteNoteParty()){
+				if(chosenParty == whiteNote){
 					hasConfirmed = window.printConformationMessage(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone);
 				}
 				else{
