@@ -6,7 +6,7 @@ import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStartedVote;
 import mainframe.logic.IMainframe.VoterStatus;
 
-public interface IStationsController extends Iterable<IVotingStation>{
+public interface IStationsController{
 
 	
 	/**

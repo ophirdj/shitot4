@@ -17,12 +17,6 @@ public class StationsControllerStub implements IStationsController {
 	public int id = 0;
 
 	@Override
-	public Iterator<IVotingStation> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void peep() {
 		// TODO Auto-generated method stub
 

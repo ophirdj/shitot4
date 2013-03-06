@@ -29,12 +29,6 @@ public class StationsControllerStub implements IStationsController {
 	public StationsControllerStub(IMainframe m,IVotingStationFactory vs, ArrayList<String> pass, int numOfStations){
 		
 	}*/
-	
-	@Override
-	public Iterator<IVotingStation> iterator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void peep() {

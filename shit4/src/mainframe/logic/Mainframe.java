@@ -180,9 +180,7 @@ public class Mainframe implements IMainframe {
 		System.out.println("unregistered voters:");
 		unregisteredVoters.peep();
 		System.out.println("voting stations:");
-		for (IVotingStation station : votingStations) {
-			station.peep();
-		}
+		votingStations.peep();
 	}
 
 	private synchronized IVoterData getVoter(int id) throws VoterDoesNotExist {

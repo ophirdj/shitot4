@@ -14,6 +14,7 @@ import mainframe.logic.IMainframe.VoterStartedVote;
 
 public class StationsController implements IStationsController {
 	private List<IVotingStation> stations;
+	private IVotingStation firstStation;
 	private IMainframe mainframe;
 
 	public StationsController(IMainframe mainframe,
@@ -21,7 +22,8 @@ public class StationsController implements IStationsController {
 			List<String> passwords, int stationAmounts) {
 		this.mainframe = mainframe;
 		this.stations = new ArrayList<IVotingStation>();
-		for (int i = 0; i < stationAmounts; i++) {
+		firstStation = votingStationFactory.createInstance(passwords);
+		for (int i = 1; i < stationAmounts; i++) {
 			stations.add(votingStationFactory.createInstance(passwords));
 		}
 	}
@@ -31,6 +33,7 @@ public class StationsController implements IStationsController {
 		System.out.println("=========================");
 		System.out.println("Peep of StationsController");
 		System.out.println("=========================");
+		firstStation.peep();
 		for(IVotingStation s: stations){
 			s.peep();
 		}
@@ -38,20 +41,15 @@ public class StationsController implements IStationsController {
 
 	@Override
 	public void initialize(IPartiesList parties) {
-		boolean flag = true;
+		firstStation.initialize(parties.copy(), this);
 		for(IVotingStation s: stations){
-			if(flag){
-				s.initialize(parties.copy(), this);
-				flag = false;
-			}
-			else{
-				s.initialize(parties.zeroCopy(), this);
-			}
+			s.initialize(parties.zeroCopy(), this);
 		}
 	}
 
 	@Override
 	public void retire() {
+		firstStation.retire();
 		for(IVotingStation s: stations){
 			s.retire();
 		}
@@ -73,22 +71,10 @@ public class StationsController implements IStationsController {
 	}
 
 	@Override
-	public Iterator<IVotingStation> iterator() {
-		return stations.iterator();
-	}
-
-	@Override
 	public IPartiesList hotBackup() {
-		IPartiesList all = null;
-		boolean first=true;
+		IPartiesList all = firstStation.getPartiesList().copy();;
 		for(IVotingStation s: stations){
-			if(first){ 
-				all = s.getPartiesList().copy();
-				first = false;
-			}
-			else{
-				all = all.joinLists(s.getPartiesList());
-			}
+			all = all.joinLists(s.getPartiesList());
 		}
 		return all;
 	}

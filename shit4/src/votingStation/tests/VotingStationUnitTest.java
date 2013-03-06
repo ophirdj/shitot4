@@ -436,13 +436,13 @@ public class VotingStationUnitTest {
 		station.voting();
 		controllerStub.status = VoterStatus.voted;
 		
-		System.out.println("Commencing voteTwiceWaitTooMuch test. It may take a few moments.");
-		System.out.println("remaining waiting time:");
+//		System.out.println("Commencing voteTwiceWaitTooMuch test. It may take a few moments.");
+//		System.out.println("remaining waiting time:");
 		for(long i = (maxVotingTimeSeconds+2); i > 0; i--){
-			System.out.println(i + " seconds");
+//			System.out.println(i + " seconds");
 			Thread.sleep(1000);
 		}
-		System.out.println("done");
+//		System.out.println("done");
 		
 		
 		chooseStub.party = chooseStub.partiesList.getPartyBySymbol("p1");
