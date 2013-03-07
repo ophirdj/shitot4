@@ -1,5 +1,6 @@
 package mainframe.gui;
 
+import mainframe.logic.MainframeAction.MainframeState;
 import global.gui.IWindow;
 import partiesList.model.IPartiesList;
 
@@ -27,14 +28,7 @@ public interface IMainframeWindow extends IWindow, Runnable {
 	 * 
 	 * @param parties
 	 */
-	void showHistogram(IPartiesList parties);
-
-	/**
-	 * Show a table of votes to the parties.
-	 * 
-	 * @param parties
-	 */
-	void showTable(IPartiesList parties);
+	void setDataDisplay(IPartiesList parties);
 	
 	/**
 	 * 
@@ -43,7 +37,17 @@ public interface IMainframeWindow extends IWindow, Runnable {
 	int getID() throws IllegalIdException;
 	
 	/**
-	 * Start the main loop.
+	 * signal the Mainframe window 
 	 */
-	void init();
+	void setState(MainframeState state);
+
+	/**
+	 * display the histogram of the final vote counting
+	 */
+	void displayHistogram();
+	
+	/**
+	 * display the table of the final vote counting
+	 */
+	void displayTable();
 }

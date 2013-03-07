@@ -18,6 +18,7 @@ import javax.swing.ScrollPaneLayout;
 
 import mainframe.logic.IMainframe;
 import mainframe.logic.MainframeAction;
+import mainframe.logic.MainframeAction.MainframeState;
 
 
 import partiesList.model.IPartiesList;
@@ -36,16 +37,25 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private HistogramPanel histogramPanel;
 	private TablePanel tablePanel;
 	
-	private JScrollPane histogramScroll;
-	private StationPanel histogramWraper;
-	private StationPanel tableWraper;
+	private JButton histogramExitButton;
+	private JButton tableExitButton;
 	
-	private boolean was_init = false;
+	private JScrollPane histogramScroll;
+	private JPanel histogramWraper;
+	private JPanel tableWraper;
+	
+	private MainframeState state = MainframeState.BeforeInit;
 	
 	private final int NUM_OF_PERSONAL_LAYER = MainframeAction.maxRow();
 	private final int NUM_OF_TOTAL_LAYER = MainframeAction.maxRow()+StationPanel.GLOBAL_ROWS_NUM;
 	private final Color MainframeBackGround = new Color(255,255,255); 
 	
+	/**
+	 * Create the mainframe window and add it to the main window.
+	 * 
+	 * @param callerStation: The mainframe that build it and that it related to.
+	 * @param main_window: The main window for showing the system (build1 only).
+	 */
 	public MainframeWindow(IMainframe callerStation, Main_Window main_window) {
 		super(Messages.Main_frame,main_window);
 		this.callerStation = callerStation;
@@ -53,36 +63,55 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	}
 	
 	@Override
-	public void init() {
-		was_init = true;
-	}
-
-	@Override
-	public void showHistogram(IPartiesList parties) {
-		if(histogramWraper == null){
-			histogramPanel = new HistogramPanel();
-			histogramScroll = new JScrollPane(histogramPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			histogramWraper = new StationPanel(Messages.histogram,window);
-			histogramScroll.setLayout(new ScrollPaneLayout());
-			histogramWraper.setLayout(new BorderLayout());
-			histogramWraper.add(histogramScroll, BorderLayout.CENTER);
-		}
-		histogramScroll.setPreferredSize(histogramScroll.getParent().getSize());
-		histogramPanel.showHistogram(parties);
-		window.show_if_current(histogramWraper,histogramWraper);
-	}
-
-	@Override
-	public void showTable(IPartiesList parties) {
-		
-		if(tableWraper == null){
-			tablePanel = new TablePanel();
-			tableWraper = new StationPanel(Messages.table,window);
-		}
-		tablePanel.showTable(parties);
-		window.show_if_current(tableWraper,tablePanel);
+	public void setState(MainframeState state) {
+		this.state = state;
 	}
 	
+	@Override
+	public void setDataDisplay(IPartiesList parties) {
+		if(histogramWraper == null){
+			buildHistogram();
+		}
+		if(tableWraper == null){
+			buildTable();
+		}
+		histogramPanel.setParties(parties);
+		tablePanel.setParties(parties);
+	}
+	
+	/**
+	 * Build the histogram panel after first vote count
+	 */
+	private void buildHistogram() {
+		histogramPanel = new HistogramPanel();
+		histogramScroll = new JScrollPane(histogramPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		histogramWraper = new JPanel();
+		histogramScroll.setLayout(new ScrollPaneLayout());
+		histogramWraper.setLayout(new BorderLayout());
+		histogramWraper.add(histogramScroll, BorderLayout.CENTER);
+		histogramExitButton = new JButton();
+		histogramExitButton.addActionListener(new WaitForClick(this));
+		histogramWraper.add(histogramExitButton,BorderLayout.SOUTH);
+	}
+
+	/**
+	 * Build the table panel after first vote count
+	 */
+	private void buildTable() {
+		tablePanel = new TablePanel();
+		tableWraper = new JPanel();
+		tableExitButton = new JButton();
+		tableExitButton.addActionListener(new WaitForClick(this));
+		tableWraper.setLayout(new BorderLayout());
+		tableWraper.add(tableExitButton,BorderLayout.SOUTH);
+		tableWraper.add(tablePanel,BorderLayout.CENTER);
+	}
+	
+	/**
+	 * Set the current action to perform to given action.
+	 * 
+	 * @param action: The action to perform.
+	 */
 	void setAction(MainframeAction action){
 		if(!was_pushed){
 			was_pushed=true;
@@ -90,6 +119,13 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		}
 	}
 	
+	/**
+	 * Create a button in the given panel.
+	 * 
+	 * @param mainframe_panel: The panel in which we want to add the button.
+	 * @param action: The action pressing the button will activate.
+	 * @param lock: The lock we need to notify when the button is pressed
+	 */
 	private void make_mainframe_button(JPanel mainframe_panel, MainframeAction action, Object lock){
 		JButton button = new JButton(action.getString(dictionary));
 		
@@ -97,14 +133,26 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		mainframe_panel.add(button);
 	}
 	
+	/**
+	 * Make all the buttons for actions in the mainframe. 
+	 * 
+	 * @param mainframe_panel: an array of panels, each represent a rows of buttons
+	 * @param lock: The lock we need to notify when a button is pressed
+	 */
 	 private void make_mainframe_panel(JPanel mainframe_panel[], Object lock){
 		for(MainframeAction action : MainframeAction.values()){
-			if(was_init && action.isAfterInit() || !was_init && action.isBeforeInit()){
-				make_mainframe_button(mainframe_panel[action.getRow(was_init)],action,lock);
+			if(action.needToShow(state)){
+				make_mainframe_button(mainframe_panel[action.getRow()],action,lock);
 			}
 		}
 	  }
 	
+	/**
+	 * Wait for the user to choose an action. 
+	 * Show the choosing panel (the mainframe main panel).
+	 * After chooseAction, chosen_action will contain either the correct action
+	 * or null if no action was chosen.
+	 */
 	private void chooseAction(){
 		was_pushed = false;
 		chosen_action = null;
@@ -132,6 +180,14 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		catch(InterruptedException e){}
 	}
 	
+	/**
+	 * Make the panel for entering id.
+	 * 
+	 * @param id_panel: the panel we make.
+	 * @param textField: where the text should be entered.
+	 * @param lock: the lock we notify after the user finish.
+	 * @param message: the message we want to show on the button.
+	 */
 	private void make_id_panel(JPanel id_panel,JTextField textField, Object lock,Messages message){
 		id_panel.add(textField);
 		
@@ -140,6 +196,14 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		id_panel.add(button);
 	}
 
+	/**
+	 * Get the id of the user.
+	 * 
+	 * @return the id that was entered
+	 * @throws IllegalIdException if the id is not in the right format
+	 * (see javadoc for the IllegalIdException in IMainframeWindow for
+	 * more information).
+	 */
 	public int getID() throws IMainframeWindow.IllegalIdException{
 		
 		JPanel id_panel = new JPanel(new GridLayout(2,1));
@@ -175,19 +239,35 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	}
 	
 	@Override
-	public void closeWindow() {
-		if(histogramWraper != null) window.remove_panel(histogramWraper);
-		if(tableWraper != null) window.remove_panel(tableWraper);
-		super.closeWindow();
-	}
-	
-	@Override
 	public void setLanguage(Languages language) {
 		super.setLanguage(language);
 		this.getButton().setText(translate(Messages.Main_frame));
-		if(histogramWraper!=null) histogramWraper.getButton().setText(translate(Messages.histogram));
-		if(tableWraper!=null) tableWraper.getButton().setText(translate(Messages.table));
 		window.MAINFRAME_LANGUAGE = language;
+	}
+
+	@Override
+	public void displayHistogram() {
+		histogramExitButton.setText(translate(Messages.Exit));
+		histogramScroll.setPreferredSize(histogramScroll.getParent().getSize());
+		window.show_if_current(this, histogramWraper);
+		synchronized (this) {
+			try {
+				this.wait();
+			} catch (InterruptedException e) {}
+		}
+		window.show_if_current(this, this);
+	}
+
+	@Override
+	public void displayTable() {
+		tableExitButton.setText(translate(Messages.Exit));
+		window.show_if_current(this, tableWraper);
+		synchronized (this) {
+			try {
+				this.wait();
+			} catch (InterruptedException e) {}
+		}
+		window.show_if_current(this, this);
 	}
 
 }

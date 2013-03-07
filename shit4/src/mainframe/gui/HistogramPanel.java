@@ -33,7 +33,7 @@ private static final int minHeight = 180;
   /** Set the count and display histogram
    * @param parties the list of the parties that we need to show the histogram for  
    */
-  public void showHistogram(IPartiesList parties) {
+  public void setParties(IPartiesList parties) {
 	this.parties = parties;
     repaint();
   }

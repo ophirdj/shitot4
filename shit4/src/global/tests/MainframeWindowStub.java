@@ -9,6 +9,7 @@ import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 import mainframe.gui.IMainframeWindow;
 import mainframe.logic.IMainframe;
+import mainframe.logic.MainframeAction.MainframeState;
 
 public class MainframeWindowStub extends StationPanel implements IMainframeWindow {
 
@@ -80,28 +81,33 @@ public class MainframeWindowStub extends StationPanel implements IMainframeWindo
 	}
 
 	@Override
-	public void showHistogram(IPartiesList parties) {
-		Assert.assertEquals(expectedPartiesList, parties);
-	}
-
-	@Override
-	public void showTable(IPartiesList parties) {
-		Assert.assertEquals(expectedPartiesList, parties);
-	}
-
-	@Override
 	public int getID() {
 		return 0;
-	}
-
-	@Override
-	public void init() {
-
 	}
 
 	public void setExpectedPartiesList(IPartiesList expectedPartiesList) {
 		this.expectedPartiesList = expectedPartiesList;
 		
+	}
+
+	@Override
+	public void setState(MainframeState state) {
+		
+	}
+
+	@Override
+	public void displayHistogram() {
+		
+	}
+
+	@Override
+	public void displayTable() {
+		
+	}
+
+	@Override
+	public void setDataDisplay(IPartiesList parties) {
+		Assert.assertEquals(expectedPartiesList, parties);
 	}
 	
 	

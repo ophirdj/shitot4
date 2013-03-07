@@ -5,6 +5,7 @@ import global.dictionaries.Messages;
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 import mainframe.gui.IMainframeWindow;
+import mainframe.logic.MainframeAction.MainframeState;
 
 /**
  * the only actual use of this stub is the method 'showHistogram'
@@ -82,23 +83,8 @@ public class MainframeWindowStub implements IMainframeWindow {
 	}
 
 	@Override
-	public void showHistogram(IPartiesList parties) {
-		this.showHistogramParam = parties;
-	}
-
-	@Override
-	public void showTable(IPartiesList parties) {
-
-	}
-
-	@Override
 	public int getID() {
 		return 0;
-	}
-
-	@Override
-	public void init() {
-
 	}
 	
 	/**
@@ -107,6 +93,25 @@ public class MainframeWindowStub implements IMainframeWindow {
 	 */
 	public IPartiesList getWhatShowHistogramGot(){
 		return this.showHistogramParam;
+	}
+
+	@Override
+	public void setState(MainframeState state) {
+
+	}
+
+	@Override
+	public void displayHistogram() {
+	}
+
+	@Override
+	public void displayTable() {
+		
+	}
+
+	@Override
+	public void setDataDisplay(IPartiesList parties) {
+		this.showHistogramParam = parties;
 	}
 
 }

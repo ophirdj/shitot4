@@ -20,6 +20,7 @@ public enum MainframeAction {
 		@Override
 		public void activate(IMainframe callerStation, IMainframeWindow window){
 			callerStation.countVotes();
+			window.setState(MainframeState.VotesCounted);
 		}
 		
 		@Override
@@ -28,8 +29,14 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		public boolean isBeforeInit() {
-			return false;
+		public boolean needToShow(MainframeState state) {
+			switch(state){
+			case BeforeInit : return false;
+			case AfterInit: return true;
+			case VotesCounted: return true;
+			default:
+				return false;
+			}
 		}
 		
 		@Override
@@ -37,10 +44,6 @@ public enum MainframeAction {
 			return dictionary.translate(Messages.count_votes);
 		}
 		
-		@Override
-		public boolean isAfterInit() {
-			return true;
-		}
 	}, 
 	identification{
 		@Override
@@ -65,8 +68,14 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		public boolean isBeforeInit() {
-			return false;
+		public boolean needToShow(MainframeState state) {
+			switch(state){
+			case BeforeInit : return false;
+			case AfterInit: return true;
+			case VotesCounted: return true;
+			default:
+				return false;
+			}
 		}
 		
 		@Override
@@ -74,10 +83,6 @@ public enum MainframeAction {
 			return dictionary.translate(Messages.identification);
 		}
 		
-		@Override
-		public boolean isAfterInit() {
-			return true;
-		}
 	},
 	checkParties{
 
@@ -96,22 +101,79 @@ public enum MainframeAction {
 		}
 
 		@Override
-		public boolean isBeforeInit() {
-			return false;
-		}
-
-		@Override
-		public boolean isAfterInit() {
-			return true;
+		public boolean needToShow(MainframeState state) {
+			switch(state){
+			case BeforeInit : return false;
+			case AfterInit: return true;
+			case VotesCounted: return true;
+			default:
+				return false;
+			}
 		}
 
 		@Override
 		public String getString(IDictionary dictionary) {
 			return dictionary.translate(Messages.Check_parties_consistency);
+		}	
+	},
+	histogram{
+
+		@Override
+		public void activate(IMainframe callerStation, IMainframeWindow window) {
+			window.displayHistogram();
+		}
+
+		@Override
+		protected int getRowInKind() {
+			return 1;
+		}
+
+		@Override
+		public boolean needToShow(MainframeState state) {
+			switch(state){
+			case BeforeInit : return false;
+			case AfterInit: return false;
+			case VotesCounted: return true;
+			default:
+				return false;
+			}
+		}
+
+		@Override
+		public String getString(IDictionary dictionary) {
+			return dictionary.translate(Messages.histogram);
 		}
 		
-	}
-	,
+	},
+	Table{
+
+		@Override
+		public void activate(IMainframe callerStation, IMainframeWindow window) {
+			window.displayTable();
+		}
+
+		@Override
+		protected int getRowInKind() {
+			return 1;
+		}
+
+		@Override
+		public boolean needToShow(MainframeState state) {
+			switch(state){
+			case BeforeInit : return false;
+			case AfterInit: return false;
+			case VotesCounted: return true;
+			default:
+				return false;
+			}
+		}
+
+		@Override
+		public String getString(IDictionary dictionary) {
+			return dictionary.translate(Messages.table);
+		}
+		
+	},
 	initialize{
 		@Override
 		public String toString() {
@@ -129,8 +191,8 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		public boolean isBeforeInit() {
-			return true;
+		public boolean needToShow(MainframeState state) {
+			return state == MainframeState.BeforeInit;
 		}
 		
 		@Override
@@ -138,10 +200,6 @@ public enum MainframeAction {
 			return dictionary.translate(Messages.boot);
 		}
 		
-		@Override
-		public boolean isAfterInit() {
-			return false;
-		}
 	},
 	shutDown{
 		@Override
@@ -161,12 +219,7 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		public boolean isBeforeInit() {
-			return true;
-		}
-		
-		@Override
-		public boolean isAfterInit() {
+		public boolean needToShow(MainframeState state) {
 			return true;
 		}
 
@@ -192,13 +245,8 @@ public enum MainframeAction {
 		}
 		
 		@Override
-		public boolean isBeforeInit() {
-			return true;
-		}
-		
-		@Override
-		public boolean isAfterInit() {
-			return false;
+		public boolean needToShow(MainframeState state) {
+			return state.equals(MainframeState.BeforeInit);
 		}
 		
 		@Override
@@ -216,22 +264,17 @@ public enum MainframeAction {
 	public abstract void activate(IMainframe callerStation, IMainframeWindow window);
 	
 	/**
-	 * 
-	 * @return
+	 * @return the row of the button representing the button in the window.
 	 */
 	protected abstract int getRowInKind();
 	
 	/**
+	 * Return whether or not the action can be performed in the given state.
 	 * 
-	 * @return
+	 * @param state: the state of the mainframe.
+	 * @return true if the action can be performed in this state.
 	 */
-	public abstract boolean isBeforeInit();
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public abstract boolean isAfterInit();
+	public abstract boolean needToShow(MainframeState state);
 	
 	/**
 	 * Get a string corresponding to the action name using <dictionary> for translation
@@ -241,50 +284,61 @@ public enum MainframeAction {
 	public abstract String getString(IDictionary dictionary);
 	
 	/**
-	 * There are 2 configurations of mainframe panel: before and after initialization.
+	 * There are 3 configurations of mainframe panel:
+	 * Before the initialization.
+	 * Between initialization and vote counting.
+	 * After vote counting.
 	 * This enum represents when something should be shown in mainframe panel.
 	 * @author Ziv Ronen
 	 *
 	 */
-	public enum existsIn{
+	public enum MainframeState{
 		/**
-		 * Show only prior to initialization
+		 * Before initialization state. 
 		 */
 		BeforeInit,
 		/**
-		 * Show only after initialization
+		 * Between initialization and vote counting.
 		 */
 		AfterInit,
 		/**
-		 * Show always
+		 * After vote counting.
 		 */
-		Always
+		VotesCounted,
 	}
 	
-	//Sort all buttons in rows
-	
-	// TODO add javadoc
-	public int getRow(boolean afterInit){
-		if(isBeforeInit())
+	/**
+	 * Return the row of the button representing the given action.
+	 * As an convention, action that exist before initialization are showed below all other
+	 */
+	public int getRow(){
+		if(needToShow(MainframeState.BeforeInit))
 			return getRowInKind()+afterInitRow();
 		return getRowInKind();
 	}
 	
-	// TODO add javadoc
+	/**
+	 * @return the amount of rows needed to show all the actions.
+	 */
 	public static int maxRow(){
 		int max_row = 0;
 		for(MainframeAction action : MainframeAction.values()){
-			if(action.getRow(true) > max_row) max_row = action.getRow(true); 
+			if(action.getRow() > max_row)
+				max_row = action.getRow(); 
 		}
 		return max_row+1;
 	}
 	
-	// TODO add javadoc
+	/**
+	 * @return the amount of rows needed to represent all actions that don't exist
+	 * before initialization.
+	 */
 	private static int afterInitRow(){
 		int max_row = 0;
 		for(MainframeAction action : MainframeAction.values()){
-			if(action.getRowInKind() > max_row && action.isAfterInit()) max_row = action.getRowInKind(); 
+			if(action.getRowInKind() > max_row && action.needToShow(MainframeState.VotesCounted))
+				max_row = action.getRowInKind(); 
 		}
-		return max_row+2;
+		return max_row+1;
 	}
 }

@@ -4,6 +4,7 @@ import mainframe.communication.IStationsController;
 import mainframe.communication.IStationsControllerFactory;
 import mainframe.factories.IMainframeWindowFactory;
 import mainframe.gui.IMainframeWindow;
+import mainframe.logic.MainframeAction.MainframeState;
 import fileHandler.factories.IBackupFactory;
 import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.logic.IBackup;
@@ -94,7 +95,7 @@ public class Mainframe implements IMainframe {
 		votingStations.initialize(parties);
 		backupThread = new BackupThread(this);
 		backupThread.start();
-		window.init();
+		window.setState(MainframeState.AfterInit);
 	}
 
 	@Override
@@ -103,9 +104,9 @@ public class Mainframe implements IMainframe {
 		hotBackup();
 		// We don't want to be interrupted so we'll work on a local copy.
 		IPartiesList parties = this.parties.copy();
-		// Now we should send 'parties' to the mainframe's window for display.
-		window.showHistogram(parties);
-		window.showTable(parties);
+		
+		window.setDataDisplay(parties);
+		window.setState(MainframeState.VotesCounted);
 	}
 
 	@Override

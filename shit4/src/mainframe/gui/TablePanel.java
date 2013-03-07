@@ -77,7 +77,7 @@ public class TablePanel extends JPanel {
 	
 	
 
-	public void showTable(IPartiesList parties) {
+	public void setParties(IPartiesList parties) {
 		all_parties = parties;
 		displayTable();
 	}
