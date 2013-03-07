@@ -367,7 +367,7 @@ public class BackupUnitTest {
 			backup.storeState(partiesStub, votersStub, unregVotersStub);
 			unregVotersRestStub = backup.restoreUnregisteredVoters();
 			for(int i=1;i<=100;i++){
-				Assert.assertEquals(i, unregVotersRestStub.findVoter(i).getId());
+				Assert.assertEquals(i+100, unregVotersRestStub.findVoter(i+100).getId());
 			}
 		}
 	}
