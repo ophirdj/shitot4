@@ -1,8 +1,8 @@
 package choosingList.tests;
 
 public enum ChoosingListFunction {
-	choosingWindow_printConformationMessage,
-	choosingWindow_printConformationMessageWithParty,
+	choosingWindow_printConfirmationMessage,
+	choosingWindow_printConfirmationMessageWithParty,
 	choosingWindow_closeWindow,
 	choosingWindow_switchOn,
 	choosingWindow_switchOff,

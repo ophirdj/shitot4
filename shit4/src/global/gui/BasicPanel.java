@@ -8,7 +8,6 @@ import java.awt.GridBagLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import partiesList.model.IParty;
 
 /**
  * Basic Panel class that implements some useful basic methods.
@@ -38,7 +37,7 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 	}
 
 	@Override
-	public Boolean getConfirmation(String confirmationMessage) {
+	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
 		Object[] options = new Object[2];
 		options[0]=translate(Messages.Yes);
 		options[1]=translate(Messages.No);
@@ -53,7 +52,7 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 	}
 
 	@Override
-	public void printError(String errorMessage) {
+	public void printError(StationPanel station, String errorMessage) {
 		Object[] options = new Object[1];
 		options[0]=translate(Messages.Ok);
 		JOptionPane.showOptionDialog(window, errorMessage,
@@ -63,37 +62,12 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 	}
 
 	@Override
-	public void printMessage(String message) {
+	public void printMessage(StationPanel station, String message) {
 		Object[] options = new Object[1];
 		options[0]=translate(Messages.Ok);
 		JOptionPane.showOptionDialog(window, message,
 				translate(Messages.FYI),
 				JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 				options, options[0]);
-	}
-
-	@Override
-	public void printErrorMessage(Messages message) {
-		printError(translate(message));
-	}
-
-	@Override
-	public void printInfoMessage(Messages message) {
-		printMessage(translate(message));
-	}
-
-	@Override
-	public boolean printConformationMessage(Messages message) {
-		return getConfirmation(translate(message));
-	}
-
-	@Override
-	public boolean printConformationMessage(Messages message, IParty party) {
-		return getConfirmation(translate(message) + party.getName() + "?");
-	}
-
-	@Override
-	public void printInfoMessage(Messages message, IParty party) {
-		printMessage(translate(message) + party.getName());
 	}
 }

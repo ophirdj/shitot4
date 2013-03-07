@@ -147,4 +147,29 @@ public void setLanguage(Languages language) {
 	stationPanel.setLanguage(language);
 }
 
+@Override
+public void printErrorMessage(Messages message) {
+	printError(stationPanel, translate(message));
+}
+
+@Override
+public void printInfoMessage(Messages message) {
+	printMessage(stationPanel, translate(message));
+}
+
+@Override
+public boolean printConfirmationMessage(Messages message) {
+	return getConfirmation(stationPanel, translate(message));
+}
+
+@Override
+public boolean printConfirmationMessage(Messages message, IParty party) {
+	return getConfirmation(stationPanel, translate(message) + party.getName() + "?");
+}
+
+@Override
+public void printInfoMessage(Messages message, IParty party) {
+	printMessage(stationPanel, translate(message) + party.getName());
+}
+
 }

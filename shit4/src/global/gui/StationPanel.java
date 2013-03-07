@@ -9,6 +9,8 @@ import global.dictionaries.Messages;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import partiesList.model.IParty;
+
 /**
  * General panel for any station
  * @author Ziv Ronen
@@ -141,5 +143,30 @@ public class StationPanel extends BasicPanel{
 	@Override
 	public void setLanguage(Languages language) {
 		dictionary = language.getDictionary();
+	}
+	
+	@Override
+	public void printErrorMessage(Messages message) {
+		printError(this, translate(message));
+	}
+
+	@Override
+	public void printInfoMessage(Messages message) {
+		printMessage(this, translate(message));
+	}
+
+	@Override
+	public boolean printConfirmationMessage(Messages message) {
+		return getConfirmation(this, translate(message));
+	}
+
+	@Override
+	public boolean printConfirmationMessage(Messages message, IParty party) {
+		return getConfirmation(this, translate(message) + party.getName() + "?");
+	}
+
+	@Override
+	public void printInfoMessage(Messages message, IParty party) {
+		printMessage(this, translate(message) + party.getName());
 	}
 }

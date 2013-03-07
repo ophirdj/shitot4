@@ -7,6 +7,7 @@ import org.junit.Assert;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
+import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 import choosingList.gui.IChoosingWindow;
@@ -17,7 +18,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 
 	private ChoosingListTestEnvironment testEnvironment;
 	private Queue<PrintConformationMessageComponent> printConformationMessageQueue;
-	private Queue<ConformationWithPartyComponent> ConformationWithPartyQueue;
+	private Queue<ConformationWithPartyComponent> ConfirmationWithPartyQueue;
 	private Queue<CloseWindowComponent> closeWindowQueue;
 	private Queue<switchOnComponent> switchOnQueue;
 	private Queue<switchOffComponent> switchOffQueue;
@@ -37,7 +38,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		super();
 		this.testEnvironment = testEnvironment;
 		this.printConformationMessageQueue = printConformationMessageQueue;
-		this.ConformationWithPartyQueue = ConformationWithPartyQueue;
+		this.ConfirmationWithPartyQueue = ConformationWithPartyQueue;
 		this.closeWindowQueue = closeWindowQueue;
 		this.switchOnQueue = switchOnQueue;
 		this.switchOffQueue = switchOffQueue;
@@ -295,13 +296,13 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		}
 		
 		public ChoosingListFunction getFunction(){
-			return ChoosingListFunction.choosingWindow_printConformationMessage;
+			return ChoosingListFunction.choosingWindow_printConfirmationMessage;
 		}
 	}
 	
 	@Override
-	public boolean printConformationMessage(Messages message) {
-		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConformationMessage);
+	public boolean printConfirmationMessage(Messages message) {
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConfirmationMessage);
 		try{
 			return printConformationMessageQueue.remove().checkAndReturn(message);
 		}catch (NoSuchElementException e) {
@@ -338,15 +339,15 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		}
 		
 		public ChoosingListFunction getFunction(){
-			return ChoosingListFunction.choosingWindow_printConformationMessageWithParty;
+			return ChoosingListFunction.choosingWindow_printConfirmationMessageWithParty;
 		}
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message, IParty party) {
-		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConformationMessageWithParty);
+	public boolean printConfirmationMessage(Messages message, IParty party) {
+		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConfirmationMessageWithParty);
 		try{
-			return ConformationWithPartyQueue.remove().checkAndReturn(message,party);
+			return ConfirmationWithPartyQueue.remove().checkAndReturn(message,party);
 		}catch (NoSuchElementException e) {
 			throw new AssertionError();
 		}
@@ -369,12 +370,12 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	
 
 	@Override
-	public Boolean getConfirmation(String confirmationMessage) {
+	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
 		throw new AssertionError();
 	}
 
 	@Override
-	public void printError(String errorMessage) {
+	public void printError(StationPanel station, String errorMessage) {
 		throw new AssertionError();
 	}
 
@@ -394,7 +395,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	}
 
 	@Override
-	public void printMessage(String message) {
+	public void printMessage(StationPanel station, String message) {
 		throw new AssertionError();
 	}
 

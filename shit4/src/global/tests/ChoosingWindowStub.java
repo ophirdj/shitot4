@@ -7,6 +7,7 @@ import org.junit.Assert;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
+import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
 import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
@@ -20,22 +21,22 @@ public class ChoosingWindowStub implements IChoosingWindow {
 	private Queue<ChooseType> chooseType = new LinkedBlockingQueue<ChooseType>();
 	private ChooseType defaultChooseType = ChooseType.Party;
 	private IParty party;
-	private Queue<Boolean> conformation = new LinkedBlockingQueue<Boolean>();
-	private Boolean defaultConformation = true;
+	private Queue<Boolean> confirmation = new LinkedBlockingQueue<Boolean>();
+	private Boolean defaultConfirmation = true;
 
 	@Override
-	public Boolean getConfirmation(String confirmationMessage) {
-		if(conformation.isEmpty()) return defaultConformation;
-		return conformation.poll();
+	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
+		if(confirmation.isEmpty()) return defaultConfirmation;
+		return confirmation.poll();
 	}
 
 	@Override
-	public void printError(String errorMessage) {
+	public void printError(StationPanel station, String errorMessage) {
 
 	}
 
 	@Override
-	public void printMessage(String message) {
+	public void printMessage(StationPanel station, String message) {
 
 	}
 
@@ -65,15 +66,15 @@ public class ChoosingWindowStub implements IChoosingWindow {
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message) {
-		if(conformation.isEmpty()) return defaultConformation;
-		return conformation.poll();
+	public boolean printConfirmationMessage(Messages message) {
+		if(confirmation.isEmpty()) return defaultConfirmation;
+		return confirmation.poll();
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message, IParty party) {
-		if(conformation.isEmpty()) return defaultConformation;
-		return conformation.poll();
+	public boolean printConfirmationMessage(Messages message, IParty party) {
+		if(confirmation.isEmpty()) return defaultConfirmation;
+		return confirmation.poll();
 	}
 
 	@Override
@@ -122,8 +123,8 @@ public class ChoosingWindowStub implements IChoosingWindow {
 		this.symbol = string;
 	}
 
-	public void setConformation(boolean b) {
-		this.conformation.add(b);
+	public void setConfirmation(boolean b) {
+		this.confirmation.add(b);
 	}
 
 }

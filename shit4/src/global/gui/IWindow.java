@@ -13,22 +13,25 @@ public interface IWindow{
 
 	/**
 	 * Prints on the screen the message with a "yes" and a "no" button, waits for the user to click.
+	 * @param stationPanel: the station in which the message should be showed
 	 * @param confirmationMessage: the message to print
 	 * @return true if the user clicks on yes, false if he clicks on no
 	 */
-	public Boolean getConfirmation(String confirmationMessage);
+	public Boolean getConfirmation(StationPanel stationPanel, String confirmationMessage);
 	
 	/**
 	 * Prints the error message with a button "ok" and waits for the user to click on it
+	 * @param stationPanel: the station in which the message should be showed
 	 * @param errorMessage: the message to print
 	 */
-	public void printError(String errorMessage);
+	public void printError(StationPanel stationPanel, String errorMessage);
 	
 	/**
 	 * Prints the message with a button "ok" and waits for the user to click on it
+	 * @param stationPanel: the station in which the message should be showed
 	 * @param message: the message to print
 	 */
-	public void printMessage(String message);
+	public void printMessage(StationPanel stationPanel, String message);
 	
 	/**
 	 * Change the language of the station to the given language
@@ -67,7 +70,7 @@ public interface IWindow{
 	 * @param message: message to display
 	 * @return the voter choice
 	 */
-	boolean printConformationMessage(Messages message);
+	boolean printConfirmationMessage(Messages message);
 	
 	/**
 	 * Display the given message as info message
@@ -75,7 +78,7 @@ public interface IWindow{
 	 * @param party: the party that was chosen
 	 * @return the voter choice
 	 */
-	boolean printConformationMessage(Messages message, IParty party);
+	boolean printConfirmationMessage(Messages message, IParty party);
 	
 	/**
 	 * Close the window
