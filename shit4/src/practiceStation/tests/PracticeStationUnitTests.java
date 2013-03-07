@@ -218,7 +218,6 @@ public class PracticeStationUnitTests {
 		harderWaitingTestEnviroment.addSetLanguage(language);
 		pathes.complicatedPath(harderWaitingTestEnviroment, partiesCollection, language, stationWaitingTime);
 		
-		harderWaitingTestEnviroment.expectedTestLog();
 		PracticeStation testedStation = buildStation(harderWaitingTestEnviroment,parties,stationWaitingTime);
 		harderWaitingTestEnviroment.runTest(testedStation);
 	}
