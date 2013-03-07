@@ -103,11 +103,6 @@ public class Backup implements IBackup {
 
 	@Override
 	public void storeState(IPartiesList parties, IVotersList voters, IVotersList unregistered) {
-		//TODO save unregistered to the unregistered voters file
-		/*
-		 * "PartiesListBackup.xml"
-		 * "VotersListBackup.xml"
-		 */
 
 		//Parties
 		this.new BackupPartiesListToXMLFile().createEmptyPartiesListXMLFile();
