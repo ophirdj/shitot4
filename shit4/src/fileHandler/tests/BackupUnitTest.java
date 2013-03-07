@@ -30,9 +30,9 @@ public class BackupUnitTest {
 	private IVotersList votersRestStub;
 	private IVotersList unregVotersRestStub;
 	
-	private String votersBackup = "BackupTest/votersBackup.xml";
-	private String partiesBackup = "BackupTest/partiesBackup.xml";
-	private String unregVotersBackup = "BackupTest/unregVotersBackup.xml";
+	private String votersBackup = "FileHandlerTest/votersBackup.xml";
+	private String partiesBackup = "FileHandlerTest/partiesBackup.xml";
+	private String unregVotersBackup = "FileHandlerTest/unregVotersBackup.xml";
 	
 	/**
 	 * Set up parties' and voters' lists and an active backup.
@@ -224,7 +224,7 @@ public class BackupUnitTest {
 		Backup backups[] = new Backup[5];
 		for(int j=0;j<5;j++){
 			backups[j] = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
-					new VotersListFactory(), new VoterDataFactory(), "BackupTest/par"+j+".xml", "BackupTest/vote"+j+".xml", "BackupTest/uvote"+j+".xml");
+					new VotersListFactory(), new VoterDataFactory(), "FileHandlerTest/par"+j+".xml", "FileHandlerTest/vote"+j+".xml", "FileHandlerTest/uvote"+j+".xml");
 			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
 		}
 		for(int j=0; j<5; j++){
@@ -248,7 +248,7 @@ public class BackupUnitTest {
 		Backup backups[] = new Backup[5];
 		for(int j=0;j<5;j++){
 			backups[j] = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
-					new VotersListFactory(), new VoterDataFactory(), "BackupTest/par"+j+".xml", "BackupTest/vote"+j+".xml", "BackupTest/uvote"+j+".xml");
+					new VotersListFactory(), new VoterDataFactory(), "FileHandlerTest/par"+j+".xml", "FileHandlerTest/vote"+j+".xml", "FileHandlerTest/uvote"+j+".xml");
 			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
 		}
 		for(int j=0; j<5; j++){
@@ -271,7 +271,7 @@ public class BackupUnitTest {
 		Backup backups[] = new Backup[5];
 		for(int j=0;j<5;j++){
 			backups[j] = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
-					new VotersListFactory(), new VoterDataFactory(), "BackupTest/par"+j+".xml", "BackupTest/vote"+j+".xml", "BackupTest/uvote"+j+".xml");
+					new VotersListFactory(), new VoterDataFactory(), "FileHandlerTest/par"+j+".xml", "FileHandlerTest/vote"+j+".xml", "FileHandlerTest/uvote"+j+".xml");
 			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
 		}
 		for(int j=0; j<5; j++){
@@ -293,7 +293,7 @@ public class BackupUnitTest {
 		Backup backups[] = new Backup[5];
 		for(int j=0;j<5;j++){
 			backups[j] = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
-					new VotersListFactory(), new VoterDataFactory(), "BackupTest/par"+j+".xml", "BackupTest/vote"+j+".xml", "BackupTest/uvote"+j+".xml");
+					new VotersListFactory(), new VoterDataFactory(), "FileHandlerTest/par"+j+".xml", "FileHandlerTest/vote"+j+".xml", "FileHandlerTest/uvote"+j+".xml");
 			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
 		}
 		for(int j=0; j<5; j++){
