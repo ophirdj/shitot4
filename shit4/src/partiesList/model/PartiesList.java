@@ -63,7 +63,7 @@ public class PartiesList implements IPartiesList {
 			try {
 				newParty = partyFactory.createInstance(party.getName(), party.getSymbol(), party.getVoteNumber() + partiesList.getPartyBySymbol(party.getSymbol()).getVoteNumber());
 			} catch (PartyDoesNotExist e) {
-				// TODO won't happen according to Ziv
+				// won't happen according to Ziv
 				newParty = partyFactory.createInstance(party.getName(), party.getSymbol(), party.getVoteNumber());
 			}
 			joined.addParty(newParty);
