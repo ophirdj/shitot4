@@ -19,6 +19,11 @@ import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStartedVote;
 
+/**
+ * Implements IVotingStation
+ * @author Ophir De Jager
+ *
+ */
 public class VotingStation implements IVotingStation {
 	private IStationsController controller;
 	private IPartiesList parties;
@@ -31,6 +36,13 @@ public class VotingStation implements IVotingStation {
 	private IChoosingListFactory choosingListFactory;
 	private IVotingRecordFactory votingRecordFactory;
 
+	/**
+	 * Create a new voting station
+	 * @param passwords: passwords for test voting
+	 * @param chooseFactory: factory for creating station's choosing list
+	 * @param stationWindowFactory: factory to create the station's window
+	 * @param votingRecordFactory: factory for creating voting records (to spy on voters...MUHAHAHA)
+	 */
 	public VotingStation(List<String> passwords, IChoosingListFactory chooseFactory, IVotingStationWindowFactory stationWindowFactory, IVotingRecordFactory votingRecordFactory){
 		this.passwords = passwords;
 		this.votingStationWindow = stationWindowFactory.createInstance(this);
@@ -38,6 +50,7 @@ public class VotingStation implements IVotingStation {
 		this.votingRecordFactory = votingRecordFactory;
 	};
 
+	@Override
 	public void initialize(IPartiesList parties,IStationsController controller){
 		this.controller = controller;
 		this.parties = parties;
@@ -46,6 +59,7 @@ public class VotingStation implements IVotingStation {
 		votingStationWindow.startLoop();
 	}
 
+	@Override
 	public IPartiesList getPartiesList(){
 		return parties.copy();
 	}
@@ -77,6 +91,7 @@ public class VotingStation implements IVotingStation {
 		return null;
 	}
 
+	@Override
 	public void voting() throws ChoosingInterruptedException{
 		int id;
 		try{
@@ -109,7 +124,7 @@ public class VotingStation implements IVotingStation {
 		
 	}
 
-
+	@Override
 	public void testVoting() throws ChoosingInterruptedException{
 		String password = votingStationWindow.getPassword();
 		if (!passwords.contains(password)){

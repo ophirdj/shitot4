@@ -4,6 +4,11 @@ import choosingList.logic.IChoosingList.ChoosingInterruptedException;
 
 import partiesList.model.IPartiesList;
 
+/**
+ * Interface of all voting stations as seen from the mainframe and UI
+ * @author Ophir De Jager
+ *
+ */
 public interface IVotingStation{
 	
 	class CannotVoteHere extends Exception{
@@ -19,7 +24,7 @@ public interface IVotingStation{
 	void initialize(IPartiesList parties,IStationsController controller);
 	
 	/**
-	 * stop the station from running.
+	 * Stop the station from running.
 	 */
 	void retire();
 	
@@ -44,7 +49,7 @@ public interface IVotingStation{
 
 	
 	/**
-	 * our loved peephole method
+	 * Our loved peep method
 	 */
 	void peep();
 

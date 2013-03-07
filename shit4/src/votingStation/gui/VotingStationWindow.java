@@ -20,7 +20,11 @@ import votingStation.logic.IVotingStation;
 import votingStation.logic.VotingStationAction;
 
 
-
+/**
+ * The window of a voting station
+ * @author Ziv Ronen
+ *
+ */
 public class VotingStationWindow extends StationPanel implements
 		IVotingStationWindow {
 	private static final long serialVersionUID = 1L;
@@ -37,6 +41,26 @@ public class VotingStationWindow extends StationPanel implements
 	
 	private int id;
 	
+	
+	
+	/**
+	 * Create a new window for voting station
+	 * @param id: station (and window) ID
+	 * @param caller: related voting station
+	 * @param main_window: window were this window will show in
+	 */
+	public VotingStationWindow(int id, IVotingStation caller,
+			Main_Window main_window) {
+		super(Messages.voting_station,id, main_window);
+		callerStation = caller;
+		this.id = id;
+	}
+	
+	
+	/**
+	 * Set action to be performed to <action>
+	 * @param action: action to be performed
+	 */
 	public void setAction(VotingStationAction action) {
 		if (!was_pushed) {
 			chosen_action = action;
@@ -44,30 +68,29 @@ public class VotingStationWindow extends StationPanel implements
 		was_pushed = true;
 	}
 
+	/**
+	 * Set was_called flag
+	 */
 	public void call() {
 		was_called = true;
 	}
 
-	public VotingStationWindow(int id, IVotingStation caller,
-			Main_Window main_window) {
-		super(Messages.voting_station,id, main_window);
-		callerStation = caller;
-		this.id = id;
-	}
-
-	void make_voting_button(JPanel voting_panel, VotingStationAction action,
+	// TODO add javadoc
+	private void make_voting_button(JPanel voting_panel, VotingStationAction action,
 			Object lock) {
 		JButton action_button = new JButton(action.getString(dictionary));
 		action_button.addActionListener(new VoteClick(this, action, lock));
 		voting_panel.add(action_button);
 	}
 
+	// TODO add javadoc
 	private void make_voting_panel(JPanel rows[], Object lock) {
 		for (VotingStationAction action : VotingStationAction.values()) {
 			make_voting_button(rows[action.getRow()], action, lock);
 		}
 	}
 
+	// TODO add javadoc
 	public synchronized void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;
@@ -95,6 +118,7 @@ public class VotingStationWindow extends StationPanel implements
 		}
 	}
 
+	// TODO add javadoc
 	private void make_input_panel(JPanel input_panel, JTextField comp,
 			Object lock, String name) {
 		input_panel.add(comp);
@@ -103,6 +127,7 @@ public class VotingStationWindow extends StationPanel implements
 		input_panel.add(button);
 	}
 
+	@Override
 	public String getPassword() throws ChoosingInterruptedException {
 		was_called = false;
 		JPanel password_panel = new JPanel(new GridLayout(2, 1));
@@ -124,6 +149,7 @@ public class VotingStationWindow extends StationPanel implements
 		return new String(textField.getPassword());
 	}
 
+	@Override
 	public int getID() throws ChoosingInterruptedException, IllegalIdException {
 		was_called = false;
 		JPanel id_panel = new JPanel(new GridLayout(2, 1));
@@ -158,6 +184,7 @@ public class VotingStationWindow extends StationPanel implements
 		}
 	}
 
+	@Override
 	public void run() {
 		try {
 			while (keepRunning) {
