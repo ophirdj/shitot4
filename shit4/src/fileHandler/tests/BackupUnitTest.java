@@ -17,7 +17,7 @@ import votersList.model.VotersList;
 
 /**
  * Unit tests for backup
- * 
+ * @author Daniel Eidel
  *
  */
 
