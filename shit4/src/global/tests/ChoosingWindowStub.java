@@ -31,25 +31,21 @@ public class ChoosingWindowStub implements IChoosingWindow {
 
 	@Override
 	public void printError(String errorMessage) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void printMessage(String message) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void setLanguage(Languages language) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public String translate(Messages message) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

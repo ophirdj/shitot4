@@ -1,11 +1,7 @@
 package votingStation.tests;
 
-import java.util.Iterator;
-
 import org.junit.Assert;
-
 import partiesList.model.IPartiesList;
-import votingStation.logic.IVotingStation;
 import mainframe.communication.IStationsController;
 import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
@@ -18,20 +14,14 @@ public class StationsControllerStub implements IStationsController {
 
 	@Override
 	public void peep() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void initialize(IPartiesList parties) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void retire() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -47,7 +37,6 @@ public class StationsControllerStub implements IStationsController {
 
 	@Override
 	public IPartiesList hotBackup() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
