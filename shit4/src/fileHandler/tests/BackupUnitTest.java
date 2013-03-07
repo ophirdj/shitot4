@@ -15,6 +15,11 @@ import votersList.model.IVotersList.VoterDoesntExist;
 import votersList.model.VoterData;
 import votersList.model.VotersList;
 
+/**
+ * Unit tests for backup
+ * 
+ *
+ */
 
 public class BackupUnitTest {
 	private Backup backup;
@@ -25,10 +30,13 @@ public class BackupUnitTest {
 	private IVotersList votersRestStub;
 	private IVotersList unregVotersRestStub;
 	
-	private String votersBackup = "votersBackup.xml";
-	private String partiesBackup = "partiesBackup.xml";
-	private String unregVotersBackup = "unregVotersBackup.xml";
+	private String votersBackup = "BackupTest/votersBackup.xml";
+	private String partiesBackup = "BackupTest/partiesBackup.xml";
+	private String unregVotersBackup = "BackupTest/unregVotersBackup.xml";
 	
+	/**
+	 * Set up parties' and voters' lists and an active backup.
+	 */
 	@Before
 	public void preprocessing(){
 		int i;
@@ -44,10 +52,16 @@ public class BackupUnitTest {
 		}
 		backup = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
 				new VotersListFactory(), new VoterDataFactory(), votersBackup, partiesBackup, unregVotersBackup);
+		backup.storeState(partiesStub, votersStub, unregVotersStub);
 	}
 	
+	/**
+	 * Postcondition routine for internal consistency testing.
+	 * @throws PartyDoesNotExist
+	 * @throws VoterDoesntExist
+	 */	
 	@After
-	public void pretest() throws PartyDoesNotExist, VoterDoesntExist{
+	public void posttest() throws PartyDoesNotExist, VoterDoesntExist{
 		int i;
 		for(i=1; i<=100; i++){
 			Assert.assertEquals(i, votersStub.findVoter(i).getId());
@@ -59,12 +73,19 @@ public class BackupUnitTest {
 		}		
 	}
 	
-	
+	/**
+	 * Simple backup state saving test.
+	 */	
 	@Test
 	public void saveTest(){
 		backup.storeState(partiesStub, votersStub, unregVotersStub);
 	}
 	
+	/**
+	 * Simple voters restore test.
+	 * Restores and checks the voters list.
+	 * @throws VoterDoesntExist
+	 */	
 	@Test
 	public void restoreVotersTest() throws VoterDoesntExist{
 		votersRestStub = backup.restoreVoters();
@@ -73,7 +94,11 @@ public class BackupUnitTest {
 		}
 	}
 	
-	
+	/**
+	 * Simple parties restore test.
+	 * Restores and checks the parties list (symbol and votes)
+	 * @throws PartyDoesNotExist
+	 */	
 	@Test
 	public void restorePartiesTest() throws PartyDoesNotExist{
 		partiesRestStub = backup.restoreParties();
@@ -84,8 +109,11 @@ public class BackupUnitTest {
 	}
 	
 	
-	
-	
+	/**
+	 * Simple unregistered voters restore test.
+	 * Restores and checks the unregistered voters list.
+	 * @throws VoterDoesntExist
+	 */	
 	@Test
 	public void restoreUnregVotersTest() throws VoterDoesntExist{
 		unregVotersRestStub = backup.restoreUnregisteredVoters();
@@ -96,16 +124,24 @@ public class BackupUnitTest {
 	
 	
 	
-	
-	
+	/**
+	 * Failure test- invalid voter.
+	 * Searches for an inexistent voter in the voters list.
+	 * Expects a thrown exception of type VoterDoesntExist.
+	 * @throws VoterDoesntExist
+	 */	
 	@Test(expected = VoterDoesntExist.class)
 	public void restoreVotersExceptionTest() throws VoterDoesntExist{
 		votersRestStub = backup.restoreVoters();
 		votersRestStub.findVoter(800);
 	}
 	
-	
-	
+	/**
+	 * Failure test- invalid party.
+	 * Searches for an inexistent party in the parties list.
+	 * Expects a thrown exception of type PartyDoesNotExist.
+	 * @throws PartyDoesNotExist
+	 */	
 	@Test(expected = PartyDoesNotExist.class)
 	public void restorePartiesExceptionTest() throws PartyDoesNotExist{
 		partiesRestStub = backup.restoreParties();
@@ -113,8 +149,12 @@ public class BackupUnitTest {
 	}
 	
 	
-	
-	
+	/**
+	 * Failure test- invalid unregistered voter.
+	 * Searches for an inexistent voter in the unregistered voters list.
+	 * Expects a thrown exception of type VoterDoesntExist.
+	 * @throws VoterDoesntExist
+	 */	
 	@Test(expected = VoterDoesntExist.class)
 	public void restoreUnregVotersExceptionTest() throws VoterDoesntExist{
 		unregVotersRestStub = backup.restoreUnregisteredVoters();
@@ -123,6 +163,150 @@ public class BackupUnitTest {
 	
 	
 	
+	/**
+	 * Voters restore stress test.
+	 * Restores and checks the voter's list 10 times.
+	 * @throws VoterDoesntExist
+	 */	
+	@Test
+	public void multipleRestoreVotersTest() throws VoterDoesntExist{
+		backup.storeState(partiesStub, votersStub, unregVotersStub);
+		for(int j=1; j<=10; j++){
+			votersRestStub = backup.restoreVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i, votersRestStub.findVoter(i).getId());
+			}
+		}
+	}
+	
+	/**
+	 * Parties restore stress test.
+	 * Restores and checks the parties' list 10 times.
+	 * @throws PartyDoesNotExist
+	 */
+	@Test
+	public void multipleRestorePartiesTest() throws PartyDoesNotExist{
+		backup.storeState(partiesStub, votersStub, unregVotersStub);
+		for(int j=1; j<=10; j++){
+			partiesRestStub = backup.restoreParties();
+			for(int i=1;i<=20;i++){
+				Assert.assertEquals("p"+i, partiesRestStub.getPartyBySymbol("p"+i).getSymbol());
+				Assert.assertEquals(i*10, partiesRestStub.getPartyBySymbol("p"+i).getVoteNumber());
+			}
+		}
+	}
+	
+	/**
+	 * Unregistered voters restore stress test.
+	 * Restores and checks the unregistered voter's list 10 times.
+	 * @throws VoterDoesntExist
+	 */
+	@Test
+	public void multipleRestoreUnregVotersTest() throws VoterDoesntExist{
+		backup.storeState(partiesStub, votersStub, unregVotersStub);
+		for(int j=1; j<=10; j++){
+			unregVotersRestStub = backup.restoreUnregisteredVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i+100, unregVotersRestStub.findVoter(i+100).getId());
+			}
+		}
+	}
+	
+	/**
+	 * Backup/restore stress test.
+	 * Creates 5 separate instances of backup and restores the voters' list from each instance.
+	 * @throws VoterDoesntExist
+	 */	
+	@Test
+	public void multipleBackupRestoreVotersTest() throws VoterDoesntExist{
+		Backup backups[] = new Backup[5];
+		for(int j=0;j<5;j++){
+			backups[j] = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
+					new VotersListFactory(), new VoterDataFactory(), "BackupTest/par"+j+".xml", "BackupTest/vote"+j+".xml", "BackupTest/uvote"+j+".xml");
+			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
+		}
+		for(int j=0; j<5; j++){
+			votersRestStub = backups[j].restoreVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i, votersRestStub.findVoter(i).getId());
+			}
+		}
+	}
 	
 	
+	
+	/**
+	 * Backup/restore stress test.
+	 * Creates 5 separate instances of backup and restores the parties' list from each instance. 
+	 * @throws PartyDoesNotExist
+	 */
+	@Test
+	public void multipleBackupRestorePartiesTest() throws PartyDoesNotExist{
+		Backup backups[] = new Backup[5];
+		for(int j=0;j<5;j++){
+			backups[j] = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
+					new VotersListFactory(), new VoterDataFactory(), "BackupTest/par"+j+".xml", "BackupTest/vote"+j+".xml", "BackupTest/uvote"+j+".xml");
+			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
+		}
+		for(int j=0; j<5; j++){
+			partiesRestStub = backup.restoreParties();
+			for(int i=1;i<=20;i++){
+				Assert.assertEquals("p"+i, partiesRestStub.getPartyBySymbol("p"+i).getSymbol());
+				Assert.assertEquals(i*10, partiesRestStub.getPartyBySymbol("p"+i).getVoteNumber());
+			}
+		}
+	}
+	
+	
+	/**
+	 * Backup/restore stress test.
+	 * Creates 5 separate instances of backup and restores the unregistered voters' list from each instance.
+	 * @throws VoterDoesntExist
+	 */
+	@Test
+	public void multipleBackupRestoreUnregVotersTest() throws VoterDoesntExist{
+		Backup backups[] = new Backup[5];
+		for(int j=0;j<5;j++){
+			backups[j] = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
+					new VotersListFactory(), new VoterDataFactory(), "BackupTest/par"+j+".xml", "BackupTest/vote"+j+".xml", "BackupTest/uvote"+j+".xml");
+			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
+		}
+		for(int j=0; j<5; j++){
+			unregVotersRestStub = backup.restoreUnregisteredVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i+100, unregVotersRestStub.findVoter(i+100).getId());
+			}
+		}
+	}
+	
+	
+	/**
+	 * Backup/restore stress test.
+	 * Creates 5 separate instances of backup and restores all lists from each instance.
+	 * @throws VoterDoesntExist
+	 */
+	@Test
+	public void multipleBackupRestoreAllVotersTest() throws VoterDoesntExist, PartyDoesNotExist{
+		Backup backups[] = new Backup[5];
+		for(int j=0;j<5;j++){
+			backups[j] = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), 
+					new VotersListFactory(), new VoterDataFactory(), "BackupTest/par"+j+".xml", "BackupTest/vote"+j+".xml", "BackupTest/uvote"+j+".xml");
+			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
+		}
+		for(int j=0; j<5; j++){
+			votersRestStub = backup.restoreVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i, votersRestStub.findVoter(i).getId());
+			}
+			partiesRestStub = backup.restoreParties();
+			for(int i=1;i<=20;i++){
+				Assert.assertEquals("p"+i, partiesRestStub.getPartyBySymbol("p"+i).getSymbol());
+				Assert.assertEquals(i*10, partiesRestStub.getPartyBySymbol("p"+i).getVoteNumber());
+			}
+			unregVotersRestStub = backup.restoreUnregisteredVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i+100, unregVotersRestStub.findVoter(i+100).getId());
+			}
+		}
+	}
 }
