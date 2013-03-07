@@ -337,7 +337,7 @@ public class MainframeUnitTest {
 		readVotersList.findVoter(111).markVoted();
 		readVotersList.findVoter(222).markIdentified();
 		readVotersList.findVoter(222).markVoted();
-		assertTrue(readVotersList.equals( v));//TODO: recheck that
+		assertTrue(readVotersList.equals( v));
 		
 	}
 	
@@ -575,9 +575,10 @@ public class MainframeUnitTest {
 	 * @throws IdentificationError 
 	 * @throws VoterStartedVote 
 	 * @throws VoterDoesNotExist 
+	 * @throws PartyDoesNotExist 
 	 */
 	@Test
-	public void hotBackupWorks() throws AlreadyIdentified, VoterDoesntExist, Unidentified, InterruptedException, IdentificationError, VoterDoesNotExist, VoterStartedVote{
+	public void hotBackupWorks() throws AlreadyIdentified, VoterDoesntExist, Unidentified, InterruptedException, IdentificationError, VoterDoesNotExist, VoterStartedVote, PartyDoesNotExist{
 		mainframe.initialize();
 		IVotersList emptyList = new VotersListFactory().createInstance();
 		mainframe.identification(111);
@@ -591,6 +592,9 @@ public class MainframeUnitTest {
 		IPartiesList p = backupStubFactory.getCreatedBackupStub().restoreParties();
 		IVotersList v = backupStubFactory.getCreatedBackupStub().restoreVoters();
 		IVotersList u = backupStubFactory.getCreatedBackupStub().restoreUnregisteredVoters();
+		
+		readPartiesList.getPartyBySymbol("oui").increaseVoteNumber();
+		assertEquals(readPartiesList, p);
 		assertEquals(emptyList,u);
 		IVotersList newVotersList = readVotersList.copy();
 		newVotersList.findVoter(111).markIdentified();
