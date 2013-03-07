@@ -7,6 +7,11 @@ import choosingList.logic.IChoosingList.ChoosingInterruptedException;
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 
+/**
+ * 
+ * Graphical interface for voting process.
+ *
+ */
 public interface IChoosingWindow extends IWindow{
 		
 	/**

@@ -1,28 +1,28 @@
 package mainframe.logic;
 
 /**
- * the interface of the mainframe class in our project
- * @author Emil
+ * Interface of the mainframe class in our project
+ * @author Ophir De Jager
  *
  */
 public interface IMainframe{
 	
 	/**
-	 * exception in case of error in the identification process
+	 * Exception in case of error in the identification process
 	 */
 	static class IdentificationError extends Exception{
 		private static final long serialVersionUID = 1L;
 		}
 	
 	/**
-	 * exception in case the voter does not exist
+	 * Exception in case the voter does not exist
 	 */
 	static class VoterDoesNotExist extends Exception{
 		private static final long serialVersionUID = 1L;
 		}
 	
 	/**
-	 * exception in case that the voter has started to vote and we try to mark him again as
+	 * Exception in case that the voter has started to vote and we try to mark him again as
 	 * someone who has started to vote
 	 */
 	static class VoterStartedVote extends Exception{
@@ -30,23 +30,23 @@ public interface IMainframe{
 		}
 	
 	/**
-	 * enum that represents the voter's status
+	 * Enum that represents the voter's status
 	 */
 	enum VoterStatus{
 		/**
-		 * the voter has identified
+		 * Voter has identified in mainframe
 		 */
 		identified,
 		/**
-		 * the voter did not identified yet
+		 * Voter did not identify yet
 		 */
 		unidentified,
 		/**
-		 * the voter has already voted
+		 * Voter has already voted
 		 */
 		voted,
 		/**
-		 * the voter has started to vote
+		 * Voter has started to vote (but not finished)
 		 */
 		startedVote;}
 	
@@ -63,7 +63,7 @@ public interface IMainframe{
 	
 	
 	/**
-	 * count all the votes (parties list will hold that knowledge)
+	 * Count all the votes (parties list will hold that knowledge)
 	 */
 	void countVotes();
 	
@@ -80,24 +80,17 @@ public interface IMainframe{
 	void crash();
 	
 	/**
-	 * check if voter is in the voters list and if he isn't there - add him to the unregistered voters list
-	 * @param id
+	 * Check if voter is in the voters list and if he isn't there - add him to the unregistered voters list
+	 * @param id: voter ID
 	 */
 	void identification(int id) throws IdentificationError;
 	
 	
 	
 	/**
-	 * our very much loved peep method
+	 * Our very much loved peep method
 	 */
-	void peep();
-
-	
-	
-	/*
-	 * Additional methods - by Ophir De Jager
-	 */
-	
+	void peep();	
 	
 	/**
 	 * Mark that voter has voted in a voting station.

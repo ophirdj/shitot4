@@ -7,10 +7,15 @@ import choosingList.logic.IChoosingList.ChoosingInterruptedException;
 import partiesList.model.IParty;
 
 public class ChoosingListCaller {
+	
+	
+	// TODO maybe this interface should move out?
+	// TODO add javadoc
 	public interface CallerComponent{
 		public void activate(IChoosingList choosingList);
 	}
 	
+	// TODO add javadoc
 	public static class ChooseListCallerComponent implements CallerComponent{
 		private IParty shouldBeParty;
 		protected ChoosingListTestEnvironment testEnvironment;
@@ -25,6 +30,7 @@ public class ChoosingListCaller {
 			return "call chooseList(). should return: " + shouldBeParty;
 		}
 		
+		@Override
 		public void activate(IChoosingList choosingList) {
 			try{
 				testEnvironment.updateRunningTestLog(this.toString());
@@ -36,6 +42,7 @@ public class ChoosingListCaller {
 		}
 	}
 	
+	// TODO add javadoc
 	public static class CloseChoosingList implements Runnable{
 
 		private final long shortTime = 10;
@@ -60,6 +67,7 @@ public class ChoosingListCaller {
 		
 	}
 	
+	// TODO add javadoc
 	public static class ChooseListCallerWaitComponent extends ChooseListCallerComponent{
 		
 		public ChooseListCallerWaitComponent(ChoosingListTestEnvironment testEnvironment) {
@@ -85,6 +93,7 @@ public class ChoosingListCaller {
 		}
 	}
 	
+	// TODO add javadoc
 	public static class ChooseListRetireComponent implements CallerComponent{
 
 		private ChoosingListTestEnvironment testEnvironment;

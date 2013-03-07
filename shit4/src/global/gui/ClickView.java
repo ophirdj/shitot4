@@ -4,6 +4,7 @@ package global.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// TODO add javadoc
 public class ClickView implements ActionListener{
 	private StationPanel button_panel;
 	private Main_Window window;

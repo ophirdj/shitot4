@@ -5,6 +5,11 @@ import java.awt.event.ActionListener;
 
 import mainframe.logic.MainframeAction;
 
+/**
+ * Handle button clicks in mainframe panel
+ * @author Ziv Ronen
+ *
+ */
 public class MainframeClick implements ActionListener{
 	private MainframeWindow button_window;
 	private MainframeAction mainframe_action;

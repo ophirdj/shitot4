@@ -9,7 +9,7 @@ import mainframe.logic.IMainframe;
 import mainframe.logic.Mainframe;
 
 /**
- * the factory of the mainframe object
+ * The factory of the mainframe object
  * @author Emil
  *
  */

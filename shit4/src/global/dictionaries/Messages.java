@@ -1,11 +1,13 @@
 package global.dictionaries;
 
 /**
- * 
+ * Added feature: Display buttons & text in user's native language.
+ * Every text output should have a corresponding Messages enum type
+ * here (add if you want more output messages). All output will be
+ * represented by this enum and translated by an IDictionary to a
+ * matching String that can be displayed to the user.
+ *  
  * @author Ophir De Jager
- * This is the dictionary that contains all the phrases that the program shows the user.
- * Every message must have a corresponding enum here to be successfully translated.
- * Add your messages here if you can't find one that matches.
  */
 public enum Messages {
 	Main_Window,

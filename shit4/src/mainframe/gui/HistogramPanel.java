@@ -12,12 +12,17 @@ import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 
 
-
+/**
+ * Panel to show histogram of election results
+ * @author Ziv Ronen
+ *
+ */
 public class HistogramPanel extends JPanel {
 	
 
 static final long serialVersionUID = 1L;
-  private IPartiesList parties;
+private IPartiesList parties;
+private static final int minHeight = 180;
 
   
   public HistogramPanel(){
@@ -33,7 +38,10 @@ static final long serialVersionUID = 1L;
     repaint();
   }
   
-  
+  /**
+   * Get preferred width so that panel will grow with window and will not cap
+   * @return
+   */
   private int getPreferredWidth(){
 	  if(parties == null) return getWidth();
 	    int maxStringLength = 0;
@@ -48,7 +56,7 @@ static final long serialVersionUID = 1L;
 
   /**
    * Paint the histogram 
-   * @param g TODO
+   * @param g: the panel's graphic object (we draw with it)
    */
   protected void paintComponent(Graphics g) {
     if (parties == null) return; // No display if count is null
@@ -103,11 +111,9 @@ static final long serialVersionUID = 1L;
     }
   }
   
-  /**
-   * 
-   */
+
   @Override
   public Dimension getPreferredSize(){
-	  return new Dimension(getPreferredWidth(), 180);
+	  return new Dimension(getPreferredWidth(), minHeight);
   }
 }

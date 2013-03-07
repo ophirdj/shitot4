@@ -22,6 +22,11 @@ import mainframe.logic.MainframeAction;
 
 import partiesList.model.IPartiesList;
 
+/**
+ * Implementation of IMainframeWindow
+ * @author Ziv Ronen & Ophir De Jager
+ *
+ */
 public class MainframeWindow extends StationPanel implements IMainframeWindow {
 
 	static final long serialVersionUID = 1L;

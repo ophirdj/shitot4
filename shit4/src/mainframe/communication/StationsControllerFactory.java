@@ -28,7 +28,7 @@ public class StationsControllerFactory implements IStationsControllerFactory {
 	
 	
 	private List<String> getPasswords(){
-		//TODO: set some passwords here
+		//TODO: set some passwords here. How do we configure the passwords? Should we read from file???
 		List<String> passwords = new ArrayList<String>();
 		passwords.add("pass");
 		return passwords;

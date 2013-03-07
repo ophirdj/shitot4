@@ -11,13 +11,13 @@ public static class ChoosingInterruptedException extends Exception{
 	}
 
 /**
- * start the process of choosing a party.
- * @return the party that was chosen
+ * Start the process of choosing a party.
+ * @return the party that was chosen by the voter
  */
 public IParty chooseList() throws ChoosingInterruptedException;
 
 /**
- * finish the choosing process
+ * Finish the choosing process and retire the choosing list.
  */
 public void retire();
 

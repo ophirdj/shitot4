@@ -6,7 +6,7 @@ import mainframe.gui.MainframeWindow;
 import mainframe.logic.IMainframe;
 
 /**
- * the factory of the MainframeWindow
+ * Factory of the MainframeWindow
  * @author Emil
  *
  */

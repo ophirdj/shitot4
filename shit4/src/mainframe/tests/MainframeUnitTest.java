@@ -1,20 +1,14 @@
 package mainframe.tests;
 
 import static org.junit.Assert.*;
-
-import mainframe.communication.IStationsControllerFactory;
-import mainframe.factories.IMainframeWindowFactory;
 import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.IdentificationError;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStartedVote;
 import mainframe.logic.Mainframe;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import partiesList.factories.IPartiesListFactory;
 import partiesList.factories.IPartyFactory;
 import partiesList.factories.PartiesListFactory;
@@ -22,11 +16,6 @@ import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;
 import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
-import practiceStation.guides.ImagePanel.image_action;
-
-import fileHandler.factories.IBackupFactory;
-import fileHandler.factories.IReadSuppliedXMLFactory;
-
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.factories.VoterDataFactory;
@@ -79,7 +68,6 @@ public class MainframeUnitTest {
 			try {
 				this.stationsControllerStubFactory.getStationsController().markVoted(-1);
 			} catch (VoterDoesNotExist e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -142,7 +130,7 @@ public class MainframeUnitTest {
 	public void testMainframeBuild() {
 		
 		
-		IMainframe m = new Mainframe(backupTimeIntervalSeconds, backupStubFactory
+		new Mainframe(backupTimeIntervalSeconds, backupStubFactory
 									, mainframeWindowStubFactory
 									, readSuppliedXMLStubFactory
 									, stationsControllerStubFactory
@@ -609,6 +597,7 @@ public class MainframeUnitTest {
 		newVotersList.findVoter(222).markIdentified();
 		newVotersList.findVoter(222).markVoted();		
 		assertEquals(newVotersList, v);
+		// TODO What about p? Is the test incomplete?
 	}
 
 }

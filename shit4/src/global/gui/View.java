@@ -2,6 +2,7 @@ package global.gui;
 
 import global.dictionaries.Messages;
 
+// TODO add javadoc
 public class View {
 	Messages name;
 	private String original;

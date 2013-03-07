@@ -4,6 +4,11 @@ import global.dictionaries.Languages;
 import global.dictionaries.Messages;
 import partiesList.model.IParty;
 
+/**
+ * Interface for basic required methods from every window 
+ * @author Ziv Ronen
+ *
+ */
 public interface IWindow{
 
 	/**
@@ -26,46 +31,46 @@ public interface IWindow{
 	public void printMessage(String message);
 	
 	/**
-	 * change the language of the station to the given language
+	 * Change the language of the station to the given language
 	 * @param language: the language for the station
 	 */
 	public void setLanguage(Languages language);
 	
 	/**
-	 * 
+	 * Translate a message to a corresponding String in the window's current language
 	 * @param message; the message
 	 * @return string representing the message in the correct language
 	 */
 	public String translate(Messages message);
 	
 	/**
-	 * display the given message as error message
+	 * Display the given message as error message
 	 * @param message: message to display
 	 */
 	void printErrorMessage(Messages message);
 	
 	/**
-	 * display the given message as info message
+	 * Display the given message as info message
 	 * @param party: the chosen party
 	 * @param message: message to display
 	 */
 	void printInfoMessage(Messages message, IParty party);
 	
 	/**
-	 * display the given message as info message
+	 * Display the given message as info message
 	 * @param message: message to display
 	 */
 	void printInfoMessage(Messages message);
 	
 	/**
-	 * display the given message as info message
+	 * Display the given message as info message
 	 * @param message: message to display
 	 * @return the voter choice
 	 */
 	boolean printConformationMessage(Messages message);
 	
 	/**
-	 * display the given message as info message
+	 * Display the given message as info message
 	 * @param message: message to display
 	 * @param party: the party that was chosen
 	 * @return the voter choice
@@ -73,7 +78,7 @@ public interface IWindow{
 	boolean printConformationMessage(Messages message, IParty party);
 	
 	/**
-	 * close the window
+	 * Close the window
 	 */
 	void closeWindow();
 }

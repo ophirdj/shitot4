@@ -6,6 +6,11 @@ import choosingList.logic.IChoosingList;
 
 import partiesList.model.IPartiesList;
 
+/**
+ * 
+ * Interface for an IChoosingList factory
+ * @author Ziv Ronen
+ */
 public interface IChoosingListFactory {
 	/**
 	 * 

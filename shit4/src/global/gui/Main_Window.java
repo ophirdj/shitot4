@@ -16,7 +16,11 @@ import javax.swing.ScrollPaneLayout;
 import javax.swing.border.TitledBorder;
 
 
-
+/**
+ * Main window - main GUI class
+ * @author Ziv Ronen
+ *
+ */
 public class Main_Window extends JFrame {
 	private static final long serialVersionUID = 56L;
 	public static final Color BackGroundColor = new Color(58,95,205);

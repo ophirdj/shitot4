@@ -3,7 +3,7 @@ package mainframe.factories;
 import mainframe.logic.IMainframe;
 
 /**
- * the interface of the Mainframe factory
+ * Interface of the Mainframe factory
  * @author Emil
  *
  */
@@ -11,7 +11,7 @@ public interface IMainframeFactory {
 
 	/**
 	 * 
-	 * @return new instance of Mainframe
+	 * @return new instance of IMainframe
 	 */
 	IMainframe createInstance();
 }

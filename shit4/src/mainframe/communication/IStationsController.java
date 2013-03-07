@@ -1,11 +1,15 @@
 package mainframe.communication;
 
 import partiesList.model.IPartiesList;
-import votingStation.logic.IVotingStation;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStartedVote;
 import mainframe.logic.IMainframe.VoterStatus;
 
+/**
+ * Handler of all "communication" between mainframe and voting stations
+ * @author Ophir De Jager
+ *
+ */
 public interface IStationsController{
 
 	
@@ -31,7 +35,7 @@ public interface IStationsController{
 	/**
 	 * Check voter status.
 	 * @param id: voter's ID number.
-	 * @return the status of the voter as apears in the mainframe.
+	 * @return the status of the voter as appears in the mainframe.
 	 */
 	VoterStatus getVoterStatus(int id);
 	

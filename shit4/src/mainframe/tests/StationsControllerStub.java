@@ -1,16 +1,9 @@
 package mainframe.tests;
 
-import java.awt.List;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import partiesList.model.IPartiesList;
 import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
-import votingStation.factories.IVotingStationFactory;
-import votingStation.logic.IVotingStation;
 import mainframe.communication.IStationsController;
-import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStartedVote;
 import mainframe.logic.IMainframe.VoterStatus;
@@ -40,8 +33,6 @@ public class StationsControllerStub implements IStationsController {
 
 	@Override
 	public void peep() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -52,13 +43,10 @@ public class StationsControllerStub implements IStationsController {
 
 	@Override
 	public void retire() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public VoterStatus getVoterStatus(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -69,7 +57,6 @@ public class StationsControllerStub implements IStationsController {
 			p = this.partiesList.getPartyBySymbol("oui");
 			p.increaseVoteNumber();
 		} catch (PartyDoesNotExist e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -79,8 +66,6 @@ public class StationsControllerStub implements IStationsController {
 	@Override
 	public void markStartedVote(int id) throws VoterDoesNotExist,
 			VoterStartedVote {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

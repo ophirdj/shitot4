@@ -5,6 +5,11 @@ import global.dictionaries.Messages;
 import mainframe.gui.IMainframeWindow;
 import mainframe.logic.IMainframe.IdentificationError;
 
+/**
+ * All actions possible in mainframe panel
+ * @author Ophir De Jager
+ *
+ */
 public enum MainframeAction {
 	countVotes{
 		@Override
@@ -203,24 +208,69 @@ public enum MainframeAction {
 	}
 	;
 	
+	/**
+	 * Perform the action
+	 * @param callerStation: mainframe
+	 * @param window: mainframe panel
+	 */
 	public abstract void activate(IMainframe callerStation, IMainframeWindow window);
+	
+	/**
+	 * 
+	 * @return
+	 */
 	protected abstract int getRowInKind();
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public abstract boolean isBeforeInit();
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public abstract boolean isAfterInit();
+	
+	/**
+	 * Get a string corresponding to the action name using <dictionary> for translation
+	 * @param dictionary: translator
+	 * @return action name
+	 */
 	public abstract String getString(IDictionary dictionary);
 	
+	/**
+	 * There are 2 configurations of mainframe panel: before and after initialization.
+	 * This enum represents when something should be shown in mainframe panel.
+	 * @author Ziv Ronen
+	 *
+	 */
 	public enum existsIn{
+		/**
+		 * Show only prior to initialization
+		 */
 		BeforeInit,
+		/**
+		 * Show only after initialization
+		 */
 		AfterInit,
+		/**
+		 * Show always
+		 */
 		Always
 	}
 	
+	//Sort all buttons in rows
+	
+	// TODO add javadoc
 	public int getRow(boolean afterInit){
 		if(isBeforeInit())
 			return getRowInKind()+afterInitRow();
 		return getRowInKind();
 	}
 	
+	// TODO add javadoc
 	public static int maxRow(){
 		int max_row = 0;
 		for(MainframeAction action : MainframeAction.values()){
@@ -229,6 +279,7 @@ public enum MainframeAction {
 		return max_row+1;
 	}
 	
+	// TODO add javadoc
 	private static int afterInitRow(){
 		int max_row = 0;
 		for(MainframeAction action : MainframeAction.values()){

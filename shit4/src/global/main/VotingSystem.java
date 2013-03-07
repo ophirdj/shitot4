@@ -15,7 +15,6 @@ import partiesList.factories.IPartyFactory;
 import partiesList.factories.PartiesListFactory;
 import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;
-import partiesList.model.IParty;
 import partiesList.model.PartiesList;
 import partiesList.model.Party;
 import practiceStation.factories.IImagePanelFactory;
@@ -28,10 +27,6 @@ import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.factories.VoterDataFactory;
 import votersList.factories.VotersListFactory;
-import votersList.model.IVoterData;
-import votersList.model.IVotersList;
-import votersList.model.VoterData;
-import votersList.model.VotersList;
 import votingStation.factories.IVotingRecordFactory;
 import votingStation.factories.IVotingStationFactory;
 import votingStation.factories.IVotingStationWindowFactory;
@@ -42,12 +37,19 @@ import fileHandler.factories.BackupFactory;
 import fileHandler.factories.IBackupFactory;
 import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.factories.ReadSuppliedXMLFactory;
-import fileHandler.logic.Backup;
-import fileHandler.logic.IBackup;
 import global.gui.Main_Window;
 
+/**
+ * Main class to configure an initialize the system properly
+ * @author Ophir De Jager
+ *
+ */
 public class VotingSystem {
 	
+	/**
+	 * Default parties that will be shown as practice in the practice stations
+	 * @return parties that will be shown as practice in the practice stations
+	 */
 	private static IPartiesList getPracticeParties() {
 			IPartiesList parties = new PartiesList(new PartyFactory());
 			parties.addParty(new Party("Party1", "a", 0));
@@ -66,6 +68,18 @@ public class VotingSystem {
 			return parties;
 	}
 	
+	/**
+	 * Configures and initializes the system
+	 * 
+	 * update: This only configures the view (1 main window) 
+	 * 
+	 * update: All configurations are done by the factories
+	 * 
+	 * update: Number of practice stations is not configured anywhere
+	 * therefore it is set to the default 1
+	 * 
+	 * @param args: ignored
+	 */
 	public static void main(String[] args) {
 		Main_Window main_window = new Main_Window();
 		IPartyFactory partyFactory = new PartyFactory();
@@ -91,48 +105,5 @@ public class VotingSystem {
 		IPracticeStationFactory practiceStationFactory = new PracticeStationFactory(choosingListFactory, practiceStationWindowFactory, imagePanelFactory);
 		practiceStationFactory.createInstance(getPracticeParties());
 		main_window.show_window();
-	}
-	
-	
-	public static void main1(String[] args) {
-		IBackup backup = new Backup(new PartiesListFactory(new PartyFactory()), new PartyFactory(), new VotersListFactory(), new VoterDataFactory(), "test/voters.xml", "test/parties.xml", "test/unregistered.xml");
-		
-		IPartiesList readPartiesList = new PartiesList(new PartyFactory());
-		IParty p1 = new Party("Vive la France", "alors on dance!");
-		IParty p2 = new Party("יש עתיד", "יש");
-		IParty p3 = new Party("אין עתיד", "fuck you");
-		IParty p4 = new Party("Liberte", "oui");
-		IParty p5 = new Party("egalite", "non");
-		IParty p6 = new Party("fraternite", "23");
-		IParty p7 = new Party("technion", "Ullman's metal dick");
-		readPartiesList.addParty(p1);
-		readPartiesList.addParty(p2);
-		readPartiesList.addParty(p3);
-		readPartiesList.addParty(p4);
-		readPartiesList.addParty(p5);
-		readPartiesList.addParty(p6);
-		readPartiesList.addParty(p7);
-		
-		IVotersList readVotersList = new VotersList();
-		IVoterData v1 = new VoterData(111);
-		IVoterData v2 = new VoterData(222);
-		IVoterData v3 = new VoterData(333);
-		IVoterData v4 = new VoterData(444);
-		IVoterData v5 = new VoterData(555);
-		readVotersList.addVoter(v1);
-		readVotersList.addVoter(v2);
-		readVotersList.addVoter(v3);
-		readVotersList.addVoter(v4);
-		readVotersList.addVoter(v5);
-		
-		IVotersList readUnreg = new VotersList();
-		readVotersList.addVoter(new VoterData(1));
-		readVotersList.addVoter(new VoterData(2));
-		readVotersList.addVoter(new VoterData(3));
-		readVotersList.addVoter(new VoterData(4));
-		readVotersList.addVoter(new VoterData(5));
-		
-		backup.storeState(readPartiesList, readVotersList, readUnreg);
-		System.out.println("yay");
 	}
 }

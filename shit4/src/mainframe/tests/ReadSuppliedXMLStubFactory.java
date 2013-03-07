@@ -1,7 +1,6 @@
 package mainframe.tests;
 
 import fileHandler.factories.IReadSuppliedXMLFactory;
-import fileHandler.logic.IReadSuppliedXML;
 
 /**
  * this stub factory returns the same object - and we can make it return a brand new

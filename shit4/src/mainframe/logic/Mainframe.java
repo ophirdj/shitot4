@@ -311,7 +311,7 @@ public class Mainframe implements IMainframe {
 		}
 		
 		/**
-		 * Stop backing up. also backup one final time
+		 * Halt backup thread & backup one last time.
 		 */
 		public void retire(){
 			synchronized(lock){
@@ -325,6 +325,7 @@ public class Mainframe implements IMainframe {
 		
 		/**
 		 * Simulate crush (exit without backup). for test only.
+		 * Halt backup thread without ensuring a backup was made.
 		 */
 		public void kill(){
 			synchronized(lock){

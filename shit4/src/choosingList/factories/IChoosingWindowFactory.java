@@ -3,6 +3,11 @@ package choosingList.factories;
 import global.gui.StationPanel;
 import choosingList.gui.IChoosingWindow;
 
+/**
+ * 
+ * Interface for and IChoosingWindow factory
+ * @author Ziv Ronen
+ */
 public interface IChoosingWindowFactory {
 	/**
 	 * 

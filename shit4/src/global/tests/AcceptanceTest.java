@@ -2,10 +2,8 @@ package global.tests;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import mainframe.communication.IStationsControllerFactory;
 import mainframe.factories.IMainframeFactory;
 import mainframe.factories.IMainframeWindowFactory;
@@ -48,9 +46,9 @@ import votingStation.factories.VotingStationFactory;
 import org.junit.*;
 
 /**
- * the acceptance tests of the entire project 
- * Ophir add here more details
- * all the GUI are represented by stubs
+ * General acceptance tests for the whole system
+ * @author Ophir De Jager
+ *
  */
 public class AcceptanceTest {
 	
@@ -86,10 +84,6 @@ public class AcceptanceTest {
 	private final static int WhitePartyNum = -1;
 	
 	
-	//keep track of voters (have they identified themselves? who have they voted to?)
-	private Set<Integer> identifiedIDs;
-	private Map<Integer, IParty> votes;
-	
 	
 	private String getSymbolByPlace(int place) throws Exception{
 		if(place == WhitePartyNum) return null;
@@ -102,6 +96,7 @@ public class AcceptanceTest {
 		throw new AssertionError();
 	}
 	
+	@SuppressWarnings("unused")
 	private void peepParties(){
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
@@ -113,6 +108,7 @@ public class AcceptanceTest {
 		resultParties.peep();
 	}
 	
+	@SuppressWarnings("unused")
 	private void peepVoters(){
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
@@ -124,6 +120,7 @@ public class AcceptanceTest {
 		resultVoters.peep();
 	}
 	
+	@SuppressWarnings("unused")
 	private void peepUnregVoters(){
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
@@ -138,8 +135,8 @@ public class AcceptanceTest {
 	
 	
 	/**
-	 * prepare the environment for the tests
-	 * executed before each and every test
+	 * Configure the system to test configuration (no GUI, short voting time and backup intervals)
+	 * and initialize the system 
 	 */
 	@Before
 	public void initSys(){
@@ -196,15 +193,12 @@ public class AcceptanceTest {
 		expectedVotersList = initialVotersList.copy();
 		expectedUnregisteredList = new VotersList();
 		
-		
-		identifiedIDs = new HashSet<Integer>();
-		votes = new HashMap<Integer, IParty>();
-		
 		mainframe.initialize();
 	}
 	
 	/**
-	 * asserts that what the mainframe backup is what it should have been backup
+	 * Assert that lists (voters, parties, unregistered voters) saved in backup match
+	 * the expected lists (saved in this class) 
 	 */
 	private void checkBackUp(){
 		IPartyFactory partyFactory = new PartyFactory();
@@ -217,30 +211,14 @@ public class AcceptanceTest {
 		IVotersList resultVoters = backup.restoreVoters();
 		IVotersList reusltUnregistered = backup.restoreUnregisteredVoters();
 		
-//		System.out.println("expected parties");
-//		expectedPartiesList.peep();
-//		System.out.println("actual parties");
-//		resultParties.peep();
-//		System.out.println("expected voters");
-//		expectedVotersList.peep();
-//		System.out.println("actual voters");
-//		resultVoters.peep();
-//		System.out.println("expected unregistered");
-//		expectedUnregisteredList.peep();
-//		System.out.println("actual unregistered");
-//		reusltUnregistered.peep();
-//		
-//		System.out.println("\n\n\n\n");
-		
 		Assert.assertEquals(expectedPartiesList,resultParties);
 		Assert.assertEquals(expectedVotersList, resultVoters);
 		Assert.assertEquals(expectedUnregisteredList, reusltUnregistered);
 	}
 	
 	/**
-	 * checks after each and every test that the data that was backup is correct
-	 * i.e. mainframe backup the right things
-	 * @throws Exception should not be thrown
+	 * Assert that system behaved as expected after each test
+	 * @throws Exception if something's wrong
 	 */
 	@After
 	public void checkBackupLists() throws Exception{
@@ -249,28 +227,33 @@ public class AcceptanceTest {
 		mainframe.shutDown();
 		checkBackUp();
 	}
+	
+	/*
+	 * Methods used by stubs to enable track of them
+	 * (and through them of the system) during system run
+	 */
 
 	/**
-	 * adds another voting station window stub to the system
-	 * @param stub the voting station window stub that should be added
+	 * Add window stub to list of window stubs
+	 * @param stub
 	 */
 	public void addVotingWindowStub(VotingStationWindowStub stub) {
 		votingWindowStubs.add(stub);
 	}
 
 	/**
-	 * adds an image panel stub to the given station panel
-	 * @param stub the image panel stub that should be added
-	 * @param caller the panel that this image panel stub should be added to
+	 * Add image panel and its station to list of image panel stubs
+	 * @param stub
+	 * @param caller
 	 */
 	public void addImagePanelStub(ImagePanelStub stub, StationPanel caller) {
 		imagePanelStubs.put(caller, stub);
 	}
 	
 	/**
-	 * adds a choosing window stub to the given station panel
-	 * @param stub the choosing window stub that should be added
-	 * @param stationPanel the panel that this choosing window stub should be added to
+	 * Add choosing window stub to list of choosing window stubs
+	 * @param stub
+	 * @param stationPanel
 	 */
 	public void addChoosingWindowStub(ChoosingWindowStub stub,
 			StationPanel stationPanel) {
@@ -279,55 +262,73 @@ public class AcceptanceTest {
 	}
 
 	/**
-	 * adds a practice station window stub to the list of practice practice station window stubs
-	 * @param stub the practice station window stub that should be added to the list of practice practice station window stubs
+	 * Add practice window stub to list of practice window stubs
+	 * @param stub
 	 */
 	public void addPracticeStationWindowStub(PracticeStationWindowStub stub) {
 		practiceStationWindowStubs.add(stub);
 	}
 
 	/**
-	 * sets the mainframe window stub to be the mainframe window stub that was given as a parameter
-	 * @param stub the above mainframe window stub
+	 * Set the mainframe window stub
+	 * @param stub
 	 */
 	public void setMainframeWindowStub(MainframeWindowStub stub) {
 		mainframeWindowStub = stub;
 	}
 	
 	/**
-	 * 
+	 * Keep track of voter and his data
+	 * Useful to enable automatic mass voting
+	 * @author Ziv Ronen
+	 *
 	 */
 	public static class votingData{
 		private int id;
 		private int station;
 		private int party;
 		
+		/**
+		 * Create a voter with ID <id>, who votes at station <station> to party <party>
+		 * @param id: ID
+		 * @param station: number of the station voter will vote at
+		 * @param party: number of party voter will vote to
+		 */
 		public votingData(int id, int station, int party) {
 			this.station = station;
 			this.party = party;
 			this.id = id;
 		}
 
+		/**
+		 * Get party voter will vote to
+		 * @return
+		 */
 		public int getParty() {
 			return party;
 		}
 
+		/**
+		 * Get number of station voter will vote at
+		 * @return
+		 */
 		public int getStation() {
 			return station;
 		}
 
+		/**
+		 * Get voter ID
+		 * @return
+		 */
 		public int getId() {
 			return id;
 		}
 	}
 	
 	/**
-	 * identifies every voter in the given array and if the voter is not exists in the
-	 * expected voters list then we add him to the expected voters list
-	 * and to the expected unregistered voters list
-	 * finally we mark the voter that is in the  expected voters list as a voter
-	 * who already identified
-	 * @param voting the above array of voters
+	 * Identifies all given voters in the mainframe station (even if they have
+	 * Identified already)
+	 * @param voting
 	 * @throws Exception
 	 */
 	private void identify(votingData[] voting) throws Exception{
@@ -349,10 +350,9 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * every voter in the voters array that is given as parameter is making his vote
-	 * 'expectedVotersList' and 'expectedPartiesList' are accordingly updated
-	 * @param voting the above voting array
-	 * @throws Exception if something goes wrong
+	 * Make each voter vote for his party at his voting station
+	 * @param voting
+	 * @throws Exception
 	 */
 	private void doVotes(votingData[] voting) throws Exception{
 		for(votingData singleVoting : voting){
@@ -378,10 +378,9 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * identifying every voter in the voters array and makes every voter to vote
-	 * also updates the test environment accordingly
-	 * @param voting the above voters array
-	 * @throws Exception should not happen
+	 * Identify all voters then do all votings
+	 * @param voting
+	 * @throws Exception
 	 */
 	private void startVoting(votingData[] voting) throws Exception{
 		identify(voting);
@@ -393,7 +392,9 @@ public class AcceptanceTest {
 	
 	
 	
-	
+	/**
+	 * Initialize system, then check if everything's OK
+	 */
 	@Test
 	public void testInitialize(){
 		Assert.assertEquals(numVotingStations, votingWindowStubs.size());
@@ -405,30 +406,10 @@ public class AcceptanceTest {
 		}
 	}
 	
-	/**
-	 * checks that there is no error when only one voter who is in the voters list is voting
-	 * @throws Exception if an error occurs
-	 */
-	@Test
-	public void testOneVote() throws Exception{
-		votingData voting[] = {new votingData(1,0,0)};
-		startVoting(voting);
-	}
 	
 	/**
-	 * checks that there is no error when only one voter 
-	 * who is not in the voters list is voting
-	 * @throws Exception if an error occurs
-	 */
-	@Test
-	public void testOneVoteFromUnregisteredVoter() throws Exception{
-		votingData voting[] = {new votingData(4,0,0)};
-		startVoting(voting);
-	}
-	
-	/**
-	 * checks that only one voter who is registered identifying causing no errors
-	 * @throws Exception if an error occurs
+	 * Identification of voter from voters list
+	 * @throws Exception
 	 */
 	@Test
 	public void testOneIdentification() throws Exception{
@@ -440,8 +421,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * checks that only one voter who is unregistered identifying causing no errors
-	 * @throws Exception if an error occurs
+	 * Identification of voter not from voters list
+	 * @throws Exception
 	 */
 	@Test
 	public void testIdentificationFromUnregisteredVoter() throws Exception{
@@ -460,10 +441,31 @@ public class AcceptanceTest {
 		expectedUnregisteredList.addVoter(toAddUnreg);
 	}
 	
+	/**
+	 * Vote of voter from the voters list
+	 * @throws Exception
+	 */
+	@Test
+	public void testOneVote() throws Exception{
+		votingData voting[] = {new votingData(1,0,0)};
+		startVoting(voting);
+	}
+	
+	
+
+	/**
+	 * Vote of voter not from the voters list (unregistered)
+	 * @throws Exception
+	 */
+	@Test
+	public void testOneVoteFromUnregisteredVoter() throws Exception{
+		votingData voting[] = {new votingData(4,0,0)};
+		startVoting(voting);
+	}
 	
 	/**
-	 * 
-	 * @throws Exception if an error occurs
+	 * 1 vote to each party
+	 * @throws Exception
 	 */
 	@Test
 	public void testFirstVotingAllParties() throws Exception{
@@ -476,7 +478,7 @@ public class AcceptanceTest {
 		for (int i = 0; i < stations.length; i++) {
 			stations[i] = i;
 		}
-		votingData voting[] = new votingData[10];
+		votingData voting[] = new votingData[initialPartiesList.size()];
 		for (int i = 0; i < voting.length; i++) {
 			voting[i] = new votingData(i, stations[i%stations.length], parties[i%parties.length]);
 		}
@@ -485,8 +487,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * 
-	 * @throws Exception if an error occurs
+	 * More than 1 vote to some parties, 0 votes to others
+	 * @throws Exception
 	 */
 	@Test
 	public void testFirstVotingManyParties() throws Exception{
@@ -498,7 +500,7 @@ public class AcceptanceTest {
 		for (int i = 0; i < stations.length; i++) {
 			stations[i] = i;
 		}
-		votingData voting[] = new votingData[10];
+		votingData voting[] = new votingData[initialPartiesList.size()];
 		for (int i = 0; i < voting.length; i++) {
 			voting[i] = new votingData(i, stations[i%stations.length], parties[i%parties.length]);
 		}
@@ -506,9 +508,10 @@ public class AcceptanceTest {
 		startVoting(voting);
 	}
 	
+	
 	/**
-	 * 
-	 * @throws Exception if an error occurs
+	 * No one voted :(
+	 * @throws Exception
 	 */
 	@Test
 	public void testFirstVotingNoVoting() throws Exception{
@@ -518,7 +521,7 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * 
+	 * Few votes
 	 * @throws Exception
 	 */
 	@Test
@@ -540,8 +543,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * tests a scenario when the voter is revoting only once
-	 * @throws Exception if an error occurs
+	 * Voter changes vote 1 time (same station)
+	 * @throws Exception
 	 */
 	@Test
 	public void testRevoteOnce() throws Exception{
@@ -555,8 +558,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * 
-	 * @throws Exception if an error occurs
+	 * Voter changes vote 1 time (same station) after waiting some time
+	 * @throws Exception
 	 */
 	@Test
 	public void testRevoteAfterTimeOnce() throws Exception{
@@ -570,12 +573,11 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * tests a scenario when the voter is revoting 
-	 * after the time for a legal revote is over
-	 * @throws Exception if an error occurs
+	 * Voter changes vote 1 time (same station) after waiting too much time
+	 * @throws Exception
 	 */
 	@Test
-	public void testRevoteAfterTimeOver() throws Exception{
+	public void testRevoteAfterTooMuchTime() throws Exception{
 		final long waiting_time = (maxVotingTimeSeconds+1) * 1000;
 		votingData voting[] = {new votingData(1, 0, 0)};
 		startVoting(voting);
@@ -585,9 +587,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * tests a scenario when the voter is revoting after a short time (without waiting) in
-	 * a different voting station other than the one he is voted on previously
-	 * @throws Exception if an error occurs
+	 * Voter changes vote 1 time, tries different station
+	 * @throws Exception
 	 */
 	@Test
 	public void testRevoteDifferentStation() throws Exception{
@@ -600,9 +601,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * tests a scenario when the voter is revoting after a long time in
-	 * a different voting station other than the one he is voted on previously
-	 * @throws Exception if an error occurs
+	 * Voter changes vote 1 time, tries different station after long time
+	 * @throws Exception
 	 */
 	@Test
 	public void testRevoteDifferentStationAfterLongWait() throws Exception{
@@ -617,7 +617,7 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * tests if a guide really exists in the practice station
+	 * Test there is a guide available
 	 */
 	@Test
 	public void testGuideExist(){
@@ -627,10 +627,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * testing the "testVote" function of the voting station - the committee member is entering
-	 * a correct password
-	 * (testVote - when a committee member wishes to check the regularity of the voting station)
-	 * @throws Exception if an error occurs
+	 * Committee member makes a test vote using correct password
+	 * @throws Exception
 	 */
 	@Test
 	public void testTestVote() throws Exception{
@@ -651,10 +649,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * testing the "testVote" function of the voting station when the committee member is entering
-	 * a wrong password
-	 * (testVote - when a committee member wishes to check the regularity of the voting station)
-	 * @throws Exception if an error occurs
+	 * Committee member makes a test vote using wrong password
+	 * @throws Exception
 	 */
 	@Test
 	public void testTestVoteWrongPassword() throws Exception{
@@ -675,8 +671,8 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * tests that indeed a voter can revote twice at most
-	 * @throws Exception if an error occurs
+	 * Committee member makes 2 test votes using correct password
+	 * @throws Exception
 	 */
 	@Test
 	public void testRevoteOnlyTwice() throws Exception{
@@ -701,12 +697,8 @@ public class AcceptanceTest {
 		expectedPartiesList.getPartyBySymbol(getSymbolByPlace(2)).increaseVoteNumber();
 	}
 	
-	/**
-	 * tests the regularity of system if the time between votes (the voting intensity) is
-	 * 'timeBetweenVotes'
-	 * @param timeBetweenVotes - time between two votes (in milliseconds)
-	 * @throws Exception if an error occurs
-	 */
+	//This one's tricky... failed sometimes because wait was too short?
+	
 	private void testBackUp(long timeBetweenVotes) throws Exception{
 		//voting time during test is 5 seconds
 		final long finisingAfter = 5 * 1000;
@@ -737,20 +729,21 @@ public class AcceptanceTest {
 		checkBackUp();
 	}
 	
+
+	//Stress tests
+	
 	/**
-	 * test a scenario when the voting intensity is high
-	 * voting intensity = number of votes per time unit
-	 * @throws Exception if an error occurs
+	 * Light load - vote every ~5 seconds
+	 * @throws Exception
 	 */
 	@Test
-	public void testIntensiveHotBackUp() throws Exception{
-		testBackUp(50);
+	public void testSlowHotBackUp() throws Exception{
+		testBackUp(5000);
 	}
 	
 	/**
-	 * test a scenario when the voting intensity is average
-	 * voting intensity = number of votes per time unit
-	 * @throws Exception if an error occurs
+	 * Medium load - vote every ~0.5 seconds
+	 * @throws Exception
 	 */
 	@Test
 	public void testNormalHotBackUp() throws Exception{
@@ -758,13 +751,12 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * test a scenario when the voting intensity is low
-	 * voting intensity = number of votes per time unit
-	 * @throws Exception if an error occurs
+	 * Heavy load - vote every ~0.05 seconds
+	 * @throws Exception
 	 */
 	@Test
-	public void testSlowHotBackUp() throws Exception{
-		testBackUp(5000);
+	public void testIntensiveHotBackUp() throws Exception{
+		testBackUp(50);
 	}
 	
 }

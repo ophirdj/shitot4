@@ -77,10 +77,12 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
 	  return_type = type;
   }
   
+  @Override
   public IParty getParty(){
 	  return current_party;
   }
   
+  @Override
   public ChooseType receiveChoiceSymbol(IPartiesList partiesToShow) throws ChoosingInterruptedException{
 	was_pushed = false;
 	current_party = null;

@@ -10,7 +10,12 @@ import javax.swing.JPanel;
 
 import partiesList.model.IParty;
 
-
+/**
+ * Basic Panel class that implements some useful basic methods.
+ * Every Panel will extend this class.
+ * @author Ziv Ronen
+ *
+ */
 public abstract class BasicPanel extends JPanel implements IWindow {
 
 	private static final long serialVersionUID = 1L;
@@ -18,16 +23,21 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 	protected Main_Window window;
 
 	/**
-	 * use this constructor for tests without graphic
+	 * Use this constructor for tests without graphic
 	 */
 	public BasicPanel(){}
 	
+	/**
+	 * Create a new panel in window
+	 * @param window: window the panel will be in
+	 */
 	public BasicPanel(Main_Window window) {
 		setLayout(new GridBagLayout());
 		setBackground(Color.WHITE);
 		this.window = window;
 	}
 
+	@Override
 	public Boolean getConfirmation(String confirmationMessage) {
 		Object[] options = new Object[2];
 		options[0]=translate(Messages.Yes);
@@ -42,6 +52,7 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 			return false;
 	}
 
+	@Override
 	public void printError(String errorMessage) {
 		Object[] options = new Object[1];
 		options[0]=translate(Messages.Ok);
@@ -51,6 +62,7 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 				options, options[0]);
 	}
 
+	@Override
 	public void printMessage(String message) {
 		Object[] options = new Object[1];
 		options[0]=translate(Messages.Ok);

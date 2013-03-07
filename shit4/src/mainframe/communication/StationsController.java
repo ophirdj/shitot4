@@ -1,9 +1,7 @@
 package mainframe.communication;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-
 import partiesList.model.IPartiesList;
 import votingStation.factories.IVotingStationFactory;
 import votingStation.logic.IVotingStation;
@@ -12,18 +10,30 @@ import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStatus;
 import mainframe.logic.IMainframe.VoterStartedVote;
 
+/**
+ * Implementation of IStationsController
+ * @author Daniel Eidel
+ *
+ */
 public class StationsController implements IStationsController {
 	private List<IVotingStation> stations;
 	private IVotingStation firstStation;
 	private IMainframe mainframe;
 
+	/**
+	 * Create a new controller 
+	 * @param mainframe: mainframe that will use this controller
+	 * @param votingStationFactory: factory to create stations
+	 * @param passwords: passwords for test vote in stations
+	 * @param numStations: number of voting stations
+	 */
 	public StationsController(IMainframe mainframe,
 			IVotingStationFactory votingStationFactory,
-			List<String> passwords, int stationAmounts) {
+			List<String> passwords, int numStations) {
 		this.mainframe = mainframe;
 		this.stations = new ArrayList<IVotingStation>();
 		firstStation = votingStationFactory.createInstance(passwords);
-		for (int i = 1; i < stationAmounts; i++) {
+		for (int i = 1; i < numStations; i++) {
 			stations.add(votingStationFactory.createInstance(passwords));
 		}
 	}

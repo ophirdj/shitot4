@@ -3,7 +3,7 @@ package mainframe.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+// TODO add javadoc
 public class WaitForClick implements ActionListener{
 	private Object lock;
 	private boolean was_pushed;

@@ -16,6 +16,11 @@ import javax.swing.table.TableRowSorter;
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 
+/**
+ * Panel to show election results in a table
+ * @author Ziv Ronen
+ *
+ */
 public class TablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private IPartiesList all_parties;
