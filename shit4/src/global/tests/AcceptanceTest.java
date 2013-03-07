@@ -47,6 +47,11 @@ import votingStation.factories.IVotingStationWindowFactory;
 import votingStation.factories.VotingStationFactory;
 import org.junit.*;
 
+/**
+ * the acceptance tests of the entire project 
+ * Ophir add here more details
+ * all the GUI are represented by stubs
+ */
 public class AcceptanceTest {
 	
 	private int numVotingStations = 4;
@@ -132,7 +137,10 @@ public class AcceptanceTest {
 	
 	
 	
-	
+	/**
+	 * prepare the environment for the tests
+	 * executed before each and every test
+	 */
 	@Before
 	public void initSys(){
 		practiceStations = new ArrayList<IPracticeStation>();
@@ -195,6 +203,9 @@ public class AcceptanceTest {
 		mainframe.initialize();
 	}
 	
+	/**
+	 * asserts that what the mainframe backup is what it should have been backup
+	 */
 	private void checkBackUp(){
 		IPartyFactory partyFactory = new PartyFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
@@ -226,6 +237,11 @@ public class AcceptanceTest {
 		Assert.assertEquals(expectedUnregisteredList, reusltUnregistered);
 	}
 	
+	/**
+	 * checks after each and every test that the data that was backup is correct
+	 * i.e. mainframe backup the right things
+	 * @throws Exception should not be thrown
+	 */
 	@After
 	public void checkBackupLists() throws Exception{
 		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
@@ -234,28 +250,53 @@ public class AcceptanceTest {
 		checkBackUp();
 	}
 
+	/**
+	 * adds another voting station window stub to the system
+	 * @param stub the voting station window stub that should be added
+	 */
 	public void addVotingWindowStub(VotingStationWindowStub stub) {
 		votingWindowStubs.add(stub);
 	}
 
+	/**
+	 * adds an image panel stub to the given station panel
+	 * @param stub the image panel stub that should be added
+	 * @param caller the panel that this image panel stub should be added to
+	 */
 	public void addImagePanelStub(ImagePanelStub stub, StationPanel caller) {
 		imagePanelStubs.put(caller, stub);
 	}
 	
+	/**
+	 * adds a choosing window stub to the given station panel
+	 * @param stub the choosing window stub that should be added
+	 * @param stationPanel the panel that this choosing window stub should be added to
+	 */
 	public void addChoosingWindowStub(ChoosingWindowStub stub,
 			StationPanel stationPanel) {
 		choosingWindowStubs.put(stationPanel, stub);
 		
 	}
 
+	/**
+	 * adds a practice station window stub to the list of practice practice station window stubs
+	 * @param stub the practice station window stub that should be added to the list of practice practice station window stubs
+	 */
 	public void addPracticeStationWindowStub(PracticeStationWindowStub stub) {
 		practiceStationWindowStubs.add(stub);
 	}
 
+	/**
+	 * sets the mainframe window stub to be the mainframe window stub that was given as a parameter
+	 * @param stub the above mainframe window stub
+	 */
 	public void setMainframeWindowStub(MainframeWindowStub stub) {
 		mainframeWindowStub = stub;
 	}
 	
+	/**
+	 * 
+	 */
 	public static class votingData{
 		private int id;
 		private int station;
@@ -280,6 +321,15 @@ public class AcceptanceTest {
 		}
 	}
 	
+	/**
+	 * identifies every voter in the given array and if the voter is not exists in the
+	 * expected voters list then we add him to the expected voters list
+	 * and to the expected unregistered voters list
+	 * finally we mark the voter that is in the  expected voters list as a voter
+	 * who already identified
+	 * @param voting the above array of voters
+	 * @throws Exception
+	 */
 	private void identify(votingData[] voting) throws Exception{
 		for(votingData data : voting){
 			int id = data.getId();
@@ -298,6 +348,12 @@ public class AcceptanceTest {
 		}
 	}
 	
+	/**
+	 * every voter in the voters array that is given as parameter is making his vote
+	 * 'expectedVotersList' and 'expectedPartiesList' are accordingly updated
+	 * @param voting the above voting array
+	 * @throws Exception if something goes wrong
+	 */
 	private void doVotes(votingData[] voting) throws Exception{
 		for(votingData singleVoting : voting){
 			Integer id = singleVoting.getId();
@@ -321,6 +377,12 @@ public class AcceptanceTest {
 		}
 	}
 	
+	/**
+	 * identifying every voter in the voters array and makes every voter to vote
+	 * also updates the test environment accordingly
+	 * @param voting the above voters array
+	 * @throws Exception should not happen
+	 */
 	private void startVoting(votingData[] voting) throws Exception{
 		identify(voting);
 		doVotes(voting);
@@ -343,22 +405,31 @@ public class AcceptanceTest {
 		}
 	}
 	
-	
+	/**
+	 * checks that there is no error when only one voter who is in the voters list is voting
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testOneVote() throws Exception{
 		votingData voting[] = {new votingData(1,0,0)};
 		startVoting(voting);
 	}
 	
-	
-
-
+	/**
+	 * checks that there is no error when only one voter 
+	 * who is not in the voters list is voting
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testOneVoteFromUnregisteredVoter() throws Exception{
 		votingData voting[] = {new votingData(4,0,0)};
 		startVoting(voting);
 	}
 	
+	/**
+	 * checks that only one voter who is registered identifying causing no errors
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testOneIdentification() throws Exception{
 
@@ -368,6 +439,10 @@ public class AcceptanceTest {
 		expectedVotersList.findVoter(id0).markIdentified();
 	}
 	
+	/**
+	 * checks that only one voter who is unregistered identifying causing no errors
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testIdentificationFromUnregisteredVoter() throws Exception{
 		
@@ -386,7 +461,10 @@ public class AcceptanceTest {
 	}
 	
 	
-	
+	/**
+	 * 
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testFirstVotingAllParties() throws Exception{
 		
@@ -406,6 +484,10 @@ public class AcceptanceTest {
 		startVoting(voting);
 	}
 	
+	/**
+	 * 
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testFirstVotingManyParties() throws Exception{
 		int parties[] = new int[initialPartiesList.size()-1];
@@ -424,7 +506,10 @@ public class AcceptanceTest {
 		startVoting(voting);
 	}
 	
-	
+	/**
+	 * 
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testFirstVotingNoVoting() throws Exception{
 		mainframeWindowStub.setExpectedPartiesList(expectedPartiesList);
@@ -432,6 +517,10 @@ public class AcceptanceTest {
 		mainframe.shutDown();
 	}
 	
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	@Test
 	public void testFirstFewVotes() throws Exception{
 		int parties[] = new int[initialPartiesList.size()-1];
@@ -450,6 +539,10 @@ public class AcceptanceTest {
 		startVoting(voting);
 	}
 	
+	/**
+	 * tests a scenario when the voter is revoting only once
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testRevoteOnce() throws Exception{
 		
@@ -461,6 +554,10 @@ public class AcceptanceTest {
 		expectedPartiesList = initialPartiesList.copy();
 	}
 	
+	/**
+	 * 
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testRevoteAfterTimeOnce() throws Exception{
 		final long waiting_time = (maxVotingTimeSeconds-1) * 1000;
@@ -472,6 +569,11 @@ public class AcceptanceTest {
 		expectedPartiesList = initialPartiesList.copy();
 	}
 	
+	/**
+	 * tests a scenario when the voter is revoting 
+	 * after the time for a legal revote is over
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testRevoteAfterTimeOver() throws Exception{
 		final long waiting_time = (maxVotingTimeSeconds+1) * 1000;
@@ -482,6 +584,11 @@ public class AcceptanceTest {
 		startVoting(reVoting);
 	}
 	
+	/**
+	 * tests a scenario when the voter is revoting after a short time (without waiting) in
+	 * a different voting station other than the one he is voted on previously
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testRevoteDifferentStation() throws Exception{
 		votingData voting[] = {new votingData(1, 0, 0)};
@@ -492,6 +599,11 @@ public class AcceptanceTest {
 		expectedPartiesList.getPartyBySymbol(getSymbolByPlace(0)).increaseVoteNumber();
 	}
 	
+	/**
+	 * tests a scenario when the voter is revoting after a long time in
+	 * a different voting station other than the one he is voted on previously
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testRevoteDifferentStationAfterLongWait() throws Exception{
 		final long waiting_time = (maxVotingTimeSeconds+1) * 1000;
@@ -504,6 +616,9 @@ public class AcceptanceTest {
 		expectedPartiesList.getPartyBySymbol(getSymbolByPlace(0)).increaseVoteNumber();
 	}
 	
+	/**
+	 * tests if a guide really exists in the practice station
+	 */
 	@Test
 	public void testGuideExist(){
 		PracticeStationWindowStub practiceStationWindow = practiceStationWindowStubs.get(0);
@@ -511,6 +626,12 @@ public class AcceptanceTest {
 		Assert.assertTrue(imagePanelStubs.get(practiceStationWindow).hasShowGuide());
 	}
 	
+	/**
+	 * testing the "testVote" function of the voting station - the committee member is entering
+	 * a correct password
+	 * (testVote - when a committee member wishes to check the regularity of the voting station)
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testTestVote() throws Exception{
 		int id = 1;
@@ -529,6 +650,12 @@ public class AcceptanceTest {
 		Assert.assertFalse(votingWindowStub.isWasWrongPassword());
 	}
 	
+	/**
+	 * testing the "testVote" function of the voting station when the committee member is entering
+	 * a wrong password
+	 * (testVote - when a committee member wishes to check the regularity of the voting station)
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testTestVoteWrongPassword() throws Exception{
 		int id = 1;
@@ -547,6 +674,10 @@ public class AcceptanceTest {
 		Assert.assertTrue(votingWindowStub.isWasWrongPassword());
 	}
 	
+	/**
+	 * tests that indeed a voter can revote twice at most
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testRevoteOnlyTwice() throws Exception{
 		final long waiting1 = maxVotingTimeSeconds * 600;
@@ -570,6 +701,12 @@ public class AcceptanceTest {
 		expectedPartiesList.getPartyBySymbol(getSymbolByPlace(2)).increaseVoteNumber();
 	}
 	
+	/**
+	 * tests the regularity of system if the time between votes (the voting intensity) is
+	 * 'timeBetweenVotes'
+	 * @param timeBetweenVotes - time between two votes (in milliseconds)
+	 * @throws Exception if an error occurs
+	 */
 	private void testBackUp(long timeBetweenVotes) throws Exception{
 		//voting time during test is 5 seconds
 		final long finisingAfter = 5 * 1000;
@@ -600,16 +737,31 @@ public class AcceptanceTest {
 		checkBackUp();
 	}
 	
+	/**
+	 * test a scenario when the voting intensity is high
+	 * voting intensity = number of votes per time unit
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testIntensiveHotBackUp() throws Exception{
 		testBackUp(50);
 	}
 	
+	/**
+	 * test a scenario when the voting intensity is average
+	 * voting intensity = number of votes per time unit
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testNormalHotBackUp() throws Exception{
 		testBackUp(500);
 	}
 	
+	/**
+	 * test a scenario when the voting intensity is low
+	 * voting intensity = number of votes per time unit
+	 * @throws Exception if an error occurs
+	 */
 	@Test
 	public void testSlowHotBackUp() throws Exception{
 		testBackUp(5000);
