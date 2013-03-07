@@ -42,7 +42,7 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 		options[0]=translate(Messages.Yes);
 		options[1]=translate(Messages.No);
 		int n = JOptionPane.showOptionDialog(window, confirmationMessage,
-				translate(Messages.Ask_for_conformation),
+				translate(Messages.Ask_for_confirmation),
 				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
 				options, options[1]);
 		if (n == JOptionPane.YES_OPTION)

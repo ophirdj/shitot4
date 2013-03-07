@@ -18,8 +18,8 @@ import practiceStation.tests.PracticeTest_ChoosingListStub.ChooseListComponent;
 import practiceStation.tests.PracticeTest_ChoosingListStub.ChoosingListRetireComponent;
 import practiceStation.tests.PracticeTest_ImagePanelStub.ImagePanelRetireComponent;
 import practiceStation.tests.PracticeTest_ImagePanelStub.ShowFirstImageComponent;
-import practiceStation.tests.PracticeTest_PracticeStationWindowStub.ConformationWithPartyComponent;
-import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintConformationMessageComponent;
+import practiceStation.tests.PracticeTest_PracticeStationWindowStub.ConfirmationWithPartyComponent;
+import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintConfirmationMessageComponent;
 import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintInfoMessageComponent;
 import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintErrorMessageComponent;
 
@@ -31,8 +31,8 @@ public class PracticeStationTestEnvironment {
 	private Queue<ShowFirstImageComponent> ImagePanel_showFirstImageQueue;
 	private Queue<ImagePanelRetireComponent> ImagePanel_retireQueue;
 	private Queue<PrintErrorMessageComponent> PracticeWindow_printErrorMessageQueue;
-	private Queue<PrintConformationMessageComponent> PracticeWindow_printConformationMessageQueue;
-	private Queue<ConformationWithPartyComponent> PracticeWindow_ConformationWithPartyQueue;
+	private Queue<PrintConfirmationMessageComponent> PracticeWindow_printConfirmationMessageQueue;
+	private Queue<ConfirmationWithPartyComponent> PracticeWindow_ConfirmationWithPartyQueue;
 	private Queue<PrintInfoMessageComponent> PracticeWindow_printInfoMessageQueue;
 	
 	private Queue<PracticeTestDriverCalls> driverCalls;
@@ -49,8 +49,8 @@ public class PracticeStationTestEnvironment {
 		this.ImagePanel_showFirstImageQueue = new LinkedBlockingQueue<ShowFirstImageComponent>();
 		this.ImagePanel_retireQueue = new LinkedBlockingQueue<ImagePanelRetireComponent>();
 		this.PracticeWindow_printErrorMessageQueue = new LinkedBlockingQueue<PrintErrorMessageComponent>();
-		this.PracticeWindow_printConformationMessageQueue = new LinkedBlockingQueue<PrintConformationMessageComponent>();
-		this.PracticeWindow_ConformationWithPartyQueue = new LinkedBlockingQueue<ConformationWithPartyComponent>();
+		this.PracticeWindow_printConfirmationMessageQueue = new LinkedBlockingQueue<PrintConfirmationMessageComponent>();
+		this.PracticeWindow_ConfirmationWithPartyQueue = new LinkedBlockingQueue<ConfirmationWithPartyComponent>();
 		this.PracticeWindow_printInfoMessageQueue = new LinkedBlockingQueue<PrintInfoMessageComponent>();
 		
 		this.driverCalls = new LinkedBlockingQueue<PracticeTestDriverCalls>();
@@ -95,16 +95,16 @@ public class PracticeStationTestEnvironment {
 	}
 	
 	public void addComponentForTest(
-			PrintConformationMessageComponent component){
+			PrintConfirmationMessageComponent component){
 		functionQueue.add(component.getFunction());
-		PracticeWindow_printConformationMessageQueue.add(component);
+		PracticeWindow_printConfirmationMessageQueue.add(component);
 		updateLog(component.toString(),expectedTestLog);
 	}
 	
 	public void addComponentForTest(
-			ConformationWithPartyComponent component){
+			ConfirmationWithPartyComponent component){
 		functionQueue.add(component.getFunction());
-		PracticeWindow_ConformationWithPartyQueue.add(component);
+		PracticeWindow_ConfirmationWithPartyQueue.add(component);
 		updateLog(component.toString(),expectedTestLog);
 	}
 	
@@ -119,8 +119,8 @@ public class PracticeStationTestEnvironment {
 	public IPracticeStationWindowFactory getPracticeWindowFactory(){
 		return new PracticeTest_PracticeStationWindowStubFactory(this,
 				PracticeWindow_printErrorMessageQueue,
-				PracticeWindow_printConformationMessageQueue,
-				PracticeWindow_ConformationWithPartyQueue,
+				PracticeWindow_printConfirmationMessageQueue,
+				PracticeWindow_ConfirmationWithPartyQueue,
 				PracticeWindow_printInfoMessageQueue);
 	}
 	

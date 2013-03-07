@@ -19,8 +19,8 @@ import practiceStation.tests.PracticeTest_ImagePanelStub.ImagePanelRetireCompone
 import practiceStation.tests.PracticeTest_ImagePanelStub.ShowFirstImageLongComponent;
 import practiceStation.tests.PracticeTest_ImagePanelStub.ShowFirstImageTooLongComponent;
 import practiceStation.tests.PracticeTest_ImagePanelStub.ShowFirstImageComponent;
-import practiceStation.tests.PracticeTest_PracticeStationWindowStub.ConformationWithPartyComponent;
-import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintConformationMessageComponent;
+import practiceStation.tests.PracticeTest_PracticeStationWindowStub.ConfirmationWithPartyComponent;
+import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintConfirmationMessageComponent;
 import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintInfoMessageComponent;
 
 public class PracticeTestPathes {
@@ -292,7 +292,7 @@ public class PracticeTestPathes {
 			WaitingInterval waiting = waitingMode(timeLeft);
 			waiting.chooseParty(testEnviroment, party, waitFor);
 			if(!waiting.equals(WaitingInterval.TooLong)){
-				testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Did_you_intend_to_vote_for,party,isFinal));
+				testEnviroment.addComponentForTest(new ConfirmationWithPartyComponent(Messages.Did_you_intend_to_vote_for,party,isFinal));
 			}
 			return timeLeft - waitFor;
 			
@@ -328,11 +328,11 @@ public class PracticeTestPathes {
 		public long showGuide(PracticeStationTestEnvironment testEnviroment, long timeLeft) {
 			WaitingInterval guideWait = waitingMode(timeLeft);
 			if(!showGuide){
-				testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Do_you_want_to_see_a_guide,false));
+				testEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Do_you_want_to_see_a_guide,false));
 				return timeLeft;
 			}
 			
-			testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Do_you_want_to_see_a_guide,true));
+			testEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Do_you_want_to_see_a_guide,true));
 			guideWait.showGuide(testEnviroment, language, guideTime);
 			return timeLeft - guideTime;
 		}
@@ -377,10 +377,10 @@ public class PracticeTestPathes {
 				}
 				
 				if(iterator.hasNext()){
-					testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Have_you_understood_the_process,false));
+					testEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Have_you_understood_the_process,false));
 				}
 				else{
-					testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Have_you_understood_the_process,true));
+					testEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Have_you_understood_the_process,true));
 				}
 			}
 		}

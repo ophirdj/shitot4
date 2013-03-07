@@ -14,8 +14,8 @@ import choosingList.logic.ChooseType;
 import choosingList.logic.ChoosingList;
 import choosingList.logic.IChoosingList;
 import choosingList.tests.ChoosingListWindowStub.CloseWindowComponent;
-import choosingList.tests.ChoosingListWindowStub.ConformationWithPartyComponent;
-import choosingList.tests.ChoosingListWindowStub.PrintConformationMessageComponent;
+import choosingList.tests.ChoosingListWindowStub.ConfirmationWithPartyComponent;
+import choosingList.tests.ChoosingListWindowStub.PrintConfirmationMessageComponent;
 import choosingList.tests.ChoosingListWindowStub.getChoiceComponent;
 import choosingList.tests.ChoosingListWindowStub.getChoiceWaitComponent;
 import choosingList.tests.ChoosingListWindowStub.getPartyComponent;
@@ -70,7 +70,7 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
 		testEnviroment.addComponentForTest(new getPartyComponent(party1));
 		
-		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
+		testEnviroment.addComponentForTest(new ConfirmationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
 		testEnviroment.addComponentForTest(new switchOffComponent());
 		testEnviroment.addRetireCall();
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
@@ -92,7 +92,7 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
 		testEnviroment.addComponentForTest(new getPartyComponent(party1));
 		
-		testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,true)); 
+		testEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,true)); 
 		testEnviroment.addComponentForTest(new switchOffComponent());
 		testEnviroment.addRetireCall();
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
@@ -118,7 +118,7 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Party));
 		testEnviroment.addComponentForTest(new getPartyComponent(party1));
 		
-		testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,true)); 
+		testEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,true)); 
 		testEnviroment.addComponentForTest(new switchOffComponent());
 		testEnviroment.addRetireCall();
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
@@ -150,7 +150,7 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new getChoiceComponent(ret3,ChooseType.Party));
 		testEnviroment.addComponentForTest(new getPartyComponent(party1));
 		
-		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
+		testEnviroment.addComponentForTest(new ConfirmationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
 		testEnviroment.addComponentForTest(new switchOffComponent());
 		testEnviroment.addRetireCall();
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
@@ -179,7 +179,7 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
 		testEnviroment.addComponentForTest(new getPartyComponent(party1));
 		
-		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
+		testEnviroment.addComponentForTest(new ConfirmationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
 		testEnviroment.addComponentForTest(new switchOffComponent());
 		testEnviroment.addRetireCall();
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
@@ -209,7 +209,7 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new getChoiceComponent(ret1,ChooseType.Party));
 		testEnviroment.addComponentForTest(new getPartyComponent(party1));
 		
-		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
+		testEnviroment.addComponentForTest(new ConfirmationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party1,true)); 
 		testEnviroment.addComponentForTest(new switchOffComponent());
 		testEnviroment.addRetireCall();
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
@@ -254,12 +254,12 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new getChoiceComponent(ret2,ChooseType.Party));
 		testEnviroment.addComponentForTest(new getPartyComponent(party1));
 		
-		testEnviroment.addComponentForTest(new PrintConformationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,false));
+		testEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone,false));
 		testEnviroment.addComponentForTest(new sublistComponent(max_parties,2*max_parties,ret3));
 		testEnviroment.addComponentForTest(new getChoiceComponent(ret3,ChooseType.Party));
 		testEnviroment.addComponentForTest(new getPartyComponent(party2));
 
-		testEnviroment.addComponentForTest(new ConformationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party2,true));
+		testEnviroment.addComponentForTest(new ConfirmationWithPartyComponent(Messages.Are_you_sure_you_want_to_vote_for,party2,true));
 		testEnviroment.addComponentForTest(new switchOffComponent());
 		testEnviroment.addRetireCall(); 
 		testEnviroment.addComponentForTest(new CloseWindowComponent());

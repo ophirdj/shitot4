@@ -29,17 +29,17 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 	}
 
 	@Override
-	public Boolean getConfirmation(String confirmationMessage) {
+	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
 		return null;
 	}
 
 	@Override
-	public void printError(String errorMessage) {
+	public void printError(StationPanel station, String errorMessage) {
 
 	}
 
 	@Override
-	public void printMessage(String message) {
+	public void printMessage(StationPanel station, String message) {
 
 	}
 
@@ -72,12 +72,12 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message) {
+	public boolean printConfirmationMessage(Messages message) {
 		return false;
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message, IParty party) {
+	public boolean printConfirmationMessage(Messages message, IParty party) {
 		return false;
 	}
 

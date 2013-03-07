@@ -18,8 +18,8 @@ import choosingList.tests.ChoosingListCaller.ChooseListRetireComponent;
 import choosingList.tests.ChoosingListCaller.CallerComponent;
 import choosingList.tests.ChoosingListCaller.ChooseListCallerComponent;
 import choosingList.tests.ChoosingListWindowStub.CloseWindowComponent;
-import choosingList.tests.ChoosingListWindowStub.ConformationWithPartyComponent;
-import choosingList.tests.ChoosingListWindowStub.PrintConformationMessageComponent;
+import choosingList.tests.ChoosingListWindowStub.ConfirmationWithPartyComponent;
+import choosingList.tests.ChoosingListWindowStub.PrintConfirmationMessageComponent;
 import choosingList.tests.ChoosingListWindowStub.getChoiceComponent;
 import choosingList.tests.ChoosingListWindowStub.getPartyComponent;
 import choosingList.tests.ChoosingListWindowStub.switchOffComponent;
@@ -35,8 +35,8 @@ public class ChoosingListTestEnvironment {
 	private String testName;
 	
 	private Queue<ChoosingListFunction> functionQueue = new LinkedBlockingQueue<ChoosingListFunction>();
-	private Queue<ConformationWithPartyComponent> conformationWithPartyQueue = new LinkedBlockingQueue<ConformationWithPartyComponent>();
-	private Queue<PrintConformationMessageComponent> conformationQueue = new LinkedBlockingQueue<PrintConformationMessageComponent>();
+	private Queue<ConfirmationWithPartyComponent> confirmationWithPartyQueue = new LinkedBlockingQueue<ConfirmationWithPartyComponent>();
+	private Queue<PrintConfirmationMessageComponent> confirmationQueue = new LinkedBlockingQueue<PrintConfirmationMessageComponent>();
 	private Queue<CloseWindowComponent> closeWindowQueue = new LinkedBlockingQueue<CloseWindowComponent>();
 	private Queue<switchOnComponent> switchOnQueue = new LinkedBlockingQueue<switchOnComponent>();
 	private Queue<switchOffComponent> switchOffQueue = new LinkedBlockingQueue<switchOffComponent>();
@@ -59,16 +59,16 @@ public class ChoosingListTestEnvironment {
 		runningTestLog.add(str);
 	}
 	
-	public void addComponentForTest(ConformationWithPartyComponent comp){
+	public void addComponentForTest(ConfirmationWithPartyComponent comp){
 		functionQueue.add(comp.getFunction());
-		conformationWithPartyQueue.add(comp);
+		confirmationWithPartyQueue.add(comp);
 		updateExpectedTestLog(comp.toString());
 		comp.setTestEnvironment(this);
 	}
 	
-	public void addComponentForTest(PrintConformationMessageComponent comp){
+	public void addComponentForTest(PrintConfirmationMessageComponent comp){
 		functionQueue.add(comp.getFunction());
-		conformationQueue.add(comp);
+		confirmationQueue.add(comp);
 		updateExpectedTestLog(comp.toString());
 		comp.setTestEnvironment(this);
 	}
@@ -223,7 +223,7 @@ public class ChoosingListTestEnvironment {
 
 	public IChoosingWindowFactory getChoosingWindowFactory() {
 		return new ChoosingListWindowStubFactory(this,
-				conformationQueue,conformationWithPartyQueue,
+				confirmationQueue,confirmationWithPartyQueue,
 				closeWindowQueue,switchOnQueue,switchOffQueue,
 				getPartyQueue,recieveChoiceQueue);
 	}

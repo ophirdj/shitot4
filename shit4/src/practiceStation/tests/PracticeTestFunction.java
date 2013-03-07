@@ -9,8 +9,8 @@ public enum PracticeTestFunction {
 	ImagePanel_retire,
 	
 	
-	PracticeWindow_printConformationMessage,
-	PracticeWindow_printConformationMessageWithParty,
+	PracticeWindow_printConfirmationMessage,
+	PracticeWindow_printConfirmationMessageWithParty,
 	PracticeWindow_printErrorMessage,
 	PracticeWindow_printInfoMessage,
 	
@@ -24,7 +24,7 @@ public enum PracticeTestFunction {
 	ImagePanel_showPrevImage,
 	
 	PracticeWindow_closeWindow,
-	PracticeWindow_getConformation,
+	PracticeWindow_getConfirmation,
 	PracticeWindow_printInfoMessageWithParty,
 	PracticeWindow_printError,
 	PracticeWindow_printMessage,

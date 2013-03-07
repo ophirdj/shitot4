@@ -19,21 +19,21 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	
 	private PracticeStationTestEnvironment testEnvironment;
 	private Queue<PrintErrorMessageComponent> printErrorMessageQueue;
-	private Queue<PrintConformationMessageComponent> printConformationMessageQueue;
-	private Queue<ConformationWithPartyComponent> ConformationWithPartyQueue;
+	private Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue;
+	private Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue;
 	private Queue<PrintInfoMessageComponent> printInfoMessageQueue;
 	
 	public PracticeTest_PracticeStationWindowStub(
 			PracticeStationTestEnvironment testEnvironment,
 			Queue<PrintErrorMessageComponent> printErrorMessageQueue,
-			Queue<PrintConformationMessageComponent> printConformationMessageQueue,
-			Queue<ConformationWithPartyComponent> ConformationWithPartyQueue,
+			Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue,
+			Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue,
 			Queue<PrintInfoMessageComponent> printInfoMessageQueue) {
 		super();
 		this.testEnvironment = testEnvironment;
 		this.printErrorMessageQueue = printErrorMessageQueue;
-		this.printConformationMessageQueue = printConformationMessageQueue;
-		this.ConformationWithPartyQueue = ConformationWithPartyQueue;
+		this.printConfirmationMessageQueue = printConfirmationMessageQueue;
+		this.ConfirmationWithPartyQueue = ConfirmationWithPartyQueue;
 		this.printInfoMessageQueue = printInfoMessageQueue;
 		
 	}
@@ -98,11 +98,11 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	}
 
 	
-	public static class PrintConformationMessageComponent{
+	public static class PrintConfirmationMessageComponent{
 		private boolean returnValue;
 		private Messages shouldBeMessage;
 		
-		public PrintConformationMessageComponent(Messages shouldBeMessage, boolean returnValue) {
+		public PrintConfirmationMessageComponent(Messages shouldBeMessage, boolean returnValue) {
 			this.returnValue = returnValue;
 			this.shouldBeMessage = shouldBeMessage;
 		}
@@ -114,19 +114,19 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		
 		@Override
 		public String toString() {
-			return "practiceWindow.printConformationMessage("+shouldBeMessage+"), return " + returnValue;
+			return "practiceWindow.printConfirmationMessage("+shouldBeMessage+"), return " + returnValue;
 		}
 
 		public PracticeTestFunction getFunction() {
-			return PracticeTestFunction.PracticeWindow_printConformationMessage;
+			return PracticeTestFunction.PracticeWindow_printConfirmationMessage;
 		}
 	}
 	
-	public static class PrintConformationMessageLongComponent extends PrintConformationMessageComponent{
+	public static class PrintConfirmationMessageLongComponent extends PrintConfirmationMessageComponent{
 		
 		private long milliSeconds2Wait;
 		
-		public PrintConformationMessageLongComponent(Messages shouldBeMessage, boolean returnValue, long milliSecond2Wait) {
+		public PrintConfirmationMessageLongComponent(Messages shouldBeMessage, boolean returnValue, long milliSecond2Wait) {
 			super(shouldBeMessage,returnValue);
 			this.milliSeconds2Wait = milliSecond2Wait;
 		}
@@ -147,10 +147,10 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	}
 	
 	@Override
-	public boolean printConformationMessage(Messages message) {
-		testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printConformationMessage);
+	public boolean printConfirmationMessage(Messages message) {
+		testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printConfirmationMessage);
 		try{
-			return printConformationMessageQueue.remove().checkAndReturn(message);
+			return printConfirmationMessageQueue.remove().checkAndReturn(message);
 		}catch (NoSuchElementException e) {
 			throw new AssertionError();
 		}catch (InterruptedException e) {
@@ -160,12 +160,12 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	}
 	
 	
-	public static class ConformationWithPartyComponent{
+	public static class ConfirmationWithPartyComponent{
 		private boolean returnValue;
 		private Messages shouldBeMessage;
 		private IParty shouldBeParty;
 		
-		public ConformationWithPartyComponent(Messages shouldBeMessage, IParty shouldBeParty, boolean returnValue) {
+		public ConfirmationWithPartyComponent(Messages shouldBeMessage, IParty shouldBeParty, boolean returnValue) {
 			this.returnValue = returnValue;
 			this.shouldBeMessage = shouldBeMessage;
 			this.shouldBeParty = shouldBeParty;
@@ -179,18 +179,18 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 		
 		@Override
 		public String toString() {
-			return "practiceWindow.printConformationMessage("+shouldBeMessage+", "+shouldBeParty+"), return " + returnValue;
+			return "practiceWindow.printConfirmationMessage("+shouldBeMessage+", "+shouldBeParty+"), return " + returnValue;
 		}
 
 		public PracticeTestFunction getFunction() {
-			return PracticeTestFunction.PracticeWindow_printConformationMessageWithParty;
+			return PracticeTestFunction.PracticeWindow_printConfirmationMessageWithParty;
 		}
 	}
 
-	public static class ConformationWithPartyLongComponent extends ConformationWithPartyComponent{
+	public static class ConfirmationWithPartyLongComponent extends ConfirmationWithPartyComponent{
 		private long milliSeconds2Wait;
 		
-		public ConformationWithPartyLongComponent(Messages shouldBeMessage, IParty shouldBeParty, boolean returnValue, long milliSeconds2Wait) {
+		public ConfirmationWithPartyLongComponent(Messages shouldBeMessage, IParty shouldBeParty, boolean returnValue, long milliSeconds2Wait) {
 			super(shouldBeMessage, shouldBeParty, returnValue);
 			this.milliSeconds2Wait = milliSeconds2Wait;
 		}
@@ -212,10 +212,10 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	}
 	
 	@Override
-	public boolean printConformationMessage(Messages message, IParty party) {
-		testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printConformationMessageWithParty);
+	public boolean printConfirmationMessage(Messages message, IParty party) {
+		testEnvironment.checkCalling(PracticeTestFunction.PracticeWindow_printConfirmationMessageWithParty);
 		try{
-			return ConformationWithPartyQueue.remove().checkAndReturn(message,party);
+			return ConfirmationWithPartyQueue.remove().checkAndReturn(message,party);
 		}catch (NoSuchElementException e) {
 			throw new AssertionError();
 		}catch (InterruptedException e) {
@@ -294,12 +294,12 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	}
 
 	@Override
-	public Boolean getConfirmation(String confirmationMessage) {
+	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
 		throw new AssertionError();
 	}
 
 	@Override
-	public void printError(String errorMessage) {
+	public void printError(StationPanel station, String errorMessage) {
 		throw new AssertionError();
 	}
 
@@ -309,7 +309,7 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 	}
 
 	@Override
-	public void printMessage(String message) {
+	public void printMessage(StationPanel station, String message) {
 		throw new AssertionError();
 	}
 

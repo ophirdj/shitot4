@@ -17,8 +17,8 @@ import choosingList.logic.IChoosingList.ChoosingInterruptedException;
 public class ChoosingListWindowStub implements IChoosingWindow{
 
 	private ChoosingListTestEnvironment testEnvironment;
-	private Queue<PrintConformationMessageComponent> printConformationMessageQueue;
-	private Queue<ConformationWithPartyComponent> ConfirmationWithPartyQueue;
+	private Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue;
+	private Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue;
 	private Queue<CloseWindowComponent> closeWindowQueue;
 	private Queue<switchOnComponent> switchOnQueue;
 	private Queue<switchOffComponent> switchOffQueue;
@@ -27,8 +27,8 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	
 	public ChoosingListWindowStub(
 			ChoosingListTestEnvironment testEnvironment,
-			Queue<PrintConformationMessageComponent> printConformationMessageQueue,
-			Queue<ConformationWithPartyComponent> ConformationWithPartyQueue,
+			Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue,
+			Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue,
 			Queue<CloseWindowComponent> closeWindowQueue,
 			Queue<switchOnComponent> switchOnQueue,
 			Queue<switchOffComponent> switchOffQueue,
@@ -37,8 +37,8 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		
 		super();
 		this.testEnvironment = testEnvironment;
-		this.printConformationMessageQueue = printConformationMessageQueue;
-		this.ConfirmationWithPartyQueue = ConformationWithPartyQueue;
+		this.printConfirmationMessageQueue = printConfirmationMessageQueue;
+		this.ConfirmationWithPartyQueue = ConfirmationWithPartyQueue;
 		this.closeWindowQueue = closeWindowQueue;
 		this.switchOnQueue = switchOnQueue;
 		this.switchOffQueue = switchOffQueue;
@@ -270,12 +270,12 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		}
 	}
 	
-	public static class PrintConformationMessageComponent{
+	public static class PrintConfirmationMessageComponent{
 		private boolean returnValue;
 		private Messages shouldBeMessage;
 		private ChoosingListTestEnvironment testEnvironment;
 		
-		public PrintConformationMessageComponent(Messages shouldBeMessage, boolean returnValue) {
+		public PrintConfirmationMessageComponent(Messages shouldBeMessage, boolean returnValue) {
 			this.returnValue = returnValue;
 			this.shouldBeMessage = shouldBeMessage;
 		}
@@ -292,7 +292,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		
 		@Override
 		public String toString() {
-			return "choosingWindow.printConformationMessage("+shouldBeMessage+"), return " + returnValue;
+			return "choosingWindow.printConfirmationMessage("+shouldBeMessage+"), return " + returnValue;
 		}
 		
 		public ChoosingListFunction getFunction(){
@@ -304,19 +304,19 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	public boolean printConfirmationMessage(Messages message) {
 		testEnvironment.checkCalling(ChoosingListFunction.choosingWindow_printConfirmationMessage);
 		try{
-			return printConformationMessageQueue.remove().checkAndReturn(message);
+			return printConfirmationMessageQueue.remove().checkAndReturn(message);
 		}catch (NoSuchElementException e) {
 			throw new AssertionError();
 		}
 	}
 	
-	public static class ConformationWithPartyComponent{
+	public static class ConfirmationWithPartyComponent{
 		private boolean returnValue;
 		private Messages shouldBeMessage;
 		private IParty shouldBeParty;
 		private ChoosingListTestEnvironment testEnvironment;
 		
-		public ConformationWithPartyComponent(Messages shouldBeMessage, IParty shouldBeParty, boolean returnValue) {
+		public ConfirmationWithPartyComponent(Messages shouldBeMessage, IParty shouldBeParty, boolean returnValue) {
 			this.returnValue = returnValue;
 			this.shouldBeMessage = shouldBeMessage;
 			this.shouldBeParty = shouldBeParty;
@@ -335,7 +335,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		
 		@Override
 		public String toString() {
-			return "choosingWindow.printConformationMessage("+shouldBeMessage+", "+shouldBeParty+"), return " + returnValue;
+			return "choosingWindow.printConfirmationMessage("+shouldBeMessage+", "+shouldBeParty+"), return " + returnValue;
 		}
 		
 		public ChoosingListFunction getFunction(){

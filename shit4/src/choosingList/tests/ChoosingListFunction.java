@@ -1,5 +1,8 @@
 package choosingList.tests;
 
+/**
+ * The functions choosing list need.
+ */
 public enum ChoosingListFunction {
 	choosingWindow_printConfirmationMessage,
 	choosingWindow_printConfirmationMessageWithParty,

@@ -9,13 +9,23 @@ import partiesList.model.IParty;
 public class ChoosingListCaller {
 	
 	
-	// TODO maybe this interface should move out?
-	// TODO add javadoc
+	
+	/**
+	 * Interface for CallerComponent: a class that simulate a call
+	 * to the tested unit (ChoosingList).
+	 */
 	public interface CallerComponent{
+		
+		/**
+		 * Send the correct call, update the run log and check return values.
+		 * @param choosingList: The unit to be tested
+		 */
 		public void activate(IChoosingList choosingList);
 	}
 	
-	// TODO add javadoc
+	/**
+	 * A class that simulate a chooseList() call.
+	 */
 	public static class ChooseListCallerComponent implements CallerComponent{
 		private IParty shouldBeParty;
 		protected ChoosingListTestEnvironment testEnvironment;
@@ -42,7 +52,10 @@ public class ChoosingListCaller {
 		}
 	}
 	
-	// TODO add javadoc
+	/**
+	 * When start running, responsible to call the tested unit 
+	 * with retire after some time (to test retire call while voting)  
+	 */
 	public static class CloseChoosingList implements Runnable{
 
 		private final long shortTime = 10;
@@ -67,7 +80,9 @@ public class ChoosingListCaller {
 		
 	}
 	
-	// TODO add javadoc
+	/**
+	 * A class that simulate a chooseList() call that was interrupted.
+	 */
 	public static class ChooseListCallerWaitComponent extends ChooseListCallerComponent{
 		
 		public ChooseListCallerWaitComponent(ChoosingListTestEnvironment testEnvironment) {
@@ -93,7 +108,9 @@ public class ChoosingListCaller {
 		}
 	}
 	
-	// TODO add javadoc
+	/**
+	 * A class that simulate a retire() call to the tested unit.
+	 */
 	public static class ChooseListRetireComponent implements CallerComponent{
 
 		private ChoosingListTestEnvironment testEnvironment;

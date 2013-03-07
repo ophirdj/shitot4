@@ -2,6 +2,7 @@ package mainframe.tests;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
+import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 import mainframe.gui.IMainframeWindow;
@@ -23,17 +24,17 @@ public class MainframeWindowStub implements IMainframeWindow {
 	private IPartiesList showHistogramParam;
 	
 	@Override
-	public Boolean getConfirmation(String confirmationMessage) {
+	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
 		return null;
 	}
 
 	@Override
-	public void printError(String errorMessage) {
+	public void printError(StationPanel station, String errorMessage) {
 
 	}
 
 	@Override
-	public void printMessage(String message) {
+	public void printMessage(StationPanel station, String message) {
 
 	}
 
@@ -63,12 +64,12 @@ public class MainframeWindowStub implements IMainframeWindow {
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message) {
+	public boolean printConfirmationMessage(Messages message) {
 		return false;
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message, IParty party) {
+	public boolean printConfirmationMessage(Messages message, IParty party) {
 		return false;
 	}
 

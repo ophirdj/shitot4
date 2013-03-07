@@ -52,10 +52,10 @@ public class ChoosingList implements IChoosingList{
 			else if(type == ChooseType.Party){
 				chosenParty = window.getParty();
 				if(chosenParty == whiteNote){
-					hasConfirmed = window.printConformationMessage(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone);
+					hasConfirmed = window.printConfirmationMessage(Messages.Are_you_sure_you_dont_want_to_vote_for_anyone);
 				}
 				else{
-					hasConfirmed = window.printConformationMessage(Messages.Are_you_sure_you_want_to_vote_for, chosenParty);
+					hasConfirmed = window.printConfirmationMessage(Messages.Are_you_sure_you_want_to_vote_for, chosenParty);
 				}
 			}
 		}

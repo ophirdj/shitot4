@@ -5,8 +5,8 @@ import java.util.Queue;
 import practiceStation.factories.IPracticeStationWindowFactory;
 import practiceStation.gui.IPracticeStationWindow;
 import practiceStation.logic.IPracticeStation;
-import practiceStation.tests.PracticeTest_PracticeStationWindowStub.ConformationWithPartyComponent;
-import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintConformationMessageComponent;
+import practiceStation.tests.PracticeTest_PracticeStationWindowStub.ConfirmationWithPartyComponent;
+import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintConfirmationMessageComponent;
 import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintInfoMessageComponent;
 import practiceStation.tests.PracticeTest_PracticeStationWindowStub.PrintErrorMessageComponent;
 
@@ -14,20 +14,20 @@ public class PracticeTest_PracticeStationWindowStubFactory implements IPracticeS
 
 	private PracticeStationTestEnvironment testEnvironment;
 	private Queue<PrintErrorMessageComponent> printErrorMessageQueue;
-	private Queue<PrintConformationMessageComponent> printConformationMessageQueue;
-	private Queue<ConformationWithPartyComponent> ConformationWithPartyQueue;
+	private Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue;
+	private Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue;
 	private Queue<PrintInfoMessageComponent> printInfoMessageQueue;
 
 	public PracticeTest_PracticeStationWindowStubFactory(
 			PracticeStationTestEnvironment testEnvironment,
 			Queue<PrintErrorMessageComponent> printErrorMessageQueue,
-			Queue<PrintConformationMessageComponent> printConformationMessageQueue,
-			Queue<ConformationWithPartyComponent> ConformationWithPartyQueue,
+			Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue,
+			Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue,
 			Queue<PrintInfoMessageComponent> printInfoMessageQueue){
 		this.testEnvironment = testEnvironment;
 		this.printErrorMessageQueue = printErrorMessageQueue;
-		this.printConformationMessageQueue = printConformationMessageQueue;
-		this.ConformationWithPartyQueue = ConformationWithPartyQueue;
+		this.printConfirmationMessageQueue = printConfirmationMessageQueue;
+		this.ConfirmationWithPartyQueue = ConfirmationWithPartyQueue;
 		this.printInfoMessageQueue = printInfoMessageQueue;
 	}
 	
@@ -35,8 +35,8 @@ public class PracticeTest_PracticeStationWindowStubFactory implements IPracticeS
 	public IPracticeStationWindow createInstance(IPracticeStation caller) {
 		return new PracticeTest_PracticeStationWindowStub(testEnvironment,
 				printErrorMessageQueue,
-				printConformationMessageQueue,
-				ConformationWithPartyQueue,
+				printConfirmationMessageQueue,
+				ConfirmationWithPartyQueue,
 				printInfoMessageQueue);
 	}
 

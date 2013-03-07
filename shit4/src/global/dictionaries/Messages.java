@@ -11,7 +11,7 @@ package global.dictionaries;
  */
 public enum Messages {
 	Main_Window,
-	Ask_for_conformation,
+	Ask_for_confirmation,
 	ERROR,
 	FYI,
 	Exit,

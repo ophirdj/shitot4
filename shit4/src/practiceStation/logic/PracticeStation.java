@@ -90,17 +90,17 @@ public class PracticeStation implements IPracticeStation {
 	}
 
 	public void practiceVote() {
-		boolean understandConformation = false;
+		boolean understandConfirmation = false;
 		IParty chosen;
 		Watcher watcher = new Watcher(this);
 		try {
 			watcher.start();
 			practiceStationWindow
 					.printInfoMessage(Messages.This_station_is_only_for_practice);
-			while (!understandConformation) {
+			while (!understandConfirmation) {
 				watcher.checkTime();
 				boolean choice = practiceStationWindow
-						.printConformationMessage(Messages.Do_you_want_to_see_a_guide);
+						.printConfirmationMessage(Messages.Do_you_want_to_see_a_guide);
 				if (choice) {
 					guide.showFirstImage(this.language);
 				}
@@ -108,12 +108,12 @@ public class PracticeStation implements IPracticeStation {
 				practiceStationWindow
 						.printInfoMessage(Messages.This_station_is_only_for_practice);
 				try {
-					boolean partyConformation = false;
-					while (!partyConformation) {
+					boolean partyConfirmation = false;
+					while (!partyConfirmation) {
 						chosen = choosingList.chooseList();
 						watcher.checkTime();
-						partyConformation = practiceStationWindow
-								.printConformationMessage(Messages.Did_you_intend_to_vote_for, chosen);
+						partyConfirmation = practiceStationWindow
+								.printConfirmationMessage(Messages.Did_you_intend_to_vote_for, chosen);
 					}
 				} catch (ChoosingInterruptedException e) {
 					/*
@@ -124,8 +124,8 @@ public class PracticeStation implements IPracticeStation {
 					}
 				}
 				watcher.checkTime();
-				understandConformation = practiceStationWindow
-						.printConformationMessage(Messages.Have_you_understood_the_process);
+				understandConfirmation = practiceStationWindow
+						.printConfirmationMessage(Messages.Have_you_understood_the_process);
 			}
 		} catch (PracticeTimedOutException e) {
 			practiceStationWindow.printInfoMessage(Messages.Your_time_is_up);

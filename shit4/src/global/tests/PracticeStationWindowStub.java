@@ -15,26 +15,26 @@ public class PracticeStationWindowStub extends StationPanel implements IPractice
 
 	private static final long serialVersionUID = 1L;
 	private IPracticeStation caller;
-	private boolean defaultConformation = true;
-	private Queue<Boolean> conformations = new LinkedBlockingQueue<Boolean>();
+	private boolean defaultConfirmation = true;
+	private Queue<Boolean> confirmations = new LinkedBlockingQueue<Boolean>();
 
 	public PracticeStationWindowStub(IPracticeStation caller) {
 		this.caller = caller;
 	}
 
 	@Override
-	public Boolean getConfirmation(String confirmationMessage) {
-		if(conformations.isEmpty()) return defaultConformation;
-		return conformations.poll();
+	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
+		if(confirmations.isEmpty()) return defaultConfirmation;
+		return confirmations.poll();
 	}
 
 	@Override
-	public void printError(String errorMessage) {
+	public void printError(StationPanel station, String errorMessage) {
 
 	}
 
 	@Override
-	public void printMessage(String message) {
+	public void printMessage(StationPanel station, String message) {
 
 	}
 
@@ -64,15 +64,15 @@ public class PracticeStationWindowStub extends StationPanel implements IPractice
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message) {
-		if(conformations.isEmpty()) return defaultConformation;
-		return conformations.poll();
+	public boolean printConfirmationMessage(Messages message) {
+		if(confirmations.isEmpty()) return defaultConfirmation;
+		return confirmations.poll();
 	}
 
 	@Override
-	public boolean printConformationMessage(Messages message, IParty party) {
-		if(conformations.isEmpty()) return defaultConformation;
-		return conformations.poll();
+	public boolean printConfirmationMessage(Messages message, IParty party) {
+		if(confirmations.isEmpty()) return defaultConfirmation;
+		return confirmations.poll();
 	}
 
 	@Override
