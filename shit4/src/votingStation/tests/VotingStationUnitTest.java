@@ -18,6 +18,11 @@ import partiesList.model.Party;
 
 import votingStation.logic.VotingStation;
 
+/**
+ * Unit tests for voting station
+ * @author Ophir De Jager
+ *
+ */
 public class VotingStationUnitTest {
 	
 	//voting time (seconds)
@@ -30,6 +35,9 @@ public class VotingStationUnitTest {
 	private StationsControllerStub controllerStub;
 	private VotingStation station;
 
+	/**
+	 * Set parties list, passwords & Initialize the station
+	 */
 	@Before
 	public void preprocessing() {
 		chooseStub = new ChoosingListStub();
@@ -58,6 +66,10 @@ public class VotingStationUnitTest {
 		station.initialize(partiesStub, controllerStub);
 	}
 	
+	/**
+	 * Assert parties haven't changed after each test
+	 * @throws PartyDoesNotExist
+	 */
 	@After
 	public void intariants() throws PartyDoesNotExist{
 		Assert.assertEquals("p1", partiesStub.getPartyBySymbol("p1")
@@ -87,6 +99,10 @@ public class VotingStationUnitTest {
 				.getVoteNumber());
 	}
 
+	/**
+	 * Initialize the station
+	 * @throws Exception
+	 */
 	@Test
 	public void testInitialize() throws Exception {
 		IPartiesList stationParties = station.getPartiesList();
@@ -118,6 +134,11 @@ public class VotingStationUnitTest {
 				.getVoteNumber());
 	}
 	
+	/**
+	 * Committee member performs a test vote using wrong password
+	 * Cannot test vote
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void testVoteWrongPassword() throws ChoosingInterruptedException{
 		windowStub.password = "wrong_password";
@@ -125,6 +146,11 @@ public class VotingStationUnitTest {
 		station.testVoting();
 	}
 	
+	/**
+	 * Committee member performs a test vote using illegal ID
+	 * Cannot test vote
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void testVoteWrongID() throws ChoosingInterruptedException{
 		windowStub.password = "password1";
@@ -133,6 +159,11 @@ public class VotingStationUnitTest {
 		station.testVoting();
 	}
 	
+	/**
+	 * Committee member performs a test vote using unidentified ID
+	 * Cannot test vote
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void testVoteIDUnidentified() throws ChoosingInterruptedException{
 		windowStub.password = "password2";
@@ -142,6 +173,11 @@ public class VotingStationUnitTest {
 		station.testVoting();
 	}
 	
+	/**
+	 * Committee member performs a test vote using ID that voted in another station
+	 * Cannot test vote
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void testVoteIDVotedNotHere() throws ChoosingInterruptedException{
 		windowStub.password = "password3";
@@ -151,6 +187,11 @@ public class VotingStationUnitTest {
 		station.testVoting();
 	}
 	
+	/**
+	 * Committee member performs a test vote using ID that started voting in another station
+	 * Cannot test vote
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void testVoteIDStartedVoteNotHere() throws ChoosingInterruptedException{
 		windowStub.password = "password3";
@@ -160,6 +201,11 @@ public class VotingStationUnitTest {
 		station.testVoting();
 	}
 	
+	/**
+	 * Committee member performs a test vote using identified ID
+	 * Can test vote - no change in parties & ID status
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void testVoteIDIdentified() throws ChoosingInterruptedException, Exception{
 		windowStub.password = "password2";
@@ -172,6 +218,11 @@ public class VotingStationUnitTest {
 		Assert.assertEquals(partiesStub.getPartyBySymbol("p2").getVoteNumber(), chooseStub.partiesList.getPartyBySymbol("p2").getVoteNumber());
 	}
 	
+	/**
+	 * Committee member performs a test vote using identified ID many times
+	 * Can test vote - no change in parties & ID status
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void testVoteManyTimes() throws ChoosingInterruptedException, Exception{
 		windowStub.password = "password1";
@@ -198,6 +249,10 @@ public class VotingStationUnitTest {
 		
 	}
 	
+	/**
+	 * Committee member performs a test vote using identified ID
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteWrongID() throws ChoosingInterruptedException{
 		windowStub.errorMessage = Messages.ID_must_be_a_number;
@@ -205,6 +260,11 @@ public class VotingStationUnitTest {
 		station.voting();
 	}
 	
+	/**
+	 * Vote using unidentified ID
+	 * Cannot vote
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteIDUnidentified() throws ChoosingInterruptedException{
 		controllerStub.status = VoterStatus.unidentified;
@@ -213,6 +273,11 @@ public class VotingStationUnitTest {
 		station.voting();
 	}
 	
+	/**
+	 * Vote using ID that voted in another station
+	 * Cannot vote
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteIDVotedNotHere() throws ChoosingInterruptedException{
 		controllerStub.status = VoterStatus.voted;
@@ -221,6 +286,11 @@ public class VotingStationUnitTest {
 		station.voting();
 	}
 	
+	/**
+	 * Vote using ID that started voting in another station
+	 * Cannot vote
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteIDStartedVoteNotHere() throws ChoosingInterruptedException{
 		controllerStub.status = VoterStatus.startedVote;
@@ -229,6 +299,11 @@ public class VotingStationUnitTest {
 		station.voting();
 	}
 	
+	/**
+	 * Vote using identified ID
+	 * Can vote - will change parties list & voter status
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteIdentified() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -243,6 +318,11 @@ public class VotingStationUnitTest {
 		partiesStub.getPartyBySymbol("p2").decreaseVoteNumber();
 	}
 	
+	/**
+	 * Vote using identified ID multiple times
+	 * Can vote - will change parties list & voter status. Cannot vote after 3 votes.
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteMultipleTimes() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -268,6 +348,11 @@ public class VotingStationUnitTest {
 		partiesStub.getPartyBySymbol("p3").decreaseVoteNumber();
 	}
 	
+	/**
+	 * Vote using identified ID multiple times to different parties
+	 * Can vote - will change parties list & voter status. Cannot vote after 3 votes.
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteMultipleTimesSeveralParties() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -294,6 +379,11 @@ public class VotingStationUnitTest {
 		partiesStub.getPartyBySymbol("p2").decreaseVoteNumber();
 	}
 	
+	/**
+	 * Vote using identified ID multiple times to different parties and back to the original party
+	 * Can vote - will change parties list & voter status. Cannot vote after 3 votes.
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteMultipleTimesSeveralPartiesRepeats() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -320,6 +410,12 @@ public class VotingStationUnitTest {
 		partiesStub.getPartyBySymbol("p2").decreaseVoteNumber();
 	}
 	
+	/**
+	 * Vote using identified ID multiple times to different parties and back to the original party
+	 * Then test vote with same ID
+	 * Can vote - will change parties list & voter status. Cannot vote after 3 votes even if test vote.
+	 * @throws ChoosingInterruptedException
+	 */
 	@Test
 	public void voteMultipleTimesSeveralPartiesRepeatsAndThenTestVote() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -350,6 +446,10 @@ public class VotingStationUnitTest {
 		partiesStub.getPartyBySymbol("p2").decreaseVoteNumber();
 	}
 	
+	/**
+	 * Choosing interrupt in getting ID during vote
+	 * @throws Exception
+	 */
 	@Test(expected = ChoosingInterruptedException.class)
 	public void voteInterruptedID() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -358,6 +458,10 @@ public class VotingStationUnitTest {
 		station.voting();
 	}
 	
+	/**
+	 * Choosing interrupt in getting party during vote
+	 * @throws Exception
+	 */
 	@Test(expected = ChoosingInterruptedException.class)
 	public void voteInterruptedChoose() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -367,6 +471,10 @@ public class VotingStationUnitTest {
 		station.voting();
 	}
 	
+	/**
+	 * Choosing interrupt in getting ID during test vote
+	 * @throws Exception
+	 */
 	@Test(expected = ChoosingInterruptedException.class)
 	public void testVoteInterruptedID() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -375,6 +483,10 @@ public class VotingStationUnitTest {
 		station.testVoting();
 	}
 	
+	/**
+	 * Choosing interrupt in getting party during test vote
+	 * @throws Exception
+	 */
 	@Test(expected = ChoosingInterruptedException.class)
 	public void testVoteInterruptedChoose() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -384,6 +496,9 @@ public class VotingStationUnitTest {
 		station.testVoting();
 	}
 	
+	/**
+	 * Retire station
+	 */
 	@Test
 	public void retire(){
 		station.retire();
@@ -391,6 +506,10 @@ public class VotingStationUnitTest {
 		Assert.assertTrue(windowStub.retired);
 	}
 	
+	/**
+	 * Many voters many parties
+	 * @throws Exception
+	 */
 	@Test
 	public void multipleVoters() throws Exception{
 		controllerStub.status = VoterStatus.identified;
@@ -423,7 +542,10 @@ public class VotingStationUnitTest {
 		partiesStub.getPartyBySymbol("p3").decreaseVoteNumber();
 	}
 	
-	
+	/**
+	 * Voter cannot vote after waiting too much time
+	 * @throws Exception
+	 */
 	@Test
 	public void voteTwiceWaitTooMuch() throws Exception{
 		controllerStub.status = VoterStatus.identified;
