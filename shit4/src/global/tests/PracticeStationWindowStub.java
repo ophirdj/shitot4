@@ -9,6 +9,7 @@ import global.gui.StationPanel;
 import partiesList.model.IParty;
 import practiceStation.gui.IPracticeStationWindow;
 import practiceStation.logic.IPracticeStation;
+import practiceStation.logic.PracticeStationAction;
 
 public class PracticeStationWindowStub extends StationPanel implements IPracticeStationWindow {
 
@@ -81,6 +82,11 @@ public class PracticeStationWindowStub extends StationPanel implements IPractice
 
 	public void practiceVote() {
 		caller.practiceVote();
+	}
+
+	@Override
+	public void setAction(PracticeStationAction action) {
+		
 	}
 
 }

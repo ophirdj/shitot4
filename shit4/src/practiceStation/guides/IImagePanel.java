@@ -2,38 +2,43 @@ package practiceStation.guides;
 
 import global.dictionaries.Languages;
 
+/**
+ * Interface to Show the how-to-vote-guide in practice station
+ * @author Ophir De Jager
+ *
+ */
 public interface IImagePanel {
 	
 	/**
-	 * 
-	 * @return true iff the current image is not the final image
+	 * Check if guide panel has a previous panel
+	 * @return true if the current image is not the final image
 	 */
 	public boolean hasNext();
 	
 	/**
-	 * 
-	 * @return true iff the current image is not the firsts image
+	 * Check if guide panel has a next panel
+	 * @return true if the current image is not the firsts image
 	 */
 	public boolean hasPrev();
 	
 	/**
-	 * show next image (if exist)
+	 * Show next image of guide (if exist)
 	 */
 	public void showNextImage();
 	
 	/**
-	 * show previous image (if exist)
+	 * Show previous image of guide (if exist)
 	 */
 	public void showPrevImage();
 	
 	/**
-	 * show first image (if exist)
+	 * Show first image of guide (if exist)
 	 * @param language: the language of the guide
 	 */
 	public void showFirstImage(Languages language);
 	
 	/**
-	 * return to caller station
+	 * Return to practice station
 	 */
 	public void retire();
 	

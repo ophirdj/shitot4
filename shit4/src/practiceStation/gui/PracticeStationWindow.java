@@ -16,7 +16,11 @@ import practiceStation.logic.IPracticeStation;
 import practiceStation.logic.PracticeStationAction;
 
 
-
+/**
+ * Implements IPracticeStationWindow
+ * @author Ziv Ronen
+ *
+ */
 public class PracticeStationWindow extends StationPanel implements
 		IPracticeStationWindow, Runnable {
 	final static long serialVersionUID = 1L;
@@ -28,15 +32,8 @@ public class PracticeStationWindow extends StationPanel implements
 	private final int NUM_OF_PERSONAL_ROWS = PracticeStationAction.maxRow();
 	private final int NUM_OF_TOTAL_ROWS = NUM_OF_PERSONAL_ROWS + StationPanel.GLOBAL_ROWS_NUM;
 	private int id;
-	
-	
-	public void setAction(PracticeStationAction action) {
-		if (!was_pushed) {
-			chosen_action = action;
-		}
-		was_pushed = true;
-	}
 
+	// TODO add javadoc
 	public PracticeStationWindow(int id, IPracticeStation caller, Main_Window main_window) {
 		super(Messages.practiceStation,id,main_window);
 		callerStation = caller;
@@ -44,21 +41,32 @@ public class PracticeStationWindow extends StationPanel implements
 		this.id = id;
 		(new Thread(this)).start();
 	}
+	
+	@Override
+	public void setAction(PracticeStationAction action) {
+		if (!was_pushed) {
+			chosen_action = action;
+		}
+		was_pushed = true;
+	}
 
-	void make_voting_button(JPanel practice_panel, PracticeStationAction action,
+	// TODO add javadoc
+	private void make_voting_button(JPanel practice_panel, PracticeStationAction action,
 			Object lock) {
 		JButton action_button = new JButton(action.getString(dictionary));
 		action_button.addActionListener(new PracticeClick(this, action, lock));
 		practice_panel.add(action_button); 
 	}
 
+	// TODO add javadoc
 	private void make_practice_panel(JPanel rows[], Object lock) {
 		for (PracticeStationAction action : PracticeStationAction.values()) {
 			make_voting_button(rows[action.getRow()], action, lock);
 		}
 	}
 
-	public void chooseAction() {
+	// TODO add javadoc
+	private void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;
 		JPanel practice_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_ROWS,1));
@@ -85,6 +93,7 @@ public class PracticeStationWindow extends StationPanel implements
 		}
 	}
 
+	@Override
 	public void run() {
 		while (chosen_action != PracticeStationAction.shut_down) {
 			chooseAction();

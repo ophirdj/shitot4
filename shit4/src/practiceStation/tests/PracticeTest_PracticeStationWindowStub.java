@@ -10,6 +10,7 @@ import global.dictionaries.Messages;
 import global.gui.StationPanel;
 import partiesList.model.IParty;
 import practiceStation.gui.IPracticeStationWindow;
+import practiceStation.logic.PracticeStationAction;
 
 public class PracticeTest_PracticeStationWindowStub extends StationPanel implements
 		IPracticeStationWindow {
@@ -319,6 +320,15 @@ public class PracticeTest_PracticeStationWindowStub extends StationPanel impleme
 
 	@Override
 	public String translate(Messages message) {
+		throw new AssertionError();
+	}
+
+
+
+
+
+	@Override
+	public void setAction(PracticeStationAction action) {
 		throw new AssertionError();
 	}
 
