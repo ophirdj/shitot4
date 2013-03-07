@@ -54,7 +54,7 @@ public class BackupUnitTest {
 			Assert.assertEquals(i+100, unregVotersStub.findVoter(i+100).getId());
 		}
 		for(i=1; i<=20; i++){
-			Assert.assertEquals("p"+Integer.toString(i), partiesStub.getPartyBySymbol("p"+Integer.toString(i)));
+			Assert.assertEquals("p"+Integer.toString(i), partiesStub.getPartyBySymbol("p"+Integer.toString(i)).getSymbol());
 			Assert.assertEquals(i*10, partiesStub.getPartyBySymbol("p"+Integer.toString(i)).getVoteNumber());
 		}		
 	}
@@ -92,6 +92,33 @@ public class BackupUnitTest {
 		for(int i=1;i<=100;i++){
 			Assert.assertEquals(i+100, unregVotersRestStub.findVoter(i+100).getId());
 		}
+	}
+	
+	
+	
+	
+	
+	@Test(expected = VoterDoesntExist.class)
+	public void restoreVotersExceptionTest() throws VoterDoesntExist{
+		votersRestStub = backup.restoreVoters();
+		votersRestStub.findVoter(800);
+	}
+	
+	
+	
+	@Test(expected = PartyDoesNotExist.class)
+	public void restorePartiesExceptionTest() throws PartyDoesNotExist{
+		partiesRestStub = backup.restoreParties();
+		partiesRestStub.getPartyBySymbol("ERROR");
+	}
+	
+	
+	
+	
+	@Test(expected = VoterDoesntExist.class)
+	public void restoreUnregVotersExceptionTest() throws VoterDoesntExist{
+		unregVotersRestStub = backup.restoreUnregisteredVoters();
+		unregVotersRestStub.findVoter(800);
 	}
 	
 	
