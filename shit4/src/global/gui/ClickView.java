@@ -4,7 +4,10 @@ package global.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// TODO add javadoc
+/**
+ * This ActionListener listen to the buttons in the main window.
+ * When pushed, signal the main window to show the pushed station.
+ */
 public class ClickView implements ActionListener{
 	private StationPanel button_panel;
 	private Main_Window window;

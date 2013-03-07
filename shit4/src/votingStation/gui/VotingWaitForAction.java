@@ -3,7 +3,10 @@ package votingStation.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//TODO add javadoc
+/**
+ * Handle buttons click inside the voting station (not include choosing action).
+ * Notify the station when clicked. 
+ */
 public class VotingWaitForAction implements ActionListener{
 	private Object lock;
 	private boolean was_pushed;

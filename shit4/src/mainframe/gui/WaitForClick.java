@@ -3,7 +3,10 @@ package mainframe.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// TODO add javadoc
+/**
+ * Handle buttons click inside the mainframe.
+ * Notify the mainframe when clicked. 
+ */
 public class WaitForClick implements ActionListener{
 	private Object lock;
 	private boolean was_pushed;

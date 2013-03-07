@@ -2,7 +2,9 @@ package global.gui;
 
 import global.dictionaries.Messages;
 
-// TODO add javadoc
+/**
+ * Used for the buttons in the main window
+ */
 public class View {
 	Messages name;
 	private String original;

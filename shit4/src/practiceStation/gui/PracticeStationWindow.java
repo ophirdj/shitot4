@@ -33,7 +33,13 @@ public class PracticeStationWindow extends StationPanel implements
 	private final int NUM_OF_TOTAL_ROWS = NUM_OF_PERSONAL_ROWS + StationPanel.GLOBAL_ROWS_NUM;
 	private int id;
 
-	// TODO add javadoc
+	/**
+	 * Build the station.
+	 * 
+	 * @param id: if we have more then one practice station, this is there id.
+	 * @param caller: the caller station
+	 * @param main_window: The main window in which the station is showed.
+	 */
 	public PracticeStationWindow(int id, IPracticeStation caller, Main_Window main_window) {
 		super(Messages.practiceStation,id,main_window);
 		callerStation = caller;
@@ -50,7 +56,13 @@ public class PracticeStationWindow extends StationPanel implements
 		was_pushed = true;
 	}
 
-	// TODO add javadoc
+	/**
+	 * Create a button in the given panel.
+	 * 
+	 * @param practice_panel: The panel in which we want to add the button.
+	 * @param action: The action pressing the button will activate.
+	 * @param lock: The lock we need to notify when the button is pressed
+	 */
 	private void make_voting_button(JPanel practice_panel, PracticeStationAction action,
 			Object lock) {
 		JButton action_button = new JButton(action.getString(dictionary));
@@ -58,14 +70,24 @@ public class PracticeStationWindow extends StationPanel implements
 		practice_panel.add(action_button); 
 	}
 
-	// TODO add javadoc
+	/**
+	 * Make all the buttons for actions in the practice station. 
+	 * 
+	 * @param rows: an array of panels, each represent a rows of buttons
+	 * @param lock: The lock we need to notify when a button is pressed
+	 */
 	private void make_practice_panel(JPanel rows[], Object lock) {
 		for (PracticeStationAction action : PracticeStationAction.values()) {
 			make_voting_button(rows[action.getRow()], action, lock);
 		}
 	}
 
-	// TODO add javadoc
+	/**
+	 * Wait for the user to choose an action. 
+	 * Show the choosing panel (the practice station main panel).
+	 * After chooseAction, chosen_action will contain either the correct action
+	 * or null if no action was chosen.
+	 */
 	private void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;

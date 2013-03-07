@@ -46,8 +46,8 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	
 	private MainframeState state = MainframeState.BeforeInit;
 	
-	private final int NUM_OF_PERSONAL_LAYER = MainframeAction.maxRow();
-	private final int NUM_OF_TOTAL_LAYER = MainframeAction.maxRow()+StationPanel.GLOBAL_ROWS_NUM;
+	private final int NUM_OF_PERSONAL_ROWS = MainframeAction.maxRow();
+	private final int NUM_OF_TOTAL_ROWS = MainframeAction.maxRow()+StationPanel.GLOBAL_ROWS_NUM;
 	private final Color MainframeBackGround = new Color(255,255,255); 
 	
 	/**
@@ -136,13 +136,13 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	/**
 	 * Make all the buttons for actions in the mainframe. 
 	 * 
-	 * @param mainframe_panel: an array of panels, each represent a rows of buttons
+	 * @param rows: an array of panels, each represent a rows of buttons
 	 * @param lock: The lock we need to notify when a button is pressed
 	 */
-	 private void make_mainframe_panel(JPanel mainframe_panel[], Object lock){
+	 private void make_mainframe_panel(JPanel rows[], Object lock){
 		for(MainframeAction action : MainframeAction.values()){
 			if(action.needToShow(state)){
-				make_mainframe_button(mainframe_panel[action.getRow()],action,lock);
+				make_mainframe_button(rows[action.getRow()],action,lock);
 			}
 		}
 	  }
@@ -156,18 +156,18 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private void chooseAction(){
 		was_pushed = false;
 		chosen_action = null;
-		JPanel mainframe_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_LAYER,1));
-		JPanel layers[] = new JPanel[NUM_OF_PERSONAL_LAYER];
-		for (int i = 0; i < layers.length; i++) {
-			layers[i] = new JPanel(new FlowLayout());
-			layers[i].setBackground(MainframeBackGround);
+		JPanel mainframe_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_ROWS,1));
+		JPanel rows[] = new JPanel[NUM_OF_PERSONAL_ROWS];
+		for (int i = 0; i < rows.length; i++) {
+			rows[i] = new JPanel(new FlowLayout());
+			rows[i].setBackground(MainframeBackGround);
 		}
-		make_mainframe_panel(layers,this);
+		make_mainframe_panel(rows,this);
 		this.removeAll();
 		mainframe_panel.setBackground(MainframeBackGround);
 		this.setBackground(MainframeBackGround);
-		for (int i = 0; i < layers.length; i++) {
-			mainframe_panel.add(layers[i]);
+		for (int i = 0; i < rows.length; i++) {
+			mainframe_panel.add(rows[i]);
 		}
 		this.addGlobalRows(mainframe_panel, MainframeBackGround);
 		this.add(mainframe_panel);

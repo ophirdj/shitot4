@@ -10,7 +10,11 @@ import choosingList.logic.ChooseType;
 import partiesList.model.IParty;
 
 
-//TODO add javadoc
+/**
+ * Listen to the buttons in choosing list.
+ * When pushed, inform the window on what was pushed
+ * and signal it to continue.
+ */
 public class ClickParty implements ActionListener{
 	private ChooseType return_type;
 	private IParty button_party;

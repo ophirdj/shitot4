@@ -15,7 +15,13 @@ public class VoteClick implements ActionListener {
 	private VotingStationAction voting_action;
 	private Object lock;
 	
-	// TODO add javadoc
+	/**
+	 * Build the listener for voting station window buttons.
+	 * 
+	 * @param station: the station to whom the button belong.
+	 * @param action: the action to perform.
+	 * @param window_lock: the lock we notify when the button is pushed.
+	 */
 	public VoteClick(VotingStationWindow station, VotingStationAction action, Object window_lock) {
 		button_window = station;
 		voting_action = action;

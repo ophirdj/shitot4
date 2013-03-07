@@ -75,7 +75,13 @@ public class VotingStationWindow extends StationPanel implements
 		was_called = true;
 	}
 
-	// TODO add javadoc
+	/**
+	 * Create a button in the given panel.
+	 * 
+	 * @param voting_panel: The panel in which we want to add the button.
+	 * @param action: The action pressing the button will activate.
+	 * @param lock: The lock we need to notify when the button is pressed
+	 */
 	private void make_voting_button(JPanel voting_panel, VotingStationAction action,
 			Object lock) {
 		JButton action_button = new JButton(action.getString(dictionary));
@@ -83,14 +89,24 @@ public class VotingStationWindow extends StationPanel implements
 		voting_panel.add(action_button);
 	}
 
-	// TODO add javadoc
+	/**
+	 * Make all the buttons for actions in the voting station. 
+	 * 
+	 * @param rows: an array of panels, each represent a rows of buttons
+	 * @param lock: The lock we need to notify when a button is pressed
+	 */
 	private void make_voting_panel(JPanel rows[], Object lock) {
 		for (VotingStationAction action : VotingStationAction.values()) {
 			make_voting_button(rows[action.getRow()], action, lock);
 		}
 	}
 
-	// TODO add javadoc
+	/**
+	 * Wait for the user to choose an action. 
+	 * Show the choosing panel (the voting station main panel).
+	 * After chooseAction, chosen_action will contain either the correct action
+	 * or null if no action was chosen.
+	 */
 	public synchronized void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;
@@ -118,11 +134,18 @@ public class VotingStationWindow extends StationPanel implements
 		}
 	}
 
-	// TODO add javadoc
-	private void make_input_panel(JPanel input_panel, JTextField comp,
-			Object lock, String name) {
-		input_panel.add(comp);
-		JButton button = new JButton(name);
+	/**
+	 * Make the panel for entering id/password.
+	 * 
+	 * @param input_panel: the panel we make.
+	 * @param textField: where the text should be entered.
+	 * @param lock: the lock we notify after the user finish.
+	 * @param message: the message we want to show on the button (its name).
+	 */
+	private void make_input_panel(JPanel input_panel, JTextField textField,
+			Object lock, Messages name) {
+		input_panel.add(textField);
+		JButton button = new JButton(dictionary.translate(name));
 		button.addActionListener(new VotingWaitForAction(lock, this));
 		input_panel.add(button);
 	}
@@ -132,7 +155,7 @@ public class VotingStationWindow extends StationPanel implements
 		was_called = false;
 		JPanel password_panel = new JPanel(new GridLayout(2, 1));
 		JPasswordField textField = new JPasswordField();
-		make_input_panel(password_panel, textField, this, dictionary.translate(Messages.enter_password));
+		make_input_panel(password_panel, textField, this, Messages.enter_password);
 		this.removeAll();
 		this.add(password_panel);
 		window.show_if_current(this, this);
@@ -154,7 +177,7 @@ public class VotingStationWindow extends StationPanel implements
 		was_called = false;
 		JPanel id_panel = new JPanel(new GridLayout(2, 1));
 		JTextField textField = new JTextField();
-		make_input_panel(id_panel, textField, this, dictionary.translate(Messages.enter_ID));
+		make_input_panel(id_panel, textField, this, Messages.enter_ID);
 		this.removeAll();
 		this.add(id_panel);
 		window.show_if_current(this, this);
