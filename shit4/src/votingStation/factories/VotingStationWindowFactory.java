@@ -16,7 +16,9 @@ public class VotingStationWindowFactory implements IVotingStationWindowFactory {
 	
 	@Override
 	public IVotingStationWindow createInstance(IVotingStation caller) {
-		return new VotingStationWindow(id++, caller,main_window);
+		int stationID = id;
+		id++;
+		return new VotingStationWindow(stationID, caller,main_window);
 	}
 
 }

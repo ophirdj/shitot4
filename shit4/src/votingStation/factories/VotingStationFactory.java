@@ -9,20 +9,20 @@ import votingStation.logic.VotingStation;
 
 public class VotingStationFactory implements IVotingStationFactory {
 
-	private IChoosingListFactory choseFactory;
+	private IChoosingListFactory chooseFactory;
 	private IVotingStationWindowFactory stationWindowFactory;
 	private IVotingRecordFactory votingRecordFactory;
 
-	public VotingStationFactory(IChoosingListFactory choseFactory,
+	public VotingStationFactory(IChoosingListFactory chooseFactory,
 	IVotingStationWindowFactory stationWindowFactory, IVotingRecordFactory votingRecordFactory) {
-		this.choseFactory = choseFactory;
+		this.chooseFactory = chooseFactory;
 		this.stationWindowFactory = stationWindowFactory;
 		this.votingRecordFactory = votingRecordFactory;
 	}
 	
 	@Override
 	public IVotingStation createInstance(List<String> passwords) {
-		return new VotingStation(passwords, choseFactory, stationWindowFactory, votingRecordFactory);
+		return new VotingStation(passwords, chooseFactory, stationWindowFactory, votingRecordFactory);
 	}
 
 }

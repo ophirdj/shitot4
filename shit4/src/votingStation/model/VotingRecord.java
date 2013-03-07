@@ -3,13 +3,11 @@ package votingStation.model;
 import java.util.Date;
 
 import partiesList.model.IParty;
-import partiesList.model.Party;
 
 
 /**
- * 
+ * Implements IVotingRecord
  * @author Ophir De Jager
- * This class is local to this package.
  */
 public class VotingRecord implements IVotingRecord {
 	private int id;
@@ -23,7 +21,7 @@ public class VotingRecord implements IVotingRecord {
 	public VotingRecord(int id, long maxVotingTimeSeconds){
 		this.id = id;
 		this.firstVote = null;
-		this.party = new Party("white vote party", IParty.WHITE_VOTE_SYMBOL);
+		this.party = null;
 		this.numVotes = 0;
 		this.maxVotingTimeSeconds = maxVotingTimeSeconds;
 	}
