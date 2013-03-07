@@ -212,6 +212,8 @@ public class BackupUnitTest {
 		}
 	}
 	
+	
+	
 	/**
 	 * Backup/restore stress test.
 	 * Creates 5 separate instances of backup and restores the voters' list from each instance.
@@ -232,6 +234,7 @@ public class BackupUnitTest {
 			}
 		}
 	}
+	
 	
 	
 	
@@ -294,6 +297,92 @@ public class BackupUnitTest {
 			backups[j].storeState(partiesStub, votersStub, unregVotersStub);
 		}
 		for(int j=0; j<5; j++){
+			votersRestStub = backups[j].restoreVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i, votersRestStub.findVoter(i).getId());
+			}
+			partiesRestStub = backups[j].restoreParties();
+			for(int i=1;i<=20;i++){
+				Assert.assertEquals("p"+i, partiesRestStub.getPartyBySymbol("p"+i).getSymbol());
+				Assert.assertEquals(i*10, partiesRestStub.getPartyBySymbol("p"+i).getVoteNumber());
+			}
+			unregVotersRestStub = backups[j].restoreUnregisteredVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i+100, unregVotersRestStub.findVoter(i+100).getId());
+			}
+		}
+	}
+
+	
+	
+	/**
+	 * Backup/restore consistency test.
+	 * Saves and restores the voters' list 5 times to check corruption
+	 * @throws VoterDoesntExist
+	 */	
+	@Test
+	public void sequentialBackupRestoreVotersTest() throws VoterDoesntExist{
+		for(int j=0; j<5; j++){
+			backup.storeState(partiesStub, votersStub, unregVotersStub);
+			backup.storeState(partiesStub, votersStub, unregVotersStub);
+			votersRestStub = backup.restoreVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i, votersRestStub.findVoter(i).getId());
+			}
+		}
+	}
+	
+	
+	
+
+	/**
+	 * Backup/restore consistency test.
+	 * Saves and restores the parties' list 5 times to check corruption
+	 * @throws PartyDoesNotExist
+	 */
+	@Test
+	public void sequentialBackupRestorePartiesTest() throws PartyDoesNotExist{
+		for(int j=0; j<5; j++){
+			backup.storeState(partiesStub, votersStub, unregVotersStub);
+			backup.storeState(partiesStub, votersStub, unregVotersStub);
+			partiesRestStub = backup.restoreParties();
+			for(int i=1;i<=20;i++){
+				Assert.assertEquals("p"+i, partiesRestStub.getPartyBySymbol("p"+i).getSymbol());
+				Assert.assertEquals(i*10, partiesRestStub.getPartyBySymbol("p"+i).getVoteNumber());
+			}
+		}
+	}
+	
+	
+
+	/**
+	 * Backup/restore consistency test.
+	 * Saves and restores the unregistered voters' list 5 times to check corruption
+	 * @throws VoterDoesntExist
+	 */
+	@Test
+	public void sequentialBackupRestoreUnregVotersTest() throws VoterDoesntExist{
+		for(int j=0; j<5; j++){
+			backup.storeState(partiesStub, votersStub, unregVotersStub);
+			backup.storeState(partiesStub, votersStub, unregVotersStub);
+			unregVotersRestStub = backup.restoreUnregisteredVoters();
+			for(int i=1;i<=100;i++){
+				Assert.assertEquals(i, unregVotersRestStub.findVoter(i).getId());
+			}
+		}
+	}
+	
+	
+	/**
+	 * Backup/restore stress test.
+	 * Saves and restores the all lists 5 times to check corruption
+	 * @throws VoterDoesntExist
+	 */
+	@Test
+	public void sequentialBackupRestoreAllVotersTest() throws VoterDoesntExist, PartyDoesNotExist{
+		for(int j=0; j<5; j++){
+			backup.storeState(partiesStub, votersStub, unregVotersStub);
+			backup.storeState(partiesStub, votersStub, unregVotersStub);
 			votersRestStub = backup.restoreVoters();
 			for(int i=1;i<=100;i++){
 				Assert.assertEquals(i, votersRestStub.findVoter(i).getId());
@@ -309,4 +398,13 @@ public class BackupUnitTest {
 			}
 		}
 	}
+
+	
+
+
+
 }
+
+
+
+
