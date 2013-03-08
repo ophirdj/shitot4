@@ -29,7 +29,7 @@ public class Mainframe implements IMainframe {
 	private IVotersList unregisteredVoters;
 	private IStationsController votingStations;
 	private IBackup backup;
-	private BackupThread backupThread;
+	private HotBackup hotBackup;
 	private IMainframeWindow window;
 
 	private final int MILLISECONDS_BETWEEN_BACKUPS;
@@ -93,15 +93,15 @@ public class Mainframe implements IMainframe {
 		this.unregisteredVoters = unregistered;
 		votingStations = stationsControllerFactory.createInstance(this);
 		votingStations.initialize(parties);
-		backupThread = new BackupThread(this);
-		backupThread.start();
+		hotBackup = new HotBackup(this);
+		hotBackup.start();
 		window.setState(MainframeState.AfterInit);
 	}
 
 	@Override
 	public void countVotes() {
 		// We want all the votes from all the stations.
-		hotBackup();
+		gatherVotesFromVotingStations();
 		// We don't want to be interrupted so we'll work on a local copy.
 		IPartiesList parties = this.parties.copy();
 		
@@ -111,13 +111,13 @@ public class Mainframe implements IMainframe {
 
 	@Override
 	public void shutDown() {
-		if(backupThread != null) backupThread.retire();
+		if(hotBackup != null) hotBackup.retire();
 		if(votingStations != null) votingStations.retire();
 	}
 	
 	@Override
 	public void crash(){
-		if(backupThread != null) backupThread.kill();
+		if(hotBackup != null) hotBackup.kill();
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class Mainframe implements IMainframe {
 		IVotersList voters;
 		IPartiesList parties;
 		do {
-			hotBackup();
+			gatherVotesFromVotingStations();
 			synchronized (this) {
 				unregistered = unregisteredVoters.copy();
 				voters = this.voters.copy();
@@ -141,8 +141,8 @@ public class Mainframe implements IMainframe {
 	/**
 	 *  Synchronize mainframe's parties list with the ones in the voting stations.
 	 */
-	private void hotBackup() {
-		IPartiesList stationsParties = votingStations.hotBackup();
+	private void gatherVotesFromVotingStations() {
+		IPartiesList stationsParties = votingStations.gatherVotesFromVotingStations();
 		synchronized (this) {
 			parties = stationsParties;
 		}
@@ -275,7 +275,7 @@ public class Mainframe implements IMainframe {
 	/**
 	 * Thread that, when run, performs hot backup every given time
 	 */
-	private class BackupThread extends Thread{
+	private class HotBackup extends Thread{
 		
 		/**
 		 * Lock to sync backup actions
@@ -291,7 +291,7 @@ public class Mainframe implements IMainframe {
 		 * Create new BackupThread ready to run.
 		 * @param caller: The caller mainframe 
 		 */
-		public BackupThread(Mainframe caller) {
+		public HotBackup(Mainframe caller) {
 			lock = new Object();
 			continueRun = true;
 			this.caller = caller;

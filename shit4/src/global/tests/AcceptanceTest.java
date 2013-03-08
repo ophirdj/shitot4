@@ -751,12 +751,12 @@ public class AcceptanceTest {
 	}
 	
 	/**
-	 * Heavy load - vote every ~0.05 seconds
+	 * Heavy load - vote every ~0.1 seconds
 	 * @throws Exception
 	 */
 	@Test
 	public void testIntensiveHotBackUp() throws Exception{
-		testBackUp(50);
+		testBackUp(100);
 	}
 	
 }

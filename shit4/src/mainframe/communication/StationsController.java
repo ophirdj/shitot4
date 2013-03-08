@@ -81,7 +81,7 @@ public class StationsController implements IStationsController {
 	}
 
 	@Override
-	public IPartiesList hotBackup() {
+	public IPartiesList gatherVotesFromVotingStations() {
 		IPartiesList all = firstStation.getPartiesList().copy();;
 		for(IVotingStation s: stations){
 			all = all.joinLists(s.getPartiesList());

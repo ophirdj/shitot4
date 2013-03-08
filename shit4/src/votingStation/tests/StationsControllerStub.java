@@ -36,7 +36,7 @@ public class StationsControllerStub implements IStationsController {
 	}
 
 	@Override
-	public IPartiesList hotBackup() {
+	public IPartiesList gatherVotesFromVotingStations() {
 		return null;
 	}
 

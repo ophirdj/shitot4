@@ -61,7 +61,7 @@ public interface IStationsController{
 	 * to the local parties list (not just change the reference) by using the
 	 * joinLists method of IPartyList.
 	 */
-	IPartiesList hotBackup();
+	IPartiesList gatherVotesFromVotingStations();
 
 
 	/**
