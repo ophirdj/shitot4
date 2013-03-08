@@ -2,11 +2,11 @@ package unitTests.practiceStation;
 
 import partiesList.model.IParty;
 
-public class PracticeTest_PartyStub implements IParty {
+public class PartyStub implements IParty {
 
 	private String name;
 
-	public PracticeTest_PartyStub(String name) {
+	public PartyStub(String name) {
 		this.name = name;
 	}
 	

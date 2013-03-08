@@ -9,17 +9,17 @@ import java.util.Queue;
 import practiceStation.factories.IImagePanelFactory;
 import practiceStation.guides.IImagePanel;
 import practiceStation.guides.IListImages;
-import unitTests.practiceStation.PracticeTest_ImagePanelStub.ImagePanelRetireComponent;
-import unitTests.practiceStation.PracticeTest_ImagePanelStub.ShowFirstImageComponent;
+import unitTests.practiceStation.ImagePanelStub.ImagePanelRetireComponent;
+import unitTests.practiceStation.ImagePanelStub.ShowFirstImageComponent;
 
-public class PracticeTest_ImagePanelStubFactory implements IImagePanelFactory{
+public class ImagePanelStubFactory implements IImagePanelFactory{
 	
-	private PracticeStationTestEnvironment testEnviroment;
+	private TestEnvironment testEnviroment;
 	private Queue<ShowFirstImageComponent> showFirstImageQueue;
 	private Queue<ImagePanelRetireComponent> retireQueue;
 	
-	public PracticeTest_ImagePanelStubFactory(
-			PracticeStationTestEnvironment testEnviroment,
+	public ImagePanelStubFactory(
+			TestEnvironment testEnviroment,
 			Queue<ShowFirstImageComponent> showFirstImageQueue,
 			Queue<ImagePanelRetireComponent> retireQueue) {
 		this.testEnviroment = testEnviroment;
@@ -33,6 +33,6 @@ public class PracticeTest_ImagePanelStubFactory implements IImagePanelFactory{
 		for(Languages language : Languages.values()){
 			assert(images.containsKey(language));
 		}
-		return new PracticeTest_ImagePanelStub(testEnviroment,showFirstImageQueue,retireQueue);
+		return new ImagePanelStub(testEnviroment,showFirstImageQueue,retireQueue);
 	}
 }

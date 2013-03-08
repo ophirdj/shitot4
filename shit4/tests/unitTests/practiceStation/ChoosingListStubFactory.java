@@ -4,20 +4,20 @@ import java.util.Queue;
 
 import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
-import unitTests.practiceStation.PracticeTest_ChoosingListStub.ChooseListComponent;
-import unitTests.practiceStation.PracticeTest_ChoosingListStub.ChoosingListRetireComponent;
+import unitTests.practiceStation.ChoosingListStub.ChooseListComponent;
+import unitTests.practiceStation.ChoosingListStub.ChoosingListRetireComponent;
 import choosingList.factories.IChoosingListFactory;
 import choosingList.logic.IChoosingList;
 
-public class PracticeTest_choosingListStubFactory implements
+public class ChoosingListStubFactory implements
 		IChoosingListFactory {
 
-	private PracticeStationTestEnvironment testEnvironment;
+	private TestEnvironment testEnvironment;
 	private Queue<ChooseListComponent> chooseListQueue;
 	private Queue<ChoosingListRetireComponent> retireQueue;
 	
-	public PracticeTest_choosingListStubFactory(
-			PracticeStationTestEnvironment testEnvironment,
+	public ChoosingListStubFactory(
+			TestEnvironment testEnvironment,
 			Queue<ChooseListComponent> chooseListQueue,
 			Queue<ChoosingListRetireComponent> retireQueue){
 		this.testEnvironment = testEnvironment;
@@ -29,7 +29,7 @@ public class PracticeTest_choosingListStubFactory implements
 	@Override
 	public IChoosingList createInstance(IPartiesList parties,
 			StationPanel stationPanel) {
-		return new PracticeTest_ChoosingListStub(testEnvironment,chooseListQueue,retireQueue);
+		return new ChoosingListStub(testEnvironment,chooseListQueue,retireQueue);
 	}
 
 }

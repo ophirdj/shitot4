@@ -3,7 +3,9 @@ package unitTests.practiceStation;
 import global.dictionaries.Languages;
 import practiceStation.logic.IPracticeStation;
 
-
+/**
+ * Enum that represent the methods that practice station provide.
+ */
 public enum PracticeTestDriverCalls {
 	PracticeVote{
 		@Override

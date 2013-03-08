@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import global.dictionaries.Languages;
+import global.dictionaries.Messages;
 
 import org.junit.Test;
 
 import choosingList.factories.IChoosingListFactory;
-
-
 
 import partiesList.factories.IPartiesListFactory;
 import partiesList.factories.IPartyFactory;
@@ -19,44 +18,74 @@ import partiesList.model.IParty;
 import practiceStation.factories.IImagePanelFactory;
 import practiceStation.factories.IPracticeStationWindowFactory;
 import practiceStation.logic.PracticeStation;
+import unitTests.practiceStation.ChoosingListStub.ChooseListComponent;
+import unitTests.practiceStation.ChoosingListStub.ChoosingListRetireComponent;
+import unitTests.practiceStation.ImagePanelStub.ImagePanelRetireComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.ConfirmationWithPartyComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.ConfirmationWithPartyLongComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.PrintConfirmationMessageComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.PrintConfirmationMessageLongComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.PrintInfoMessageComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.PrintInfoMessageLongComponent;
 
 public class PracticeStationUnitTests {
 	
-	PracticeTestPathes pathes = new PracticeTestPathes();
+	PracticeTestPaths pathes = new PracticeTestPaths();
 	
-	public PracticeStation buildStation(PracticeStationTestEnvironment testEnviroment, IPartiesList partiesList){
+	/**
+	 * Build the practice station with default time for practice.
+	 * 
+	 * @param testEnviroment: The test environment.
+	 * @param partiesList: The parties list.
+	 * @return The station.
+	 */
+	public PracticeStation buildStation(TestEnvironment testEnviroment, IPartiesList partiesList){
 		IImagePanelFactory ImagePanelFactory = testEnviroment.getImagePanelFactory();
 		IPracticeStationWindowFactory practiceWindowFactory = testEnviroment.getPracticeWindowFactory();
 		IChoosingListFactory choosingListFactory = testEnviroment.getChoosingListFactory();
 		return new PracticeStation(partiesList,choosingListFactory,practiceWindowFactory,ImagePanelFactory);
 	}
 	
-	public PracticeStation buildStation(PracticeStationTestEnvironment testEnviroment, IPartiesList partiesList, long waitTime){
+	/**
+	 * Build the practice station with given time for practice.
+	 * 
+	 * @param testEnviroment: The test environment.
+	 * @param partiesList: The parties list.
+	 * @param waitTime: The maximal time for practice.
+	 * @return The station.
+	 */
+	public PracticeStation buildStation(TestEnvironment testEnviroment, IPartiesList partiesList, long waitTime){
 		IImagePanelFactory ImagePanelFactory = testEnviroment.getImagePanelFactory();
 		IPracticeStationWindowFactory practiceWindowFactory = testEnviroment.getPracticeWindowFactory();
 		IChoosingListFactory choosingListFactory = testEnviroment.getChoosingListFactory();
-		long actualStationTime = PracticeTestPathes.getStationActualTime(waitTime);
+		long actualStationTime = PracticeTestPaths.getStationActualTime(waitTime);
 		return new PracticeStation(partiesList,choosingListFactory,practiceWindowFactory,ImagePanelFactory,actualStationTime);
 	}
 	
+	/**
+	 * Check that the station build successfully.
+	 */
 	@Test
 	public void buildTest(){
-		PracticeStationTestEnvironment buildTestEnviroment = new PracticeStationTestEnvironment("buildTest");
-		IPartiesList emptyList = (new PartiesListFactory(new PracticeTest_PartyStubFactory())).createInstance();
+		TestEnvironment buildTestEnviroment = new TestEnvironment("buildTest");
+		IPartiesList emptyList = (new PartiesListFactory(new PartyStubFactory())).createInstance();
 		PracticeStation testedStation = buildStation(buildTestEnviroment,emptyList);
 		buildTestEnviroment.runTest(testedStation);
 	}
 	
+	/**
+	 * Check the Mss.
+	 */
 	@Test
 	public void trivialTest(){
-		PracticeStationTestEnvironment trivialTestEnviroment = new PracticeStationTestEnvironment("trivialTest");
-		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		TestEnvironment trivialTestEnviroment = new TestEnvironment("trivialTest");
+		IPartyFactory partyFactory = new PartyStubFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 		IParty party1 = partyFactory.createInstance("tested1", "1");
 		
 		Languages language = Languages.Hebrew;
 		trivialTestEnviroment.addSetLanguage(language);
-		pathes.didntUnderstandPathCall(trivialTestEnviroment, party1, party1, language);
+		pathes.shortestPathCall(trivialTestEnviroment, party1);
 		
 		/*
 		 * will also work with partiesList = null,
@@ -69,10 +98,13 @@ public class PracticeStationUnitTests {
 		trivialTestEnviroment.runTest(testedStation);
 	}
 	
+	/**
+	 * Check "voting" for 3 parties, then "voting" and change party.
+	 */
 	@Test
 	public void easyTest(){
-		PracticeStationTestEnvironment easyTestEnviroment = new PracticeStationTestEnvironment("easyTest");
-		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		TestEnvironment easyTestEnviroment = new TestEnvironment("easyTest");
+		IPartyFactory partyFactory = new PartyStubFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 		IParty party1 = partyFactory.createInstance("tested1", "1");
 		IParty party2 = partyFactory.createInstance("tested2", "2");
@@ -92,10 +124,14 @@ public class PracticeStationUnitTests {
 		easyTestEnviroment.runTest(testedStation);
 	}
 	
+	/**
+	 * Check several paths (one after the other), with showing guides,
+	 * re-choosing parties and didn't confirm that understand.
+	 */
 	@Test
 	public void harderTest(){
-		PracticeStationTestEnvironment harderTestEnviroment = new PracticeStationTestEnvironment("harderTest");
-		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		TestEnvironment harderTestEnviroment = new TestEnvironment("harderTest");
+		IPartyFactory partyFactory = new PartyStubFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 		IParty party1 = partyFactory.createInstance("tested1", "1");
 		IParty party2 = partyFactory.createInstance("tested2", "2");
@@ -136,13 +172,16 @@ public class PracticeStationUnitTests {
 		harderTestEnviroment.runTest(testedStation);
 	}
 	
+	/**
+	 * Assert that exit if "guide seeing" take to long.
+	 */
 	@Test
 	public void trivialWaitingTest(){
 		final long stationWaitingTime = 100;
 		final long moreThenStationWaitingTime = stationWaitingTime+1;
 		
-		PracticeStationTestEnvironment trivialWaitingTestEnviroment = new PracticeStationTestEnvironment("trivialWaitingTest");
-		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		TestEnvironment trivialWaitingTestEnviroment = new TestEnvironment("trivialWaitingTest");
+		IPartyFactory partyFactory = new PartyStubFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 		IParty party1 = partyFactory.createInstance("tested1", "1");
 		
@@ -162,13 +201,17 @@ public class PracticeStationUnitTests {
 		trivialWaitingTestEnviroment.runTest(testedStation);
 	}
 	
+	/**
+	 * Assert that exit if choosing list takes to long.
+	 * Check several paths, some to long and other short enough.
+	 */
 	@Test
 	public void easyWaitingTest(){
 		final long stationWaitingTime = 100;
 		final long moreThenStationWaitingTime = stationWaitingTime+1;
 		
-		PracticeStationTestEnvironment easyWaitingTestEnviroment = new PracticeStationTestEnvironment("easyWaitingTest");
-		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		TestEnvironment easyWaitingTestEnviroment = new TestEnvironment("easyWaitingTest");
+		IPartyFactory partyFactory = new PartyStubFactory();
 		IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 		IParty party1 = partyFactory.createInstance("tested1", "1");
 		
@@ -192,12 +235,15 @@ public class PracticeStationUnitTests {
 		
 	}
 	
+	/**
+	 * Run The complicated paths from paths
+	 */
 	@Test
 	public void harderWaitingTest(){
 		final long stationWaitingTime = 100;
 		
-		PracticeStationTestEnvironment harderWaitingTestEnviroment = new PracticeStationTestEnvironment("harderWaitingTest");
-		IPartyFactory partyFactory = new PracticeTest_PartyStubFactory();
+		TestEnvironment harderWaitingTestEnviroment = new TestEnvironment("harderWaitingTest");
+		IPartyFactory partyFactory = new PartyStubFactory();
 		PartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 		
 		
@@ -222,5 +268,171 @@ public class PracticeStationUnitTests {
 		harderWaitingTestEnviroment.runTest(testedStation);
 	}
 	
+	/**
+	 * Add the needed Stub calls for ending due to time out.
+	 * @param testEnvironment: The TestEnvironment
+	 */
+	private void timeoutEnding(TestEnvironment testEnvironment){
+		testEnvironment.addComponentForTest(new ChoosingListRetireComponent());
+		testEnvironment.addComponentForTest(new ImagePanelRetireComponent());
+		testEnvironment.addComponentForTest(new PrintInfoMessageComponent(Messages.Your_time_is_up));
+	}
 	
+	/**
+	 * Build PartiesList with 'amount' parties. The symbols are 1 to amount.
+	 * @param amount: the amount of parties.
+	 * @return The parties that was builded.
+	 */
+	private IPartiesList basicParties(int amount) {
+		IPartyFactory partyFactory = new PartyStubFactory();
+		PartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
+		IPartiesList parties = partiesListFactory.createInstance();
+		for(Integer i = 1; i < amount; i++){
+			parties.addParty(partyFactory.createInstance("tested" + i, i.toString()));
+		}
+		return parties;
+	}
+
+	/**
+	 * Run A test when the waiting is in JDialog.
+	 */
+	@Test
+	public void waitingInJDialog1Test() throws Exception{
+		final long stationWaitingTime = 100;
+		
+		TestEnvironment JDialogWaitingTestEnviroment = new TestEnvironment("waitingInJDialogTest1");
+
+		IPartiesList parties = basicParties(6); 
+		
+		Languages language = Languages.Hebrew;
+		JDialogWaitingTestEnviroment.addSetLanguage(language);
+		JDialogWaitingTestEnviroment.addPracticeVoteCall();
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageComponent(Messages.This_station_is_only_for_practice));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintConfirmationMessageLongComponent(Messages.Do_you_want_to_see_a_guide,false,stationWaitingTime+PracticeTestPaths.getTimeGuard()));
+		timeoutEnding(JDialogWaitingTestEnviroment);
+		PracticeStation testedStation = buildStation(JDialogWaitingTestEnviroment,parties,stationWaitingTime);
+		JDialogWaitingTestEnviroment.runTest(testedStation);
+	}
+	
+	/**
+	 * Run A test when the waiting is in JDialog.
+	 */
+	@Test
+	public void waitingInJDialog2Test() throws Exception{
+		final long stationWaitingTime = 100;
+		final long toLongWaiting = stationWaitingTime+PracticeTestPaths.getTimeGuard();
+		
+		TestEnvironment JDialogWaitingTestEnviroment = new TestEnvironment("waitingInJDialogTest2");
+		
+		IPartiesList parties = basicParties(6); 
+		
+		Languages language = Languages.Hebrew;
+		JDialogWaitingTestEnviroment.addSetLanguage(language);
+		
+		JDialogWaitingTestEnviroment.addPracticeVoteCall();
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageLongComponent(Messages.This_station_is_only_for_practice,toLongWaiting));
+		timeoutEnding(JDialogWaitingTestEnviroment);
+		PracticeStation testedStation = buildStation(JDialogWaitingTestEnviroment,parties,stationWaitingTime);
+		JDialogWaitingTestEnviroment.runTest(testedStation);
+	}
+	
+	/**
+	 * Run A test when the waiting is in JDialog.
+	 */
+	@Test
+	public void waitingInJDialog3Test() throws Exception{
+		final long stationWaitingTime = 100;
+		final long toLongWaiting = stationWaitingTime+PracticeTestPaths.getTimeGuard();
+		
+		TestEnvironment JDialogWaitingTestEnviroment = new TestEnvironment("waitingInJDialogTest3");
+		
+		IPartiesList parties = basicParties(6); 
+		
+		Languages language = Languages.Hebrew;
+		JDialogWaitingTestEnviroment.addSetLanguage(language);
+		JDialogWaitingTestEnviroment.addPracticeVoteCall();
+		
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageComponent(Messages.This_station_is_only_for_practice));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Do_you_want_to_see_a_guide,false));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageLongComponent(Messages.This_station_is_only_for_practice,toLongWaiting));
+		timeoutEnding(JDialogWaitingTestEnviroment);
+		
+		PracticeStation testedStation = buildStation(JDialogWaitingTestEnviroment,parties,stationWaitingTime);
+		JDialogWaitingTestEnviroment.runTest(testedStation);
+	}
+	
+	/**
+	 * Run A test when the waiting is in JDialog.
+	 */
+	@Test
+	public void waitingInJDialog4Test() throws Exception{
+		final long stationWaitingTime = 100;
+		final long toLongWaiting = stationWaitingTime+PracticeTestPaths.getTimeGuard();
+		
+		TestEnvironment JDialogWaitingTestEnviroment = new TestEnvironment("waitingInJDialogTest4");
+
+		IPartiesList parties = basicParties(6); 
+		
+		Languages language = Languages.Hebrew;
+		JDialogWaitingTestEnviroment.addSetLanguage(language);
+		JDialogWaitingTestEnviroment.addPracticeVoteCall();
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageComponent(Messages.This_station_is_only_for_practice));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintConfirmationMessageLongComponent(Messages.Do_you_want_to_see_a_guide,true,toLongWaiting));
+		timeoutEnding(JDialogWaitingTestEnviroment);
+		PracticeStation testedStation = buildStation(JDialogWaitingTestEnviroment,parties,stationWaitingTime);
+		JDialogWaitingTestEnviroment.runTest(testedStation);
+	}
+	
+	/**
+	 * Run A test when the waiting is in JDialog.
+	 */
+	@Test
+	public void waitingInJDialog5Test() throws Exception{
+		final long stationWaitingTime = 100;
+		final long toLongWaiting = stationWaitingTime+PracticeTestPaths.getTimeGuard();
+		
+		TestEnvironment JDialogWaitingTestEnviroment = new TestEnvironment("waitingInJDialogTest5");
+
+		IPartiesList parties = basicParties(6); 
+		IParty party = new PartyStub("t1");
+		
+		Languages language = Languages.Hebrew;
+		JDialogWaitingTestEnviroment.addSetLanguage(language);
+		JDialogWaitingTestEnviroment.addPracticeVoteCall();
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageComponent(Messages.This_station_is_only_for_practice));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Do_you_want_to_see_a_guide,false));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageComponent(Messages.This_station_is_only_for_practice));
+		JDialogWaitingTestEnviroment.addComponentForTest(new ChooseListComponent(party));
+		JDialogWaitingTestEnviroment.addComponentForTest(new ConfirmationWithPartyLongComponent(Messages.Did_you_intend_to_vote_for,party,false,toLongWaiting));
+		timeoutEnding(JDialogWaitingTestEnviroment);
+		PracticeStation testedStation = buildStation(JDialogWaitingTestEnviroment,parties,stationWaitingTime);
+		JDialogWaitingTestEnviroment.runTest(testedStation);
+	}
+	
+	/**
+	 * Run A test when the waiting is in JDialog.
+	 */
+	@Test
+	public void waitingInJDialog6Test() throws Exception{
+		final long stationWaitingTime = 100;
+		final long toLongWaiting = stationWaitingTime+PracticeTestPaths.getTimeGuard();
+		
+		TestEnvironment JDialogWaitingTestEnviroment = new TestEnvironment("waitingInJDialogTest6");
+
+		IPartiesList parties = basicParties(6); 
+		IParty party = new PartyStub("t1");
+		
+		Languages language = Languages.Hebrew;
+		JDialogWaitingTestEnviroment.addSetLanguage(language);
+		JDialogWaitingTestEnviroment.addPracticeVoteCall();
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageComponent(Messages.This_station_is_only_for_practice));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintConfirmationMessageComponent(Messages.Do_you_want_to_see_a_guide,false));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintInfoMessageComponent(Messages.This_station_is_only_for_practice));
+		JDialogWaitingTestEnviroment.addComponentForTest(new ChooseListComponent(party));
+		JDialogWaitingTestEnviroment.addComponentForTest(new ConfirmationWithPartyComponent(Messages.Did_you_intend_to_vote_for,party,true));
+		JDialogWaitingTestEnviroment.addComponentForTest(new PrintConfirmationMessageLongComponent(Messages.Have_you_understood_the_process,false,toLongWaiting));
+		timeoutEnding(JDialogWaitingTestEnviroment);
+		PracticeStation testedStation = buildStation(JDialogWaitingTestEnviroment,parties,stationWaitingTime);
+		JDialogWaitingTestEnviroment.runTest(testedStation);
+	}
 }

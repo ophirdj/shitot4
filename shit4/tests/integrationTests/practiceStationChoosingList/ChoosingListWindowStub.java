@@ -53,6 +53,10 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		}
 	}
 	
+	/**
+	 * Add a party to be return when using getParty.
+	 * @param party: The party to be returned.
+	 */
 	public void addParty(IParty party){
 		this.partiesQueue.add(party);
 	}
@@ -86,9 +90,15 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 		}
 	}
 
-	private boolean partiesListContain(IPartiesList partiesToShow, IParty neededParty) {
-		if(partiesToShow.getWhiteNoteParty() == neededParty) return true;
-		for(IParty party : partiesToShow){
+	/**
+	 * Check that the list contain the needed party.
+	 * @param partiesList: The list.
+	 * @param neededParty: The party.
+	 * @return true if the list contain the party, false otherwise.
+	 */
+	private boolean partiesListContain(IPartiesList partiesList, IParty neededParty) {
+		if(partiesList.getWhiteNoteParty() == neededParty) return true;
+		for(IParty party : partiesList){
 			if(party == neededParty) return true;
 		}
 		return false;

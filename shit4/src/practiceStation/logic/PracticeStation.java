@@ -54,7 +54,12 @@ public class PracticeStation implements IPracticeStation {
 		this.guide = imagePanelFactory.createInstance(new PracticeStationImagesMap(),
 				practiceStationWindow);
 	};
-
+	
+	/**
+	 * A thread that, after 5 minutes, signal the classes practice station
+	 * use to retire. The practice station need to check after every message printing
+	 * that it still have time!
+	 */
 	class Watcher extends Thread {
 		private Object lock;
 		private boolean timeout = false;
@@ -62,11 +67,18 @@ public class PracticeStation implements IPracticeStation {
 		public Watcher(Object lock) {
 			this.lock = lock;
 		}
-
+		
+		/**
+		 * @return The maximum time for running.
+		 */
 		private long maxTime() {
 			return max_practice_time;
 		}
 
+		/**
+		 * Sleep for the given time (default 5 min.) and then if wasn't
+		 * interrupted notify the guide and the choosing list to retire.
+		 */
 		@Override
 		public void run() {
 			try {
@@ -80,6 +92,10 @@ public class PracticeStation implements IPracticeStation {
 			} catch (InterruptedException e) {}
 		}
 
+		/**
+		 * Check that there is still time.
+		 * @throws PracticeTimedOutException if time was over.
+		 */
 		public void checkTime() throws PracticeTimedOutException {
 			synchronized (lock) {
 				if (timeout)
@@ -88,6 +104,7 @@ public class PracticeStation implements IPracticeStation {
 		}
 	}
 
+	@Override
 	public void practiceVote() {
 		boolean understandConfirmation = false;
 		IParty chosen;
@@ -101,6 +118,7 @@ public class PracticeStation implements IPracticeStation {
 				boolean choice = practiceStationWindow
 						.printConfirmationMessage(Messages.Do_you_want_to_see_a_guide);
 				if (choice) {
+					watcher.checkTime();
 					guide.showGuide(this.language);
 				}
 				watcher.checkTime();
@@ -109,6 +127,7 @@ public class PracticeStation implements IPracticeStation {
 				try {
 					boolean partyConfirmation = false;
 					while (!partyConfirmation) {
+						watcher.checkTime();
 						chosen = choosingList.chooseList();
 						watcher.checkTime();
 						partyConfirmation = practiceStationWindow
@@ -132,9 +151,11 @@ public class PracticeStation implements IPracticeStation {
 		watcher.interrupt();
 	}
 
+	@Override
 	public void retire() {
 	}
 	
+	@Override
 	public void setLanguage(Languages language){
 		this.language = language;
 	}

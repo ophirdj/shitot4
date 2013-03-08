@@ -6,17 +6,17 @@ import java.util.Queue;
 import partiesList.model.IParty;
 import choosingList.logic.IChoosingList;
 
-public class PracticeTest_ChoosingListStub implements IChoosingList {
+public class ChoosingListStub implements IChoosingList {
 
-	static final IParty wrongParty = new PracticeTest_PartyStub("ERROR;");
+	static final IParty wrongParty = new PartyStub("ERROR;");
 	
-	private PracticeStationTestEnvironment testEnviroment;
+	private TestEnvironment testEnviroment;
 	private Queue<ChooseListComponent> chooseListQueue;
 	private Queue<ChoosingListRetireComponent> retireQueue;
 	private Thread choosingThread;
 	
-	public PracticeTest_ChoosingListStub(
-			PracticeStationTestEnvironment testEnviroment,
+	public ChoosingListStub(
+			TestEnvironment testEnviroment,
 			Queue<ChooseListComponent> chooseListQueue,
 			Queue<ChoosingListRetireComponent> retireQueue) {
 		

@@ -11,18 +11,18 @@ import global.gui.StationPanel;
 import partiesList.model.IParty;
 import practiceStation.gui.IPracticeStationWindow;
 
-public class PracticeTest_PracticeStationWindowStub extends IPracticeStationWindow {
+public class PracticeStationWindowStub extends IPracticeStationWindow {
 
 	static final long serialVersionUID = 1L;
 	
-	private PracticeStationTestEnvironment testEnvironment;
+	private TestEnvironment testEnvironment;
 	private Queue<PrintErrorMessageComponent> printErrorMessageQueue;
 	private Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue;
 	private Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue;
 	private Queue<PrintInfoMessageComponent> printInfoMessageQueue;
 	
-	public PracticeTest_PracticeStationWindowStub(
-			PracticeStationTestEnvironment testEnvironment,
+	public PracticeStationWindowStub(
+			TestEnvironment testEnvironment,
 			Queue<PrintErrorMessageComponent> printErrorMessageQueue,
 			Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue,
 			Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue,

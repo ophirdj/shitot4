@@ -6,14 +6,14 @@ import java.util.Queue;
 import global.dictionaries.Languages;
 import practiceStation.guides.IImagePanel;
 
-public class PracticeTest_ImagePanelStub implements IImagePanel {
+public class ImagePanelStub implements IImagePanel {
 
-	private PracticeStationTestEnvironment testEnviroment;
+	private TestEnvironment testEnviroment;
 	private Queue<ShowFirstImageComponent> showFirstImageQueue;
 	private Queue<ImagePanelRetireComponent> retireQueue;
 	private Thread showThread;
 	
-	public PracticeTest_ImagePanelStub(PracticeStationTestEnvironment testEnviroment,
+	public ImagePanelStub(TestEnvironment testEnviroment,
 			Queue<ShowFirstImageComponent> showFirstImageQueue,
 			Queue<ImagePanelRetireComponent> retireQueue) {
 
@@ -65,7 +65,7 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 		}
 
 		public PracticeTestFunction getFunction() {
-			return PracticeTestFunction.ImagePanel_showFirstImage;
+			return PracticeTestFunction.ImagePanel_showGuide;
 		}
 	}
 	
@@ -124,7 +124,7 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 	
 	@Override
 	public void showGuide(Languages language) {
-		testEnviroment.checkCalling(PracticeTestFunction.ImagePanel_showFirstImage);
+		testEnviroment.checkCalling(PracticeTestFunction.ImagePanel_showGuide);
 		showThread = Thread.currentThread();
 		try{
 			showFirstImageQueue.remove().checkParameters(language);

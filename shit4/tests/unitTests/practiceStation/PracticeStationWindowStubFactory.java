@@ -5,21 +5,21 @@ import java.util.Queue;
 import practiceStation.factories.IPracticeStationWindowFactory;
 import practiceStation.gui.IPracticeStationWindow;
 import practiceStation.logic.IPracticeStation;
-import unitTests.practiceStation.PracticeTest_PracticeStationWindowStub.ConfirmationWithPartyComponent;
-import unitTests.practiceStation.PracticeTest_PracticeStationWindowStub.PrintConfirmationMessageComponent;
-import unitTests.practiceStation.PracticeTest_PracticeStationWindowStub.PrintErrorMessageComponent;
-import unitTests.practiceStation.PracticeTest_PracticeStationWindowStub.PrintInfoMessageComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.ConfirmationWithPartyComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.PrintConfirmationMessageComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.PrintErrorMessageComponent;
+import unitTests.practiceStation.PracticeStationWindowStub.PrintInfoMessageComponent;
 
-public class PracticeTest_PracticeStationWindowStubFactory implements IPracticeStationWindowFactory{
+public class PracticeStationWindowStubFactory implements IPracticeStationWindowFactory{
 
-	private PracticeStationTestEnvironment testEnvironment;
+	private TestEnvironment testEnvironment;
 	private Queue<PrintErrorMessageComponent> printErrorMessageQueue;
 	private Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue;
 	private Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue;
 	private Queue<PrintInfoMessageComponent> printInfoMessageQueue;
 
-	public PracticeTest_PracticeStationWindowStubFactory(
-			PracticeStationTestEnvironment testEnvironment,
+	public PracticeStationWindowStubFactory(
+			TestEnvironment testEnvironment,
 			Queue<PrintErrorMessageComponent> printErrorMessageQueue,
 			Queue<PrintConfirmationMessageComponent> printConfirmationMessageQueue,
 			Queue<ConfirmationWithPartyComponent> ConfirmationWithPartyQueue,
@@ -33,7 +33,7 @@ public class PracticeTest_PracticeStationWindowStubFactory implements IPracticeS
 	
 	@Override
 	public IPracticeStationWindow createInstance(IPracticeStation caller) {
-		return new PracticeTest_PracticeStationWindowStub(testEnvironment,
+		return new PracticeStationWindowStub(testEnvironment,
 				printErrorMessageQueue,
 				printConfirmationMessageQueue,
 				ConfirmationWithPartyQueue,
