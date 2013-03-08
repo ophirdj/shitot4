@@ -120,12 +120,11 @@ public class IntegrationTest {
 	/**
 	 * Shut down mainframe & assert that every station was retired and lists
 	 * match expected ones
-	 * @throws Exception 
 	 */
 	@After
-	public void after() throws Exception {
+	public void after() {
 		if(backupThreadCheckMode) checkBackupOnTheFly();
-		else checkBackupAfterShutdown();
+		checkBackupAfterShutdown();
 	}
 	
 	
@@ -141,13 +140,8 @@ public class IntegrationTest {
 	}
 	
 	
-	private void checkBackupOnTheFly() throws Exception{
-		//wait for backup to happen
-		synchronized (this) {wait((backupTimeIntervalSeconds+1)*1000);}
-		mainframe.crash();
-		//no more backupsa from here
-		backupStubFactory.matchLists(expectedParties, expectedVoters,
-				expectedUnregistered);
+	private void checkBackupOnTheFly(){
+		
 	}
 
 	
@@ -281,34 +275,6 @@ public class IntegrationTest {
 		for (VotingStationWindowStub window : votingWindowStubs) {
 			Assert.assertTrue(window.isInitialized());
 		}
-	}
-	
-	
-
-	/**
-	 * Crash system, then restore & check lists
-	 * @throws Exception 
-	 */
-	@Test
-	public void restoreAfterCrash() throws Exception{
-		synchronized (this) {
-			wait((backupTimeIntervalSeconds+1)*1000);
-		}
-	}
-	
-	
-	/**
-	 * Check parties in stations match parties in mainframe after many voters voted 3 times each
-	 * @throws Exception
-	 */
-	@Test
-	public void checkPartiesAfterManyVotesCrash() throws Exception {
-		allIdentifyAndVote(createVoters(2000));
-		//wait for backup to happen
-		synchronized (this) {wait((backupTimeIntervalSeconds+1)*1000);}
-		mainframe.crash();
-		mainframe.restore();
-		Assert.assertTrue(mainframe.checkParties());
 	}
 
 	
@@ -593,30 +559,6 @@ public class IntegrationTest {
 	}
 	
 	
-	
-	//crash mainframe and check backup
-	
-	
-	/**
-	 * Simple test of 1 voter (3 votes)
-	 * @throws Exception
-	 */
-	@Test
-	public void oneVoteCrash() throws Exception {
-		backupThreadCheckMode = true;
-		allIdentifyAndVote(createVoters(1));
-	}
-	
-	
-	/**
-	 * More complex test of many voter (3 votes each)
-	 * @throws Exception
-	 */
-	@Test
-	public void manyVotesCrash() throws Exception {
-		backupThreadCheckMode = true;
-		allIdentifyAndVote(createVoters(2000));
-	}
 	
 
 }

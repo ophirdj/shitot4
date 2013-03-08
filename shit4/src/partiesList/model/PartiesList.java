@@ -44,7 +44,7 @@ public class PartiesList implements IPartiesList {
 
 	@Override
 	public synchronized IParty getPartyBySymbol(String symbol) throws PartyDoesNotExist{
-		if(symbol == IParty.WHITE_VOTE_SYMBOL) return whiteNote;
+		if(IParty.WHITE_VOTE_SYMBOL.equals(symbol)) return whiteNote;
 		
 		for(IParty party: parties){
 			if(party.getSymbol().equals(symbol)){

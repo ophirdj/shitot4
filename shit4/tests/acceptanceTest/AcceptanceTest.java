@@ -86,7 +86,7 @@ public class AcceptanceTest {
 	
 	
 	private String getSymbolByPlace(int place) throws Exception{
-		if(place == WhitePartyNum) return null;
+		if(place == WhitePartyNum) return IParty.WHITE_VOTE_SYMBOL;
 		for(IParty party : initialPartiesList){
 			if(place == 0){
 				return party.getSymbol();

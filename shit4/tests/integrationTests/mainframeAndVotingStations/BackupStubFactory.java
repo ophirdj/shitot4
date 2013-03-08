@@ -41,5 +41,10 @@ public class BackupStubFactory implements IBackupFactory{
 	public void matchLists(IPartiesList parties, IVotersList voters,
 			IVotersList unregistered) {
 		backupStub.matchLists(parties, voters, unregistered);
-	}	
+	}
+	
+	public void checkBackupThreadMode(){
+		backupStub.checkBackupThreadMode();
+	}
+	
 }
