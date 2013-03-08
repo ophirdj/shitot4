@@ -11,6 +11,7 @@ public class ImagePanelStub implements IImagePanel{
 	private Languages language;
 	private int timePassed = Integer.MAX_VALUE;
 	private Thread thread;
+	private int guideShowedTimes = 0;
 
 	public ImagePanelStub(long failTime) {
 		this.failTime = failTime;
@@ -43,6 +44,21 @@ public class ImagePanelStub implements IImagePanel{
 	public void setTimePassed(int amount){
 		this.timePassed = amount;
 	}
+	
+	/**
+	 * Assert that the guide was showed the needed time.
+	 * @param neededTime
+	 */
+	public void assertGuideShowedNeededTime(int neededTime){
+		Assert.assertEquals(neededTime, guideShowedTimes);
+	}
+	
+	/**
+	 * Reset the counter of times guide was showed.
+	 */
+	public void guideShowedReset(){
+		guideShowedTimes = 0;
+	}
 
 	@Override
 	public void retire() {
@@ -52,6 +68,7 @@ public class ImagePanelStub implements IImagePanel{
 	@Override
 	public void showGuide(Languages language) {
 		Assert.assertEquals(this.language, language);
+		guideShowedTimes++;
 		if(timePassed > 0){
 			timePassed--;
 		}

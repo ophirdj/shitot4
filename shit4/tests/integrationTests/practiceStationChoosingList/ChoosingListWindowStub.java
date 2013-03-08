@@ -35,7 +35,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	 * @param answer: The needed result (yes/no)
 	 * @param amount: The amount of times to return that answer.
 	 */
-	public void AddConfirmationsResults(Boolean answer, int amount){
+	public void addConfirmationsResults(Boolean answer, int amount){
 		for (int i = 0; i < amount; i++) {
 			confirmationAnswers.add(answer);			
 		}
@@ -59,7 +59,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	
 	@Override
 	public IParty getParty() {
-		return partiesQueue.remove();
+		return partiesQueue.peek();
 	}
 
 	@Override
@@ -124,7 +124,10 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 
 	@Override
 	public boolean printConfirmationMessage(Messages message, IParty party) {
-		if(confirmationAnswers.isEmpty()) return defualtConfirmationAnswer;
+		Assert.assertEquals(partiesQueue.remove(), party);
+		if(confirmationAnswers.isEmpty()){
+			return defualtConfirmationAnswer;
+		}
 		return confirmationAnswers.poll();
 	}
 
@@ -140,12 +143,14 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 
 	@Override
 	public void printInfoMessage(Messages message, IParty party) {
-
+		
 	}
 
 	@Override
 	public void printInfoMessage(Messages message) {
-
+		if(message == Messages.Are_you_sure_you_dont_want_to_vote_for_anyone){
+			partiesQueue.remove();
+		}
 	}
 
 	@Override

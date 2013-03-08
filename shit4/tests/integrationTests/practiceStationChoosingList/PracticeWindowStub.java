@@ -30,7 +30,7 @@ public class PracticeWindowStub extends IPracticeStationWindow{
 	 * @param answer: The needed result (yes/no)
 	 * @param amount: The amount of times to return that answer.
 	 */
-	public void AddConfirmationsResults(Boolean answer, int amount){
+	public void addConfirmationsResults(Boolean answer, int amount){
 		for (int i = 0; i < amount; i++) {
 			confirmationAnswers.add(answer);			
 		}
@@ -42,7 +42,7 @@ public class PracticeWindowStub extends IPracticeStationWindow{
 	 * @param answer: The needed result (yes/no)
 	 * @param amount: The amount of times to return that answer.
 	 */
-	public void AddExpectedParties(IParty expectedParty){
+	public void addExpectedParties(IParty expectedParty){
 		expectedParties.add(expectedParty);			
 	}
 
@@ -61,10 +61,7 @@ public class PracticeWindowStub extends IPracticeStationWindow{
 
 	@Override
 	public boolean printConfirmationMessage(Messages message, IParty party) {
-		Assert.assertNotNull(party);
-		Assert.assertFalse(expectedParties.isEmpty());
-		Assert.assertEquals(expectedParties.peek(), party);
-		
+		Assert.assertEquals(expectedParties.remove(), party);
 		if(confirmationAnswers.isEmpty()) return defualtConfirmationAnswer;
 		return confirmationAnswers.poll();
 	}
