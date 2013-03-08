@@ -11,7 +11,7 @@ import practiceStation.logic.PracticeStationAction;
  *
  */
 public class PracticeClick implements ActionListener {
-	private IPracticeStationWindow button_window;
+	private PracticeStationWindow button_window;
 	private PracticeStationAction practice_action;
 	private Object lock;
 	

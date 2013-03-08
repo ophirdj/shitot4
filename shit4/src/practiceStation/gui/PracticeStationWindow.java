@@ -21,8 +21,7 @@ import practiceStation.logic.PracticeStationAction;
  * @author Ziv Ronen
  *
  */
-public class PracticeStationWindow extends StationPanel implements
-		IPracticeStationWindow, Runnable {
+public class PracticeStationWindow extends IPracticeStationWindow implements Runnable {
 	final static long serialVersionUID = 1L;
 
 	private PracticeStationAction chosen_action;
@@ -48,7 +47,10 @@ public class PracticeStationWindow extends StationPanel implements
 		(new Thread(this)).start();
 	}
 	
-	@Override
+	/**
+	 * Change the chosen action to the given action
+	 * @param action: The given action
+	 */
 	public void setAction(PracticeStationAction action) {
 		if (!was_pushed) {
 			chosen_action = action;

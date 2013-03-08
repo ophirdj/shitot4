@@ -85,6 +85,14 @@ public class IntegrationTest{
 	public void addChoosingListStub(ChoosingListStub choosingListStub) {
 		this.choosingListStubs.add(choosingListStub);
 	}
+
+	public void setMainframeWindowStub(MainframeWindowStub stub) {
+		this.mainframeWindowStub = stub;
+	}
+
+	public void addVotingWindowStub(VotingStationWindowStub stub) {
+		this.votingWindowStubs.add(stub);
+	}
 	
 	
 }

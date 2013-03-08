@@ -9,7 +9,7 @@ import partiesList.model.IParty;
 import choosingList.logic.IChoosingList.ChoosingInterruptedException;
 import votingStation.gui.IVotingStationWindow;
 
-public class VotingStationWindowStub extends StationPanel implements IVotingStationWindow {
+public class VotingStationWindowStub extends IVotingStationWindow {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -83,11 +83,6 @@ public class VotingStationWindowStub extends StationPanel implements IVotingStat
 
 	@Override
 	public void closeWindow() {
-
-	}
-
-	@Override
-	public void run() {
 
 	}
 

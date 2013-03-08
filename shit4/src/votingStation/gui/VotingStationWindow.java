@@ -25,8 +25,7 @@ import votingStation.logic.VotingStationAction;
  * @author Ziv Ronen
  *
  */
-public class VotingStationWindow extends StationPanel implements
-		IVotingStationWindow {
+public class VotingStationWindow extends IVotingStationWindow implements Runnable{
 	private static final long serialVersionUID = 1L;
 	private VotingStationAction chosen_action;
 	private boolean was_pushed = false;

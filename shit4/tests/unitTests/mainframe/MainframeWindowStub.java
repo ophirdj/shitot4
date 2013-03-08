@@ -16,8 +16,10 @@ import mainframe.logic.MainframeAction.MainframeState;
  * @author Emil
  *
  */
-public class MainframeWindowStub implements IMainframeWindow {
+public class MainframeWindowStub extends IMainframeWindow {
 
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * saves the parameter which the method 'showHistogram' gets as parameter
 	 */
@@ -75,11 +77,6 @@ public class MainframeWindowStub implements IMainframeWindow {
 
 	@Override
 	public void closeWindow() {
-
-	}
-
-	@Override
-	public void run() {
 
 	}
 

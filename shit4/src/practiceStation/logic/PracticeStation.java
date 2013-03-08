@@ -2,7 +2,6 @@ package practiceStation.logic;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
-import global.gui.StationPanel;
 import choosingList.factories.IChoosingListFactory;
 import choosingList.logic.IChoosingList;
 import choosingList.logic.IChoosingList.ChoosingInterruptedException;
@@ -33,10 +32,10 @@ public class PracticeStation implements IPracticeStation {
 			IImagePanelFactory imagePanelFactory) {
 		this.practiceStationWindow = stationWindowFactory.createInstance(this);
 		this.choosingList = chooseFactory.createInstance(parties,
-				(StationPanel) practiceStationWindow);
+				practiceStationWindow);
 		this.max_practice_time = mill2Minutes * DEFUALT_MINUTES;
 		this.guide = imagePanelFactory.createInstance(new PracticeStationImagesMap(),
-				(StationPanel) practiceStationWindow);
+				practiceStationWindow);
 	};
 	
 	/**
@@ -50,10 +49,10 @@ public class PracticeStation implements IPracticeStation {
 
 		this.practiceStationWindow = stationWindowFactory.createInstance(this);
 		this.choosingList = chooseFactory.createInstance(parties,
-				(StationPanel) practiceStationWindow);
+				practiceStationWindow);
 		this.max_practice_time = max_practice_time;
 		this.guide = imagePanelFactory.createInstance(new PracticeStationImagesMap(),
-				(StationPanel) practiceStationWindow);
+				practiceStationWindow);
 	};
 
 	class Watcher extends Thread {

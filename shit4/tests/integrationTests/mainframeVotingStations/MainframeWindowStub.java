@@ -11,7 +11,7 @@ import mainframe.gui.IMainframeWindow;
 import mainframe.logic.IMainframe;
 import mainframe.logic.MainframeAction.MainframeState;
 
-public class MainframeWindowStub extends StationPanel implements IMainframeWindow {
+public class MainframeWindowStub extends IMainframeWindow {
 
 	private static final long serialVersionUID = 1L;
 	private IPartiesList expectedPartiesList;
@@ -72,11 +72,6 @@ public class MainframeWindowStub extends StationPanel implements IMainframeWindo
 
 	@Override
 	public void closeWindow() {
-
-	}
-
-	@Override
-	public void run() {
 
 	}
 

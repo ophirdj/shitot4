@@ -1,7 +1,6 @@
 package votingStation.logic;
 
 import global.dictionaries.Messages;
-import global.gui.StationPanel;
 import java.util.List;
 import java.util.ArrayList;
 import choosingList.factories.IChoosingListFactory;
@@ -55,7 +54,7 @@ public class VotingStation implements IVotingStation {
 		this.controller = controller;
 		this.parties = parties;
 		localVotersList = new ArrayList<IVotingRecord>();
-		choosingList = choosingListFactory.createInstance(parties, (StationPanel)votingStationWindow);
+		choosingList = choosingListFactory.createInstance(parties, votingStationWindow);
 		votingStationWindow.startLoop();
 	}
 

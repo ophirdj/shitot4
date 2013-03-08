@@ -28,7 +28,7 @@ import partiesList.model.IPartiesList;
  * @author Ziv Ronen & Ophir De Jager
  *
  */
-public class MainframeWindow extends StationPanel implements IMainframeWindow {
+public class MainframeWindow extends IMainframeWindow implements Runnable{
 
 	static final long serialVersionUID = 1L;
 	private IMainframe callerStation;
