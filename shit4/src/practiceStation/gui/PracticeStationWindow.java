@@ -91,6 +91,19 @@ public class PracticeStationWindow extends StationPanel implements
 	private void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;
+		showPracticePanel();
+		try {
+			synchronized (this) {
+				this.wait();
+			}
+		} catch (InterruptedException e) {
+		}
+	}
+
+	/**
+	 * Show the practice main panel 
+	 */
+	private void showPracticePanel() {
 		JPanel practice_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_ROWS,1));
 		JPanel rows[] = new JPanel[NUM_OF_PERSONAL_ROWS];
 		for (int i = 0; i < rows.length; i++) {
@@ -107,12 +120,6 @@ public class PracticeStationWindow extends StationPanel implements
 		this.addGlobalRows(practice_panel, PracticeBackground);
 		this.add(practice_panel);
 		window.show_if_current(this, this);
-		try {
-			synchronized (this) {
-				this.wait();
-			}
-		} catch (InterruptedException e) {
-		}
 	}
 
 	@Override

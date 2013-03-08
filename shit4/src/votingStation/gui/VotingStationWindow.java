@@ -110,6 +110,19 @@ public class VotingStationWindow extends StationPanel implements
 	public synchronized void chooseAction() {
 		was_pushed = false;
 		chosen_action = null;
+		showVotingPanel();
+		try {
+			if (keepRunning == false)
+				return;
+			this.wait();
+		} catch (InterruptedException e) {
+		}
+	}
+
+	/**
+	 * Show the voting main panel.
+	 */
+	private void showVotingPanel() {
 		JPanel voting_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_ROWS,1));
 		JPanel rows[] = new JPanel[NUM_OF_PERSONAL_ROWS];
 		for (int i = 0; i < rows.length; i++) {
@@ -126,12 +139,6 @@ public class VotingStationWindow extends StationPanel implements
 		this.addGlobalRows(voting_panel, VotingBackGround);
 		this.add(voting_panel);
 		window.show_if_current(this, this);
-		try {
-			if (keepRunning == false)
-				return;
-			this.wait();
-		} catch (InterruptedException e) {
-		}
 	}
 
 	/**
@@ -215,7 +222,7 @@ public class VotingStationWindow extends StationPanel implements
 				if(chosen_action != null) chosen_action.activate(callerStation,this);
 			}
 		} catch (ChoosingInterruptedException e) {
-			printInfoMessage(Messages.You_quit_in_the_process_of_voting);
+			
 		}
 		closeWindow();
 	}

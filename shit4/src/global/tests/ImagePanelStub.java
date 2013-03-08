@@ -32,7 +32,7 @@ public class ImagePanelStub implements IImagePanel{
 	}
 
 	@Override
-	public void showFirstImage(Languages language) {
+	public void showGuide(Languages language) {
 		showGuide = true;
 	}
 

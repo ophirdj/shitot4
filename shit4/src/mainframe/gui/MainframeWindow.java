@@ -156,6 +156,19 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 	private void chooseAction(){
 		was_pushed = false;
 		chosen_action = null;
+		showMainframePanel();
+		try{
+			synchronized (this) {
+				this.wait();
+			}
+		}
+		catch(InterruptedException e){}
+	}
+
+	/**
+	 * Show the mainframe main panel
+	 */
+	private void showMainframePanel() {
 		JPanel mainframe_panel = new JPanel(new GridLayout(NUM_OF_TOTAL_ROWS,1));
 		JPanel rows[] = new JPanel[NUM_OF_PERSONAL_ROWS];
 		for (int i = 0; i < rows.length; i++) {
@@ -172,12 +185,6 @@ public class MainframeWindow extends StationPanel implements IMainframeWindow {
 		this.addGlobalRows(mainframe_panel, MainframeBackGround);
 		this.add(mainframe_panel);
 		window.show_if_current(this,this);
-		try{
-			synchronized (this) {
-				this.wait();
-			}
-		}
-		catch(InterruptedException e){}
 	}
 	
 	/**

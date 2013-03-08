@@ -112,7 +112,7 @@ public class ImagePanel  extends JPanel implements IImagePanel{
 		showImage(fileToShow);
 	}
 	
-	public void showFirstImage(Languages language) {
+	public void showGuide(Languages language) {
 		images_list = guideMap.get(language);
 		fileShownIndex = 0;
 		fileToShow = images_list.getFile(fileShownIndex);

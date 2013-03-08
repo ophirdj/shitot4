@@ -123,7 +123,7 @@ public class PracticeTest_ImagePanelStub implements IImagePanel {
 	}
 	
 	@Override
-	public void showFirstImage(Languages language) {
+	public void showGuide(Languages language) {
 		testEnviroment.checkCalling(PracticeTestFunction.ImagePanel_showFirstImage);
 		showThread = Thread.currentThread();
 		try{

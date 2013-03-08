@@ -102,7 +102,7 @@ public class PracticeStation implements IPracticeStation {
 				boolean choice = practiceStationWindow
 						.printConfirmationMessage(Messages.Do_you_want_to_see_a_guide);
 				if (choice) {
-					guide.showFirstImage(this.language);
+					guide.showGuide(this.language);
 				}
 				watcher.checkTime();
 				practiceStationWindow
