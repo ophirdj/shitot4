@@ -10,7 +10,7 @@ public interface IParty{
 	/**
 	 * the name/symbol of the white note
 	 */
-	static final String WHITE_VOTE_SYMBOL = null;
+	static final String WHITE_VOTE_SYMBOL = "xxx_UniqueWhiteNoteName";
 	
 	/**
 	 * 
