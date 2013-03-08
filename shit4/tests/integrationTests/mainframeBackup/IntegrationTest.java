@@ -38,4 +38,15 @@ public class IntegrationTest {
 	IMainframe mainframe;
 	IVotersList readVotersList;
 	IPartiesList readPartiesList;
+	
+	
+	
+	@Before
+	public void preprocessing(){
+		
+	}
 }
+
+
+
+
