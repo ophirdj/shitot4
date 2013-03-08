@@ -56,12 +56,12 @@ public class ReadSuppliedXML implements IReadSuppliedXML {
 	}
 
 	@Override
-	public IVotersList readVotersList() {
+	public synchronized IVotersList readVotersList() {
 		return this.readService.readSuppliedVotersListXML(suppliedVotersListFile);
 	}
 
 	@Override
-	public IPartiesList readPartiesList() {
+	public synchronized IPartiesList readPartiesList() {
 		return this.readService.readSuppliedVotingRecordsXML(suppliedPartiesListFile);
 	}
 

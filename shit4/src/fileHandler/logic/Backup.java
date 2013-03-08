@@ -85,7 +85,7 @@ public class Backup implements IBackup {
 	}
 	
 	@Override
-	public IVotersList restoreVoters() {
+	public synchronized IVotersList restoreVoters() {
 		/*
 		 * "VotersListBackup.xml" - this is the recommended file name
 		 */		
@@ -93,7 +93,7 @@ public class Backup implements IBackup {
 	}
 
 	@Override
-	public IPartiesList restoreParties() {
+	public synchronized IPartiesList restoreParties() {
 		/*
 		 * "PartiesListBackup.xml" - this is the recommended file name
 		 */
@@ -102,7 +102,7 @@ public class Backup implements IBackup {
 
 
 	@Override
-	public void storeState(IPartiesList parties, IVotersList voters, IVotersList unregistered) {
+	public synchronized void storeState(IPartiesList parties, IVotersList voters, IVotersList unregistered) {
 
 		//Parties
 		this.new BackupPartiesListToXMLFile().createEmptyPartiesListXMLFile();
@@ -140,7 +140,7 @@ public class Backup implements IBackup {
 		/**
 		 * creates a raw XML file to save partiesList in it 
 		 */
-		public void createEmptyPartiesListXMLFile() {
+		public synchronized void createEmptyPartiesListXMLFile() {
 			
 			String fileName = backupedPartiesListFile;
 			try {
@@ -176,7 +176,7 @@ public class Backup implements IBackup {
 		 * adds a party to the XML file that his name is given as parameter
 		 * @param givenParty the party to add to the XML file
 		 */
-		public void addPartyToXMLFile(IParty givenParty){
+		public synchronized void addPartyToXMLFile(IParty givenParty){
 			
 			String fileName = backupedPartiesListFile;
 			
@@ -266,7 +266,7 @@ public class Backup implements IBackup {
 		/**
 		 * creates a raw XML file to save votersList in it 
 		 */
-		public void createEmptyVotersListXMLFile() {
+		public synchronized void createEmptyVotersListXMLFile() {
 			
 			String fileName = backupedVotersListFile;
 			try {
@@ -305,7 +305,7 @@ public class Backup implements IBackup {
 		 * adds a voter to the XML file that his name is given as parameter
 		 * @param givenVoter the voter needed to be added to the XML file
 		 */
-		public void addVoterToXMLFile(IVoterData givenVoter){
+		public synchronized void addVoterToXMLFile(IVoterData givenVoter){
 			
 			String fileName = backupedVotersListFile;
 			
@@ -389,7 +389,7 @@ public class Backup implements IBackup {
 
 
 	@Override
-	public IVotersList restoreUnregisteredVoters() {
+	public synchronized IVotersList restoreUnregisteredVoters() {
 		return this.readXMLFilesService.readUnregisteredVotersXMLFile(this.unregisteredVotersFile);
 	}
 	

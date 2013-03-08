@@ -46,7 +46,7 @@ public class WriteXMLFileUnregisteredVoters {
 	/**
 	 * creates an empty file for the unregistered voters
 	 */
-	public void createEmptyUnregisteredVotersXMLFile() {
+	public  synchronized void createEmptyUnregisteredVotersXMLFile() {
  
 		String fileName = unregisteredVotersFile;
 	  try {
@@ -78,7 +78,7 @@ public class WriteXMLFileUnregisteredVoters {
 	 * adds the voter id to the file of the unregistered voters
 	 * @param givenVoter the unregistered voter
 	 */
-	public void addVoterToXMLFile(IVoterData givenVoter){
+	public synchronized void addVoterToXMLFile(IVoterData givenVoter){
 		
 		String fileName = unregisteredVotersFile;
 		
