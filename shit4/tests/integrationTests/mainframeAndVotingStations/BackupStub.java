@@ -11,11 +11,6 @@ public class BackupStub implements IBackup{
 	private IVotersList voters;
 	private IVotersList unregisteredVoters;
 	private IPartiesList parties;
-	private boolean isCheckBackupThreadMode;
-	
-	public BackupStub() {
-		this.isCheckBackupThreadMode = false;
-	}
 	
 	
 	@Override
@@ -45,7 +40,7 @@ public class BackupStub implements IBackup{
 		this.voters = voters;
 		this.unregisteredVoters = unregistered;
 		this.parties = parties;
-		if(isCheckBackupThreadMode) matchLists(parties, voters, unregistered);
+		matchLists(parties, voters, unregistered);
 	}
 
 	public void setVotersList(IVotersList voters) {
@@ -72,10 +67,5 @@ public class BackupStub implements IBackup{
 		Assert.assertEquals(voters, this.voters);
 		Assert.assertEquals(unregistered, this.unregisteredVoters);
 		
-	}
-
-	public void checkBackupThreadMode() {
-		this.isCheckBackupThreadMode = true;
-	}
-	
+	}	
 }
