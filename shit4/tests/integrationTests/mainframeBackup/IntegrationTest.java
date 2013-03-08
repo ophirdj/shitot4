@@ -1,5 +1,7 @@
 package integrationTests.mainframeBackup;
 
+import static org.junit.Assert.*;
+
 import org.junit.*;
 import integrationTests.mainframeBackup.BackupFactoryInt;
 import fileHandler.factories.IBackupFactory;
@@ -14,6 +16,7 @@ import partiesList.factories.IPartyFactory;
 import partiesList.factories.PartiesListFactory;
 import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;
+import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
 import unitTests.mainframe.MainframeWindowStubFactory;
 import unitTests.mainframe.StationsControllerStubFactory;
@@ -23,6 +26,7 @@ import votersList.factories.VoterDataFactory;
 import votersList.factories.VotersListFactory;
 import votersList.model.IVoterData;
 import votersList.model.IVotersList;
+import votersList.model.IVotersList.VoterDoesntExist;
 
 public class IntegrationTest {
 	/**
@@ -89,6 +93,31 @@ public class IntegrationTest {
 		}
 		Thread.sleep(2*backupTimeIntervalSeconds*1000);
 		mainframe.restore();
+		IBackup tempBackup = backupFactoryInt.createInstance();
+		IVotersList vlist = tempBackup.restoreVoters();
+		for(int i=1; i<=100;i++){
+			try {
+				IVoterData voter = vlist.findVoter(i);
+				assertEquals(i, voter.getId());
+			} catch (VoterDoesntExist e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		IPartiesList plist = tempBackup.restoreParties();
+		for(int i=1; i<=20;i++){
+				try {
+					IParty party = plist.getPartyBySymbol("p"+i);
+					assertEquals(i*123, party.getVoteNumber());
+					assertEquals("p"+i, party.getSymbol());
+				} catch (PartyDoesNotExist e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+		}
+		
+		
 		
 	}
 }
