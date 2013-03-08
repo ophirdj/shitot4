@@ -1,4 +1,4 @@
-package integrationTests.mainframeVotingStations;
+package integrationTests.mainframeAndVotingStations;
 
 import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
@@ -16,7 +16,7 @@ public class ChoosingListStubFactory implements IChoosingListFactory{
 	@Override
 	public IChoosingList createInstance(IPartiesList parties,
 			StationPanel stationPanel) {
-		return new ChoosingListStub(test);
+		return new ChoosingListStub(test, parties, stationPanel);
 	}
 
 }

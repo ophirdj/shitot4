@@ -1,4 +1,4 @@
-package integrationTests.mainframeVotingStations;
+package integrationTests.mainframeAndVotingStations;
 
 import mainframe.communication.IStationsControllerFactory;
 import mainframe.factories.IMainframeFactory;

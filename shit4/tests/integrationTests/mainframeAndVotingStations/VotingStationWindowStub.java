@@ -1,4 +1,6 @@
-package integrationTests.mainframeVotingStations;
+package integrationTests.mainframeAndVotingStations;
+
+import org.junit.Assert;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
@@ -15,75 +17,75 @@ public class VotingStationWindowStub extends IVotingStationWindow {
 	private int id;
 	private String password;
 	private boolean wasWrongPassword;
+	private boolean initialized;
+	private boolean retired;
 
 	public VotingStationWindowStub(IVotingStation caller) {
 		this.caller = caller;
+		this.initialized = false;
+		this.retired = false;
 	}
 
 	@Override
 	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
+		Assert.fail();
 		return null;
 	}
 
 	@Override
 	public void printError(StationPanel station, String errorMessage) {
-
+		Assert.fail();
 	}
 
 	@Override
 	public void printMessage(StationPanel station, String message) {
-
+		Assert.fail();
 	}
 
 	@Override
 	public void setLanguage(Languages language) {
+		Assert.fail();
 	}
 
 	@Override
 	public String translate(Messages message) {
+		Assert.fail();
 		return null;
 	}
 
 	@Override
 	public void printErrorMessage(Messages message) {
-		switch (message) {
-		case wrong_password:
-			setWasWrongPassword(true);
-			break;
-
-		default:
-			break;
-		}
+		Assert.fail();
 	}
 
 	@Override
-	public void printInfoMessage(Messages message, IParty party) {
-
-	}
+	public void printInfoMessage(Messages message, IParty party) {}
 
 	@Override
 	public void printInfoMessage(Messages message) {
-
+		Assert.fail();
 	}
 
 	@Override
 	public boolean printConfirmationMessage(Messages message) {
+		Assert.fail();
 		return false;
 	}
 
 	@Override
 	public boolean printConfirmationMessage(Messages message, IParty party) {
+		Assert.fail();
 		return false;
 	}
 
 	@Override
 	public void closeWindow() {
-
+		Assert.fail();
 	}
 
 	@Override
 	public void startLoop() {
-
+		this.initialized = true;
 	}
 
 	@Override
@@ -98,40 +100,38 @@ public class VotingStationWindowStub extends IVotingStationWindow {
 
 	@Override
 	public void endLoop() {
-
+		this.retired = true;
 	}
 	
 	
 	
 
-	public void setId(int i) {
-		this.id = i;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void makeVote() {
-		try {
-			caller.voting();
-		} catch (ChoosingInterruptedException e) {}
+	public void makeVote() throws ChoosingInterruptedException {
+		caller.voting();
 	}
 
 	public void testVote() {
-		try {
-			caller.testVoting();
-		} catch (ChoosingInterruptedException e) {}
-		
+		Assert.fail();
 	}
 
 	public void setPassword(String string) {
 		this.password = string;
-		
 	}
 
-	public boolean isWasWrongPassword() {
+	public boolean wasWrongPassword() {
 		return wasWrongPassword;
 	}
-
-	private void setWasWrongPassword(boolean wasWrongPassword) {
-		this.wasWrongPassword = wasWrongPassword;
+	
+	public boolean isInitialized(){
+		return initialized;
+	}
+	
+	public boolean isRetired(){
+		return retired;
 	}
 
 }

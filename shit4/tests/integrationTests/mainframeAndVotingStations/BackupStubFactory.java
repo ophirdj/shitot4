@@ -1,4 +1,4 @@
-package integrationTests.mainframeVotingStations;
+package integrationTests.mainframeAndVotingStations;
 
 
 import partiesList.model.IPartiesList;
@@ -32,9 +32,19 @@ public class BackupStubFactory implements IBackupFactory{
 		return backupStub;
 	}
 	
+	/**
+	 * Assert that given lists match the ones in the backup
+	 * @param parties
+	 * @param voters
+	 * @param unregistered
+	 */
 	public void matchLists(IPartiesList parties, IVotersList voters,
 			IVotersList unregistered) {
 		backupStub.matchLists(parties, voters, unregistered);
+	}
+	
+	public void checkBackupThreadMode(){
+		backupStub.checkBackupThreadMode();
 	}
 	
 }
