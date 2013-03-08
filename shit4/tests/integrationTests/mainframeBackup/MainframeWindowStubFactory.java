@@ -1,4 +1,4 @@
-package integrationTests.mainframeVotingStations;
+package integrationTests.mainframeBackup;
 
 import mainframe.factories.IMainframeWindowFactory;
 import mainframe.gui.IMainframeWindow;

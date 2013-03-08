@@ -1,4 +1,4 @@
-package integrationTests.mainframeVotingStations;
+package integrationTests.mainframeBackup;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;

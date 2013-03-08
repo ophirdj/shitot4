@@ -1,4 +1,4 @@
-package integrationTests.mainframeVotingStations;
+package integrationTests.mainframeBackup;
 
 import mainframe.communication.IStationsController;
 import partiesList.model.IPartiesList;

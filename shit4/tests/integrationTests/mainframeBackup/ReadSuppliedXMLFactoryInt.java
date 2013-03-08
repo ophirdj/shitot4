@@ -1,5 +1,6 @@
-package integrationTests.mainframeVotingStations;
+package integrationTests.mainframeBackup;
 
+import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.logic.IReadSuppliedXML;
 import fileHandler.logic.ReadSuppliedXML;
 import partiesList.factories.IPartiesListFactory;
@@ -12,7 +13,7 @@ import votersList.factories.IVotersListFactory;
  * @author Emil
  *
  */
-public class ReadSuppliedXMLFactoryIntStub implements IReadSuppliedXMLFactory {
+public class ReadSuppliedXMLFactoryInt implements IReadSuppliedXMLFactory {
 
 	/**
 	 * the parties list factory
@@ -38,7 +39,7 @@ public class ReadSuppliedXMLFactoryIntStub implements IReadSuppliedXMLFactory {
 	 * @param voterListFactory the voters list factory
 	 * @param voterDataFactory the voter's data factory
 	 */
-	public ReadSuppliedXMLFactory(IPartiesListFactory partiesListFactory,
+	public ReadSuppliedXMLFactoryInt(IPartiesListFactory partiesListFactory,
 			IPartyFactory partyFactory, IVotersListFactory voterListFactory,
 			IVoterDataFactory voterDataFactory) {
 		this.partiesListFactory = partiesListFactory;
