@@ -19,11 +19,13 @@ public class VotingStationWindowStub extends IVotingStationWindow {
 	private boolean wasWrongPassword;
 	private boolean initialized;
 	private boolean retired;
+	private IntegrationTest test;
 
-	public VotingStationWindowStub(IVotingStation caller) {
+	public VotingStationWindowStub(IVotingStation caller, IntegrationTest test) {
 		this.caller = caller;
 		this.initialized = false;
 		this.retired = false;
+		this.test = test;
 	}
 
 	@Override
@@ -55,7 +57,7 @@ public class VotingStationWindowStub extends IVotingStationWindow {
 
 	@Override
 	public void printErrorMessage(Messages message) {
-		Assert.fail();
+		test.setMessage(message);
 	}
 
 	@Override

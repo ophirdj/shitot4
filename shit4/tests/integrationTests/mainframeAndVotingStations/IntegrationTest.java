@@ -1,5 +1,6 @@
 package integrationTests.mainframeAndVotingStations;
 
+import global.dictionaries.Messages;
 import global.gui.StationPanel;
 
 import java.util.ArrayList;
@@ -68,6 +69,7 @@ public class IntegrationTest {
 	private IVotersList expectedVoters;
 	private IVotersList expectedUnregistered;
 	private boolean backupThreadCheckMode;
+	private Messages message;
 
 	/**
 	 * Initialize test environment & mainframe
@@ -125,7 +127,7 @@ public class IntegrationTest {
 	@After
 	public void after() throws Exception {
 		if(backupThreadCheckMode) checkBackupOnTheFly();
-		else checkBackupAfterShutdown();
+		else checkBackupWhenShutdown();
 	}
 	
 	
@@ -134,7 +136,7 @@ public class IntegrationTest {
 	 * match expected ones
 	 * @throws Exception 
 	 */
-	private void checkBackupAfterShutdown(){
+	private void checkBackupWhenShutdown(){
 		mainframe.countVotes();
 		Assert.assertTrue(mainframeWindowStub.isVotesCounted());
 		Assert.assertEquals(expectedParties, mainframeWindowStub.getParties());
@@ -151,12 +153,35 @@ public class IntegrationTest {
 	 * @throws Exception
 	 */
 	private void checkBackupOnTheFly() throws Exception{
-		//wait for backup to happen
-		synchronized (this) {wait((backupTimeIntervalSeconds+1)*1000);}
-		mainframe.crash();
+		crashMainframe();
 		//no more backupsa from here
 		backupStubFactory.matchLists(expectedParties, expectedVoters,
 				expectedUnregistered);
+	}
+	
+	
+	/**
+	 * Crash mainframe & clear all tracking of stubs
+	 * @throws Exception
+	 */
+	private void crashMainframe() throws Exception{
+		//wait for backup to happen
+		synchronized (this) {wait((backupTimeIntervalSeconds+1)*1000);}
+		mainframe.crash();
+		//need to clear all tracking of stubs as they are no longer relevant
+		votingWindowStubs.clear();
+		choosingListStubs.clear();
+	}
+	
+	
+	/**
+	 * Crash mainframe & then restore from backup
+	 * @throws Exception
+	 */
+	private void crashAndRestore() throws Exception{
+		crashMainframe();
+		mainframe.restore();
+		
 	}
 
 	
@@ -176,6 +201,11 @@ public class IntegrationTest {
 	
 	public void addVotingWindowStub(VotingStationWindowStub stub) {
 		this.votingWindowStubs.add(stub);
+	}
+	
+	
+	public void setMessage(Messages message) {
+		this.message = message;
 	}
 
 	
@@ -300,9 +330,7 @@ public class IntegrationTest {
 	 */
 	@Test
 	public void restoreAfterCrash() throws Exception{
-		synchronized (this) {
-			wait((backupTimeIntervalSeconds+1)*1000);
-		}
+		crashAndRestore();
 	}
 	
 	
@@ -313,10 +341,7 @@ public class IntegrationTest {
 	@Test
 	public void checkPartiesAfterManyVotesCrash() throws Exception {
 		allIdentifyAndVote(createVoters(2000));
-		//wait for backup to happen
-		synchronized (this) {wait((backupTimeIntervalSeconds+1)*1000);}
-		mainframe.crash();
-		mainframe.restore();
+		crashAndRestore();
 		Assert.assertTrue(mainframe.checkParties());
 	}
 
@@ -603,11 +628,11 @@ public class IntegrationTest {
 	
 	
 	
-	//crash mainframe and check backup
+	//crash mainframe after voting and check backup
 	
 	
 	/**
-	 * Simple test of 1 voter (3 votes)
+	 * Simple test of 1 voter (3 votes), then crash happens
 	 * @throws Exception
 	 */
 	@Test
@@ -618,13 +643,51 @@ public class IntegrationTest {
 	
 	
 	/**
-	 * More complex test of many voter (3 votes each)
+	 * More complex test of many voter (3 votes each), then crash happens
 	 * @throws Exception
 	 */
 	@Test
 	public void manyVotesCrash() throws Exception {
 		backupThreadCheckMode = true;
 		allIdentifyAndVote(createVoters(2000));
+	}
+	
+	
+	/**
+	 * Make some votes, crash, restore, check parties
+	 * @throws Exception
+	 */
+	@Test
+	public void someVotesCrashRestoreThenCheckParties() throws Exception {
+		allIdentifyAndVote(createVoters(23));
+		crashAndRestore();
+		Assert.assertTrue(mainframe.checkParties());
+	}
+	
+	
+	/**
+	 * Make some votes, crash, restore, then voter identifies again
+	 * @throws Exception
+	 */
+	@Test(expected = IdentificationError.class)
+	public void someVotesCrashRestoreThenIdentifyAgain() throws Exception {
+		allIdentifyAndVote(createVoters(100));
+		crashAndRestore();
+		allIdentifyAndVote(createVoters(1));
+	}
+	
+	
+	/**
+	 * Make some votes, crash, restore, then voter votes again
+	 * After crash voters can't change thier vote
+	 * @throws Exception
+	 */
+	public void someVotesCrashRestoreThenVoteAgain() throws Exception {
+		allIdentifyAndVote(createVoters(1000));
+		crashAndRestore();
+		Vote votes[] = createVoters(1);
+		votes[0].makeVote();
+		Assert.assertEquals(Messages.You_cannot_vote_here, message);
 	}
 	
 

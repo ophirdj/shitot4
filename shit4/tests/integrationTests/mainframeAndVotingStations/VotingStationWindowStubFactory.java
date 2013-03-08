@@ -15,7 +15,7 @@ public class VotingStationWindowStubFactory implements
 
 	@Override
 	public IVotingStationWindow createInstance(IVotingStation caller) {
-		VotingStationWindowStub stub = new VotingStationWindowStub(caller);
+		VotingStationWindowStub stub = new VotingStationWindowStub(caller, test);
 		test.addVotingWindowStub(stub);
 		return stub;
 	}
