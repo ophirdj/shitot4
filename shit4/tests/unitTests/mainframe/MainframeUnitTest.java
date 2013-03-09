@@ -14,7 +14,6 @@ import partiesList.factories.IPartyFactory;
 import partiesList.factories.PartiesListFactory;
 import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;
-import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;

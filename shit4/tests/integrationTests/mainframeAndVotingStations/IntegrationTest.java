@@ -116,7 +116,9 @@ public class IntegrationTest {
 		readSuppliedXMLStubFactory.setVoterList(voters.copy());
 		
 		backupThreadCheckMode = false;
+		Assert.assertFalse(mainframe.checkInit());
 		mainframe.initialize();
+		Assert.assertTrue(mainframe.checkInit());
 	}
 
 

@@ -62,8 +62,9 @@ public class VotingStationUnitTest {
 		
 		station = new VotingStation(passwordsStub, new choosingListStubFactory(
 				chooseStub), new stationWindowStubFactory(windowStub), new VotingRecordStubFactory(maxVotingTimeSeconds));
-		
+		Assert.assertFalse(station.isInit());
 		station.initialize(partiesStub, controllerStub);
+		Assert.assertTrue(station.isInit());
 	}
 	
 	/**
