@@ -13,8 +13,8 @@ public interface IVotingRecordFactory {
 
 	/**
 	 * Create a new object of IVotingRecord
-	 * @param id: voter ID
-	 * @return
+	 * @param id voter ID
+	 * @return new object that implements IVotingRecord
 	 */
 	IVotingRecord createInstance(int id);
 }

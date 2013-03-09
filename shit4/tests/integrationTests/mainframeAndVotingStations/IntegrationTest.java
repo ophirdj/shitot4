@@ -376,7 +376,6 @@ public class IntegrationTest {
 		 * Identify in mainframe and add him to <expectedVoters> (and to
 		 * <expectedUnregistered> if was unregistered)
 		 * 
-		 * @param id
 		 * @throws IdentificationError
 		 * @throws AlreadyIdentified
 		 * @throws VoterDoesntExist 
@@ -422,7 +421,7 @@ public class IntegrationTest {
 		
 		/**
 		 * Check if more votes are available
-		 * @return
+		 * @return true or false accordingly
 		 */
 		public boolean hasMoreVotes(){
 			return nextVote < parties.length;
@@ -449,7 +448,7 @@ public class IntegrationTest {
 	/**
 	 * Create some votes
 	 * @param size
-	 * @return
+	 * @return array of votes
 	 */
 	private Vote[] createVoters(int size) {
 		Vote votes[] = new Vote[size];

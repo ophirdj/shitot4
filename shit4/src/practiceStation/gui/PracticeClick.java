@@ -17,9 +17,9 @@ public class PracticeClick implements ActionListener {
 	
 	/**
 	 * Create new listener to practice station window clicks
-	 * @param station: related practice station
-	 * @param action: action to be performed on click
-	 * @param window_lock: lock to sync actions
+	 * @param station related practice station
+	 * @param action action to be performed on click
+	 * @param window_lock lock to sync actions
 	 */
 	public PracticeClick(PracticeStationWindow station, PracticeStationAction action, Object window_lock) {
 		button_window = station;

@@ -83,9 +83,9 @@ public class Mainframe implements IMainframe {
 	 * Initiate the mainframe and stations.
 	 * Start the hot backup routine.
 	 * 
-	 * @param voters: The voters that can vote here (predefined or that already identify themselves here)
-	 * @param unregistered: Voters that identify themselves here but were not registered in the initial voters file.
-	 * @param parties: The parties list (might be with partial voting)
+	 * @param voters The voters that can vote here (predefined or that already identify themselves here)
+	 * @param unregistered Voters that identify themselves here but were not registered in the initial voters file.
+	 * @param parties The parties list (might be with partial voting)
 	 */
 	private void init(IVotersList voters, IVotersList unregistered, IPartiesList parties){
 		this.voters = voters;
@@ -150,8 +150,8 @@ public class Mainframe implements IMainframe {
 
 	/**
 	 *  Check that sum of votes in voters list matches sum of votes in parties list
-	 * @param voters: The voter list.
-	 * @param parties: The parties list
+	 * @param voters The voter list.
+	 * @param parties The parties list
 	 * @return True if the amount of votes to the parties match the amount of voting done by voters.
 	 * false otherwise.
 	 */
@@ -207,9 +207,9 @@ public class Mainframe implements IMainframe {
 
 	/**
 	 * Return the voter that match given id.
-	 * @param id: represent a voter id.
+	 * @param id represent a voter id.
 	 * @return The voter data of the voter with the given id.
-	 * @throws VoterDoesNotExist: throw this if the voter doesn't exist.
+	 * @throws VoterDoesNotExist throw this if the voter doesn't exist.
 	 */
 	private synchronized IVoterData getVoter(int id) throws VoterDoesNotExist {
 		if (!voters.inList(id)) {
@@ -293,7 +293,7 @@ public class Mainframe implements IMainframe {
 		
 		/**
 		 * Create new BackupThread ready to run.
-		 * @param caller: The caller mainframe 
+		 * @param caller The caller mainframe 
 		 */
 		public HotBackup(Mainframe caller) {
 			lock = new Object();

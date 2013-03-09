@@ -11,7 +11,7 @@ public interface IListImages {
 	
 	/**
 	 * Get image number <num>
-	 * @param num: the index of the image to show
+	 * @param num the index of the image to show
 	 * @return file that contain the image
 	 */
 	public File getFile(int num);

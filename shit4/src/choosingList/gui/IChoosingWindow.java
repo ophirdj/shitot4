@@ -29,13 +29,11 @@ public interface IChoosingWindow extends IWindow{
 	
 	/**
 	 * change the view in main window to this panel
-	 * @param switchFrom the panel to switch from
 	 */
 	public void switchOn();
 	
 	/**
 	 * return the view to the given panel
-	 * @param switchTo the panel to switch to
 	 */
 	public void switchOff();
 

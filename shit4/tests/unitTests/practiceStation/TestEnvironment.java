@@ -59,8 +59,8 @@ public class TestEnvironment {
 	/**
 	 * update the expected log with the given String.
 	 * 
-	 * @param str: The given String.
-	 * @param testLog: The log.
+	 * @param str The given String.
+	 * @param testLog The log.
 	 */
 	private void updateLog(String str, List<String> testLog){
 		testLog.add("\t" + instructionCount +". "+str);
@@ -69,7 +69,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a component from the given type (simulate response from stub).
-	 * @param component: The given component
+	 * @param component The given component
 	 */
 	public void addComponentForTest(ChooseListComponent component){
 		functionQueue.add(component.getFunction());
@@ -79,7 +79,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a component from the given type (simulate response from stub).
-	 * @param component: The given component
+	 * @param component The given component
 	 */
 	public void addComponentForTest(
 			ChoosingListRetireComponent component){
@@ -90,7 +90,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a component from the given type (simulate response from stub).
-	 * @param component: The given component
+	 * @param component The given component
 	 */
 	public void addComponentForTest(ShowFirstImageComponent component){
 		functionQueue.add(component.getFunction());
@@ -100,7 +100,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a component from the given type (simulate response from stub).
-	 * @param component: The given component
+	 * @param component The given component
 	 */
 	public void addComponentForTest(
 			ImagePanelRetireComponent component){
@@ -111,7 +111,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a component from the given type (simulate response from stub).
-	 * @param component: The given component
+	 * @param component The given component
 	 */
 	public void addComponentForTest(
 			PrintErrorMessageComponent component){
@@ -122,7 +122,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a component from the given type (simulate response from stub).
-	 * @param component: The given component
+	 * @param component The given component
 	 */
 	public void addComponentForTest(
 			PrintConfirmationMessageComponent component){
@@ -133,7 +133,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a component from the given type (simulate response from stub).
-	 * @param component: The given component
+	 * @param component The given component
 	 */
 	public void addComponentForTest(
 			ConfirmationWithPartyComponent component){
@@ -144,7 +144,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a component from the given type (simulate response from stub).
-	 * @param component: The given component
+	 * @param component The given component
 	 */
 	public void addComponentForTest(
 			PrintInfoMessageComponent component){
@@ -191,7 +191,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Assert that a call match the expected call.
-	 * @param callerFunction: The actual call.
+	 * @param callerFunction The actual call.
 	 */
 	public void checkCalling(PracticeTestFunction callerFunction){
 		PracticeTestFunction shouldBeCaller = functionQueue.poll();
@@ -208,7 +208,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Add a call to the unit (to perform SetLanguage(language)).
-	 * @param language: the language for the call.
+	 * @param language the language for the call.
 	 */
 	public void addSetLanguage(Languages language){
 		switch(language){
@@ -246,7 +246,7 @@ public class TestEnvironment {
 	
 	/**
 	 * Run the test.
-	 * @param testedStation: The unit to test.
+	 * @param testedStation The unit to test.
 	 */
 	public void runTest(IPracticeStation testedStation){
 		

@@ -37,10 +37,10 @@ public class VotingStation implements IVotingStation {
 
 	/**
 	 * Create a new voting station
-	 * @param passwords: passwords for test voting
-	 * @param chooseFactory: factory for creating station's choosing list
-	 * @param stationWindowFactory: factory to create the station's window
-	 * @param votingRecordFactory: factory for creating voting records (to spy on voters...MUHAHAHA)
+	 * @param passwords passwords for test voting
+	 * @param chooseFactory factory for creating station's choosing list
+	 * @param stationWindowFactory factory to create the station's window
+	 * @param votingRecordFactory factory for creating voting records (to spy on voters...MUHAHAHA)
 	 */
 	public VotingStation(List<String> passwords, IChoosingListFactory chooseFactory, IVotingStationWindowFactory stationWindowFactory, IVotingRecordFactory votingRecordFactory){
 		this.passwords = passwords;

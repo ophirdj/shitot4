@@ -44,9 +44,9 @@ public class VotingStationWindow extends IVotingStationWindow implements Runnabl
 	
 	/**
 	 * Create a new window for voting station
-	 * @param id: station (and window) ID
-	 * @param caller: related voting station
-	 * @param main_window: window were this window will show in
+	 * @param id station (and window) ID
+	 * @param caller related voting station
+	 * @param main_window window were this window will show in
 	 */
 	public VotingStationWindow(int id, IVotingStation caller,
 			Main_Window main_window) {
@@ -58,7 +58,7 @@ public class VotingStationWindow extends IVotingStationWindow implements Runnabl
 	
 	/**
 	 * Set action to be performed to <action>
-	 * @param action: action to be performed
+	 * @param action action to be performed
 	 */
 	public void setAction(VotingStationAction action) {
 		if (!was_pushed) {
@@ -77,9 +77,9 @@ public class VotingStationWindow extends IVotingStationWindow implements Runnabl
 	/**
 	 * Create a button in the given panel.
 	 * 
-	 * @param voting_panel: The panel in which we want to add the button.
-	 * @param action: The action pressing the button will activate.
-	 * @param lock: The lock we need to notify when the button is pressed
+	 * @param voting_panel The panel in which we want to add the button.
+	 * @param action The action pressing the button will activate.
+	 * @param lock The lock we need to notify when the button is pressed
 	 */
 	private void make_voting_button(JPanel voting_panel, VotingStationAction action,
 			Object lock) {
@@ -91,8 +91,8 @@ public class VotingStationWindow extends IVotingStationWindow implements Runnabl
 	/**
 	 * Make all the buttons for actions in the voting station. 
 	 * 
-	 * @param rows: an array of panels, each represent a rows of buttons
-	 * @param lock: The lock we need to notify when a button is pressed
+	 * @param rows an array of panels, each represent a rows of buttons
+	 * @param lock The lock we need to notify when a button is pressed
 	 */
 	private void make_voting_panel(JPanel rows[], Object lock) {
 		for (VotingStationAction action : VotingStationAction.values()) {
@@ -143,10 +143,10 @@ public class VotingStationWindow extends IVotingStationWindow implements Runnabl
 	/**
 	 * Make the panel for entering id/password.
 	 * 
-	 * @param input_panel: the panel we make.
-	 * @param textField: where the text should be entered.
-	 * @param lock: the lock we notify after the user finish.
-	 * @param message: the message we want to show on the button (its name).
+	 * @param input_panel the panel we make.
+	 * @param textField where the text should be entered.
+	 * @param lock the lock we notify after the user finish.
+	 * @param name the message we want to show on the button (its name).
 	 */
 	private void make_input_panel(JPanel input_panel, JTextField textField,
 			Object lock, Messages name) {

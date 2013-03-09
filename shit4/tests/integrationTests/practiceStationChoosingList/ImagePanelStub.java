@@ -31,7 +31,7 @@ public class ImagePanelStub implements IImagePanel{
 	
 	/**
 	 * Set the expected language to the given one.
-	 * @param language: The expected language from now. 
+	 * @param language The expected language from now. 
 	 */
 	public void setLanguage(Languages language){
 		this.language = language;
@@ -39,7 +39,7 @@ public class ImagePanelStub implements IImagePanel{
 	
 	/**
 	 * Set the number of time that showGuide end normally
-	 * @param amount: The given amount.
+	 * @param amount The given amount.
 	 */
 	public void setTimePassed(int amount){
 		this.timePassed = amount;

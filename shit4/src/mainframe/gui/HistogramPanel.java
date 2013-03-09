@@ -40,7 +40,7 @@ private static final int minHeight = 180;
   
   /**
    * Get preferred width so that panel will grow with window and will not cap
-   * @return
+   * @return the prefered width
    */
   private int getPreferredWidth(){
 	  if(parties == null) return getWidth();
@@ -56,7 +56,7 @@ private static final int minHeight = 180;
 
   /**
    * Paint the histogram 
-   * @param g: the panel's graphic object (we draw with it)
+   * @param g the panel's graphic object (we draw with it)
    */
   protected void paintComponent(Graphics g) {
     if (parties == null) return; // No display if count is null

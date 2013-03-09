@@ -14,7 +14,7 @@ public interface IStationsControllerFactory {
 
 	/**
 	 * 
-	 * @param mainframe: mainframe that will use the returned controller
+	 * @param mainframe mainframe that will use the returned controller
 	 * @return a new IStationsController object
 	 */
 	IStationsController createInstance(IMainframe mainframe);

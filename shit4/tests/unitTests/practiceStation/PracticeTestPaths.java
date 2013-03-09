@@ -45,8 +45,8 @@ public class PracticeTestPaths {
 	
 	/**
 	 * 
-	 * @param stationLogicalTime: The time the station want to have.
-	 * @return station actual time: a little longer time to assure it had
+	 * @param stationLogicalTime The time the station want to have.
+	 * @return station actual time a little longer time to assure it had
 	 * the time to finish basic commands.
 	 */
 	public static long getStationActualTime(long stationLogicalTime){
@@ -56,8 +56,8 @@ public class PracticeTestPaths {
 	/**
 	 * add another practiceVoteCall to testEnviroment with parameters that
 	 * simulate the shortest path (MSS path)
-	 * @param testEnviroment: the test environment
-	 * @param party: the chosen party
+	 * @param testEnviroment the test environment
+	 * @param party the chosen party
 	 */
 	public void shortestPathCall(TestEnvironment testEnviroment, IParty party){
 		List<PathParameters> path_parameters = new ArrayList<PathParameters>(1);
@@ -68,9 +68,9 @@ public class PracticeTestPaths {
 	/**
 	 * add another practiceVoteCall to testEnviroment with parameters that
 	 * simulate voting and asking a guide
-	 * @param testEnviroment: the test environment
-	 * @param language: the language of the guide
-	 * @param party: the chosen party
+	 * @param testEnviroment the test environment
+	 * @param language the language of the guide
+	 * @param party the chosen party
 	 */
 	public void guidePathCall(TestEnvironment testEnviroment, IParty party, Languages language){
 		List<PathParameters> path_parameters = new ArrayList<PathParameters>(1);
@@ -82,9 +82,9 @@ public class PracticeTestPaths {
 	/**
 	 * add another practiceVoteCall to testEnviroment with parameters that
 	 * simulate voting and choosing "no" when asked if intend to choose party1
-	 * @param testEnviroment: the test environment
-	 * @param party1: the party chosen first
-	 * @param party2: the party chosen second
+	 * @param testEnviroment the test environment
+	 * @param party1 the party chosen first
+	 * @param party2 the party chosen second
 	 */
 	public void incorrectPartyPathCall(TestEnvironment testEnviroment, IParty party1,IParty party2){
 		List<PathParameters> path_parameters = new ArrayList<PathParameters>(1);
@@ -100,9 +100,9 @@ public class PracticeTestPaths {
 	/**
 	 * add another practiceVoteCall to testEnviroment with parameters that
 	 * simulate voting and asking a guide
-	 * @param testEnviroment: the test environment
-	 * @param parties: the wrong parties
-	 * @param finalParty: the correct final party
+	 * @param testEnviroment the test environment
+	 * @param parties the wrong parties
+	 * @param finalParty the correct final party
 	 */
 	public void incorrectPartyPathCall(TestEnvironment testEnviroment, Iterable<IParty> parties,IParty finalParty){
 		List<PathParameters> path_parameters = new ArrayList<PathParameters>(1);
@@ -120,9 +120,9 @@ public class PracticeTestPaths {
 	 * simulate voting, choosing "no" at did understand,
 	 * then asking a guide and choosing again
 	 * 
-	 * @param testEnviroment: the test environment
-	 * @param party1: the party chosen first
-	 * @param party2: the party chosen second
+	 * @param testEnviroment the test environment
+	 * @param party1 the party chosen first
+	 * @param party2 the party chosen second
 	 */
 	public void didntUnderstandPathCall(TestEnvironment testEnviroment, IParty party1,IParty party2, Languages language){
 		List<PathParameters> path_parameters = new ArrayList<PathParameters>(2);
@@ -135,11 +135,11 @@ public class PracticeTestPaths {
 	 * add another practiceVoteCall to testEnviroment with parameters that
 	 * simulate asking guide and then wait some time.
 	 * 
-	 * @param party: the chosen party
-	 * @param testEnviroment: the test environment
-	 * @param waitingTime: waiting time
-	 * @param language: the language for the dictionary
-	 * @param stationTime: the station time before timeout.
+	 * @param party the chosen party
+	 * @param testEnviroment the test environment
+	 * @param waitingTime waiting time
+	 * @param language the language for the dictionary
+	 * @param stationTime the station time before timeout.
 	 */
 	public void longFirstGuide(TestEnvironment testEnviroment, IParty party, long waitingTime, Languages language,long stationTime){
 		List<PathParameters> path_parameters = new ArrayList<PathParameters>(1);
@@ -151,11 +151,11 @@ public class PracticeTestPaths {
 	 * add another practiceVoteCall to testEnviroment with parameters that
 	 * simulate choosing list that take some time
 	 * 
-	 * @param testEnviroment: the test environment
-	 * @param party: the chosen party
-	 * @param waitingTime: waiting time
-	 * @param language: the language for the dictionary
-	 * @param stationTime: the station time before timeout.
+	 * @param testEnviroment the test environment
+	 * @param party the chosen party
+	 * @param waitingTime waiting time
+	 * @param language the language for the dictionary
+	 * @param stationTime the station time before timeout.
 	 */
 	public void longFirstChoose(TestEnvironment testEnviroment, IParty party,long waitingTime, Languages language, long stationTime){
 		List<PathParameters> path_parameters = new ArrayList<PathParameters>(1);
@@ -166,8 +166,8 @@ public class PracticeTestPaths {
 	/**
 	 * Return a random party from the given parties.
 	 * 
-	 * @param partiesArray: The given parties.
-	 * @param rand: Random number generator.
+	 * @param partiesArray The given parties.
+	 * @param rand Random number generator.
 	 * @return A pseudo-random party from the array.
 	 */
 	private IParty getPseudoRandomParty(Object[] partiesArray, Random rand ){
@@ -178,8 +178,8 @@ public class PracticeTestPaths {
 	 * Return a pseudo random time so that sometimes the station can finish
 	 * and sometimes not.
 	 * 
-	 * @param stationTime: The station time.
-	 * @param rand: Random number generator.
+	 * @param stationTime The station time.
+	 * @param rand Random number generator.
 	 * @return a pseudo random time to wait.
 	 */
 	private long getPseudoRandomTime(long stationTime, Random rand){
@@ -192,10 +192,10 @@ public class PracticeTestPaths {
 	 * one time run out.
 	 * Then a test with random time.
 	 * 
-	 * @param testEnviroment: the test environment
-	 * @param parties: the chosen parties for the test.
-	 * @param language: the language for the dictionary
-	 * @param stationTime: the station time before timeout.
+	 * @param testEnviroment the test environment
+	 * @param parties the chosen parties for the test.
+	 * @param language the language for the dictionary
+	 * @param stationTime the station time before timeout.
 	 */
 	public void complicatedPath(TestEnvironment testEnviroment, Collection<IParty> parties, Languages language, long stationTime){
 		long onePerTen = stationTime/10;
@@ -256,8 +256,8 @@ public class PracticeTestPaths {
  	 * Understand in the last pathParameters.
  	 * Can only wait in panels and parties choosing.
 	 * 
-	 * @param testEnviroment: the test environment.
-	 * @param pathes_parameters: PathParameters that simulate the voting between
+	 * @param testEnviroment the test environment.
+	 * @param pathes_parameters PathParameters that simulate the voting between
 	 * offering a guide and asking if the user understand (inclusive).
 	 */
 	public void genericPath(TestEnvironment testEnviroment, Collection<PathParameters> pathes_parameters, long stationTime){

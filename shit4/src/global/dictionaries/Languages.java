@@ -66,7 +66,7 @@ public enum Languages {
 	
 	/**
 	 * Method used to read a dictionary from a file
-	 * @param filename: dictionary file
+	 * @param filename dictionary file
 	 * @return an instance of IDictionary
 	 */
 	private static IDictionary readDictionary(String filename) {
@@ -87,7 +87,7 @@ public enum Languages {
 	 * Method used to read a dictionary from a file
 	 * You should use readDictionary(String filename) if you want
 	 * to load a dictionary from file.
-	 * @param filename: dictionary file
+	 * @param filename dictionary file
 	 * @return an instance of IDictionary
 	 */
 	private static IDictionary readDictionaryFromFile(String filename)
@@ -115,7 +115,7 @@ public enum Languages {
 	/**
 	 * Read the language symbol (currently its name) from file 
 	 * @param filename
-	 * @return
+	 * @return the language symbol
 	 */
 	private static String readLanguageSymbol(String filename) {
 		final String directory = "languages/symbols/";
@@ -134,7 +134,7 @@ public enum Languages {
 	
 	/**
 	 * Get a dictionary from Messages to language
-	 * @return
+	 * @return the dictionary of the language
 	 */
 	public abstract IDictionary getDictionary();
 
@@ -171,8 +171,8 @@ public enum Languages {
 
 	/**
 	 * Create a panel that contains all the language buttons
-	 * @param callerStation: StationPanel that will own the language panel
-	 * @param lock: lock to sync operation (we don't want any wierd glitches)
+	 * @param callerStation StationPanel that will own the language panel
+	 * @param lock lock to sync operation (we don't want any wierd glitches)
 	 * @return the language panel
 	 */
 	public static JPanel getLanguagesPanel(StationPanel callerStation,

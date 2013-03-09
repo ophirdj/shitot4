@@ -22,10 +22,10 @@ public class StationsController implements IStationsController {
 
 	/**
 	 * Create a new controller 
-	 * @param mainframe: mainframe that will use this controller
-	 * @param votingStationFactory: factory to create stations
-	 * @param passwords: passwords for test vote in stations
-	 * @param numStations: number of voting stations
+	 * @param mainframe mainframe that will use this controller
+	 * @param votingStationFactory factory to create stations
+	 * @param passwords passwords for test vote in stations
+	 * @param numStations number of voting stations
 	 */
 	public StationsController(IMainframe mainframe,
 			IVotingStationFactory votingStationFactory,

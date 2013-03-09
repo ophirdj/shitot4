@@ -35,9 +35,9 @@ public class PracticeStationWindow extends IPracticeStationWindow implements Run
 	/**
 	 * Build the station.
 	 * 
-	 * @param id: if we have more then one practice station, this is there id.
-	 * @param caller: the caller station
-	 * @param main_window: The main window in which the station is showed.
+	 * @param id if we have more then one practice station, this is there id.
+	 * @param caller the caller station
+	 * @param main_window The main window in which the station is showed.
 	 */
 	public PracticeStationWindow(int id, IPracticeStation caller, Main_Window main_window) {
 		super(Messages.practiceStation,id,main_window);
@@ -49,7 +49,7 @@ public class PracticeStationWindow extends IPracticeStationWindow implements Run
 	
 	/**
 	 * Change the chosen action to the given action
-	 * @param action: The given action
+	 * @param action The given action
 	 */
 	public void setAction(PracticeStationAction action) {
 		if (!was_pushed) {
@@ -61,9 +61,9 @@ public class PracticeStationWindow extends IPracticeStationWindow implements Run
 	/**
 	 * Create a button in the given panel.
 	 * 
-	 * @param practice_panel: The panel in which we want to add the button.
-	 * @param action: The action pressing the button will activate.
-	 * @param lock: The lock we need to notify when the button is pressed
+	 * @param practice_panel The panel in which we want to add the button.
+	 * @param action The action pressing the button will activate.
+	 * @param lock The lock we need to notify when the button is pressed
 	 */
 	private void make_voting_button(JPanel practice_panel, PracticeStationAction action,
 			Object lock) {
@@ -75,8 +75,8 @@ public class PracticeStationWindow extends IPracticeStationWindow implements Run
 	/**
 	 * Make all the buttons for actions in the practice station. 
 	 * 
-	 * @param rows: an array of panels, each represent a rows of buttons
-	 * @param lock: The lock we need to notify when a button is pressed
+	 * @param rows an array of panels, each represent a rows of buttons
+	 * @param lock The lock we need to notify when a button is pressed
 	 */
 	private void make_practice_panel(JPanel rows[], Object lock) {
 		for (PracticeStationAction action : PracticeStationAction.values()) {

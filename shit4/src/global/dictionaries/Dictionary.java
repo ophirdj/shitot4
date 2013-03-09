@@ -15,7 +15,7 @@ public class Dictionary implements IDictionary {
 	
 	/**
 	 * Create a new Dictionary from given Map (uses keys as entries and values as translations).
-	 * @param dict: the given Map
+	 * @param dict the given Map
 	 * @throws SomeDictionaryEntriesAreMissing if some entries are missing. 
 	 */
 	public Dictionary(Map<Messages, String> dict) throws SomeDictionaryEntriesAreMissing {
@@ -27,7 +27,7 @@ public class Dictionary implements IDictionary {
 	/**
 	 * Check if a given dictionary is valid (i.e. every message
 	 * has a matching String value).
-	 * @param dict: the dictionary to be checked
+	 * @param dict the dictionary to be checked
 	 * @return true if valid, false otherwise
 	 */
 	public static boolean isValid(Map<Messages, String> dict){

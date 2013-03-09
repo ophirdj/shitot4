@@ -30,7 +30,7 @@ public class IntegrationTest {
 	
 	/**
 	 * Keep reference to the given choosing window stub.
-	 * @param stub: The choosing window stub;
+	 * @param stub The choosing window stub;
 	 */
 	public void setChoosingWindowStub(ChoosingListWindowStub stub) {
 		this.choosingWindowStub = stub;
@@ -38,7 +38,7 @@ public class IntegrationTest {
 
 	/**
 	 * Keep reference to the given practice window stub.
-	 * @param stub: The practice window stub;
+	 * @param stub The practice window stub;
 	 */
 	public void setPracticeWindowStub(PracticeWindowStub stub) {
 		this.practiceWindowStub = stub;
@@ -46,7 +46,7 @@ public class IntegrationTest {
 	
 	/**
 	 * Keep reference to the given guide stub.
-	 * @param stub: The guide stub;
+	 * @param stub The guide stub;
 	 */
 	public void setImagePanelStub(ImagePanelStub stub) {
 		this.imagePanelStub = stub;
@@ -66,7 +66,7 @@ public class IntegrationTest {
 	/**
 	 * Build a partiesList with amount parties.
 	 * 
-	 * @param amount: The amount of parties.
+	 * @param amount The amount of parties.
 	 * @return IPartiesList with "amount" parties, symbols are "0" to "amount-1".
 	 */
 	private IPartiesList basicParties(int amount) {
@@ -81,9 +81,9 @@ public class IntegrationTest {
 	/**
 	 * Build some basic path of choosing
 	 * 
-	 * @param amountNext: Choose "next" this number of time.
-	 * @param amountPrev: Choose "previous" this number of time.
-	 * @param party: The party to return.
+	 * @param amountNext Choose "next" this number of time.
+	 * @param amountPrev Choose "previous" this number of time.
+	 * @param party The party to return.
 	 */
 	private void choosePartyPath(int amountNext, int amountPrev, IParty party){
 		choosingWindowStub.addType(ChooseType.Next, amountNext);

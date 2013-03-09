@@ -290,8 +290,8 @@ public enum MainframeAction {
 	
 	/**
 	 * Perform the action
-	 * @param callerStation: mainframe
-	 * @param window: mainframe panel
+	 * @param callerStation mainframe
+	 * @param window mainframe panel
 	 */
 	public abstract void activate(IMainframe callerStation, IMainframeWindow window);
 	
@@ -303,14 +303,14 @@ public enum MainframeAction {
 	/**
 	 * Return whether or not the action can be performed in the given state.
 	 * 
-	 * @param state: the state of the mainframe.
+	 * @param state the state of the mainframe.
 	 * @return true if the action can be performed in this state.
 	 */
 	public abstract boolean needToShow(MainframeState state);
 	
 	/**
 	 * Get a string corresponding to the action name using <dictionary> for translation
-	 * @param dictionary: translator
+	 * @param dictionary translator
 	 * @return action name
 	 */
 	public abstract String getString(IDictionary dictionary);

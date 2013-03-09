@@ -290,9 +290,9 @@ public class AcceptanceTest {
 		
 		/**
 		 * Create a voter with ID <id>, who votes at station <station> to party <party>
-		 * @param id: ID
-		 * @param station: number of the station voter will vote at
-		 * @param party: number of party voter will vote to
+		 * @param id ID
+		 * @param station number of the station voter will vote at
+		 * @param party number of party voter will vote to
 		 */
 		public votingData(int id, int station, int party) {
 			this.station = station;
@@ -302,7 +302,7 @@ public class AcceptanceTest {
 
 		/**
 		 * Get party voter will vote to
-		 * @return
+		 * @return the party
 		 */
 		public int getParty() {
 			return party;
@@ -310,7 +310,7 @@ public class AcceptanceTest {
 
 		/**
 		 * Get number of station voter will vote at
-		 * @return
+		 * @return the station
 		 */
 		public int getStation() {
 			return station;
@@ -318,7 +318,7 @@ public class AcceptanceTest {
 
 		/**
 		 * Get voter ID
-		 * @return
+		 * @return the id
 		 */
 		public int getId() {
 			return id;

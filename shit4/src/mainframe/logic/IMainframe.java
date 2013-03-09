@@ -81,7 +81,7 @@ public interface IMainframe{
 	
 	/**
 	 * Check if voter is in the voters list and if he isn't there - add him to the unregistered voters list
-	 * @param id: voter ID
+	 * @param id voter ID
 	 */
 	void identification(int id) throws IdentificationError;
 	

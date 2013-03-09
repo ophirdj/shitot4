@@ -45,7 +45,7 @@ public class ReadDictionary{
 	
 	/**
 	 * Read the given file and create a dictionary map from it
-	 * @param filename: the file name
+	 * @param filename the file name
 	 * @return a map from entries to translations
 	 * @throws IOException if reading error occurred or file format was bad
 	 */
@@ -71,7 +71,7 @@ public class ReadDictionary{
 	/**
 	 * Filter non-ASCII characters
 	 * (needed to match entries with Messages enum types)
-	 * @param inString: String to be filtered
+	 * @param inString String to be filtered
 	 * @return an ASCII String corresponding to the given non-ASCII given String
 	 */
 	private static String filterNonAscii(String inString) {

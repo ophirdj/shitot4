@@ -39,8 +39,8 @@ public class StationPanel extends BasicPanel{
 	
 	/**
 	 * Create a new panel in given window (starts as some default panel)
-	 * @param main_window: window the panel will show in
-	 * @param defualtPanel: default panel to show
+	 * @param main_window window the panel will show in
+	 * @param defualtPanel default panel to show
 	 */
 	public StationPanel(Main_Window main_window, JPanel defualtPanel){
 		super(main_window);
@@ -56,8 +56,8 @@ public class StationPanel extends BasicPanel{
 	
 	/**
 	 * Create a panel with a name in main_window
-	 * @param name: panel name
-	 * @param main_window: window the panel will show in
+	 * @param name panel name
+	 * @param main_window window the panel will show in
 	 */
 	public StationPanel(Messages name, Main_Window main_window) {
 		super(main_window);
@@ -67,9 +67,9 @@ public class StationPanel extends BasicPanel{
 	
 	/**
 	 * Create a panel with a name (name will be <name><id>) in main_window
-	 * @param name: panel name
-	 * @param id: panel number
-	 * @param main_window: window the panel will show in
+	 * @param name panel name
+	 * @param id panel number
+	 * @param main_window window the panel will show in
 	 */
 	public StationPanel(Messages name, Integer id, Main_Window main_window) {
 		super(main_window);
@@ -114,7 +114,7 @@ public class StationPanel extends BasicPanel{
 
 	/**
 	 * Set the actual panel
-	 * @param panel: actual panel
+	 * @param panel actual panel
 	 */
 	public void setPanel(JPanel panel) {
 		this.panel = panel;

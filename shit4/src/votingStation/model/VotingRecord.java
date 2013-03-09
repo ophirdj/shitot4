@@ -41,7 +41,7 @@ public class VotingRecord implements IVotingRecord {
 	/**
 	 * Change mili seconds to seconds.
 	 * 
-	 * @param milisecs: The given time in milliseconds
+	 * @param milisecs The given time in milliseconds
 	 * @return the time in second.
 	 */
 	private long miliseconds2seconds(long milisecs){

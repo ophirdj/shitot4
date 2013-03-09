@@ -30,8 +30,8 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	/**
 	 * Add amount of the given answer to return when Confirmation is required
 	 * 
-	 * @param answer: The needed result (yes/no)
-	 * @param amount: The amount of times to return that answer.
+	 * @param answer The needed result (yes/no)
+	 * @param amount The amount of times to return that answer.
 	 */
 	public void addConfirmationsResults(Boolean answer, int amount){
 		for (int i = 0; i < amount; i++) {
@@ -42,8 +42,8 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	/**
 	 * Add the given type amount times.
 	 * 
-	 * @param type: The chosen action.
-	 * @param amount: Amount of time
+	 * @param type The chosen action.
+	 * @param amount Amount of time
 	 */
 	public void addType(ChooseType type, int amount){
 		for(int i = 0; i < amount; i++){
@@ -53,7 +53,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	
 	/**
 	 * Add a party to be return when using getParty.
-	 * @param party: The party to be returned.
+	 * @param party The party to be returned.
 	 */
 	public void addParty(IParty party){
 		this.partiesQueue.add(party);
@@ -90,8 +90,8 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 
 	/**
 	 * Check that the list contain the needed party.
-	 * @param partiesList: The list.
-	 * @param neededParty: The party.
+	 * @param partiesList The list.
+	 * @param neededParty The party.
 	 * @return true if the list contain the party, false otherwise.
 	 */
 	private boolean partiesListContain(IPartiesList partiesList, IParty neededParty) {

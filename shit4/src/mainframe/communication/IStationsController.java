@@ -21,7 +21,7 @@ public interface IStationsController{
 	
 	/**
 	 * Initialize all the voting stations.
-	 * @param parties: the list of parties.
+	 * @param parties the list of parties.
 	 */
 	void initialize(IPartiesList parties);
 	
@@ -34,7 +34,7 @@ public interface IStationsController{
 	
 	/**
 	 * Check voter status.
-	 * @param id: voter's ID number.
+	 * @param id voter's ID number.
 	 * @return the status of the voter as appears in the mainframe.
 	 */
 	VoterStatus getVoterStatus(int id);

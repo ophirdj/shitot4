@@ -35,8 +35,8 @@ public class PracticeStationUnitTests {
 	/**
 	 * Build the practice station with default time for practice.
 	 * 
-	 * @param testEnviroment: The test environment.
-	 * @param partiesList: The parties list.
+	 * @param testEnviroment The test environment.
+	 * @param partiesList The parties list.
 	 * @return The station.
 	 */
 	public PracticeStation buildStation(TestEnvironment testEnviroment, IPartiesList partiesList){
@@ -49,9 +49,9 @@ public class PracticeStationUnitTests {
 	/**
 	 * Build the practice station with given time for practice.
 	 * 
-	 * @param testEnviroment: The test environment.
-	 * @param partiesList: The parties list.
-	 * @param waitTime: The maximal time for practice.
+	 * @param testEnviroment The test environment.
+	 * @param partiesList The parties list.
+	 * @param waitTime The maximal time for practice.
 	 * @return The station.
 	 */
 	public PracticeStation buildStation(TestEnvironment testEnviroment, IPartiesList partiesList, long waitTime){
@@ -270,7 +270,7 @@ public class PracticeStationUnitTests {
 	
 	/**
 	 * Add the needed Stub calls for ending due to time out.
-	 * @param testEnvironment: The TestEnvironment
+	 * @param testEnvironment The TestEnvironment
 	 */
 	private void timeoutEnding(TestEnvironment testEnvironment){
 		testEnvironment.addComponentForTest(new ChoosingListRetireComponent());
@@ -280,7 +280,7 @@ public class PracticeStationUnitTests {
 	
 	/**
 	 * Build PartiesList with 'amount' parties. The symbols are 1 to amount.
-	 * @param amount: the amount of parties.
+	 * @param amount the amount of parties.
 	 * @return The parties that was builded.
 	 */
 	private IPartiesList basicParties(int amount) {

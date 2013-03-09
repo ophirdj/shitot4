@@ -37,11 +37,11 @@ public static final Color ChoosingBackGroundColor = new Color(255,255,255);
 /**
  * Add a button that represent a choice for an action in the choosing list panel.
  * 
- * @param panel: The panel to whom the button should be added.
- * @param name: The text on the button.
- * @param type: The button type (next, previous or party).
- * @param party: The party (should be null if type!=party)
- * @param color: The color for the button.
+ * @param panel The panel to whom the button should be added.
+ * @param name The text on the button.
+ * @param type The button type (next, previous or party).
+ * @param party The party (should be null if type!=party)
+ * @param color The color for the button.
  */
 private void add_party_button(JPanel panel,String name,ChooseType type,IParty party,Color color){
 	JButton button = new JButton(name);
@@ -54,8 +54,8 @@ private void add_party_button(JPanel panel,String name,ChooseType type,IParty pa
 /**
  * Add the three special button (previous, white note, next) to the given panel.
  * 
- * @param special_panel: The given panel.
- * @param whiteNote: The IParty that represent "white note". 
+ * @param special_panel The given panel.
+ * @param whiteNote The IParty that represent "white note". 
  */
 private void make_special_panel(JPanel special_panel, IParty whiteNote){
 	special_panel.setLayout(new GridLayout(1,3,20,10));
@@ -89,7 +89,7 @@ private void make_parties_panel(JPanel parties_panel,IPartiesList partiesToShow)
  * Buttons to move back and forward in the parties,
  * and an option to choose white note (no party).
  * 
- * @param partiesToShow: as much as 9 parties we want to show. 
+ * @param partiesToShow as much as 9 parties we want to show. 
  * @return A panel that enable the user to choose all the options mention above.
  */
 private JPanel makeChoosingPanel(IPartiesList partiesToShow) {
@@ -116,8 +116,8 @@ private JPanel makeChoosingPanel(IPartiesList partiesToShow) {
   /**
    * Inform the window on the chosen action.
    * 
-   * @param choosen_party: The party that was chosen (if any).
-   * @param type: The action type (Party, Next or Previous).
+   * @param choosen_party The party that was chosen (if any).
+   * @param type The action type (Party, Next or Previous).
    */
   public void setResult(IParty choosen_party, ChooseType type){
 	  if(!was_pushed){

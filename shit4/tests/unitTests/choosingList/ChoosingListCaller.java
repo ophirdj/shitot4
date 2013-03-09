@@ -18,7 +18,7 @@ public class ChoosingListCaller {
 		
 		/**
 		 * Send the correct call, update the run log and check return values.
-		 * @param choosingList: The unit to be tested
+		 * @param choosingList The unit to be tested
 		 */
 		public void activate(IChoosingList choosingList);
 	}

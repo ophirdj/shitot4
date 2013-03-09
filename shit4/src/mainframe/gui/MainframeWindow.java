@@ -53,8 +53,8 @@ public class MainframeWindow extends IMainframeWindow implements Runnable{
 	/**
 	 * Create the mainframe window and add it to the main window.
 	 * 
-	 * @param callerStation: The mainframe that build it and that it related to.
-	 * @param main_window: The main window for showing the system (build1 only).
+	 * @param callerStation The mainframe that build it and that it related to.
+	 * @param main_window The main window for showing the system (build1 only).
 	 */
 	public MainframeWindow(IMainframe callerStation, Main_Window main_window) {
 		super(Messages.Main_frame,main_window);
@@ -110,7 +110,7 @@ public class MainframeWindow extends IMainframeWindow implements Runnable{
 	/**
 	 * Set the current action to perform to given action.
 	 * 
-	 * @param action: The action to perform.
+	 * @param action The action to perform.
 	 */
 	void setAction(MainframeAction action){
 		if(!was_pushed){
@@ -122,9 +122,9 @@ public class MainframeWindow extends IMainframeWindow implements Runnable{
 	/**
 	 * Create a button in the given panel.
 	 * 
-	 * @param mainframe_panel: The panel in which we want to add the button.
-	 * @param action: The action pressing the button will activate.
-	 * @param lock: The lock we need to notify when the button is pressed
+	 * @param mainframe_panel The panel in which we want to add the button.
+	 * @param action The action pressing the button will activate.
+	 * @param lock The lock we need to notify when the button is pressed
 	 */
 	private void make_mainframe_button(JPanel mainframe_panel, MainframeAction action, Object lock){
 		JButton button = new JButton(action.getString(dictionary));
@@ -136,8 +136,8 @@ public class MainframeWindow extends IMainframeWindow implements Runnable{
 	/**
 	 * Make all the buttons for actions in the mainframe. 
 	 * 
-	 * @param rows: an array of panels, each represent a rows of buttons
-	 * @param lock: The lock we need to notify when a button is pressed
+	 * @param rows an array of panels, each represent a rows of buttons
+	 * @param lock The lock we need to notify when a button is pressed
 	 */
 	 private void make_mainframe_panel(JPanel rows[], Object lock){
 		for(MainframeAction action : MainframeAction.values()){
@@ -190,10 +190,10 @@ public class MainframeWindow extends IMainframeWindow implements Runnable{
 	/**
 	 * Make the panel for entering id.
 	 * 
-	 * @param id_panel: the panel we make.
-	 * @param textField: where the text should be entered.
-	 * @param lock: the lock we notify after the user finish.
-	 * @param message: the message we want to show on the button.
+	 * @param id_panel the panel we make.
+	 * @param textField where the text should be entered.
+	 * @param lock the lock we notify after the user finish.
+	 * @param message the message we want to show on the button.
 	 */
 	private void make_id_panel(JPanel id_panel,JTextField textField, Object lock,Messages message){
 		id_panel.add(textField);

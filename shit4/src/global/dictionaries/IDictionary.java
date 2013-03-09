@@ -19,7 +19,7 @@ public interface IDictionary {
 	
 	/**
 	 * Translate from Messages type to actual Sting
-	 * @param message: the message we want to show
+	 * @param message the message we want to show
 	 * @return a translation of the message to the dictionary's language
 	 */
 	String translate(Messages message);

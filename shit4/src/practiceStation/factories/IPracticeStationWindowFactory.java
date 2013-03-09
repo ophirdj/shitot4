@@ -7,10 +7,8 @@ import practiceStation.logic.IPracticeStation;
 public interface IPracticeStationWindowFactory {
 	/**
 	 * 
-	 * @param name
-	 *            : the view name in main window
 	 * @param caller
-	 *            : caller station
+	 *             caller station
 	 * @return a new object that implement IPracticeStationWindow
 	 */
 	IPracticeStationWindow createInstance(IPracticeStation caller);

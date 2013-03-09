@@ -81,7 +81,7 @@ public class VotingSystem {
 	 * update: Number of practice stations is not configured anywhere
 	 * therefore it is set to the default 1
 	 * 
-	 * @param args: ignored
+	 * @param args ignored
 	 */
 	public static void main(String[] args) {
 		Main_Window main_window = new Main_Window();

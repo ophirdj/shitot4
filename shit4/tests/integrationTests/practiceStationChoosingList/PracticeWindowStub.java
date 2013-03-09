@@ -26,8 +26,8 @@ public class PracticeWindowStub extends IPracticeStationWindow{
 	/**
 	 * Add amount of the given answer to return when Confirmation is required
 	 * 
-	 * @param answer: The needed result (yes/no)
-	 * @param amount: The amount of times to return that answer.
+	 * @param answer The needed result (yes/no)
+	 * @param amount The amount of times to return that answer.
 	 */
 	public void addConfirmationsResults(Boolean answer, int amount){
 		for (int i = 0; i < amount; i++) {
@@ -36,10 +36,9 @@ public class PracticeWindowStub extends IPracticeStationWindow{
 	}
 	
 	/**
-	 * Add amount of the given answer to return when Confirmation is required
+	 * Adds the given the party return  queue
 	 * 
-	 * @param answer: The needed result (yes/no)
-	 * @param amount: The amount of times to return that answer.
+	 * @param expectedParty the given party
 	 */
 	public void addExpectedParties(IParty expectedParty){
 		expectedParties.add(expectedParty);			

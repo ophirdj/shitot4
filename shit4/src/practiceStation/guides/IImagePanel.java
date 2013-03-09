@@ -33,7 +33,7 @@ public interface IImagePanel {
 	
 	/**
 	 * Show first image of guide (if exist)
-	 * @param language: the language of the guide
+	 * @param language the language of the guide
 	 */
 	public void showGuide(Languages language);
 	

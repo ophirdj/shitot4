@@ -30,7 +30,7 @@ public abstract class BasicPanel extends JPanel implements IWindow {
 	
 	/**
 	 * Create a new panel in window
-	 * @param window: window the panel will be in
+	 * @param window window the panel will be in
 	 */
 	public BasicPanel(Main_Window window) {
 		setLayout(new GridBagLayout());

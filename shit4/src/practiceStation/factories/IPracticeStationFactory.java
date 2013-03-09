@@ -6,7 +6,7 @@ import practiceStation.logic.IPracticeStation;
 public interface IPracticeStationFactory {
 	/**
 	 * 
-	 * @param parties:
+	 * @param parties
 	 * 				the parties in this station
 	 * @return
 	 * 				a new Object that implement IPracticeStation
