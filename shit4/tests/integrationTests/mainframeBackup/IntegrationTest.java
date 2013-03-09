@@ -76,12 +76,6 @@ public class IntegrationTest {
 			IParty party = partyFactory.createInstance("p"+i, "p"+i, 0);
 			readPartiesList.addParty(party);
 		}
-		IBackup tempBackup = new Backup(partiesListFactory, partyFactory, votersListFactory, voterDataFactory,
-										"IntegrationTests/mainframeBackup/voters.xml", 
-										"IntegrationTests/mainframeBackup/votingRecords.xml",
-										"IntegrationTests/mainframeBackup/uvoters.xml");
-		IVotersList temp = votersListFactory.createInstance();
-		tempBackup.storeState(readPartiesList, readVotersList, temp);
 		mainframe.initialize();
 
 	}
@@ -92,7 +86,10 @@ public class IntegrationTest {
 			mainframe.identification(i);
 		}
 		Thread.sleep(4*backupTimeIntervalSeconds*1000);
-		mainframe.restore();
+		synchronized(this){
+			mainframe.crash();
+			mainframe.restore();
+		}
 		IBackup tempBackup = backupFactoryInt.createInstance();
 		IVotersList vlist = tempBackup.restoreVoters();
 		for(int i=1; i<=100;i++){
@@ -116,7 +113,16 @@ public class IntegrationTest {
 				}
 				
 		}
-		
+		IVotersList uvlist = tempBackup.restoreUnregisteredVoters();
+		for(int i=101; i<=200;i++){
+			try {
+				IVoterData voter = uvlist.findVoter(i);
+				assertEquals(i, voter.getId());
+			} catch (VoterDoesntExist e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		
 	}
