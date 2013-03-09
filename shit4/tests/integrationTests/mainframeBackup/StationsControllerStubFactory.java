@@ -20,6 +20,7 @@ public class StationsControllerStubFactory implements
 
 	@Override
 	public IStationsController createInstance(IMainframe mainframe) {
+		stationsControllerStub.setMainframe(mainframe);
 		return stationsControllerStub;
 	}
 	

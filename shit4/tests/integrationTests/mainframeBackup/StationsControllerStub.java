@@ -4,6 +4,7 @@ import partiesList.model.IPartiesList;
 import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
 import mainframe.communication.IStationsController;
+import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.IMainframe.VoterStartedVote;
 import mainframe.logic.IMainframe.VoterStatus;
@@ -18,6 +19,7 @@ import mainframe.logic.IMainframe.VoterStatus;
  */
 public class StationsControllerStub implements IStationsController {
 	
+	private IMainframe mainframe;
 	private IPartiesList partiesList;
 	private boolean isInit;
 
@@ -46,6 +48,7 @@ public class StationsControllerStub implements IStationsController {
 		try {
 			p = this.partiesList.getPartyBySymbol("p1");
 			p.increaseVoteNumber();
+			mainframe.markVoted(id);
 		} catch (PartyDoesNotExist e) {
 			e.printStackTrace();
 		}
@@ -71,6 +74,10 @@ public class StationsControllerStub implements IStationsController {
 	@Override
 	public boolean checkInit() {
 		return isInit;
+	}
+
+	public void setMainframe(IMainframe mainframe) {
+		this.mainframe = mainframe;
 	}
 	
 	/*public void getPartiesListForHotBackup(IPartiesList p){
