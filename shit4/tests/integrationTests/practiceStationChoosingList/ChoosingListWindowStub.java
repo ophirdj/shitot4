@@ -5,9 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.junit.Assert;
 
-import global.dictionaries.Languages;
 import global.dictionaries.Messages;
-import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 import choosingList.gui.IChoosingWindow;
@@ -120,8 +118,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	}
 
 	@Override
-	public Boolean getConfirmation(StationPanel stationPanel,
-			String confirmationMessage) {
+	public Boolean getConfirmation(String confirmationMessage) {
 		Assert.fail();
 		return null;
 	}
@@ -142,7 +139,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	}
 
 	@Override
-	public void printError(StationPanel stationPanel, String errorMessage) {
+	public void printError(String errorMessage) {
 		Assert.fail();
 	}
 
@@ -164,13 +161,8 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	}
 
 	@Override
-	public void printMessage(StationPanel stationPanel, String message) {
+	public void printMessage(String message) {
 		Assert.fail();
-	}
-
-	@Override
-	public void setLanguage(Languages language) {
-		
 	}
 
 	@Override

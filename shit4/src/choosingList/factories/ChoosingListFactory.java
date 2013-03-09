@@ -7,6 +7,9 @@ import choosingList.logic.IChoosingList;
 
 import partiesList.model.IPartiesList;
 
+/**
+ * A factory for creating choosing list objects.
+ */
 public class ChoosingListFactory implements IChoosingListFactory {
 
 	private IChoosingWindowFactory windowFactory;

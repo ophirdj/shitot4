@@ -5,9 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.junit.Assert;
 
-import global.dictionaries.Languages;
 import global.dictionaries.Messages;
-import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
 import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
@@ -25,23 +23,18 @@ public class ChoosingWindowStub implements IChoosingWindow {
 	private Boolean defaultConfirmation = true;
 
 	@Override
-	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
+	public Boolean getConfirmation(String confirmationMessage) {
 		if(confirmation.isEmpty()) return defaultConfirmation;
 		return confirmation.poll();
 	}
 
 	@Override
-	public void printError(StationPanel station, String errorMessage) {
+	public void printError(String errorMessage) {
 
 	}
 
 	@Override
-	public void printMessage(StationPanel station, String message) {
-
-	}
-
-	@Override
-	public void setLanguage(Languages language) {
+	public void printMessage(String message) {
 
 	}
 

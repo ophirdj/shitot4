@@ -7,7 +7,6 @@ import org.junit.Assert;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
-import global.gui.StationPanel;
 import partiesList.model.IParty;
 import practiceStation.gui.IPracticeStationWindow;
 
@@ -47,8 +46,7 @@ public class PracticeWindowStub extends IPracticeStationWindow{
 	}
 
 	@Override
-	public Boolean getConfirmation(StationPanel stationPanel,
-			String confirmationMessage) {
+	public Boolean getConfirmation(String confirmationMessage) {
 		Assert.fail();
 		return false;
 	}
@@ -67,7 +65,7 @@ public class PracticeWindowStub extends IPracticeStationWindow{
 	}
 
 	@Override
-	public void printError(StationPanel stationPanel, String errorMessage) {
+	public void printError(String errorMessage) {
 		Assert.fail();
 	}
 
@@ -87,7 +85,7 @@ public class PracticeWindowStub extends IPracticeStationWindow{
 	}
 
 	@Override
-	public void printMessage(StationPanel stationPanel, String message) {
+	public void printMessage(String message) {
 		
 	}
 

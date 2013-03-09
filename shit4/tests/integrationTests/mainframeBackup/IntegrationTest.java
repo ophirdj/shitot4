@@ -6,7 +6,6 @@ import org.junit.*;
 import integrationTests.mainframeBackup.BackupFactoryInt;
 import fileHandler.factories.IBackupFactory;
 import fileHandler.factories.IReadSuppliedXMLFactory;
-import fileHandler.logic.Backup;
 import fileHandler.logic.IBackup;
 import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.IdentificationError;

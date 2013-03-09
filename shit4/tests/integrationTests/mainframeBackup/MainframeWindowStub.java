@@ -2,7 +2,6 @@ package integrationTests.mainframeBackup;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
-import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 import mainframe.gui.IMainframeWindow;
@@ -26,17 +25,17 @@ public class MainframeWindowStub extends IMainframeWindow {
 	private IPartiesList showHistogramParam;
 	
 	@Override
-	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
+	public Boolean getConfirmation(String confirmationMessage) {
 		return null;
 	}
 
 	@Override
-	public void printError(StationPanel station, String errorMessage) {
+	public void printError(String errorMessage) {
 
 	}
 
 	@Override
-	public void printMessage(StationPanel station, String message) {
+	public void printMessage(String message) {
 
 	}
 

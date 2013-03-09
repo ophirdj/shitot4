@@ -5,7 +5,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import global.dictionaries.Languages;
 import global.dictionaries.Messages;
-import global.gui.StationPanel;
 import partiesList.model.IParty;
 import practiceStation.gui.IPracticeStationWindow;
 import practiceStation.logic.IPracticeStation;
@@ -22,18 +21,18 @@ public class PracticeStationWindowStub extends IPracticeStationWindow {
 	}
 
 	@Override
-	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
+	public Boolean getConfirmation(String confirmationMessage) {
 		if(confirmations.isEmpty()) return defaultConfirmation;
 		return confirmations.poll();
 	}
 
 	@Override
-	public void printError(StationPanel station, String errorMessage) {
+	public void printError(String errorMessage) {
 
 	}
 
 	@Override
-	public void printMessage(StationPanel station, String message) {
+	public void printMessage(String message) {
 
 	}
 

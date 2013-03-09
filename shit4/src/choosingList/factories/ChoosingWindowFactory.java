@@ -5,7 +5,9 @@ import global.gui.StationPanel;
 import choosingList.gui.ChoosingListWindow;
 import choosingList.gui.IChoosingWindow;
 
-
+/**
+ * A factory for creating choosing window object.
+ */
 public class ChoosingWindowFactory implements IChoosingWindowFactory {
 
 	private Main_Window main_window;

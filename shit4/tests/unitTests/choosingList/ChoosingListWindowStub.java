@@ -5,9 +5,7 @@ import java.util.Queue;
 
 import org.junit.Assert;
 
-import global.dictionaries.Languages;
 import global.dictionaries.Messages;
-import global.gui.StationPanel;
 import partiesList.model.IPartiesList;
 import partiesList.model.IParty;
 import choosingList.gui.IChoosingWindow;
@@ -370,12 +368,12 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	
 
 	@Override
-	public Boolean getConfirmation(StationPanel station, String confirmationMessage) {
+	public Boolean getConfirmation(String confirmationMessage) {
 		throw new AssertionError();
 	}
 
 	@Override
-	public void printError(StationPanel station, String errorMessage) {
+	public void printError(String errorMessage) {
 		throw new AssertionError();
 	}
 
@@ -395,12 +393,7 @@ public class ChoosingListWindowStub implements IChoosingWindow{
 	}
 
 	@Override
-	public void printMessage(StationPanel station, String message) {
-		throw new AssertionError();
-	}
-
-	@Override
-	public void setLanguage(Languages language) {
+	public void printMessage(String message) {
 		throw new AssertionError();
 	}
 
