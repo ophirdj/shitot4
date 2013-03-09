@@ -3,7 +3,7 @@ package integrationTests.mainframeAndVotingStations;
 import partiesList.model.IPartiesList;
 import votersList.model.IVotersList;
 import fileHandler.factories.IReadSuppliedXMLFactory;
-import fileHandler.logic.IReadSuppliedXML;
+import fileHandler.model.IReadSuppliedXML;
 
 public class ReadSuppliedXMLStubFactory implements IReadSuppliedXMLFactory{
 	

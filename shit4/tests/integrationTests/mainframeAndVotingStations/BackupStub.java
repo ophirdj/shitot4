@@ -4,7 +4,7 @@ import org.junit.Assert;
 
 import partiesList.model.IPartiesList;
 import votersList.model.IVotersList;
-import fileHandler.logic.IBackup;
+import fileHandler.model.IBackup;
 
 public class BackupStub implements IBackup{
 

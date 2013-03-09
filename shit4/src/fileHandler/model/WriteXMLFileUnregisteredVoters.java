@@ -1,4 +1,4 @@
-package fileHandler.logic;
+package fileHandler.model;
 
 import java.io.File;
 import java.io.FileOutputStream;

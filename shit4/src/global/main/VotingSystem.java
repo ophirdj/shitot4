@@ -46,6 +46,9 @@ import global.gui.Main_Window;
  */
 public class VotingSystem {
 	
+	private static final int AmountOfVotingStations = 2;
+	private static final int AmountOfPracticeStation = 1;
+
 	/**
 	 * Default parties that will be shown as practice in the practice stations
 	 * @return parties that will be shown as practice in the practice stations
@@ -94,7 +97,7 @@ public class VotingSystem {
 		IVotingStationWindowFactory votingStationWindowFactory = new VotingStationWindowFactory(main_window);
 		IVotingRecordFactory votingRecordFactory = new VotingRecordFactory();
 		IVotingStationFactory votingStationFactory = new VotingStationFactory(choosingListFactory, votingStationWindowFactory, votingRecordFactory);
-		IStationsControllerFactory stationsControllerFactory = new StationsControllerFactory(votingStationFactory);
+		IStationsControllerFactory stationsControllerFactory = new StationsControllerFactory(votingStationFactory,AmountOfVotingStations);
 		
 		IBackupFactory backupFactory = new BackupFactory(partiesListFactory, partyFactory, votersListFactory, voterDataFactory);
 		IMainframeFactory mainframeFactory = new MainframeFactory(backupFactory, mainframeWindowFactory, readSuppliedXMLFactory, stationsControllerFactory, voterDataFactory, votersListFactory);
@@ -103,7 +106,10 @@ public class VotingSystem {
 		IPracticeStationWindowFactory practiceStationWindowFactory = new PracticeStationWindowFactory(main_window);
 		IImagePanelFactory imagePanelFactory = new ImagePanelFactory(main_window);
 		IPracticeStationFactory practiceStationFactory = new PracticeStationFactory(choosingListFactory, practiceStationWindowFactory, imagePanelFactory);
-		practiceStationFactory.createInstance(getPracticeParties());
+		for(int i = 0; i < AmountOfPracticeStation; i++){
+			practiceStationFactory.createInstance(getPracticeParties());
+		}
+		
 		main_window.show_window();
 	}
 }

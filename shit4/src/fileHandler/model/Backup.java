@@ -1,4 +1,4 @@
-package fileHandler.logic;
+package fileHandler.model;
 
 import java.io.BufferedWriter;
 import java.io.File;

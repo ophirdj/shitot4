@@ -5,8 +5,8 @@ import partiesList.factories.IPartyFactory;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import fileHandler.factories.IReadSuppliedXMLFactory;
-import fileHandler.logic.IReadSuppliedXML;
-import fileHandler.logic.ReadSuppliedXML;
+import fileHandler.model.IReadSuppliedXML;
+import fileHandler.model.ReadSuppliedXML;
 
 public class ReadSuppliedXMLTestConfigurationFactory implements IReadSuppliedXMLFactory {
 

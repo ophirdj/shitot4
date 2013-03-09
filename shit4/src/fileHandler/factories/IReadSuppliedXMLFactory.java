@@ -1,6 +1,6 @@
 package fileHandler.factories;
 
-import fileHandler.logic.IReadSuppliedXML;
+import fileHandler.model.IReadSuppliedXML;
 
 /**
  * the interface of the factory of IReadSuppliedXML

@@ -1,4 +1,4 @@
-package fileHandler.logic;
+package fileHandler.model;
 
 import partiesList.factories.IPartiesListFactory;
 import partiesList.factories.IPartyFactory;

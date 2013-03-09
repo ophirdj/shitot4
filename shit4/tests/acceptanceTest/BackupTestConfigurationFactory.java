@@ -5,8 +5,8 @@ import partiesList.factories.IPartyFactory;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import fileHandler.factories.IBackupFactory;
-import fileHandler.logic.Backup;
-import fileHandler.logic.IBackup;
+import fileHandler.model.Backup;
+import fileHandler.model.IBackup;
 
 public class BackupTestConfigurationFactory implements IBackupFactory {
 

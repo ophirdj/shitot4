@@ -1,8 +1,8 @@
 package integrationTests.mainframeBackup;
 
 import fileHandler.factories.IReadSuppliedXMLFactory;
-import fileHandler.logic.IReadSuppliedXML;
-import fileHandler.logic.ReadSuppliedXML;
+import fileHandler.model.IReadSuppliedXML;
+import fileHandler.model.ReadSuppliedXML;
 import partiesList.factories.IPartiesListFactory;
 import partiesList.factories.IPartyFactory;
 import votersList.factories.IVoterDataFactory;

@@ -1,6 +1,6 @@
 package fileHandler.factories;
 
-import fileHandler.logic.IBackup;
+import fileHandler.model.IBackup;
 
 /**
  * interface of the factory of IBackup

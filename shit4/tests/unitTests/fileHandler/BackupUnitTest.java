@@ -1,7 +1,8 @@
 package unitTests.fileHandler;
 
 import org.junit.*;
-import fileHandler.logic.Backup;
+
+import fileHandler.model.Backup;
 import partiesList.factories.PartiesListFactory;
 import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;

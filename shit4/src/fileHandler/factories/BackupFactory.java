@@ -1,7 +1,7 @@
 package fileHandler.factories;
 
-import fileHandler.logic.Backup;
-import fileHandler.logic.IBackup;
+import fileHandler.model.Backup;
+import fileHandler.model.IBackup;
 import partiesList.factories.IPartiesListFactory;
 import partiesList.factories.IPartyFactory;
 import votersList.factories.IVoterDataFactory;

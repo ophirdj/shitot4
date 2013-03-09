@@ -8,7 +8,7 @@ import partiesList.model.IPartiesList;
 import votersList.factories.IVotersListFactory;
 import votersList.factories.VotersListFactory;
 import votersList.model.IVotersList;
-import fileHandler.logic.IReadSuppliedXML;
+import fileHandler.model.IReadSuppliedXML;
 
 /**
  * this is the stub of the class ReadSuppliedXML

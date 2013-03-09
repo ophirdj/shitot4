@@ -1,4 +1,4 @@
-package fileHandler.logic;
+package fileHandler.model;
 import partiesList.model.IPartiesList;
 import votersList.model.IVotersList;
 

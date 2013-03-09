@@ -4,7 +4,7 @@ package integrationTests.mainframeAndVotingStations;
 import partiesList.model.IPartiesList;
 import votersList.model.IVotersList;
 import fileHandler.factories.IBackupFactory;
-import fileHandler.logic.IBackup;
+import fileHandler.model.IBackup;
 
 public class BackupStubFactory implements IBackupFactory{
 

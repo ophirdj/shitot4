@@ -1,4 +1,4 @@
-package fileHandler.logic;
+package fileHandler.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;

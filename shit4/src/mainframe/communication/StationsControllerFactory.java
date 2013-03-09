@@ -13,11 +13,12 @@ import mainframe.logic.IMainframe;
  */
 public class StationsControllerFactory implements IStationsControllerFactory {
 
-	private static final int NUM_STATIONS = 2;
+	private int NUM_STATIONS;
 	private IVotingStationFactory votingStationFactory;
 
-	public StationsControllerFactory(IVotingStationFactory votingStationFactory) {
+	public StationsControllerFactory(IVotingStationFactory votingStationFactory, int numOfStation) {
 		this.votingStationFactory = votingStationFactory;
+		NUM_STATIONS = numOfStation;
 	}
 	
 	
@@ -28,6 +29,8 @@ public class StationsControllerFactory implements IStationsControllerFactory {
 		
 		return new StationsController(mainframe, votingStationFactory, passwords,NUM_STATIONS);
 	}
+	
+	
 	
 	/**
 	 * Get passwords for the station
