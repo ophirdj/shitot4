@@ -21,7 +21,7 @@ public class MainframeFactory implements IMainframeFactory {
 	private IMainframeWindowFactory mainframeWindowFactory;
 	private IReadSuppliedXMLFactory readSuppliedXMLFactory;
 	private IStationsControllerFactory stationsControllerFactory;
-	private int backupTimeIntervalSeconds = 180;
+	private int backupTimeIntervalSeconds = 120;
 
 	/**
 	 * 
