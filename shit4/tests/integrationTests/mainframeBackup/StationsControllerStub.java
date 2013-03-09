@@ -59,6 +59,7 @@ public class StationsControllerStub implements IStationsController {
 	@Override
 	public void markStartedVote(int id) throws VoterDoesNotExist,
 			VoterStartedVote {
+		mainframe.markStartedVote(id);
 	}
 
 	@Override
