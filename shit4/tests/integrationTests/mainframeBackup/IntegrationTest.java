@@ -9,6 +9,7 @@ import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.model.IBackup;
 import mainframe.logic.IMainframe;
 import mainframe.logic.IMainframe.IdentificationError;
+import mainframe.logic.IMainframe.VoterDoesNotExist;
 import mainframe.logic.Mainframe;
 import partiesList.factories.IPartiesListFactory;
 import partiesList.factories.IPartyFactory;
@@ -17,8 +18,8 @@ import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;
 import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
-import unitTests.mainframe.MainframeWindowStubFactory;
-import unitTests.mainframe.StationsControllerStubFactory;
+import integrationTests.mainframeBackup.MainframeWindowStubFactory;
+import integrationTests.mainframeBackup.StationsControllerStubFactory;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.factories.VoterDataFactory;
@@ -49,7 +50,19 @@ public class IntegrationTest {
 	IVotersList readVotersList;
 	IPartiesList readPartiesList;
 	
-	
+	/**
+	 * invokes the method 'markVoted' of the stub 'stationsControllerStub' 'numOfVotes' times
+	 * @param numOfVotes the number of times we want the station controller to know that we voted
+	 */
+	private void markVotesOnStationController(int numOfVotes){
+		for(int i=0; i<numOfVotes; i++){
+			try {
+				this.stationsControllerStubFactory.getStationsController().markVoted(-1);
+			} catch (VoterDoesNotExist e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	@Before
 	public void preprocessing(){
@@ -81,13 +94,44 @@ public class IntegrationTest {
 	
 	
 	@Test
-	public void testBackup() throws Exception{
+	public void testBackupShutdown() throws Exception{
 		mainframe.initialize();
 		for(int i=101;i<=200;i++){
 			mainframe.identification(i);
 		}
-		Thread.sleep(4*backupTimeIntervalSeconds*1000);
+		
 		synchronized(this){
+			Thread.sleep(4*backupTimeIntervalSeconds*1000);
+			mainframe.shutDown();
+			IBackup tempBackup = backupFactoryInt.createInstance();
+			IVotersList vlist = tempBackup.restoreVoters();
+			for(int i=1; i<=100;i++){
+				IVoterData voter = vlist.findVoter(i);
+				assertEquals(i, voter.getId());
+			}
+			IPartiesList plist = tempBackup.restoreParties();
+			for(int i=1; i<=20;i++){
+					IParty party = plist.getPartyBySymbol("p"+i);
+					assertEquals(0, party.getVoteNumber());
+					assertEquals("p"+i, party.getSymbol());
+			}
+			IVotersList uvlist = tempBackup.restoreUnregisteredVoters();
+			for(int i=101; i<=200;i++){
+				IVoterData voter = uvlist.findVoter(i);
+				assertEquals(i, voter.getId());
+			}
+		}
+	}
+	
+	@Test
+	public void testBackupCrash() throws Exception{
+		mainframe.initialize();
+		for(int i=101;i<=200;i++){
+			mainframe.identification(i);
+		}
+		
+		synchronized(this){
+			Thread.sleep(4*backupTimeIntervalSeconds*1000);
 			mainframe.crash();
 			IBackup tempBackup = backupFactoryInt.createInstance();
 			IVotersList vlist = tempBackup.restoreVoters();
@@ -95,44 +139,39 @@ public class IntegrationTest {
 				IVoterData voter = vlist.findVoter(i);
 				assertEquals(i, voter.getId());
 			}
-			
-			
 			IPartiesList plist = tempBackup.restoreParties();
 			for(int i=1; i<=20;i++){
 					IParty party = plist.getPartyBySymbol("p"+i);
 					assertEquals(0, party.getVoteNumber());
 					assertEquals("p"+i, party.getSymbol());
 			}
-			
 			IVotersList uvlist = tempBackup.restoreUnregisteredVoters();
 			for(int i=101; i<=200;i++){
 				IVoterData voter = uvlist.findVoter(i);
 				assertEquals(i, voter.getId());
 			}
-			
 		}
-		
 	}
 	
 	@Test(expected = IdentificationError.class)
 	public void testIdentifyError() throws IdentificationError{
 		mainframe.initialize();
-		try{
+		try{//Super dirty hack
 			mainframe.identification(450);
 			mainframe.identification(450);
 		} catch(IdentificationError e){
 			mainframe.shutDown();
 			throw e;
 		}
-		
 	}
 	
 	@Test(expected = VoterDoesntExist.class)
 	public void testBackupVoterError() throws InterruptedException, VoterDoesntExist{
 		mainframe.initialize();
-		Thread.sleep(4*backupTimeIntervalSeconds*1000);
+		
 		synchronized(this){
-			mainframe.crash();
+			Thread.sleep(4*backupTimeIntervalSeconds*1000);
+			mainframe.shutDown();
 			IBackup tempBackup = backupFactoryInt.createInstance();
 			IVotersList vlist = tempBackup.restoreVoters();
 			vlist.findVoter(800);
@@ -143,9 +182,10 @@ public class IntegrationTest {
 	@Test(expected = PartyDoesNotExist.class)
 	public void testBackupPartyError() throws InterruptedException, PartyDoesNotExist{
 		mainframe.initialize();
-		Thread.sleep(4*backupTimeIntervalSeconds*1000);
+		
 		synchronized(this){
-			mainframe.crash();
+			Thread.sleep(4*backupTimeIntervalSeconds*1000);
+			mainframe.shutDown();
 			IBackup tempBackup = backupFactoryInt.createInstance();
 			IPartiesList plist = tempBackup.restoreParties();
 			plist.getPartyBySymbol("ERROR");
@@ -155,14 +195,38 @@ public class IntegrationTest {
 	@Test(expected = VoterDoesntExist.class)
 	public void testBackupUnregVoterError() throws InterruptedException, VoterDoesntExist{
 		mainframe.initialize();
-		Thread.sleep(4*backupTimeIntervalSeconds*1000);
+		
 		synchronized(this){
-			mainframe.crash();
+			Thread.sleep(4*backupTimeIntervalSeconds*1000);
+			mainframe.shutDown();
 			IBackup tempBackup = backupFactoryInt.createInstance();
 			IVotersList vlist = tempBackup.restoreUnregisteredVoters();
 			vlist.findVoter(800);
 		}
 	}
+	
+	
+	
+	
+	@Test
+	public void testCountVotes() throws IdentificationError, PartyDoesNotExist, InterruptedException{
+		mainframe.initialize();
+		
+		synchronized(this){
+			for(int i=1;i<=100;i++){
+				mainframe.identification(i);
+			}
+			markVotesOnStationController(100);
+			Thread.sleep(4*backupTimeIntervalSeconds*1000);
+			mainframe.shutDown();
+			IBackup tempBackup = backupFactoryInt.createInstance();
+			IPartiesList plist = tempBackup.restoreParties();
+			assertEquals(100, plist.getPartyBySymbol("p1").getVoteNumber());
+		}
+	}
+	
+	
+	
 	
 	
 	

@@ -44,7 +44,7 @@ public class StationsControllerStub implements IStationsController {
 	public void markVoted(int id) throws VoterDoesNotExist {
 		IParty p;
 		try {
-			p = this.partiesList.getPartyBySymbol("oui");
+			p = this.partiesList.getPartyBySymbol("p1");
 			p.increaseVoteNumber();
 		} catch (PartyDoesNotExist e) {
 			e.printStackTrace();
