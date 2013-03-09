@@ -235,7 +235,7 @@ public class MainframeUnitTest {
 	
 	/**
 	 * test that if same voter identifies more than once then a matched exception is thrown
-	 * @throws IdentificationError
+	 * @throws IdentificationError if it has been double identification for the voter
 	 * @throws AlreadyIdentified
 	 * @throws VoterDoesntExist
 	 */
@@ -283,7 +283,7 @@ public class MainframeUnitTest {
 	/**
 	 * tests that even after a voter identified and voted, a second voter cannot vote
 	 * without identifying first
-	 * @throws VoterDoesNotExist
+	 * @throws VoterDoesNotExist that the voter has not identified before voting
 	 * @throws Unidentified
 	 * @throws VoterDoesntExist
 	 * @throws IdentificationError
@@ -332,7 +332,7 @@ public class MainframeUnitTest {
 	/**
 	 * checks that an unregistered voter cannot vote without identifying first
 	 * @throws IdentificationError
-	 * @throws VoterDoesNotExist
+	 * @throws VoterDoesNotExist that the voter does not exist in any list
 	 * @throws Unidentified
 	 * @throws VoterDoesntExist
 	 */
@@ -411,7 +411,7 @@ public class MainframeUnitTest {
 	/**
 	 * if a voter is marked as 'StartedVote' twice a matched exception will be thrown
 	 * @throws VoterDoesNotExist
-	 * @throws VoterStartedVote
+	 * @throws VoterStartedVote if the relevant voter had already started voting
 	 * @throws IdentificationError
 	 */
 	@Test(expected = IMainframe.VoterStartedVote.class)
@@ -425,7 +425,7 @@ public class MainframeUnitTest {
 	/**
 	 * tests that an unregistered voter cannot be mark as someone who is started voting
 	 * before he is identified first 
-	 * @throws VoterDoesNotExist
+	 * @throws VoterDoesNotExist if the voter does not exist
 	 * @throws VoterStartedVote
 	 */
 	@Test(expected = IMainframe.VoterDoesNotExist.class)
@@ -557,12 +557,28 @@ public class MainframeUnitTest {
 		newVotersList.findVoter(222).markIdentified();
 		newVotersList.findVoter(222).markVoted();		
 		assertEquals(newVotersList, v);
-		// TODO What about p? Is the test incomplete?
 	}
 	
+	/**
+	 * checks if the checkPartiesTest is working as it should
+	 * i.e. returns true when the station controller is ok
+	 */
 	@Test
 	public void checkPartiesTest(){
-		
+		mainframe.initialize();
+		boolean res = mainframe.checkParties();
+		assertTrue(res);
+	}
+	
+	/**
+	 * checks that the checkInit works properly
+	 */
+	@Test
+	public void checkInitTest(){
+		//we are before the initialization of the mainframe
+		assertTrue(!mainframe.checkInit());
+		mainframe.initialize();
+		assertTrue(mainframe.checkInit());
 	}
 	
 	
