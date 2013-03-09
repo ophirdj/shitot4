@@ -20,6 +20,7 @@ import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
 import integrationTests.mainframeBackup.MainframeWindowStubFactory;
 import integrationTests.mainframeBackup.StationsControllerStubFactory;
+import integrationTests.mainframeBackup.StationsControllerStub;
 import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
 import votersList.factories.VoterDataFactory;
@@ -209,18 +210,23 @@ public class IntegrationTest {
 	
 	
 	@Test
-	public void testCountVotes() throws IdentificationError, PartyDoesNotExist, InterruptedException{
+	public void testCountVotes() throws IdentificationError, PartyDoesNotExist, InterruptedException, VoterDoesNotExist{
 		mainframe.initialize();
 		
 		synchronized(this){
 			for(int i=1;i<=100;i++){
 				mainframe.identification(i);
+				this.stationsControllerStubFactory.getStationsController().markVoted(i);
+				System.out.println("Voting"+i);
 			}
-			markVotesOnStationController(100);
-			Thread.sleep(4*backupTimeIntervalSeconds*1000);
+			//markVotesOnStationController(100);
+		//	Thread.sleep(4*backupTimeIntervalSeconds*1000);
 			mainframe.shutDown();
+			System.out.println("shutdown");
 			IBackup tempBackup = backupFactoryInt.createInstance();
+			System.out.println("Backup step1");
 			IPartiesList plist = tempBackup.restoreParties();
+			System.out.println("Backup step1");
 			assertEquals(100, plist.getPartyBySymbol("p1").getVoteNumber());
 		}
 	}
