@@ -149,12 +149,10 @@ public class MainframeUnitTest {
 	/**
 	 * tests if the function Restore works for all the three:
 	 * the parties list, the voters list and the unregistered voters list
-	 * @throws AlreadyIdentified
-	 * @throws VoterDoesntExist
-	 * @throws Unidentified
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testRestore() throws AlreadyIdentified, VoterDoesntExist, Unidentified {
+	public void testRestore() throws Exception {
 		mainframe.initialize();
 		backupStubFactory.getCreatedBackupStub().setBackupedPartiesList(readPartiesList);
 		backupStubFactory.getCreatedBackupStub().setBackupedVotersList(readVotersList);
@@ -178,11 +176,10 @@ public class MainframeUnitTest {
 	/**
 	 * we will check if the count votes gives the method 'showHistogram' of
 	 * StationsControllerStub the right parties list
-	 * @throws IdentificationError 
-	 * @throws PartyDoesNotExist 
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testCountVotes() throws IdentificationError, PartyDoesNotExist {
+	public void testCountVotes() throws Exception {
 		backupStubFactory.getCreatedBackupStub().setBackupedPartiesList(readPartiesList);
 		backupStubFactory.getCreatedBackupStub().setBackupedVotersList(readVotersList);
 		mainframe.initialize();
@@ -219,12 +216,10 @@ public class MainframeUnitTest {
 
 	/**
 	 * tests if after the identification of voter 111 the mainframe is written to the backup file
-	 * @throws IdentificationError
-	 * @throws AlreadyIdentified
-	 * @throws VoterDoesntExist
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testIdentification() throws IdentificationError, AlreadyIdentified, VoterDoesntExist {
+	public void testIdentification() throws Exception {
 		mainframe.initialize();
 		mainframe.identification(111);
 		mainframe.shutDown();
@@ -255,12 +250,10 @@ public class MainframeUnitTest {
 	
 	/**
 	 * check if an unregistered voter is written to the backup file
-	 * @throws IdentificationError
-	 * @throws AlreadyIdentified
-	 * @throws VoterDoesntExist
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testIdentification3() throws IdentificationError, AlreadyIdentified, VoterDoesntExist {
+	public void testIdentification3() throws Exception {
 		mainframe.initialize();
 		mainframe.identification(123);
 		mainframe.shutDown();
@@ -307,15 +300,10 @@ public class MainframeUnitTest {
 	/**
 	 * checks that after voting of two voters the backup files that mainframe does after it
 	 * shuts down are consistent
-	 * @throws VoterDoesNotExist
-	 * @throws Unidentified
-	 * @throws VoterDoesntExist
-	 * @throws IdentificationError
-	 * @throws AlreadyIdentified
-	 * @throws PartyDoesNotExist
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testMarkVoted2() throws VoterDoesNotExist, Unidentified, VoterDoesntExist, IdentificationError, AlreadyIdentified, PartyDoesNotExist {
+	public void testMarkVoted2() throws Exception {
 		mainframe.initialize();
 		mainframe.identification(111);
 		mainframe.identification(222);
@@ -358,15 +346,10 @@ public class MainframeUnitTest {
 	/**
 	 * checks that after a mixed voting of registered and unregistered users the backup files
 	 * in the end are consistent to what we have done in the test
-	 * @throws IdentificationError
-	 * @throws VoterDoesNotExist
-	 * @throws Unidentified
-	 * @throws VoterDoesntExist
-	 * @throws AlreadyIdentified
-	 * @throws PartyDoesNotExist
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testMarkVoted4() throws IdentificationError, VoterDoesNotExist, Unidentified, VoterDoesntExist, AlreadyIdentified, PartyDoesNotExist {
+	public void testMarkVoted4() throws Exception {
 		mainframe.initialize();
 		mainframe.identification(123);
 		mainframe.identification(222);
@@ -402,16 +385,10 @@ public class MainframeUnitTest {
 	/**
 	 * checks that if voters started voting, the mainframe is really aware of that
 	 * and does not ignore that
-	 * @throws VoterDoesNotExist
-	 * @throws VoterStartedVote
-	 * @throws IdentificationError
-	 * @throws PartyDoesNotExist
-	 * @throws Unidentified
-	 * @throws VoterDoesntExist
-	 * @throws AlreadyIdentified
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testMarkStartedVote() throws VoterDoesNotExist, VoterStartedVote, IdentificationError, PartyDoesNotExist, Unidentified, VoterDoesntExist, AlreadyIdentified {
+	public void testMarkStartedVote() throws Exception {
 		mainframe.initialize();
 		mainframe.identification(111);
 		mainframe.markStartedVote(111);
@@ -460,16 +437,10 @@ public class MainframeUnitTest {
 	/**
 	 * a test of two unregistered voters such that the first is identified, starting voting
 	 * and then finishing voting and then the second is identified and then starting voting
-	 * @throws VoterDoesNotExist
-	 * @throws VoterStartedVote
-	 * @throws IdentificationError
-	 * @throws PartyDoesNotExist
-	 * @throws Unidentified
-	 * @throws VoterDoesntExist
-	 * @throws AlreadyIdentified
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testMarkStartedVote4() throws VoterDoesNotExist, VoterStartedVote, IdentificationError, PartyDoesNotExist, Unidentified, VoterDoesntExist, AlreadyIdentified {
+	public void testMarkStartedVote4() throws Exception {
 		mainframe.initialize();
 		mainframe.identification(123);
 		mainframe.markStartedVote(123);
@@ -506,16 +477,10 @@ public class MainframeUnitTest {
 	
 	/**
 	 * a more complex test of two registered voters who are starting to vote
-	 * @throws VoterDoesNotExist
-	 * @throws VoterStartedVote
-	 * @throws IdentificationError
-	 * @throws PartyDoesNotExist
-	 * @throws Unidentified
-	 * @throws VoterDoesntExist
-	 * @throws AlreadyIdentified
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testMarkStartedVote5() throws VoterDoesNotExist, VoterStartedVote, IdentificationError, PartyDoesNotExist, Unidentified, VoterDoesntExist, AlreadyIdentified {
+	public void testMarkStartedVote5() throws Exception {
 		mainframe.initialize();
 		mainframe.identification(111);
 		mainframe.markStartedVote(111);
@@ -542,12 +507,10 @@ public class MainframeUnitTest {
 
 	/**
 	 * test that the method 'getVoterStatus' returns the right status for all the possible statuses
-	 * @throws IdentificationError
-	 * @throws VoterDoesNotExist
-	 * @throws VoterStartedVote
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void testGetVoterStatus() throws IdentificationError, VoterDoesNotExist, VoterStartedVote {
+	public void testGetVoterStatus() throws Exception {
 		mainframe.initialize();
 		IMainframe.VoterStatus stat;
 		stat = mainframe.getVoterStatus(111);
@@ -568,17 +531,10 @@ public class MainframeUnitTest {
 	
 	/**
 	 * check that the hot backup automatic backup really works
-	 * @throws AlreadyIdentified
-	 * @throws VoterDoesntExist
-	 * @throws Unidentified
-	 * @throws InterruptedException 
-	 * @throws IdentificationError 
-	 * @throws VoterStartedVote 
-	 * @throws VoterDoesNotExist 
-	 * @throws PartyDoesNotExist 
+	 * @throws Exception if an error occurs
 	 */
 	@Test
-	public void hotBackupWorks() throws AlreadyIdentified, VoterDoesntExist, Unidentified, InterruptedException, IdentificationError, VoterDoesNotExist, VoterStartedVote, PartyDoesNotExist{
+	public void hotBackupWorks() throws Exception{
 		mainframe.initialize();
 		IVotersList emptyList = new VotersListFactory().createInstance();
 		mainframe.identification(111);
@@ -603,5 +559,12 @@ public class MainframeUnitTest {
 		assertEquals(newVotersList, v);
 		// TODO What about p? Is the test incomplete?
 	}
+	
+	@Test
+	public void checkPartiesTest(){
+		
+	}
+	
+	
 
 }
