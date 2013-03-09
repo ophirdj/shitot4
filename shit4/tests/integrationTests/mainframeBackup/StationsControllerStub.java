@@ -17,19 +17,9 @@ import mainframe.logic.IMainframe.VoterStatus;
  *
  */
 public class StationsControllerStub implements IStationsController {
-
-	/*private IMainframe m;
-	private IVotingStationFactory vs;
-	private ArrayList<String> pass;*/
-	
 	
 	private IPartiesList partiesList;
-	
-	
-	/*
-	public StationsControllerStub(IMainframe m,IVotingStationFactory vs, ArrayList<String> pass, int numOfStations){
-		
-	}*/
+	private boolean isInit;
 
 	@Override
 	public void peep() {
@@ -38,7 +28,7 @@ public class StationsControllerStub implements IStationsController {
 	@Override
 	public void initialize(IPartiesList parties) {
 		this.partiesList = parties;
-
+		this.isInit = true;
 	}
 
 	@Override
@@ -76,6 +66,11 @@ public class StationsControllerStub implements IStationsController {
 	@Override
 	public boolean checkParties(IPartiesList partiesList) {
 		return true;
+	}
+
+	@Override
+	public boolean checkInit() {
+		return isInit;
 	}
 	
 	/*public void getPartiesListForHotBackup(IPartiesList p){

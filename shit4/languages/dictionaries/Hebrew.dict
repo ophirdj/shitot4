@@ -25,7 +25,7 @@ You_quit_in_the_process_of_voting	הופסקת במהלך ההצבעה
 You_need_to_identify_yourself_in_the_mainframe	עליך להזדהות בפני ועדת הקלפי לפני ביצוע הצבעה
 You_cannot_change_your_vote_anymore	אינך יכול/ה לשנות יותר את הצבעתך
 You_cannot_vote_here	אינך יכול/ה להצביע כאן
-ID_must_be_a_number	תז חייבת להיות מספר
+ID_must_be_a_number	תז חייבת להיות מספר בעל 9 ספרות
 Chuck_Norris_removed_you_from_existance	Chuck Norris removed you from existance
 You_successfully_voted_for_the_party	הצבעת בהצלחה למפלגת 
 You_successfully_test_voted_for_the_party	הצבעת הצבעת סרק בהצלחה למפלגת
@@ -47,3 +47,6 @@ voting_station	עמדת הצבעה מספר
 Check_parties_consistency	בדוק תאימות רשומות
 parties_match	רשומות תואמות
 parties_dont_match	רשומות לא תואמות
+Check_initialization	בדוק אתחול
+initialization_ended_successfully	האתחול הושלם בהצלחה
+initialization_falied	האתחול נכשל

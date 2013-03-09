@@ -53,5 +53,11 @@ public interface IVotingStation{
 	 */
 	void peep();
 
+	/**
+	 * Return true if the station was initialized.
+	 * @return true if the station was initialized, false otherwise.
+	 */
+	boolean isInit();
+
 
 }

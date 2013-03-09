@@ -25,7 +25,7 @@ You_quit_in_the_process_of_voting	You quit in the process of voting
 You_need_to_identify_yourself_in_the_mainframe	You need to identify yourself in the mainframe
 You_cannot_change_your_vote_anymore	You cannot change your vote anymore
 You_cannot_vote_here	You cannot vote here
-ID_must_be_a_number	ID must be a number
+ID_must_be_a_number	ID need to be a 9 digit number
 Chuck_Norris_removed_you_from_existance	Chuck Norris removed you from existence
 You_successfully_voted_for_the_party	You successfully voted for the party
 You_successfully_test_voted_for_the_party	You successfully test voted for the party
@@ -47,3 +47,6 @@ voting_station	voting station no.
 Check_parties_consistency	check parties
 parties_match	parties match
 parties_dont_match	parties don't match
+Check_initialization	Check initialization
+initialization_ended_successfully	initialization was successful
+initialization_falied	initialization falied

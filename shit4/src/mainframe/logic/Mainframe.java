@@ -108,13 +108,13 @@ public class Mainframe implements IMainframe {
 		window.setDataDisplay(parties);
 		window.setState(MainframeState.VotesCounted);
 	}
-
+	
 	@Override
 	public void shutDown() {
 		if(hotBackup != null) hotBackup.retire();
 		if(votingStations != null) votingStations.retire();
 	}
-	
+
 	@Override
 	public void crash(){
 		if(hotBackup != null) hotBackup.kill();
@@ -270,7 +270,11 @@ public class Mainframe implements IMainframe {
 		return votingStations.checkParties(parties.zeroCopy());
 	}
 
-	
+	@Override
+	public boolean checkInit() {
+		if(votingStations == null) return false;
+		return votingStations.checkInit();
+	}
 	
 	/**
 	 * Thread that, when run, performs hot backup every given time

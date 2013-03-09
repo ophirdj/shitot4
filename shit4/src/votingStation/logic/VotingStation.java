@@ -163,5 +163,10 @@ public class VotingStation implements IVotingStation {
 		choosingList.retire();
 		votingStationWindow.endLoop();
 	}
+
+	@Override
+	public boolean isInit() {
+		return this.parties != null;
+	}
 }
 

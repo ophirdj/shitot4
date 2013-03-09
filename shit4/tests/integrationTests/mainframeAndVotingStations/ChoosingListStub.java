@@ -12,7 +12,6 @@ public class ChoosingListStub implements IChoosingList {
 
 	private String party;
 	private IPartiesList parties;
-	private StationPanel stationPanel;
 	private boolean isInterrupt;
 
 	public ChoosingListStub(IntegrationTest test, IPartiesList parties,
@@ -20,7 +19,6 @@ public class ChoosingListStub implements IChoosingList {
 		Assert.assertNotNull(parties);
 		Assert.assertNotNull(stationPanel);
 		this.parties = parties;
-		this.stationPanel = stationPanel;
 		this.isInterrupt = false;
 		test.addChoosingListStub(stationPanel, this);
 	}

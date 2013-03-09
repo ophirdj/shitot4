@@ -11,6 +11,7 @@ public class StationsControllerStub implements IStationsController {
 	
 	public IMainframe.VoterStatus status = null;
 	public int id = 0;
+	private boolean isInit;
 
 	@Override
 	public void peep() {
@@ -18,6 +19,7 @@ public class StationsControllerStub implements IStationsController {
 
 	@Override
 	public void initialize(IPartiesList parties) {
+		isInit = true;
 	}
 
 	@Override
@@ -48,6 +50,11 @@ public class StationsControllerStub implements IStationsController {
 	@Override
 	public boolean checkParties(IPartiesList partiesList) {
 		return true;
+	}
+
+	@Override
+	public boolean checkInit() {
+		return isInit;
 	}
 
 }

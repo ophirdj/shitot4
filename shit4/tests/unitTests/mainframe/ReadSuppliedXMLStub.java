@@ -5,9 +5,7 @@ import partiesList.factories.IPartyFactory;
 import partiesList.factories.PartiesListFactory;
 import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;
-import votersList.factories.IVoterDataFactory;
 import votersList.factories.IVotersListFactory;
-import votersList.factories.VoterDataFactory;
 import votersList.factories.VotersListFactory;
 import votersList.model.IVotersList;
 import fileHandler.logic.IReadSuppliedXML;
@@ -21,7 +19,6 @@ import fileHandler.logic.IReadSuppliedXML;
 public class ReadSuppliedXMLStub implements IReadSuppliedXML {
 	
 	private IPartyFactory partyFactory = new PartyFactory();
-	private IVoterDataFactory voterDataFactory = new VoterDataFactory();
 	private IVotersListFactory votersListFactory = new VotersListFactory();
 	private IPartiesListFactory partiesListFactory = new PartiesListFactory(partyFactory);
 

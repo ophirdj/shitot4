@@ -116,6 +116,38 @@ public enum MainframeAction {
 			return dictionary.translate(Messages.Check_parties_consistency);
 		}	
 	},
+	checkInit{
+
+		@Override
+		public void activate(IMainframe callerStation, IMainframeWindow window) {
+			boolean flag = callerStation.checkInit();
+			if(flag)
+				window.printInfoMessage(Messages.initialization_ended_successfully);
+			else
+				window.printErrorMessage(Messages.initialization_falied);
+		}
+
+		@Override
+		protected int getRowInKind() {
+			return 1;
+		}
+
+		@Override
+		public boolean needToShow(MainframeState state) {
+			switch(state){
+			case BeforeInit : return false;
+			case AfterInit: return true;
+			case VotesCounted: return true;
+			default:
+				return false;
+			}
+		}
+
+		@Override
+		public String getString(IDictionary dictionary) {
+			return dictionary.translate(Messages.Check_initialization);
+		}	
+	},
 	histogram{
 
 		@Override

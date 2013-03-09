@@ -69,4 +69,10 @@ public interface IStationsController{
 	 * @param partiesList
 	 */
 	boolean checkParties(IPartiesList partiesList);
+
+	/**
+	 * Check that all the station are connected and initialized.
+	 * @return true if they are connected and initialized, false otherwise.
+	 */
+	boolean checkInit();
 }

@@ -8,14 +8,12 @@ import fileHandler.factories.IBackupFactory;
 import fileHandler.factories.IReadSuppliedXMLFactory;
 import fileHandler.logic.IBackup;
 import mainframe.logic.IMainframe;
-import mainframe.logic.IMainframe.IdentificationError;
 import mainframe.logic.Mainframe;
 import partiesList.factories.IPartiesListFactory;
 import partiesList.factories.IPartyFactory;
 import partiesList.factories.PartiesListFactory;
 import partiesList.factories.PartyFactory;
 import partiesList.model.IPartiesList;
-import partiesList.model.IPartiesList.PartyDoesNotExist;
 import partiesList.model.IParty;
 import unitTests.mainframe.MainframeWindowStubFactory;
 import unitTests.mainframe.StationsControllerStubFactory;
@@ -25,13 +23,12 @@ import votersList.factories.VoterDataFactory;
 import votersList.factories.VotersListFactory;
 import votersList.model.IVoterData;
 import votersList.model.IVotersList;
-import votersList.model.IVotersList.VoterDoesntExist;
 
 public class IntegrationTest {
 	/**
 	 * time for hot backup test
 	 */
-	private final int backupTimeIntervalSeconds = 2;	
+	private final int backupTimeIntervalSeconds = 1;	
 	
 	IPartyFactory partyFactory = new PartyFactory();
 	IVoterDataFactory voterDataFactory = new VoterDataFactory();
@@ -68,7 +65,6 @@ public class IntegrationTest {
 			IVoterData voter = voterDataFactory.createInstance(i);
 			readVotersList.addVoter(voter);
 		}
-		
 		//create a little parties list
 		readPartiesList = partiesListFactory.createInstance();
 		for(int i=1; i<=20; i++){
@@ -80,50 +76,36 @@ public class IntegrationTest {
 	}
 	
 	@Test
-	public void testRestore() throws IdentificationError, InterruptedException{
+	public void testRestore() throws Exception{
 		for(int i=101;i<=200;i++){
 			mainframe.identification(i);
 		}
 		Thread.sleep(4*backupTimeIntervalSeconds*1000);
 		synchronized(this){
 			mainframe.crash();
-			mainframe.restore();
+			//mainframe.restore();
 		}
 		IBackup tempBackup = backupFactoryInt.createInstance();
 		IVotersList vlist = tempBackup.restoreVoters();
 		for(int i=1; i<=100;i++){
-			try {
-				IVoterData voter = vlist.findVoter(i);
-				assertEquals(i, voter.getId());
-			} catch (VoterDoesntExist e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			IVoterData voter = vlist.findVoter(i);
+			assertEquals(i, voter.getId());
 		}
+		
+		
 		IPartiesList plist = tempBackup.restoreParties();
 		for(int i=1; i<=20;i++){
-				try {
-					IParty party = plist.getPartyBySymbol("p"+i);
-					assertEquals(0, party.getVoteNumber());
-					assertEquals("p"+i, party.getSymbol());
-				} catch (PartyDoesNotExist e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
+				IParty party = plist.getPartyBySymbol("p"+i);
+				assertEquals(0, party.getVoteNumber());
+				assertEquals("p"+i, party.getSymbol());
 		}
+		
 		IVotersList uvlist = tempBackup.restoreUnregisteredVoters();
 		for(int i=101; i<=200;i++){
-			try {
-				IVoterData voter = uvlist.findVoter(i);
-				assertEquals(i, voter.getId());
-			} catch (VoterDoesntExist e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			IVoterData voter = uvlist.findVoter(i);
+			assertEquals(i, voter.getId());
 		}
-		
-		
+
 	}
 }
 

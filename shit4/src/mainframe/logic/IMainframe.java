@@ -85,8 +85,6 @@ public interface IMainframe{
 	 */
 	void identification(int id) throws IdentificationError;
 	
-	
-	
 	/**
 	 * Our very much loved peep method
 	 */
@@ -116,5 +114,12 @@ public interface IMainframe{
 	 * @return true if they match, false otherwise.
 	 */
 	boolean checkParties();
+
+	/**
+	 * Check that the initialization was done successfully 
+	 * and that internal communication is on. 
+	 * @return true if the initialization succeed, false otherwise
+	 */
+	boolean checkInit();
 
 }

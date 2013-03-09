@@ -13,9 +13,11 @@ import votingStation.logic.IVotingStation;
  */
 public class VotingStationStub implements IVotingStation {
 
+	private boolean isInit;
+
 	@Override
 	public void initialize(IPartiesList parties, IStationsController controller) {
-
+		isInit = true;
 	}
 
 	@Override
@@ -41,6 +43,11 @@ public class VotingStationStub implements IVotingStation {
 	@Override
 	public void peep() {
 
+	}
+
+	@Override
+	public boolean isInit() {
+		return isInit;
 	}
 
 }

@@ -13,7 +13,6 @@ import mainframe.logic.MainframeAction.MainframeState;
 public class MainframeWindowStub extends IMainframeWindow {
 
 	private static final long serialVersionUID = 1L;
-	private IPartiesList expectedPartiesList;
 	private boolean initialized;
 	private boolean votesCounted;
 	private IPartiesList parties;
@@ -86,10 +85,6 @@ public class MainframeWindowStub extends IMainframeWindow {
 	public int getID() {
 		Assert.fail();
 		return 0;
-	}
-
-	public void setExpectedPartiesList(IPartiesList expectedPartiesList) {
-		this.expectedPartiesList = expectedPartiesList;
 	}
 
 	@Override

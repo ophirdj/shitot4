@@ -57,6 +57,9 @@ public enum Messages {
 	practiceStation,
 	voting_station,
 	Check_parties_consistency,
+	Check_initialization,
 	parties_match,
-	parties_dont_match
+	parties_dont_match,
+	initialization_ended_successfully,
+	initialization_falied,
 }

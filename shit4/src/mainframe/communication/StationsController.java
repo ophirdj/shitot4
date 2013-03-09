@@ -91,8 +91,18 @@ public class StationsController implements IStationsController {
 
 	@Override
 	public boolean checkParties(IPartiesList partiesList) {
+		if(!firstStation.getPartiesList().zeroCopy().equals(partiesList)) return false;
 		for(IVotingStation station: stations){
 			if(!station.getPartiesList().zeroCopy().equals(partiesList)) return false;
+		}
+		return true;
+	}
+	
+	@Override
+	public boolean checkInit() {
+		if(firstStation == null || !firstStation.isInit()) return false;
+		for(IVotingStation station: stations){
+			if(station == null || !station.isInit()) return false;
 		}
 		return true;
 	}
