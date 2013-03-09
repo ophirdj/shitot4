@@ -6,7 +6,7 @@ import java.awt.Image;
 import javax.swing.JPanel;
 
 /**
- * Canvas dto draw the guide on
+ * Canvas for drawing the guide on
  * 
  * @author Ziv Ronen
  * 

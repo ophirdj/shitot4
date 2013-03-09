@@ -2,6 +2,9 @@ package practiceStation.guides;
 
 import java.io.File;
 
+/**
+ * The guide for Hebrew practice stations.
+ */
 public class PracticeStationImagesHebrew implements IListImages{
 	final String src_directory = "Images/Hebrew/";
 	final String[] filesName ={"enterScreenExplainedHe.png","ID_ScreenExplainedHe.png",

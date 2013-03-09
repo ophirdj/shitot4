@@ -38,6 +38,12 @@ public class VotingRecord implements IVotingRecord {
 		return party;
 	}
 	
+	/**
+	 * Change mili seconds to seconds.
+	 * 
+	 * @param milisecs: The given time in milliseconds
+	 * @return the time in second.
+	 */
 	private long miliseconds2seconds(long milisecs){
 		return milisecs / (1000);
 	}

@@ -294,7 +294,7 @@ public class PracticeStationUnitTests {
 	}
 
 	/**
-	 * Run A test when the waiting is in JDialog.
+	 * Run A test when the waiting is in JDialog: Do_you_want_to_see_a_guide. 
 	 */
 	@Test
 	public void waitingInJDialog1Test() throws Exception{
@@ -315,7 +315,7 @@ public class PracticeStationUnitTests {
 	}
 	
 	/**
-	 * Run A test when the waiting is in JDialog.
+	 * Run A test when the waiting is in JDialog: This_station_is_only_for_practice.
 	 */
 	@Test
 	public void waitingInJDialog2Test() throws Exception{
@@ -337,7 +337,7 @@ public class PracticeStationUnitTests {
 	}
 	
 	/**
-	 * Run A test when the waiting is in JDialog.
+	 * Run A test when the waiting is in JDialog: This_station_is_only_for_practice the second time.
 	 */
 	@Test
 	public void waitingInJDialog3Test() throws Exception{
@@ -362,7 +362,7 @@ public class PracticeStationUnitTests {
 	}
 	
 	/**
-	 * Run A test when the waiting is in JDialog.
+	 * Run A test when the waiting is in JDialog: Do_you_want_to_see_a_guide with true.
 	 */
 	@Test
 	public void waitingInJDialog4Test() throws Exception{
@@ -384,7 +384,7 @@ public class PracticeStationUnitTests {
 	}
 	
 	/**
-	 * Run A test when the waiting is in JDialog.
+	 * Run A test when the waiting is in JDialog: Did_you_intend_to_vote_for.
 	 */
 	@Test
 	public void waitingInJDialog5Test() throws Exception{
@@ -410,7 +410,7 @@ public class PracticeStationUnitTests {
 	}
 	
 	/**
-	 * Run A test when the waiting is in JDialog.
+	 * Run A test when the waiting is in JDialog: Have_you_understood_the_process with false.
 	 */
 	@Test
 	public void waitingInJDialog6Test() throws Exception{

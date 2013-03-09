@@ -10,8 +10,6 @@ import practiceStation.guides.IImagePanel;
 import practiceStation.guides.IListImages;
 
 
-
-
 public interface IImagePanelFactory {
 	
 	/**

@@ -39,12 +39,19 @@ public class ChoosingListUnitTest {
 		return new ChoosingList(parties,new StationPanel(),choosingWindow);
 	}
 	
+	/**
+	 * Run the test.
+	 * @throws Exception
+	 */
 	@After
 	public void runningTheTest() throws Exception{
 		IChoosingList tested = buildChoosingList(testEnviroment,partiesAmount);
 		testEnviroment.runTest(tested);
 	}
 	
+	/**
+	 * Assert that the build ended successfully.
+	 */
 	@Test
 	public void buildTest(){
 		testEnviroment = new ChoosingListTestEnvironment("buildTest");
@@ -54,6 +61,9 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new CloseWindowComponent()); 
 	}
 	
+	/**
+	 * Assert that the mss was done successfully.
+	 */
 	@Test
 	public void easyTest(){
 		testEnviroment = new ChoosingListTestEnvironment("easyTest");
@@ -77,6 +87,9 @@ public class ChoosingListUnitTest {
 		
 	}
 	
+	/**
+	 * Assert that the mss was done successfully with white note.
+	 */
 	@Test
 	public void whiteNoteTest(){
 		testEnviroment = new ChoosingListTestEnvironment("whiteNoteTest");
@@ -98,6 +111,9 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
+	/**
+	 * Check choosing list done successfully with one next choice.
+	 */
 	@Test
 	public void oneNextTest(){
 		testEnviroment = new ChoosingListTestEnvironment("oneNextTest");
@@ -124,6 +140,9 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 
+	/**
+	 * Check choosing list done successfully with two next choice.
+	 */
 	@Test
 	public void twoNextTest(){
 		testEnviroment = new ChoosingListTestEnvironment("twoNextTest");
@@ -156,6 +175,9 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
+	/**
+	 * Check choosing list done successfully with one next and one prev.
+	 */
 	@Test
 	public void forthAndBack(){
 		testEnviroment = new ChoosingListTestEnvironment("forthAndBack");
@@ -185,6 +207,9 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
+	/**
+	 * Check choosing list done successfully with one prev and one next.
+	 */
 	@Test
 	public void backAndForth(){
 		testEnviroment = new ChoosingListTestEnvironment("backAndForth");
@@ -215,6 +240,9 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new CloseWindowComponent());
 	}
 	
+	/**
+	 * Check choosing list interrupted when choice take to long.
+	 */
 	@Test
 	public void easyInterruptTest(){
 		testEnviroment = new ChoosingListTestEnvironment("easyInterruptTest");
@@ -233,6 +261,9 @@ public class ChoosingListUnitTest {
 		testEnviroment.addComponentForTest(new CloseWindowComponent(choice));
 	}
 	
+	/**
+	 * Assert that the voter can undo is choosing and choose different party.
+	 */
 	@Test
 	public void reChooseTest(){
 		testEnviroment = new ChoosingListTestEnvironment("reChooseTest");

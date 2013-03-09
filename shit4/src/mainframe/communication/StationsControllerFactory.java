@@ -8,6 +8,9 @@ import votingStation.factories.IVotingStationFactory;
 
 import mainframe.logic.IMainframe;
 
+/**
+ * 
+ */
 public class StationsControllerFactory implements IStationsControllerFactory {
 
 	private static final int NUM_STATIONS = 2;
@@ -26,7 +29,10 @@ public class StationsControllerFactory implements IStationsControllerFactory {
 		return new StationsController(mainframe, votingStationFactory, passwords,NUM_STATIONS);
 	}
 	
-	
+	/**
+	 * Get passwords for the station
+	 * @return list of passwords.
+	 */
 	private List<String> getPasswords(){
 		//TODO: set some passwords here. How do we configure the passwords? Should we read from file???
 		List<String> passwords = new ArrayList<String>();

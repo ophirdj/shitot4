@@ -4,6 +4,9 @@ import global.dictionaries.IDictionary;
 import global.dictionaries.Messages;
 import practiceStation.gui.IPracticeStationWindow;
 
+/**
+ * All the action that can be done in practice station main panel.
+ */
 public enum PracticeStationAction {
 	
 		practice_vote{
@@ -56,6 +59,10 @@ public enum PracticeStationAction {
 	public abstract int getRow();
 	public abstract String getString(IDictionary dictionary);
 	
+	/**
+	 * The amount of rows for all the buttons.
+	 * @return the amount of needed rows (1).
+	 */
 	public static int maxRow(){
 		int max_row = 0;
 		for(PracticeStationAction action : PracticeStationAction.values()){

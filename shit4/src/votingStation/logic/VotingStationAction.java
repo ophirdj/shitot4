@@ -5,6 +5,9 @@ import global.dictionaries.Messages;
 import votingStation.gui.IVotingStationWindow;
 import choosingList.logic.IChoosingList.ChoosingInterruptedException;
 
+/**
+ * All the action that can be done in voting station main panel.
+ */
 public enum VotingStationAction {
 	VOTING{
 		@Override
@@ -54,6 +57,10 @@ public enum VotingStationAction {
 	public abstract int getRow();
 	public abstract String getString(IDictionary dictionary);
 	
+	/**
+	 * The amount of rows for all the buttons.
+	 * @return the amount of needed rows (1).
+	 */
 	public static int maxRow(){
 		int max_row = 0;
 		for(VotingStationAction action : VotingStationAction.values()){

@@ -2,6 +2,9 @@ package practiceStation.guides;
 
 import java.io.File;
 
+/**
+ * The guide for English practice stations.
+ */
 public class PracticeStationImagesEnglish implements IListImages{
 	final String src_directory = "Images/English/";
 	final String[] filesName ={"enterScreenEnglishExplained.png","ID_ScreenEnglishExplained.png",
